@@ -1,0 +1,28 @@
+# Version: 7.4.0.108 (77efa3f)
+# [first argument, ignore] # /Users/apple/git/BNR/BNR_iOS_Book/Xamarin Versions/HypnoTime-master/HypnoTime/bin/iPhone/Release/mtouch.exe
+/Library/Frameworks/Xamarin.iOS.framework/Versions/7.4.0.108/bin/mtouch \
+	-sdkroot \
+	/Applications/Xcode.app/Contents/Developer \
+	--cache \
+	"/Users/apple/git/BNR/BNR_iOS_Book/Xamarin Versions/HypnoTime-master/HypnoTime/obj/iPhone/Release/mtouch-cache" \
+	--nomanifest \
+	--nosign \
+	-dev \
+	"/Users/apple/git/BNR/BNR_iOS_Book/Xamarin Versions/HypnoTime-master/HypnoTime/bin/iPhone/Release/HypnoTime.app" \
+	-r \
+	/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/2.1/System.dll \
+	-r \
+	/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/2.1/System.Xml.dll \
+	-r \
+	/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/2.1/System.Core.dll \
+	-r \
+	/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/2.1/monotouch.dll \
+	-r \
+	"/Users/apple/git/BNR/BNR_iOS_Book/Xamarin Versions/HypnoTime-master/Components/xamarin.mobile-0.7/lib/ios/Xamarin.Mobile.dll" \
+	-linksdkonly \
+	-sdk \
+	7.1 \
+	-targetver \
+	6.1 \
+	--abi=armv7 \
+	"/Users/apple/git/BNR/BNR_iOS_Book/Xamarin Versions/HypnoTime-master/HypnoTime/bin/iPhone/Release/HypnoTime.exe" \

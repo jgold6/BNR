@@ -1,0 +1,26 @@
+# Version: 7.4.0.108 (77efa3f)
+# [first argument, ignore] # /Users/apple/git/BNR/BNR_iOS_Book/Xamarin Versions/Hynosister-master/Hynosister/bin/iPhone/Release/mtouch.exe
+/Library/Frameworks/Xamarin.iOS.framework/Versions/7.4.0.108/bin/mtouch \
+	-sdkroot \
+	/Applications/Xcode.app/Contents/Developer \
+	--cache \
+	"/Users/apple/git/BNR/BNR_iOS_Book/Xamarin Versions/Hynosister-master/Hynosister/obj/iPhone/Release/mtouch-cache" \
+	--nomanifest \
+	--nosign \
+	-dev \
+	"/Users/apple/git/BNR/BNR_iOS_Book/Xamarin Versions/Hynosister-master/Hynosister/bin/iPhone/Release/Hynosister.app" \
+	-r \
+	/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/2.1/System.dll \
+	-r \
+	/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/2.1/System.Xml.dll \
+	-r \
+	/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/2.1/System.Core.dll \
+	-r \
+	/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/2.1/monotouch.dll \
+	-linksdkonly \
+	-sdk \
+	7.1 \
+	-targetver \
+	7.0 \
+	--abi=armv7 \
+	"/Users/apple/git/BNR/BNR_iOS_Book/Xamarin Versions/Hynosister-master/Hynosister/bin/iPhone/Release/Hynosister.exe" \
