@@ -1,0 +1,5 @@
+*.userprefs
+*/packages/*
+*/Components/*
+*/obj/*
+*/bin/*
