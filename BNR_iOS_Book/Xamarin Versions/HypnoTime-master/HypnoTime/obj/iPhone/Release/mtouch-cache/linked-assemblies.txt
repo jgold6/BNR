@@ -1,7 +1,0 @@
-/Users/apple/git/BNR/BNR_iOS_Book/Xamarin Versions/HypnoTime-master/HypnoTime/obj/iPhone/Release/mtouch-cache/Link/System.Core.dll
-/Users/apple/git/BNR/BNR_iOS_Book/Xamarin Versions/HypnoTime-master/HypnoTime/obj/iPhone/Release/mtouch-cache/Link/Xamarin.Mobile.dll
-/Users/apple/git/BNR/BNR_iOS_Book/Xamarin Versions/HypnoTime-master/HypnoTime/obj/iPhone/Release/mtouch-cache/Link/mscorlib.dll
-/Users/apple/git/BNR/BNR_iOS_Book/Xamarin Versions/HypnoTime-master/HypnoTime/obj/iPhone/Release/mtouch-cache/Link/monotouch.dll
-/Users/apple/git/BNR/BNR_iOS_Book/Xamarin Versions/HypnoTime-master/HypnoTime/obj/iPhone/Release/mtouch-cache/Link/HypnoTime.exe
-/Users/apple/git/BNR/BNR_iOS_Book/Xamarin Versions/HypnoTime-master/HypnoTime/obj/iPhone/Release/mtouch-cache/Link/Mono.Dynamic.Interpreter.dll
-/Users/apple/git/BNR/BNR_iOS_Book/Xamarin Versions/HypnoTime-master/HypnoTime/obj/iPhone/Release/mtouch-cache/Link/System.dll

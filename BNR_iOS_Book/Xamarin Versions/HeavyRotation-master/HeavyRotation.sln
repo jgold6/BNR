@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeavyRotation", "HeavyRotation\HeavyRotation.csproj", "{A0A30741-6C50-44B4-86A4-056DB5C26044}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+		Debug|iPhone = Debug|iPhone
+		Release|iPhone = Release|iPhone
+		Ad-Hoc|iPhone = Ad-Hoc|iPhone
+		AppStore|iPhone = AppStore|iPhone
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A0A30741-6C50-44B4-86A4-056DB5C26044}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
+		{A0A30741-6C50-44B4-86A4-056DB5C26044}.Ad-Hoc|iPhone.Build.0 = Ad-Hoc|iPhone
+		{A0A30741-6C50-44B4-86A4-056DB5C26044}.AppStore|iPhone.ActiveCfg = AppStore|iPhone
+		{A0A30741-6C50-44B4-86A4-056DB5C26044}.AppStore|iPhone.Build.0 = AppStore|iPhone
+		{A0A30741-6C50-44B4-86A4-056DB5C26044}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{A0A30741-6C50-44B4-86A4-056DB5C26044}.Debug|iPhone.Build.0 = Debug|iPhone
+		{A0A30741-6C50-44B4-86A4-056DB5C26044}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{A0A30741-6C50-44B4-86A4-056DB5C26044}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{A0A30741-6C50-44B4-86A4-056DB5C26044}.Release|iPhone.ActiveCfg = Release|iPhone
+		{A0A30741-6C50-44B4-86A4-056DB5C26044}.Release|iPhone.Build.0 = Release|iPhone
+		{A0A30741-6C50-44B4-86A4-056DB5C26044}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{A0A30741-6C50-44B4-86A4-056DB5C26044}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = HeavyRotation\HeavyRotation.csproj
+	EndGlobalSection
+EndGlobal

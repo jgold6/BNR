@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TouchTracker2", "TouchTracker\TouchTracker2.csproj", "{74D0B326-0CC0-4259-AF93-77F41B36977A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+		Debug|iPhone = Debug|iPhone
+		Release|iPhone = Release|iPhone
+		Ad-Hoc|iPhone = Ad-Hoc|iPhone
+		AppStore|iPhone = AppStore|iPhone
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{74D0B326-0CC0-4259-AF93-77F41B36977A}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
+		{74D0B326-0CC0-4259-AF93-77F41B36977A}.Ad-Hoc|iPhone.Build.0 = Ad-Hoc|iPhone
+		{74D0B326-0CC0-4259-AF93-77F41B36977A}.AppStore|iPhone.ActiveCfg = AppStore|iPhone
+		{74D0B326-0CC0-4259-AF93-77F41B36977A}.AppStore|iPhone.Build.0 = AppStore|iPhone
+		{74D0B326-0CC0-4259-AF93-77F41B36977A}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{74D0B326-0CC0-4259-AF93-77F41B36977A}.Debug|iPhone.Build.0 = Debug|iPhone
+		{74D0B326-0CC0-4259-AF93-77F41B36977A}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{74D0B326-0CC0-4259-AF93-77F41B36977A}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{74D0B326-0CC0-4259-AF93-77F41B36977A}.Release|iPhone.ActiveCfg = Release|iPhone
+		{74D0B326-0CC0-4259-AF93-77F41B36977A}.Release|iPhone.Build.0 = Release|iPhone
+		{74D0B326-0CC0-4259-AF93-77F41B36977A}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{74D0B326-0CC0-4259-AF93-77F41B36977A}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = TouchTracker\TouchTracker2.csproj
+	EndGlobalSection
+EndGlobal

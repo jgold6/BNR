@@ -1,3 +1,0 @@
-/Users/apple/git/BNR/BNR_iOS_Book/Xamarin Versions/Hynosister-master/Hynosister/obj/iPhone/Release/mtouch-cache/Link/monotouch.dll
-/Users/apple/git/BNR/BNR_iOS_Book/Xamarin Versions/Hynosister-master/Hynosister/obj/iPhone/Release/mtouch-cache/Link/mscorlib.dll
-/Users/apple/git/BNR/BNR_iOS_Book/Xamarin Versions/Hynosister-master/Hynosister/obj/iPhone/Release/mtouch-cache/Link/Hynosister.exe
