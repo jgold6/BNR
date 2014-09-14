@@ -119,19 +119,18 @@ namespace GeoQuiz
 			Console.WriteLine("onStart() called");
 		}
 
+		protected override void OnRestoreInstanceState(Bundle savedInstanceState) {	
+			base.OnRestoreInstanceState(savedInstanceState);
+		}
+
 		protected override void OnResume() {
 			base.OnResume();
 			Console.WriteLine("onResume() called");
 		}
 
-		
 		protected override void OnPause() {
 			base.OnPause();
 			Console.WriteLine("onPause() called");
-		}
-
-		protected override void OnRestoreInstanceState(Bundle savedInstanceState) {	
-			base.OnRestoreInstanceState(savedInstanceState);
 		}
 
 		protected override void OnSaveInstanceState(Bundle outState) {
