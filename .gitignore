@@ -3,5 +3,16 @@ packages/
 Components/
 obj/
 bin/
+
+# Android
 gen/
 target/
+*.apk
+*.ap_
+*.dex
+*.class
+.gradle/
+build/
+*local.properties
+proguard/
+*.log
