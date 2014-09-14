@@ -1,0 +1,2 @@
+INDEX VERSION 1.126+/Users/apple/git/BNR/BNR_Android_Book/.metadata/.plugins/org.eclipse.jdt.core
+3184869876.index
