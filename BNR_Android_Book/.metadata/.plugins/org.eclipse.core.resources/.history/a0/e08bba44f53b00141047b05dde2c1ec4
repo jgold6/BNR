@@ -43,7 +43,6 @@ public class QuizActivity extends Activity {
 		}
 		
 		Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
-		Toast.makeText(this, "Shit", Toast.LENGTH_SHORT).show();
 	}
 	
 	@Override
