@@ -2,18 +2,23 @@ package com.onobytes.geoquiz;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class QuizActivity extends Activity {
 
+	private static final String TAG = "QuizActivity";
+	
 	private Button mTrueButton;
 	private Button mFalseButton;
-	private Button mNextButton;
+	private ImageButton mNextButton;
+	private ImageButton mPrevButton;
 	private TextView mQuestionTextView;
 	
 	private TrueFalse[] mQuestionBank = new TrueFalse[] {
@@ -43,7 +48,6 @@ public class QuizActivity extends Activity {
 		}
 		
 		Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
-		Toast.makeText(this, "Shit", Toast.LENGTH_SHORT).show();
 	}
 	
 	@Override
@@ -51,9 +55,16 @@ public class QuizActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_quiz);
 		
+		Log.d(TAG, "Hi there");
+		
 		mQuestionTextView = (TextView)findViewById(R.id.question_textView);
-		int question = mQuestionBank[mCurrentIndex].getQuestion();
-		mQuestionTextView.setText(question);
+		mQuestionTextView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mCurrentIndex = (mCurrentIndex +1) % mQuestionBank.length;
+				updateQuestion();
+			}
+		});
 		
 		mTrueButton = (Button)findViewById(R.id.true_button);
 		mTrueButton.setOnClickListener(new View.OnClickListener() {
@@ -73,12 +84,26 @@ public class QuizActivity extends Activity {
 			}
 		});
 		
-		mNextButton = (Button)findViewById(R.id.next_button);
+		mNextButton = (ImageButton)findViewById(R.id.next_button);
 		mNextButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// Handler code here
 				mCurrentIndex = (mCurrentIndex +1) % mQuestionBank.length;
+				updateQuestion();
+			}
+		});
+		
+		mPrevButton = (ImageButton)findViewById(R.id.prev_button);
+		mPrevButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// Handler code here
+				mCurrentIndex = (mCurrentIndex -1) % mQuestionBank.length;
+				
+				if (mCurrentIndex < 0){
+					mCurrentIndex = mQuestionBank.length - 1;
+				}
 				updateQuestion();
 			}
 		});
