@@ -2,8 +2,10 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="android.R.anim"/>
 <fullyQualifiedTypeName name="android.widget.Button"/>
-<fullyQualifiedTypeName name="android.view.View.OnClickListener"/>
-<fullyQualifiedTypeName name="android.widget.Toast"/>
 <fullyQualifiedTypeName name="com.onobytes.geoquiz.R.id"/>
 <fullyQualifiedTypeName name="com.onobytes.geoquiz.R.string"/>
+<fullyQualifiedTypeName name="android.widget.Toast"/>
+<fullyQualifiedTypeName name="android.view.View.OnClickListener"/>
+<fullyQualifiedTypeName name="android.util.Log"/>
+<fullyQualifiedTypeName name="java.lang.Override"/>
 </qualifiedTypeNameHistroy>
