@@ -4,4 +4,5 @@ packages/
 Components/
 obj/
 bin/
+gen/
 target/
