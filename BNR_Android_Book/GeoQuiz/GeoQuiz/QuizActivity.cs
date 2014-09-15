@@ -18,6 +18,7 @@ namespace GeoQuiz
 		#region - Enums and Constants
 		private const string TAG = "QuizActivity";
 		private const string KEY_INDEX = "index";
+		private const string KEY_IS_CHEATER = "shown";
 		enum ResponseCodes {CheatActivity};
 		#endregion
 
@@ -38,7 +39,6 @@ namespace GeoQuiz
 		};
 
 		int mCurrentIndex = 0;
-		bool mIsCheater;
 		#endregion
 
 		#region - Private methods
@@ -52,7 +52,7 @@ namespace GeoQuiz
 
 			int messageResId = 0;
 
-			if (mIsCheater) {
+			if (mQuestionBank[mCurrentIndex].DidCheat) {
 				messageResId = Resource.String.judgment_toast;
 			} else {
 				if (userPressedTrue == answerIsTrue) {
@@ -63,6 +63,8 @@ namespace GeoQuiz
 			}
 
 			Toast.MakeText(this, messageResId, ToastLength.Short).Show();
+			if (mQuestionBank[mCurrentIndex].DidCheat)
+				Toast.MakeText(this, "If you forgot, the answer is " + mQuestionBank[mCurrentIndex].TrueQuestion, ToastLength.Short).Show();
 		}
 		#endregion
 
@@ -75,13 +77,13 @@ namespace GeoQuiz
 
 			mQuestionTextView = (TextView)FindViewById(Resource.Id.question_textView);
 			mQuestionTextView.Click += (object sender, EventArgs e) => {
-					mCurrentIndex = (mCurrentIndex +1) % mQuestionBank.Length;
-					updateQuestion();
+				mCurrentIndex = (mCurrentIndex +1) % mQuestionBank.Length;
+				updateQuestion();
 			};
 
 			mTrueButton = (Button)FindViewById(Resource.Id.true_button);
 			mTrueButton.Click += (object sender, EventArgs e) => {
-					checkAnswer(true);
+				checkAnswer(true);
 			};
 
 			mFalseButton = (Button)FindViewById(Resource.Id.false_button);
@@ -92,12 +94,16 @@ namespace GeoQuiz
 			mNextButton = (ImageButton)FindViewById(Resource.Id.next_button);
 			mNextButton.Click += (object sender, EventArgs e) => {
 				mCurrentIndex = (mCurrentIndex +1) % mQuestionBank.Length;
-				mIsCheater = false;
 				updateQuestion();
 			};
 
 			mCheatButton = (Button)FindViewById(Resource.Id.cheat_button);
 			mCheatButton.Click += (object sender, EventArgs e) => {
+				if (mQuestionBank[mCurrentIndex].DidCheat == true) {
+					Toast.MakeText(this, Resource.String.already_cheated, ToastLength.Short).Show();
+					Toast.MakeText(this, "If you forgot, the answer is " + mQuestionBank[mCurrentIndex].TrueQuestion, ToastLength.Short).Show();
+					return;
+				}
 				// Start CheatActivity
 				var intent = new Intent(this, typeof(CheatActivity));
 				intent.PutExtra(CheatActivity.EXTRA_ANSWER_IS_TRUE, mQuestionBank[mCurrentIndex].TrueQuestion);
@@ -111,12 +117,14 @@ namespace GeoQuiz
 				if (mCurrentIndex < 0){
 					mCurrentIndex = mQuestionBank.Length - 1;
 				}
-				mIsCheater = false;
 				updateQuestion();
 			};
 
 			if (savedInstanceState != null) {
 				mCurrentIndex = savedInstanceState.GetInt(KEY_INDEX, 0);
+				for (int i = 0; i < mQuestionBank.Length; i++) {
+					mQuestionBank[i].DidCheat = savedInstanceState.GetBoolean(KEY_IS_CHEATER + i, false);
+				}
 			}
 
 			updateQuestion();
@@ -146,8 +154,9 @@ namespace GeoQuiz
 			Console.WriteLine("OnActivityResult(...) called");
 			if (data == null)
 				return;
-			if (resultCode == Result.Ok)
-				mIsCheater = data.GetBooleanExtra(CheatActivity.EXTRA_ANSWER_SHOWN, false);
+			if (resultCode == Result.Ok) {
+				mQuestionBank[mCurrentIndex].DidCheat = data.GetBooleanExtra(CheatActivity.EXTRA_ANSWER_SHOWN, false);
+			}
 		}
 
 		protected override void OnStart() {
@@ -174,6 +183,9 @@ namespace GeoQuiz
 			base.OnSaveInstanceState(outState);
 			Console.WriteLine("onSaveInstanceState() called");
 			outState.PutInt(KEY_INDEX, mCurrentIndex);
+			for (int i = 0; i < mQuestionBank.Length; i++) {
+				outState.PutBoolean(KEY_IS_CHEATER + i, mQuestionBank[i].DidCheat);
+			}
 		}
 
 		protected override void OnStop() {

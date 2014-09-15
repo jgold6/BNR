@@ -1211,6 +1211,9 @@ namespace GeoQuiz
 			// aapt resource value: 0x7f0a000b
 			public const int abc_shareactionprovider_share_with_application = 2131361803;
 			
+			// aapt resource value: 0x7f0a0021
+			public const int already_cheated = 2131361825;
+			
 			// aapt resource value: 0x7f0a000d
 			public const int app_name = 2131361805;
 			

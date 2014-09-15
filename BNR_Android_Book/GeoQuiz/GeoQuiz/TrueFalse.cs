@@ -16,10 +16,13 @@ namespace GeoQuiz
 			set {mTrueQuestion = value;}
 		}
 
+		public bool DidCheat {get; set;}
+
 		public TrueFalse(int question, bool trueQuestion)
 		{
 			mQuestion = question;
 			mTrueQuestion = trueQuestion;
+			DidCheat = false;
 		}
 	}
 }
