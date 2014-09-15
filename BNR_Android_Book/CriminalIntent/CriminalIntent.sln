@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriminalIntent", "CriminalIntent\CriminalIntent.csproj", "{B554A046-F06A-43AC-A4CC-8B0E4EF09EBF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B554A046-F06A-43AC-A4CC-8B0E4EF09EBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B554A046-F06A-43AC-A4CC-8B0E4EF09EBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B554A046-F06A-43AC-A4CC-8B0E4EF09EBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B554A046-F06A-43AC-A4CC-8B0E4EF09EBF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = CriminalIntent\CriminalIntent.csproj
+	EndGlobalSection
+EndGlobal
