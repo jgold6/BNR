@@ -9,7 +9,7 @@ using Android.Widget;
 using Android.OS;
 using Android.Support.V7.App;
 #endregion
-
+// Test again
 namespace GeoQuiz
 {
 	[Activity(Label = "@string/app_name", MainLauncher = true, Icon = "@drawable/ic_launcher")]
