@@ -868,6 +868,9 @@ namespace CriminalIntent
 			// aapt resource value: 0x7f05000d
 			public const int collapseActionView = 2131034125;
 			
+			// aapt resource value: 0x7f05003d
+			public const int crime_title = 2131034173;
+			
 			// aapt resource value: 0x7f050028
 			public const int default_activity_button = 2131034152;
 			
@@ -892,6 +895,9 @@ namespace CriminalIntent
 			// aapt resource value: 0x7f05002c
 			public const int expanded_menu = 2131034156;
 			
+			// aapt resource value: 0x7f05003c
+			public const int fragmentContainer = 2131034172;
+			
 			// aapt resource value: 0x7f050014
 			public const int home = 2131034132;
 			
@@ -913,8 +919,8 @@ namespace CriminalIntent
 			// aapt resource value: 0x7f050029
 			public const int list_item = 2131034153;
 			
-			// aapt resource value: 0x7f05003c
-			public const int menu_settings = 2131034172;
+			// aapt resource value: 0x7f05003e
+			public const int menu_settings = 2131034174;
 			
 			// aapt resource value: 0x7f050012
 			public const int middle = 2131034130;
@@ -1108,7 +1114,10 @@ namespace CriminalIntent
 			public const int activity_crime = 2130903064;
 			
 			// aapt resource value: 0x7f030019
-			public const int support_simple_spinner_dropdown_item = 2130903065;
+			public const int fragment_crime = 2130903065;
+			
+			// aapt resource value: 0x7f03001a
+			public const int support_simple_spinner_dropdown_item = 2130903066;
 			
 			static Layout()
 			{
@@ -1181,8 +1190,14 @@ namespace CriminalIntent
 			// aapt resource value: 0x7f0a000d
 			public const int app_name = 2131361805;
 			
+			// aapt resource value: 0x7f0a0010
+			public const int crime_title_hint = 2131361808;
+			
 			// aapt resource value: 0x7f0a000e
 			public const int menu_settings = 2131361806;
+			
+			// aapt resource value: 0x7f0a000f
+			public const int title_activity_crime = 2131361807;
 			
 			static String()
 			{

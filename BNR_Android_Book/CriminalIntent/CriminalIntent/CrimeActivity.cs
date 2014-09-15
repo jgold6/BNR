@@ -1,7 +1,6 @@
 ﻿#region - using statements
 using System;
 
-using Android.App;
 using Android.Content;
 using Android.Runtime;
 using Android.Views;
@@ -9,6 +8,8 @@ using Android.Widget;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Support.V4.App;
+using System.Collections.Generic;
+using Android.App;
 
 
 #endregion
@@ -16,7 +17,7 @@ using Android.Support.V4.App;
 namespace CriminalIntent
 {
 	[Activity(Label = "@string/app_name", MainLauncher = true, Icon = "@drawable/ic_launcher", Theme="@style/AppTheme")]
-    public class CrimeActivity : FragmentActivity
+	public class CrimeActivity : ActionBarActivity
     {
 		#region - member variables
 		#endregion
@@ -26,9 +27,16 @@ namespace CriminalIntent
         {
             base.OnCreate(savedInstanceState);
 			SetContentView(Resource.Layout.activity_crime);
+			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb)
+				ActionBar.SetSubtitle(Resource.String.title_activity_crime);
 
+			Android.Support.V4.App.Fragment fragment = SupportFragmentManager.FindFragmentById(Resource.Id.fragmentContainer);
+			if (fragment == null) {
+				fragment = new CrimeFragment();
+				SupportFragmentManager.BeginTransaction().Add(Resource.Id.fragmentContainer, fragment).Commit();
+			}
 
-        }
+       }
 
 		// To be used later
 //		public override bool OnCreateOptionsMenu(IMenu menu) {
