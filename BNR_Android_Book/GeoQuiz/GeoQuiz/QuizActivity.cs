@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region - Using statements
+using System;
 
 using Android.App;
 using Android.Content;
@@ -7,18 +8,24 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Android.Support.V7.App;
+#endregion
 
 namespace GeoQuiz
 {
-    [Activity(Label = "GeoQuiz", MainLauncher = true, Icon = "@drawable/ic_launcher")]
+	[Activity(Label = "@string/app_name", MainLauncher = true, Icon = "@drawable/ic_launcher")]
 	public class QuizActivity : Activity
     {
+		#region - Enums and Constants
 		private const string TAG = "QuizActivity";
 		private const string KEY_INDEX = "index";
+		enum ResponseCodes {CheatActivity};
+		#endregion
 
+		#region - member variables
 		private Button mTrueButton;
 		private Button mFalseButton;
 		private ImageButton mNextButton;
+		private Button mCheatButton;
 		private ImageButton mPrevButton;
 		private TextView mQuestionTextView;
 
@@ -31,7 +38,10 @@ namespace GeoQuiz
 		};
 
 		int mCurrentIndex = 0;
+		bool mIsCheater;
+		#endregion
 
+		#region - Private methods
 		private void updateQuestion() {
 			int question = mQuestionBank[mCurrentIndex].Question;
 			mQuestionTextView.SetText(question);
@@ -42,15 +52,21 @@ namespace GeoQuiz
 
 			int messageResId = 0;
 
-			if (userPressedTrue == answerIsTrue) {
-				messageResId = Resource.String.correct_toast;
+			if (mIsCheater) {
+				messageResId = Resource.String.judgment_toast;
 			} else {
-				messageResId = Resource.String.incorrect_toast; 
+				if (userPressedTrue == answerIsTrue) {
+					messageResId = Resource.String.correct_toast;
+				} else {
+					messageResId = Resource.String.incorrect_toast; 
+				}
 			}
 
 			Toast.MakeText(this, messageResId, ToastLength.Short).Show();
 		}
+		#endregion
 
+		#region - LifeCycle Methods
 		protected override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
 			SetContentView(Resource.Layout.activity_quiz);
@@ -76,7 +92,16 @@ namespace GeoQuiz
 			mNextButton = (ImageButton)FindViewById(Resource.Id.next_button);
 			mNextButton.Click += (object sender, EventArgs e) => {
 				mCurrentIndex = (mCurrentIndex +1) % mQuestionBank.Length;
+				mIsCheater = false;
 				updateQuestion();
+			};
+
+			mCheatButton = (Button)FindViewById(Resource.Id.cheat_button);
+			mCheatButton.Click += (object sender, EventArgs e) => {
+				// Start CheatActivity
+				var intent = new Intent(this, typeof(CheatActivity));
+				intent.PutExtra(CheatActivity.EXTRA_ANSWER_IS_TRUE, mQuestionBank[mCurrentIndex].TrueQuestion);
+				StartActivityForResult(intent, (int)ResponseCodes.CheatActivity);
 			};
 
 			mPrevButton = (ImageButton)FindViewById(Resource.Id.prev_button);
@@ -86,15 +111,16 @@ namespace GeoQuiz
 				if (mCurrentIndex < 0){
 					mCurrentIndex = mQuestionBank.Length - 1;
 				}
+				mIsCheater = false;
 				updateQuestion();
 			};
 
 			if (savedInstanceState != null) {
 				mCurrentIndex = savedInstanceState.GetInt(KEY_INDEX, 0);
 			}
+
 			updateQuestion();
 		}
-
 
 		public override bool OnCreateOptionsMenu(IMenu menu) {
 			// Inflate the menu; this adds items to the action bar if it is present.
@@ -114,6 +140,16 @@ namespace GeoQuiz
 			return base.OnOptionsItemSelected(item);
 		}
 
+		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+		{
+			base.OnActivityResult(requestCode, resultCode, data);
+			Console.WriteLine("OnActivityResult(...) called");
+			if (data == null)
+				return;
+			if (resultCode == Result.Ok)
+				mIsCheater = data.GetBooleanExtra(CheatActivity.EXTRA_ANSWER_SHOWN, false);
+		}
+
 		protected override void OnStart() {
 			base.OnStart();
 			Console.WriteLine("onStart() called");
@@ -121,6 +157,7 @@ namespace GeoQuiz
 
 		protected override void OnRestoreInstanceState(Bundle savedInstanceState) {	
 			base.OnRestoreInstanceState(savedInstanceState);
+			Console.WriteLine("onRestoreInstanceState() called");
 		}
 
 		protected override void OnResume() {
@@ -148,6 +185,7 @@ namespace GeoQuiz
 			base.OnDestroy();
 			Console.WriteLine("onDestroy() called");
 		}
+		#endregion
     }
 }
 
