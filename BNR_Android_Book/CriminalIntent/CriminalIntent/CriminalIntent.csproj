@@ -76,6 +76,7 @@
     <AndroidResource Include="Resources\layout\activity_crime.axml" />
     <AndroidResource Include="Resources\menu\menu_quiz.xml" />
     <AndroidResource Include="Resources\layout\fragment_crime.axml" />
+    <AndroidResource Include="Resources\layout-land\fragment_crime.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

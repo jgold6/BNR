@@ -868,8 +868,20 @@ namespace CriminalIntent
 			// aapt resource value: 0x7f05000d
 			public const int collapseActionView = 2131034125;
 			
+			// aapt resource value: 0x7f050040
+			public const int crime_date_button = 2131034176;
+			
+			// aapt resource value: 0x7f05003f
+			public const int crime_details_textview = 2131034175;
+			
+			// aapt resource value: 0x7f050041
+			public const int crime_solved_checkbox = 2131034177;
+			
+			// aapt resource value: 0x7f05003e
+			public const int crime_title_edittext = 2131034174;
+			
 			// aapt resource value: 0x7f05003d
-			public const int crime_title = 2131034173;
+			public const int crime_title_textview = 2131034173;
 			
 			// aapt resource value: 0x7f050028
 			public const int default_activity_button = 2131034152;
@@ -919,8 +931,8 @@ namespace CriminalIntent
 			// aapt resource value: 0x7f050029
 			public const int list_item = 2131034153;
 			
-			// aapt resource value: 0x7f05003e
-			public const int menu_settings = 2131034174;
+			// aapt resource value: 0x7f050042
+			public const int menu_settings = 2131034178;
 			
 			// aapt resource value: 0x7f050012
 			public const int middle = 2131034130;
@@ -1190,8 +1202,17 @@ namespace CriminalIntent
 			// aapt resource value: 0x7f0a000d
 			public const int app_name = 2131361805;
 			
+			// aapt resource value: 0x7f0a0012
+			public const int crime_details_text = 2131361810;
+			
+			// aapt resource value: 0x7f0a0013
+			public const int crime_solved_text = 2131361811;
+			
 			// aapt resource value: 0x7f0a0010
 			public const int crime_title_hint = 2131361808;
+			
+			// aapt resource value: 0x7f0a0011
+			public const int crime_title_text = 2131361809;
 			
 			// aapt resource value: 0x7f0a000e
 			public const int menu_settings = 2131361806;

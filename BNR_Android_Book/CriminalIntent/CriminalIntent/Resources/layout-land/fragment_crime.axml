@@ -14,7 +14,9 @@
         android:id="@+id/crime_title_edittext"
         android:hint="@string/crime_title_hint"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp" />
     <TextView
         android:id="@+id/crime_details_textview"
         android:text="@string/crime_details_text"
@@ -22,17 +24,22 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         style="?android:listSeparatorTextViewStyle" />
-    <Button
-        android:id="@+id/crime_date_button"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
-    <CheckBox
-        android:id="@+id/crime_solved_checkbox"
-        android:text="@string/crime_solved_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
+        android:layout_marginRight="16dp">
+        <Button
+            android:id="@+id/crime_date_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+        <CheckBox
+            android:id="@+id/crime_solved_checkbox"
+            android:text="@string/crime_solved_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
 </LinearLayout>

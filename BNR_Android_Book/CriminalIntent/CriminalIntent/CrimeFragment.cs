@@ -21,6 +21,8 @@ namespace CriminalIntent
 		#region - member variables
 		Crime mCrime;
 		EditText mTitleField;
+		Button mDateButton;
+		CheckBox mSolvedCheckBox;
 		#endregion
 
 		#region - Lifecycle
@@ -36,7 +38,7 @@ namespace CriminalIntent
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			View v = inflater.Inflate(Resource.Layout.fragment_crime, container, false);
-			mTitleField = (EditText)v.FindViewById(Resource.Id.crime_title);
+			mTitleField = (EditText)v.FindViewById(Resource.Id.crime_title_edittext);
 			mTitleField.BeforeTextChanged += (object sender, Android.Text.TextChangedEventArgs e) => {
 				// nothing for now
 			};
@@ -46,6 +48,16 @@ namespace CriminalIntent
 			};
 			mTitleField.AfterTextChanged += (object sender, Android.Text.AfterTextChangedEventArgs e) => {
 				// nothing for now
+			};
+
+			mDateButton = (Button)v.FindViewById(Resource.Id.crime_date_button);
+			mDateButton.Text = mCrime.Date.ToLongDateString();
+			mDateButton.Enabled = false;
+
+			mSolvedCheckBox = (CheckBox)v.FindViewById(Resource.Id.crime_solved_checkbox);
+			mSolvedCheckBox.CheckedChange += (object sender, CompoundButton.CheckedChangeEventArgs e) => {
+				mCrime.Solved = e.IsChecked;
+				Console.WriteLine("IsChecked: {0}", e.IsChecked);
 			};
 
 			return v;
