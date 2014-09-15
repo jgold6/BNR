@@ -12,8 +12,8 @@ using Android.Support.V7.App;
 
 namespace GeoQuiz
 {
-	[Activity(Label = "@string/app_name", MainLauncher = true, Icon = "@drawable/ic_launcher")]
-	public class QuizActivity : Activity
+	[Activity(Label = "@string/app_name", MainLauncher = true, Icon = "@drawable/ic_launcher", Theme="@style/AppTheme")]
+	public class QuizActivity : ActionBarActivity
     {
 		#region - Enums and Constants
 		private const string TAG = "QuizActivity";
@@ -72,6 +72,10 @@ namespace GeoQuiz
 		protected override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
 			SetContentView(Resource.Layout.activity_quiz);
+
+			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb) {
+				ActionBar.SetSubtitle(Resource.String.test_subject);
+			}
 
 			Console.WriteLine("onCreate(Bundle) called");
 

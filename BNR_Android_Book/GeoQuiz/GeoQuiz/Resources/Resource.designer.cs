@@ -868,11 +868,14 @@ namespace GeoQuiz
 			// aapt resource value: 0x7f05003c
 			public const int answerTextView = 2131034172;
 			
+			// aapt resource value: 0x7f05003e
+			public const int apiVersion = 2131034174;
+			
 			// aapt resource value: 0x7f050011
 			public const int beginning = 2131034129;
 			
-			// aapt resource value: 0x7f050042
-			public const int cheat_button = 2131034178;
+			// aapt resource value: 0x7f050043
+			public const int cheat_button = 2131034179;
 			
 			// aapt resource value: 0x7f05002d
 			public const int checkbox = 2131034157;
@@ -904,8 +907,8 @@ namespace GeoQuiz
 			// aapt resource value: 0x7f05002c
 			public const int expanded_menu = 2131034156;
 			
-			// aapt resource value: 0x7f050040
-			public const int false_button = 2131034176;
+			// aapt resource value: 0x7f050041
+			public const int false_button = 2131034177;
 			
 			// aapt resource value: 0x7f050014
 			public const int home = 2131034132;
@@ -928,8 +931,8 @@ namespace GeoQuiz
 			// aapt resource value: 0x7f050029
 			public const int list_item = 2131034153;
 			
-			// aapt resource value: 0x7f050044
-			public const int menu_settings = 2131034180;
+			// aapt resource value: 0x7f050045
+			public const int menu_settings = 2131034181;
 			
 			// aapt resource value: 0x7f050012
 			public const int middle = 2131034130;
@@ -937,8 +940,8 @@ namespace GeoQuiz
 			// aapt resource value: 0x7f050009
 			public const int never = 2131034121;
 			
-			// aapt resource value: 0x7f050043
-			public const int next_button = 2131034179;
+			// aapt resource value: 0x7f050044
+			public const int next_button = 2131034180;
 			
 			// aapt resource value: 0x7f050010
 			public const int none = 2131034128;
@@ -946,8 +949,8 @@ namespace GeoQuiz
 			// aapt resource value: 0x7f050000
 			public const int normal = 2131034112;
 			
-			// aapt resource value: 0x7f050041
-			public const int prev_button = 2131034177;
+			// aapt resource value: 0x7f050042
+			public const int prev_button = 2131034178;
 			
 			// aapt resource value: 0x7f050018
 			public const int progress_circular = 2131034136;
@@ -955,8 +958,8 @@ namespace GeoQuiz
 			// aapt resource value: 0x7f050019
 			public const int progress_horizontal = 2131034137;
 			
-			// aapt resource value: 0x7f05003e
-			public const int question_textView = 2131034174;
+			// aapt resource value: 0x7f05003f
+			public const int question_textView = 2131034175;
 			
 			// aapt resource value: 0x7f05002f
 			public const int radio = 2131034159;
@@ -1021,8 +1024,8 @@ namespace GeoQuiz
 			// aapt resource value: 0x7f050020
 			public const int top_action_bar = 2131034144;
 			
-			// aapt resource value: 0x7f05003f
-			public const int true_button = 2131034175;
+			// aapt resource value: 0x7f050040
+			public const int true_button = 2131034176;
 			
 			// aapt resource value: 0x7f050021
 			public const int up = 2131034145;
@@ -1267,6 +1270,9 @@ namespace GeoQuiz
 			
 			// aapt resource value: 0x7f0a001f
 			public const int show_answer_button = 2131361823;
+			
+			// aapt resource value: 0x7f0a0022
+			public const int test_subject = 2131361826;
 			
 			// aapt resource value: 0x7f0a000f
 			public const int true_button = 2131361807;
