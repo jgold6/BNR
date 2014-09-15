@@ -10,34 +10,24 @@ using Android.Support.V7.App;
 using Android.Support.V4.App;
 using System.Collections.Generic;
 using Android.App;
-
-
 #endregion
 
 namespace CriminalIntent
 {
-	[Activity(Label = "@string/app_name", MainLauncher = true, Icon = "@drawable/ic_launcher", Theme="@style/AppTheme")]
-	public class CrimeActivity : ActionBarActivity
+	[Activity(Label = "@string/app_name", Icon = "@drawable/ic_launcher", Theme="@style/AppTheme")]
+	public class CrimeActivity : SingleFragmentActivity
     {
 		#region - member variables
 		#endregion
 
+		#region - abstract overrides
+		protected override Android.Support.V4.App.Fragment CreateFragment()
+		{
+			return new CrimeFragment();
+		}
+		#endregion
+
 		#region - Lifecycle
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-			SetContentView(Resource.Layout.activity_crime);
-			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb)
-				ActionBar.SetSubtitle(Resource.String.title_activity_crime);
-
-			Android.Support.V4.App.Fragment fragment = SupportFragmentManager.FindFragmentById(Resource.Id.fragmentContainer);
-			if (fragment == null) {
-				fragment = new CrimeFragment();
-				SupportFragmentManager.BeginTransaction().Add(Resource.Id.fragmentContainer, fragment).Commit();
-			}
-
-       }
-
 		// To be used later
 //		public override bool OnCreateOptionsMenu(IMenu menu) {
 //			// Inflate the menu; this adds items to the action bar if it is present.

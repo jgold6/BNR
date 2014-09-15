@@ -2,7 +2,7 @@
 
 namespace CriminalIntent
 {
-    public class Crime
+	public class Crime : Java.Lang.Object
 	{
 		#region = member variables
 		#endregion
@@ -25,6 +25,13 @@ namespace CriminalIntent
 			Title = title;
 			Date = DateTime.Now;
         }
+		#endregion
+
+		#region - overrides
+		public override string ToString()
+		{
+			return string.Format("{0}", Title);
+		}
 		#endregion
     }
 }

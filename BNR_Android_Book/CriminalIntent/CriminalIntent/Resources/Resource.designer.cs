@@ -1123,7 +1123,7 @@ namespace CriminalIntent
 			public const int abc_simple_decor = 2130903063;
 			
 			// aapt resource value: 0x7f030018
-			public const int activity_crime = 2130903064;
+			public const int activity_fragment = 2130903064;
 			
 			// aapt resource value: 0x7f030019
 			public const int fragment_crime = 2130903065;
@@ -1202,23 +1202,32 @@ namespace CriminalIntent
 			// aapt resource value: 0x7f0a000d
 			public const int app_name = 2131361805;
 			
-			// aapt resource value: 0x7f0a0012
-			public const int crime_details_text = 2131361810;
-			
 			// aapt resource value: 0x7f0a0013
-			public const int crime_solved_text = 2131361811;
+			public const int crime_details_text = 2131361811;
 			
-			// aapt resource value: 0x7f0a0010
-			public const int crime_title_hint = 2131361808;
+			// aapt resource value: 0x7f0a0014
+			public const int crime_solved_text = 2131361812;
+			
+			// aapt resource value: 0x7f0a0015
+			public const int crime_title = 2131361813;
 			
 			// aapt resource value: 0x7f0a0011
-			public const int crime_title_text = 2131361809;
+			public const int crime_title_hint = 2131361809;
+			
+			// aapt resource value: 0x7f0a0012
+			public const int crime_title_text = 2131361810;
+			
+			// aapt resource value: 0x7f0a0016
+			public const int crimes_title = 2131361814;
 			
 			// aapt resource value: 0x7f0a000e
 			public const int menu_settings = 2131361806;
 			
 			// aapt resource value: 0x7f0a000f
 			public const int title_activity_crime = 2131361807;
+			
+			// aapt resource value: 0x7f0a0010
+			public const int title_activity_crimes = 2131361808;
 			
 			static String()
 			{

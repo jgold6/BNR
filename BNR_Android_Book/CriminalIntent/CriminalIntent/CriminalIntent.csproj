@@ -53,8 +53,12 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CrimeActivity.cs" />
-    <Compile Include="Crime.cs" />
     <Compile Include="CrimeFragment.cs" />
+    <Compile Include="Model\Crime.cs" />
+    <Compile Include="Model\CrimeLab.cs" />
+    <Compile Include="CrimeListFragment.cs" />
+    <Compile Include="SingleFragmentActivity.cs" />
+    <Compile Include="CrimeListActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -73,10 +77,10 @@
     <AndroidResource Include="Resources\values-v11\styles.xml" />
     <AndroidResource Include="Resources\values-v14\styles.xml" />
     <AndroidResource Include="Resources\values-w820dp\dimens.xml" />
-    <AndroidResource Include="Resources\layout\activity_crime.axml" />
     <AndroidResource Include="Resources\menu\menu_quiz.xml" />
     <AndroidResource Include="Resources\layout\fragment_crime.axml" />
     <AndroidResource Include="Resources\layout-land\fragment_crime.axml" />
+    <AndroidResource Include="Resources\layout\activity_fragment.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -89,5 +93,6 @@
     <Folder Include="Resources\values-v14\" />
     <Folder Include="Resources\values-w820dp\" />
     <Folder Include="Resources\menu\" />
+    <Folder Include="Model\" />
   </ItemGroup>
 </Project>
