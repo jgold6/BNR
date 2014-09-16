@@ -21,7 +21,7 @@ namespace CriminalIntent
 		{
 			mAppContext = appContext;
 			Crimes = new List<Crime>();
-			for (int i = 0; i < 100; i++) {
+			for (int i = 1; i <= 100; i++) {
 				Crime c = new Crime("Crime #"+i);
 				c.Solved = (i % 2 ==0);
 				Crimes.Add(c);
