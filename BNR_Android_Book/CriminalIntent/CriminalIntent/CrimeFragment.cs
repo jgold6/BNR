@@ -18,11 +18,28 @@ namespace CriminalIntent
 {
 	public class CrimeFragment : Fragment
     {
+		#region - Sataic Members
+		public static readonly string EXTRA_CRIME_ID = "com.onobytes.criminalintent.crime_id";
+		#endregion
+
 		#region - member variables
 		Crime mCrime;
 		EditText mTitleField;
 		Button mDateButton;
 		CheckBox mSolvedCheckBox;
+		#endregion
+
+		#region - constructor ... kind of.
+		public static CrimeFragment NewInstance(string guid)
+		{
+			Bundle args = new Bundle();
+			args.PutString(EXTRA_CRIME_ID, guid);
+
+			CrimeFragment fragment = new CrimeFragment();
+			fragment.Arguments = args;
+
+			return fragment;
+		}
 		#endregion
 
 		#region - Lifecycle
@@ -33,14 +50,15 @@ namespace CriminalIntent
 			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb)
 				Activity.ActionBar.SetSubtitle(Resource.String.title_activity_crime);
             // Create your fragment here
-			mCrime = new Crime();
-
+			string crimeId = Activity.Intent.GetStringExtra(EXTRA_CRIME_ID);
+			mCrime = CrimeLab.GetInstance(Activity).GetCrime(crimeId);
         }
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			View v = inflater.Inflate(Resource.Layout.fragment_crime, container, false);
 			mTitleField = (EditText)v.FindViewById(Resource.Id.crime_title_edittext);
+			mTitleField.SetText(mCrime.Title, TextView.BufferType.Normal);
 			mTitleField.BeforeTextChanged += (object sender, Android.Text.TextChangedEventArgs e) => {
 				// nothing for now
 			};
@@ -57,6 +75,7 @@ namespace CriminalIntent
 			mDateButton.Enabled = false;
 
 			mSolvedCheckBox = (CheckBox)v.FindViewById(Resource.Id.crime_solved_checkbox);
+			mSolvedCheckBox.Checked = mCrime.Solved;
 			mSolvedCheckBox.CheckedChange += (object sender, CompoundButton.CheckedChangeEventArgs e) => {
 				mCrime.Solved = e.IsChecked;
 				Console.WriteLine("IsChecked: {0}", e.IsChecked);

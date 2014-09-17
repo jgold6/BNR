@@ -23,7 +23,8 @@ namespace CriminalIntent
 		#region - abstract overrides
 		protected override Android.Support.V4.App.Fragment CreateFragment()
 		{
-			return new CrimeFragment();
+			string crimeId = Intent.GetStringExtra(CrimeFragment.EXTRA_CRIME_ID);
+			return CrimeFragment.NewInstance(crimeId);
 		}
 		#endregion
 

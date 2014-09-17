@@ -5,6 +5,7 @@ using Android.Widget;
 using Android.OS;
 using Android.Views;
 using Android.App;
+using Android.Content;
 
 namespace CriminalIntent
 {
@@ -25,6 +26,12 @@ namespace CriminalIntent
 													CrimeLab.GetInstance(Android.App.Application.Context).Crimes.ToArray());
 			this.ListAdapter = adapter;
 		}
+
+		public override void OnResume()
+		{
+			base.OnResume();
+			((CrimeAdapter)this.ListAdapter).NotifyDataSetChanged();
+		}
 		#endregion
 
 		#region overrides
@@ -32,7 +39,11 @@ namespace CriminalIntent
 		{
 			base.OnListItemClick(l, v, position, id);
 			Crime c = ((CrimeAdapter)ListAdapter).GetItem(position);
-			Console.WriteLine("Item clicked: {0}", c.Title);
+
+			// Start crime activity
+			Intent i = new Intent(Activity,typeof(CrimeActivity));
+			i.PutExtra(CrimeFragment.EXTRA_CRIME_ID, c.Id);
+			StartActivity(i);
 		}
 		#endregion
 

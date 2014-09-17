@@ -42,7 +42,8 @@ namespace CriminalIntent
 		#region - methods
 		public Crime GetCrime(string guid)
 		{
-			return (Crime)Crimes.Where(c => c.Id == guid);
+			var crime = Crimes.Where(c => c.Id == guid).ElementAt(0);
+			return crime;
 		}
 		#endregion
     }
