@@ -46,11 +46,11 @@ namespace CriminalIntent
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-			Activity.SetTitle(Resource.String.crime_title);
+			//Activity.SetTitle(Resource.String.crime_title);
 			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb)
 				Activity.ActionBar.SetSubtitle(Resource.String.title_activity_crime);
             // Create your fragment here
-			string crimeId = Activity.Intent.GetStringExtra(EXTRA_CRIME_ID);
+			string crimeId = Arguments.GetString(EXTRA_CRIME_ID);
 			mCrime = CrimeLab.GetInstance(Activity).GetCrime(crimeId);
         }
 

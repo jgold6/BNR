@@ -22,8 +22,7 @@ namespace CriminalIntent
 			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb)
 				Activity.ActionBar.SetSubtitle(Resource.String.title_activity_crimes);
 				
-			CrimeAdapter adapter = new CrimeAdapter(Activity, 
-													CrimeLab.GetInstance(Android.App.Application.Context).Crimes.ToArray());
+			CrimeAdapter adapter = new CrimeAdapter(Activity, CrimeLab.GetInstance(CrimeListActivity.context).Crimes.ToArray());
 			this.ListAdapter = adapter;
 		}
 
@@ -41,7 +40,7 @@ namespace CriminalIntent
 			Crime c = ((CrimeAdapter)ListAdapter).GetItem(position);
 
 			// Start crime activity
-			Intent i = new Intent(Activity,typeof(CrimeActivity));
+			Intent i = new Intent(Activity,typeof(CrimePagerActivity));
 			i.PutExtra(CrimeFragment.EXTRA_CRIME_ID, c.Id);
 			StartActivity(i);
 		}

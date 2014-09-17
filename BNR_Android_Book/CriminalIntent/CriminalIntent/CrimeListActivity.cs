@@ -17,12 +17,15 @@ namespace CriminalIntent
 	[Activity(Label = "@string/app_name", MainLauncher = true, Icon = "@drawable/ic_launcher", Theme="@style/AppTheme")]
 	public class CrimeListActivity : SingleFragmentActivity
     {
+		public static CrimeListActivity context {get; private set;}
+
 		#region - member variables
 		#endregion
 
 		#region - abstract overrides
 		protected override Android.Support.V4.App.Fragment CreateFragment()
 		{
+			CrimeListActivity.context = this;
 			return new CrimeListFragment();
 		}
 		#endregion

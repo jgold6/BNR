@@ -820,29 +820,29 @@ namespace CriminalIntent
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f05001c
-			public const int action_bar = 2131034140;
+			// aapt resource value: 0x7f05001d
+			public const int action_bar = 2131034141;
 			
 			// aapt resource value: 0x7f050015
 			public const int action_bar_activity_content = 2131034133;
 			
+			// aapt resource value: 0x7f05001c
+			public const int action_bar_container = 2131034140;
+			
+			// aapt resource value: 0x7f050020
+			public const int action_bar_overlay_layout = 2131034144;
+			
 			// aapt resource value: 0x7f05001b
-			public const int action_bar_container = 2131034139;
+			public const int action_bar_root = 2131034139;
 			
-			// aapt resource value: 0x7f05001f
-			public const int action_bar_overlay_layout = 2131034143;
-			
-			// aapt resource value: 0x7f05001a
-			public const int action_bar_root = 2131034138;
+			// aapt resource value: 0x7f050024
+			public const int action_bar_subtitle = 2131034148;
 			
 			// aapt resource value: 0x7f050023
-			public const int action_bar_subtitle = 2131034147;
+			public const int action_bar_title = 2131034147;
 			
-			// aapt resource value: 0x7f050022
-			public const int action_bar_title = 2131034146;
-			
-			// aapt resource value: 0x7f05001d
-			public const int action_context_bar = 2131034141;
+			// aapt resource value: 0x7f05001e
+			public const int action_context_bar = 2131034142;
 			
 			// aapt resource value: 0x7f050016
 			public const int action_menu_divider = 2131034134;
@@ -850,11 +850,11 @@ namespace CriminalIntent
 			// aapt resource value: 0x7f050017
 			public const int action_menu_presenter = 2131034135;
 			
-			// aapt resource value: 0x7f050024
-			public const int action_mode_close_button = 2131034148;
-			
 			// aapt resource value: 0x7f050025
-			public const int activity_chooser_view_content = 2131034149;
+			public const int action_mode_close_button = 2131034149;
+			
+			// aapt resource value: 0x7f050026
+			public const int activity_chooser_view_content = 2131034150;
 			
 			// aapt resource value: 0x7f05000b
 			public const int always = 2131034123;
@@ -862,38 +862,38 @@ namespace CriminalIntent
 			// aapt resource value: 0x7f050011
 			public const int beginning = 2131034129;
 			
-			// aapt resource value: 0x7f05002d
-			public const int checkbox = 2131034157;
+			// aapt resource value: 0x7f05002e
+			public const int checkbox = 2131034158;
 			
 			// aapt resource value: 0x7f05000d
 			public const int collapseActionView = 2131034125;
 			
+			// aapt resource value: 0x7f050041
+			public const int crime_date_button = 2131034177;
+			
 			// aapt resource value: 0x7f050040
-			public const int crime_date_button = 2131034176;
+			public const int crime_details_textview = 2131034176;
 			
-			// aapt resource value: 0x7f05003f
-			public const int crime_details_textview = 2131034175;
-			
-			// aapt resource value: 0x7f050044
-			public const int crime_list_item_dateTextView = 2131034180;
-			
-			// aapt resource value: 0x7f050042
-			public const int crime_list_item_solvedCheckBox = 2131034178;
+			// aapt resource value: 0x7f050045
+			public const int crime_list_item_dateTextView = 2131034181;
 			
 			// aapt resource value: 0x7f050043
-			public const int crime_list_item_titleTextView = 2131034179;
+			public const int crime_list_item_solvedCheckBox = 2131034179;
 			
-			// aapt resource value: 0x7f050041
-			public const int crime_solved_checkbox = 2131034177;
+			// aapt resource value: 0x7f050044
+			public const int crime_list_item_titleTextView = 2131034180;
+			
+			// aapt resource value: 0x7f050042
+			public const int crime_solved_checkbox = 2131034178;
+			
+			// aapt resource value: 0x7f05003f
+			public const int crime_title_edittext = 2131034175;
 			
 			// aapt resource value: 0x7f05003e
-			public const int crime_title_edittext = 2131034174;
+			public const int crime_title_textview = 2131034174;
 			
-			// aapt resource value: 0x7f05003d
-			public const int crime_title_textview = 2131034173;
-			
-			// aapt resource value: 0x7f050028
-			public const int default_activity_button = 2131034152;
+			// aapt resource value: 0x7f050029
+			public const int default_activity_button = 2131034153;
 			
 			// aapt resource value: 0x7f05000e
 			public const int dialog = 2131034126;
@@ -904,20 +904,20 @@ namespace CriminalIntent
 			// aapt resource value: 0x7f05000f
 			public const int dropdown = 2131034127;
 			
-			// aapt resource value: 0x7f050030
-			public const int edit_query = 2131034160;
+			// aapt resource value: 0x7f050031
+			public const int edit_query = 2131034161;
 			
 			// aapt resource value: 0x7f050013
 			public const int end = 2131034131;
 			
-			// aapt resource value: 0x7f050026
-			public const int expand_activities_button = 2131034150;
+			// aapt resource value: 0x7f050027
+			public const int expand_activities_button = 2131034151;
 			
-			// aapt resource value: 0x7f05002c
-			public const int expanded_menu = 2131034156;
+			// aapt resource value: 0x7f05002d
+			public const int expanded_menu = 2131034157;
 			
-			// aapt resource value: 0x7f05003c
-			public const int fragmentContainer = 2131034172;
+			// aapt resource value: 0x7f05003d
+			public const int fragmentContainer = 2131034173;
 			
 			// aapt resource value: 0x7f050014
 			public const int home = 2131034132;
@@ -925,23 +925,23 @@ namespace CriminalIntent
 			// aapt resource value: 0x7f050005
 			public const int homeAsUp = 2131034117;
 			
-			// aapt resource value: 0x7f05002a
-			public const int icon = 2131034154;
+			// aapt resource value: 0x7f05002b
+			public const int icon = 2131034155;
 			
 			// aapt resource value: 0x7f05000a
 			public const int ifRoom = 2131034122;
 			
-			// aapt resource value: 0x7f050027
-			public const int image = 2131034151;
+			// aapt resource value: 0x7f050028
+			public const int image = 2131034152;
 			
 			// aapt resource value: 0x7f050001
 			public const int listMode = 2131034113;
 			
-			// aapt resource value: 0x7f050029
-			public const int list_item = 2131034153;
+			// aapt resource value: 0x7f05002a
+			public const int list_item = 2131034154;
 			
-			// aapt resource value: 0x7f050045
-			public const int menu_settings = 2131034181;
+			// aapt resource value: 0x7f050046
+			public const int menu_settings = 2131034182;
 			
 			// aapt resource value: 0x7f050012
 			public const int middle = 2131034130;
@@ -961,41 +961,41 @@ namespace CriminalIntent
 			// aapt resource value: 0x7f050019
 			public const int progress_horizontal = 2131034137;
 			
-			// aapt resource value: 0x7f05002f
-			public const int radio = 2131034159;
-			
-			// aapt resource value: 0x7f050032
-			public const int search_badge = 2131034162;
-			
-			// aapt resource value: 0x7f050031
-			public const int search_bar = 2131034161;
+			// aapt resource value: 0x7f050030
+			public const int radio = 2131034160;
 			
 			// aapt resource value: 0x7f050033
-			public const int search_button = 2131034163;
+			public const int search_badge = 2131034163;
 			
-			// aapt resource value: 0x7f050038
-			public const int search_close_btn = 2131034168;
+			// aapt resource value: 0x7f050032
+			public const int search_bar = 2131034162;
 			
 			// aapt resource value: 0x7f050034
-			public const int search_edit_frame = 2131034164;
+			public const int search_button = 2131034164;
 			
-			// aapt resource value: 0x7f05003a
-			public const int search_go_btn = 2131034170;
+			// aapt resource value: 0x7f050039
+			public const int search_close_btn = 2131034169;
 			
 			// aapt resource value: 0x7f050035
-			public const int search_mag_icon = 2131034165;
-			
-			// aapt resource value: 0x7f050036
-			public const int search_plate = 2131034166;
-			
-			// aapt resource value: 0x7f050037
-			public const int search_src_text = 2131034167;
+			public const int search_edit_frame = 2131034165;
 			
 			// aapt resource value: 0x7f05003b
-			public const int search_voice_btn = 2131034171;
+			public const int search_go_btn = 2131034171;
 			
-			// aapt resource value: 0x7f05002e
-			public const int shortcut = 2131034158;
+			// aapt resource value: 0x7f050036
+			public const int search_mag_icon = 2131034166;
+			
+			// aapt resource value: 0x7f050037
+			public const int search_plate = 2131034167;
+			
+			// aapt resource value: 0x7f050038
+			public const int search_src_text = 2131034168;
+			
+			// aapt resource value: 0x7f05003c
+			public const int search_voice_btn = 2131034172;
+			
+			// aapt resource value: 0x7f05002f
+			public const int shortcut = 2131034159;
 			
 			// aapt resource value: 0x7f050007
 			public const int showCustom = 2131034119;
@@ -1006,26 +1006,29 @@ namespace CriminalIntent
 			// aapt resource value: 0x7f050006
 			public const int showTitle = 2131034118;
 			
-			// aapt resource value: 0x7f05001e
-			public const int split_action_bar = 2131034142;
+			// aapt resource value: 0x7f05001f
+			public const int split_action_bar = 2131034143;
 			
-			// aapt resource value: 0x7f050039
-			public const int submit_area = 2131034169;
+			// aapt resource value: 0x7f05003a
+			public const int submit_area = 2131034170;
 			
 			// aapt resource value: 0x7f050002
 			public const int tabMode = 2131034114;
 			
-			// aapt resource value: 0x7f05002b
-			public const int title = 2131034155;
-			
-			// aapt resource value: 0x7f050020
-			public const int top_action_bar = 2131034144;
+			// aapt resource value: 0x7f05002c
+			public const int title = 2131034156;
 			
 			// aapt resource value: 0x7f050021
-			public const int up = 2131034145;
+			public const int top_action_bar = 2131034145;
+			
+			// aapt resource value: 0x7f050022
+			public const int up = 2131034146;
 			
 			// aapt resource value: 0x7f050003
 			public const int useLogo = 2131034115;
+			
+			// aapt resource value: 0x7f05001a
+			public const int viewPager = 2131034138;
 			
 			// aapt resource value: 0x7f05000c
 			public const int withText = 2131034124;
