@@ -32,11 +32,11 @@ namespace CriminalIntent
 
 		#region - Lifecycle
 		// To be used later
-		//		public override bool OnCreateOptionsMenu(IMenu menu) {
-		//			// Inflate the menu; this adds items to the action bar if it is present.
-		//			MenuInflater.Inflate(Resource.Menu.menu_quiz, menu);
-		//			return true;
-		//		}
+//				public override bool OnCreateOptionsMenu(IMenu menu) {
+//					// Inflate the menu; this adds items to the action bar if it is present.
+//					MenuInflater.Inflate(Resource.Menu.menu_quiz, menu);
+//					return true;
+//				}
 		//
 		//		public override bool OnOptionsItemSelected(IMenuItem item) {
 		//			// Handle action bar item clicks here. The action bar will

@@ -11,7 +11,7 @@ namespace CriminalIntent
 		public string Id {get; private set;}
 		public string Title {get; set;}
 		public bool Solved {get; set;}
-		public DateTime Date {get; private set;}
+		public DateTime Date {get; set;}
 		#endregion
 
 		#region - Constructors

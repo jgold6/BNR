@@ -59,12 +59,15 @@
     <Compile Include="SingleFragmentActivity.cs" />
     <Compile Include="CrimeListActivity.cs" />
     <Compile Include="CrimePagerActivity.cs" />
+    <Compile Include="DatePickerFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="packages.config" />
+    <None Include="Resources\values-v11\styles.xml" />
+    <None Include="Resources\values-v14\styles.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -74,8 +77,6 @@
     <AndroidResource Include="Resources\drawable-mdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable\ic_launcher.png" />
-    <AndroidResource Include="Resources\values-v11\styles.xml" />
-    <AndroidResource Include="Resources\values-v14\styles.xml" />
     <AndroidResource Include="Resources\values-w820dp\dimens.xml" />
     <AndroidResource Include="Resources\menu\menu_quiz.xml" />
     <AndroidResource Include="Resources\layout\fragment_crime.axml" />
@@ -83,6 +84,7 @@
     <AndroidResource Include="Resources\layout\activity_fragment.axml" />
     <AndroidResource Include="Resources\layout\list_item_crime.axml" />
     <AndroidResource Include="Resources\values\ids.xml" />
+    <AndroidResource Include="Resources\layout\dialog_date.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
