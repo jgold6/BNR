@@ -70,7 +70,7 @@ namespace CriminalIntent
 				CheckBox solvedCheckBox = (CheckBox)convertView.FindViewById(Resource.Id.crime_list_item_solvedCheckBox);
 
 				titleTextView.Text = c.Title;
-				dateTextView.Text = c.Date.ToShortDateString();
+				dateTextView.Text = String.Format("{0}\n{1}", c.Date.ToLongDateString(), c.Date.ToLongTimeString());
 				solvedCheckBox.Checked = c.Solved;
 
 				return convertView;

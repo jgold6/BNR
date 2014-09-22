@@ -21,14 +21,17 @@ namespace CriminalIntent
 		#region - Sataic Members
 		public static readonly string EXTRA_CRIME_ID = "com.onobytes.criminalintent.crime_id";
 		public static readonly string DIALOG_DATE = "com.onobytes.criminalintent.dialog_date";
+		public static readonly string DIALOG_TIME = "com.onobytes.criminalintent.dialog_time";
 		public static readonly int REQUEST_DATE = 0;
-		public static readonly int RESULT_OK = 1;
+		public static readonly int REQUEST_TIME = 1;
+		public static readonly int RESULT_OK = 2;
 		#endregion
 
 		#region - member variables
 		Crime mCrime;
 		EditText mTitleField;
 		Button mDateButton;
+		Button mTimeButton;
 		CheckBox mSolvedCheckBox;
 		#endregion
 
@@ -74,13 +77,22 @@ namespace CriminalIntent
 			};
 
 			mDateButton = (Button)v.FindViewById(Resource.Id.crime_date_button);
-			UpdateDate();
 			mDateButton.Click += (sender, e) => {
 				FragmentManager fm = Activity.SupportFragmentManager;
 				DatePickerFragment dialog = DatePickerFragment.NewInstance(mCrime.Date);
 				dialog.SetTargetFragment(this, REQUEST_DATE);
 				dialog.Show(fm, CrimeFragment.DIALOG_DATE);
 			};
+
+			mTimeButton = (Button)v.FindViewById(Resource.Id.crime_time_button);
+			mTimeButton.Click += (sender, e) => {
+				FragmentManager fm = Activity.SupportFragmentManager;
+				TimePickerFragment dialog = TimePickerFragment.NewInstance(mCrime.Date);
+				dialog.SetTargetFragment(this, REQUEST_TIME);
+				dialog.Show(fm, CrimeFragment.DIALOG_TIME);
+			};
+
+			UpdateDateTime();
 
 			mSolvedCheckBox = (CheckBox)v.FindViewById(Resource.Id.crime_solved_checkbox);
 			mSolvedCheckBox.Checked = mCrime.Solved;
@@ -102,14 +114,23 @@ namespace CriminalIntent
 				int year = data.GetIntExtra(DatePickerFragment.EXTRA_YEAR, DateTime.Now.Year);
 				int month = data.GetIntExtra(DatePickerFragment.EXTRA_MONTH,DateTime.Now.Month);
 				int day = data.GetIntExtra(DatePickerFragment.EXTRA_DAY, DateTime.Now.Day);
-				mCrime.Date = new DateTime(year, month, day);
-				UpdateDate();
+				mCrime.Date = new DateTime(year, month, day, mCrime.Date.Hour, mCrime.Date.Minute, 0);
+				UpdateDateTime();
+
+			}
+			else if (requestCode == REQUEST_TIME) {
+				int hour = data.GetIntExtra(TimePickerFragment.EXTRA_HOUR, DateTime.Now.Hour);
+				int minute = data.GetIntExtra(TimePickerFragment.EXTRA_MINUTE, DateTime.Now.Minute);
+				mCrime.Date = new DateTime(mCrime.Date.Year, mCrime.Date.Month, mCrime.Date.Day, hour, minute, 0);
+				UpdateDateTime();
 
 			}
 		}
 
-		public void UpdateDate() {
+		public void UpdateDateTime() {
 			mDateButton.Text = mCrime.Date.ToLongDateString();
+			mTimeButton.Text = mCrime.Date.ToLongTimeString();
+
 		}
     }
 }

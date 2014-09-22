@@ -11,4 +11,5 @@
     <string name="crime_title">Crime</string>
     <string name="crimes_title">Crimes</string>
     <string name="date_picker_title">Date of crime:</string>
+    <string name="time_picker_title">Time of crime:</string>
 </resources>

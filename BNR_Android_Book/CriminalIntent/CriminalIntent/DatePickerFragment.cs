@@ -47,13 +47,13 @@ namespace CriminalIntent
 				.SetView(v)
 				.SetTitle(Resource.String.date_picker_title)
 				.SetPositiveButton(Android.Resource.String.Ok, (sender, e) => {
-					Console.WriteLine("OK Pressed");
+					Console.WriteLine("DatePicker OK Pressed");
 					SendResult(CrimeFragment.RESULT_OK);
 			}).Create();
 		}
 
 		public void OnDateChanged(DatePicker view, int year, int month, int day) {
-			mDate = new DateTime(year, month +1, day); // .NET uses 1 based months, Android uses 0 based months
+			mDate = new DateTime(year, month +1, day, mDate.Hour, mDate.Minute, 0); // .NET uses 1 based months, Android uses 0 based months
 
 			Arguments.PutInt(EXTRA_YEAR, mDate.Year);
 			Arguments.PutInt(EXTRA_MONTH, mDate.Month);

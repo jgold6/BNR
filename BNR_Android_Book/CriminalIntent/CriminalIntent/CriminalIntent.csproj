@@ -60,6 +60,7 @@
     <Compile Include="CrimeListActivity.cs" />
     <Compile Include="CrimePagerActivity.cs" />
     <Compile Include="DatePickerFragment.cs" />
+    <Compile Include="TimePickerFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -85,6 +86,7 @@
     <AndroidResource Include="Resources\layout\list_item_crime.axml" />
     <AndroidResource Include="Resources\values\ids.xml" />
     <AndroidResource Include="Resources\layout\dialog_date.axml" />
+    <AndroidResource Include="Resources\layout\dialog_time.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
