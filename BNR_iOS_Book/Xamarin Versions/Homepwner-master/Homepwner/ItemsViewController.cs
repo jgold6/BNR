@@ -128,6 +128,20 @@ namespace Homepwner
 			return headerCell;
 		}
 
+		public override void WillBeginEditing(UITableView tableView, NSIndexPath indexPath)
+		{
+			base.WillBeginEditing(tableView, indexPath);
+			UITableViewCell cell = tableView.CellAt(indexPath);
+			cell.BackgroundColor = UIColor.Yellow;
+		}
+
+		public override void DidEndEditing(UITableView tableView, NSIndexPath indexPath)
+		{
+			base.DidEndEditing(tableView, indexPath);
+			UITableViewCell cell = tableView.CellAt(indexPath);
+			cell.BackgroundColor = UIColor.White;
+		}
+
 		public override void MoveRow(UITableView tableView, NSIndexPath fromIndexPath, NSIndexPath toIndexPath)
 		{
 			BNRItemStore.moveItem(fromIndexPath.Row, toIndexPath.Row);
