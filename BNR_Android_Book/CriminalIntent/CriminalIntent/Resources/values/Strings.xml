@@ -12,4 +12,8 @@
     <string name="crimes_title">Crimes</string>
     <string name="date_picker_title">Date of crime:</string>
     <string name="time_picker_title">Time of crime:</string>
+    <string name="date_or_time_alert_title">Change date or time?</string>
+    <string name="date_or_time_alert_date">Date</string>
+    <string name="date_or_time_alert_time">Time</string>
+
 </resources>

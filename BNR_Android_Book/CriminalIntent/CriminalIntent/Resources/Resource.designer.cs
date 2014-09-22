@@ -1250,6 +1250,15 @@ namespace CriminalIntent
 			// aapt resource value: 0x7f0a0016
 			public const int crimes_title = 2131361814;
 			
+			// aapt resource value: 0x7f0a001a
+			public const int date_or_time_alert_date = 2131361818;
+			
+			// aapt resource value: 0x7f0a001b
+			public const int date_or_time_alert_time = 2131361819;
+			
+			// aapt resource value: 0x7f0a0019
+			public const int date_or_time_alert_title = 2131361817;
+			
 			// aapt resource value: 0x7f0a0017
 			public const int date_picker_title = 2131361815;
 			
