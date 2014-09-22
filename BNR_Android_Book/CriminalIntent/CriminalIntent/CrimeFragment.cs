@@ -31,7 +31,7 @@ namespace CriminalIntent
 		Crime mCrime;
 		EditText mTitleField;
 		Button mDateButton;
-		Button mTimeButton; // Separate date and time buttons
+//		Button mTimeButton; // Separate date and time buttons
 		CheckBox mSolvedCheckBox;
 		#endregion
 
@@ -77,42 +77,42 @@ namespace CriminalIntent
 			};
 
 			// One DateTime Button
-//			mDateButton = (Button)v.FindViewById(Resource.Id.crime_date_button);
-//			mDateButton.Click += (sender, e) => {
-//				Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(Activity);
-//				builder.SetTitle(Resource.String.date_or_time_alert_title);
-//				builder.SetPositiveButton(Resource.String.date_or_time_alert_date, (object date, DialogClickEventArgs de) => {
-//					FragmentManager fm = Activity.SupportFragmentManager;
-//					DatePickerFragment dialog = DatePickerFragment.NewInstance(mCrime.Date);
-//					dialog.SetTargetFragment(this, REQUEST_DATE);
-//					dialog.Show(fm, CrimeFragment.DIALOG_DATE);
-//				});
-//				builder.SetNegativeButton(Resource.String.date_or_time_alert_time, (object time, DialogClickEventArgs de) => {
-//					FragmentManager fm = Activity.SupportFragmentManager;
-//					TimePickerFragment dialog = TimePickerFragment.NewInstance(mCrime.Date);
-//					dialog.SetTargetFragment(this, REQUEST_TIME);
-//					dialog.Show(fm, CrimeFragment.DIALOG_TIME);
-//				});
-//				builder.Show();
-//					
-//			};
-
-			// Separate date and time buttons
 			mDateButton = (Button)v.FindViewById(Resource.Id.crime_date_button);
 			mDateButton.Click += (sender, e) => {
-				FragmentManager fm = Activity.SupportFragmentManager;
-				DatePickerFragment dialog = DatePickerFragment.NewInstance(mCrime.Date);
-				dialog.SetTargetFragment(this, REQUEST_DATE);
-				dialog.Show(fm, CrimeFragment.DIALOG_DATE);
+				Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(Activity);
+				builder.SetTitle(Resource.String.date_or_time_alert_title);
+				builder.SetPositiveButton(Resource.String.date_or_time_alert_date, (object date, DialogClickEventArgs de) => {
+					FragmentManager fm = Activity.SupportFragmentManager;
+					DatePickerFragment dialog = DatePickerFragment.NewInstance(mCrime.Date);
+					dialog.SetTargetFragment(this, REQUEST_DATE);
+					dialog.Show(fm, CrimeFragment.DIALOG_DATE);
+				});
+				builder.SetNegativeButton(Resource.String.date_or_time_alert_time, (object time, DialogClickEventArgs de) => {
+					FragmentManager fm = Activity.SupportFragmentManager;
+					TimePickerFragment dialog = TimePickerFragment.NewInstance(mCrime.Date);
+					dialog.SetTargetFragment(this, REQUEST_TIME);
+					dialog.Show(fm, CrimeFragment.DIALOG_TIME);
+				});
+				builder.Show();
+					
 			};
 
-			mTimeButton = (Button)v.FindViewById(Resource.Id.crime_time_button);
-			mTimeButton.Click += (sender, e) => {
-				FragmentManager fm = Activity.SupportFragmentManager;
-				TimePickerFragment dialog = TimePickerFragment.NewInstance(mCrime.Date);
-				dialog.SetTargetFragment(this, REQUEST_TIME);
-				dialog.Show(fm, CrimeFragment.DIALOG_TIME);
-			};
+			// Separate date and time buttons
+//			mDateButton = (Button)v.FindViewById(Resource.Id.crime_date_button);
+//			mDateButton.Click += (sender, e) => {
+//				FragmentManager fm = Activity.SupportFragmentManager;
+//				DatePickerFragment dialog = DatePickerFragment.NewInstance(mCrime.Date);
+//				dialog.SetTargetFragment(this, REQUEST_DATE);
+//				dialog.Show(fm, CrimeFragment.DIALOG_DATE);
+//			};
+//
+//			mTimeButton = (Button)v.FindViewById(Resource.Id.crime_time_button);
+//			mTimeButton.Click += (sender, e) => {
+//				FragmentManager fm = Activity.SupportFragmentManager;
+//				TimePickerFragment dialog = TimePickerFragment.NewInstance(mCrime.Date);
+//				dialog.SetTargetFragment(this, REQUEST_TIME);
+//				dialog.Show(fm, CrimeFragment.DIALOG_TIME);
+//			};
 
 			UpdateDateTime();
 
@@ -151,10 +151,10 @@ namespace CriminalIntent
 
 		public void UpdateDateTime() {
 			// One DateTime Button
-//			mDateButton.Text = String.Format("{0}\n{1}", mCrime.Date.ToLongDateString(), mCrime.Date.ToLongTimeString());
+			mDateButton.Text = String.Format("{0}\n{1}", mCrime.Date.ToLongDateString(), mCrime.Date.ToLongTimeString());
 			// Separate date and time buttons
-			mDateButton.Text = mCrime.Date.ToLongDateString();
-			mTimeButton.Text = mCrime.Date.ToLongTimeString(); 
+//			mDateButton.Text = mCrime.Date.ToLongDateString();
+//			mTimeButton.Text = mCrime.Date.ToLongTimeString(); 
 
 		}
     }

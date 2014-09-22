@@ -29,12 +29,12 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp" />
 <!--    Separate date and time button -->
-    <Button
+<!--    <Button
         android:id="@+id/crime_time_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
+        android:layout_marginRight="16dp" />-->
     <CheckBox
         android:id="@+id/crime_solved_checkbox"
         android:text="@string/crime_solved_text"
