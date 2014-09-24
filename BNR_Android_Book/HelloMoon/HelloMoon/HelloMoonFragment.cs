@@ -56,7 +56,7 @@ namespace HelloMoon
 			mVideoView.RequestFocus();
 			Android.Net.Uri uri = Android.Net.Uri.Parse(fileName);
 			mVideoView.SetVideoURI(uri);
-			mVideoView.Start();
+//			mVideoView.Start();
 
 			// Not needed with MediaController
 //			vPlayButton = (Button)v.FindViewById(Resource.Id.hellomoon_vPlayButton);
@@ -86,7 +86,8 @@ namespace HelloMoon
             base.OnCreate(savedInstanceState);
 
             // Create your fragment here
-
+			base.OnCreate(savedInstanceState);
+			RetainInstance = true;
         }
 
 		public override void OnDestroy()
