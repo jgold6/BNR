@@ -62,14 +62,20 @@ namespace HelloMoon
 			// aapt resource value: 0x7f070000
 			public const int fragmentContainer = 2131165184;
 			
+			// aapt resource value: 0x7f070002
+			public const int hellomoon_pauseButton = 2131165186;
+			
 			// aapt resource value: 0x7f070001
 			public const int hellomoon_playButton = 2131165185;
 			
-			// aapt resource value: 0x7f070002
-			public const int hellomoon_stopButton = 2131165186;
-			
 			// aapt resource value: 0x7f070003
-			public const int menu_settings = 2131165187;
+			public const int hellomoon_stopButton = 2131165187;
+			
+			// aapt resource value: 0x7f070005
+			public const int menu_settings = 2131165189;
+			
+			// aapt resource value: 0x7f070004
+			public const int videoView = 2131165188;
 			
 			static Id()
 			{
@@ -120,10 +126,13 @@ namespace HelloMoon
 		{
 			
 			// aapt resource value: 0x7f040000
-			public const int apollo_17_stroll = 2130968576;
+			public const int apollo_17_strollnexus = 2130968576;
 			
 			// aapt resource value: 0x7f040001
 			public const int one_small_step = 2130968577;
+			
+			// aapt resource value: 0x7f040002
+			public const int PigsInAPolka1943 = 2130968578;
 			
 			static Raw()
 			{
@@ -144,14 +153,23 @@ namespace HelloMoon
 			// aapt resource value: 0x7f050001
 			public const int hello_world = 2131034113;
 			
-			// aapt resource value: 0x7f050005
-			public const int hellomoon_image_description = 2131034117;
-			
 			// aapt resource value: 0x7f050003
-			public const int hellomoon_play = 2131034115;
+			public const int hellomoon_audio = 2131034115;
+			
+			// aapt resource value: 0x7f050008
+			public const int hellomoon_image_description = 2131034120;
+			
+			// aapt resource value: 0x7f050006
+			public const int hellomoon_pause = 2131034118;
 			
 			// aapt resource value: 0x7f050004
-			public const int hellomoon_stop = 2131034116;
+			public const int hellomoon_play = 2131034116;
+			
+			// aapt resource value: 0x7f050005
+			public const int hellomoon_stop = 2131034117;
+			
+			// aapt resource value: 0x7f050007
+			public const int hellomoon_video = 2131034119;
 			
 			// aapt resource value: 0x7f050002
 			public const int menu_settings = 2131034114;

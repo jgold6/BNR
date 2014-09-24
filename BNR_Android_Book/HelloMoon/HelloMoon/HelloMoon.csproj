@@ -54,6 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HelloMoonActivity.cs" />
     <Compile Include="HelloMoonFragment.cs" />
+    <Compile Include="AudioPlayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -71,9 +72,10 @@
     <AndroidResource Include="Resources\drawable-mdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\values\strings.xml" />
-    <AndroidResource Include="Resources\raw\apollo_17_stroll.mpg" />
     <AndroidResource Include="Resources\menu\activity_menu_hello_moon.xml" />
     <AndroidResource Include="Resources\layout\fragment_hello_moon.axml" />
+    <AndroidResource Include="Resources\raw\PigsInAPolka1943.mp4" />
+    <AndroidResource Include="Resources\raw\apollo_17_strollnexus.mp4" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

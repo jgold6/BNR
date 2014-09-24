@@ -5,22 +5,67 @@
     <ImageView
         android:src="@drawable/armstrong_on_moon"
         android:contentDescription="@string/hellomoon_image_description"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:scaleType="centerInside"
         android:layout_weight="1" />
     <TableRow
         android:gravity="center|bottom"
         android:layout_weight="0">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hellomoon_audio"
+            android:textSize="18dp"
+            android:layout_marginRight="10dp"
+            android:textStyle="bold" />
         <Button
             android:id="@+id/hellomoon_playButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/hellomoon_play" />
         <Button
+            android:id="@+id/hellomoon_pauseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hellomoon_pause" />
+        <Button
             android:id="@+id/hellomoon_stopButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/hellomoon_stop" />
     </TableRow>
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerInside"
+        android:layout_weight="1" />
+<!-- Not needed with media Controller -->
+<!--    <TableRow
+        android:gravity="center|bottom"
+        android:layout_weight="0">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hellomoon_video"
+            android:textSize="18dp"
+            android:layout_marginRight="10dp"
+            android:textStyle="bold" />
+        <Button
+            android:id="@+id/hellomoon_vPlayButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hellomoon_play" />
+        <Button
+            android:id="@+id/hellomoon_vPauseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hellomoon_pause" />
+        <Button
+            android:id="@+id/hellomoon_vStopButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hellomoon_stop" />
+    </TableRow>-->
 </TableLayout>
