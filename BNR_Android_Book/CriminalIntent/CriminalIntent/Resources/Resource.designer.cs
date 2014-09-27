@@ -947,7 +947,7 @@ namespace CriminalIntent
 			public const int list_item = 2131034154;
 			
 			// aapt resource value: 0x7f050048
-			public const int menu_settings = 2131034184;
+			public const int menu_item_new_crime = 2131034184;
 			
 			// aapt resource value: 0x7f050012
 			public const int middle = 2131034130;
@@ -1172,7 +1172,7 @@ namespace CriminalIntent
 		{
 			
 			// aapt resource value: 0x7f0c0000
-			public const int menu_quiz = 2131492864;
+			public const int fragment_crime_list = 2131492864;
 			
 			static Menu()
 			{
@@ -1259,8 +1259,23 @@ namespace CriminalIntent
 			// aapt resource value: 0x7f0a0017
 			public const int date_picker_title = 2131361815;
 			
+			// aapt resource value: 0x7f0a0020
+			public const int delete_crime = 2131361824;
+			
+			// aapt resource value: 0x7f0a001e
+			public const int hide_subtitle = 2131361822;
+			
 			// aapt resource value: 0x7f0a000e
 			public const int menu_settings = 2131361806;
+			
+			// aapt resource value: 0x7f0a001c
+			public const int new_crime = 2131361820;
+			
+			// aapt resource value: 0x7f0a001d
+			public const int show_subtitle = 2131361821;
+			
+			// aapt resource value: 0x7f0a001f
+			public const int subtitle = 2131361823;
 			
 			// aapt resource value: 0x7f0a0018
 			public const int time_picker_title = 2131361816;

@@ -18,6 +18,8 @@ namespace CriminalIntent
 		public override void OnCreate(Android.OS.Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
+			HasOptionsMenu = true;
+
 			Activity.SetTitle(Resource.String.crimes_title);
 			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb)
 				Activity.ActionBar.SetSubtitle(Resource.String.title_activity_crimes);
@@ -43,6 +45,31 @@ namespace CriminalIntent
 			Intent i = new Intent(Activity,typeof(CrimePagerActivity));
 			i.PutExtra(CrimeFragment.EXTRA_CRIME_ID, c.Id);
 			StartActivity(i);
+		}
+			
+
+		// To be used later
+		public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater) {
+			// Inflate the menu; this adds items to the action bar if it is present.
+			base.OnCreateOptionsMenu(menu, inflater);
+			inflater.Inflate(Resource.Menu.fragment_crime_list, menu);
+		}
+
+		public override bool OnOptionsItemSelected(IMenuItem item) {
+			switch (item.ItemId) {
+				case Resource.Id.menu_item_new_crime:
+					Crime crime = new Crime();
+					CrimeLab.GetInstance(Activity).AddCrime(crime);
+					CrimeAdapter adapter = new CrimeAdapter(Activity, CrimeLab.GetInstance(CrimeListActivity.context).Crimes.ToArray());
+					this.ListAdapter = adapter;
+				
+					Intent i = new Intent(Activity, typeof(CrimePagerActivity));
+					i.PutExtra(CrimeFragment.EXTRA_CRIME_ID, crime.Id);
+					StartActivity(i);
+					return true;
+				default:
+					return base.OnOptionsItemSelected(item);
+			}
 		}
 		#endregion
 
@@ -77,6 +104,7 @@ namespace CriminalIntent
 			}
 				
 		}
+
 		#endregion
     }
 }

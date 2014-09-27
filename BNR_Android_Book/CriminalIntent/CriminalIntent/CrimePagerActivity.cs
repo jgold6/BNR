@@ -6,7 +6,7 @@ using Android.App;
 
 namespace CriminalIntent
 {
-	[Activity(Label = "@string/app_name", Icon = "@drawable/ic_launcher", Theme="@style/AppTheme")]
+	[Activity(Label = "", Icon = "@drawable/ic_launcher", Theme="@style/AppTheme")]
 	public class CrimePagerActivity : FragmentActivity //, Android.Support.V4.View.ViewPager.IOnPageChangeListener
     {
 		public static CrimePagerActivity context {get; private set;}
@@ -42,6 +42,7 @@ namespace CriminalIntent
 			for (int i = 0; i < mCrimes.Count; i++) {
 				if (mCrimes[i].Id == crimeId) {
 					mViewPager.SetCurrentItem(i, false);
+					Title = mCrimes[i].Title;
 					break;
 				}
 			}

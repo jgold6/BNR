@@ -70,7 +70,7 @@ namespace CriminalIntent
 			};
 			mTitleField.TextChanged += (object sender, Android.Text.TextChangedEventArgs e) => {
 				mCrime.Title = e.Text.ToString();
-				Console.WriteLine(mCrime.Title);
+				Activity.Title = mCrime.Title;
 			};
 			mTitleField.AfterTextChanged += (object sender, Android.Text.AfterTextChangedEventArgs e) => {
 				// nothing for now

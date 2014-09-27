@@ -21,13 +21,11 @@ namespace CriminalIntent
 		{
 			mAppContext = appContext;
 			Crimes = new List<Crime>();
-			for (int i = 1; i <= 100; i++) {
-				Crime c = new Crime("Crime #"+i);
-				c.Solved = (i % 2 ==0);
-				Crimes.Add(c);
-			}
-
-
+//			for (int i = 1; i <= 5; i++) {
+//				Crime c = new Crime("Crime #"+i);
+//				c.Solved = (i % 2 ==0);
+//				Crimes.Add(c);
+//			}
 		}
 
 		public static CrimeLab GetInstance(Context c)
@@ -45,6 +43,17 @@ namespace CriminalIntent
 			var crime = Crimes.Where(c => c.Id == guid).ElementAt(0);
 			return crime;
 		}
+
+		public Crime GetCrime(int position)
+		{
+			return Crimes[position];
+		}
+
+		public void AddCrime(Crime c)
+		{
+			Crimes.Add(c);
+		}
+
 		#endregion
     }
 }

@@ -24,6 +24,7 @@ namespace CriminalIntent
 			Id = Guid.NewGuid().ToString().GetHashCode().ToString("x");
 			Title = title;
 			Date = DateTime.Now;
+			Solved = false;
         }
 		#endregion
 
