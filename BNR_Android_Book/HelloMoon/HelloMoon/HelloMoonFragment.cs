@@ -11,6 +11,7 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Android.Graphics;
 
 namespace HelloMoon
 {
@@ -56,6 +57,7 @@ namespace HelloMoon
 			mVideoView.RequestFocus();
 			Android.Net.Uri uri = Android.Net.Uri.Parse(fileName);
 			mVideoView.SetVideoURI(uri);
+
 //			mVideoView.Start();
 
 			// Not needed with MediaController

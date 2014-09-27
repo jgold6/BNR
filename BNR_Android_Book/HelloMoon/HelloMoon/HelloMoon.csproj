@@ -76,6 +76,10 @@
     <AndroidResource Include="Resources\layout\fragment_hello_moon.axml" />
     <AndroidResource Include="Resources\raw\PigsInAPolka1943.mp4" />
     <AndroidResource Include="Resources\raw\apollo_17_strollnexus.mp4" />
+    <AndroidResource Include="Resources\values-es\strings.xml" />
+    <AndroidResource Include="Resources\raw-es\one_small_step.wav" />
+    <AndroidResource Include="Resources\values-land\strings.xml" />
+    <AndroidResource Include="Resources\values-es-land\strings.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -85,5 +89,9 @@
     <Folder Include="Resources\drawable-mdpi\" />
     <Folder Include="Resources\drawable-xhdpi\" />
     <Folder Include="Resources\menu\" />
+    <Folder Include="Resources\raw-es\" />
+    <Folder Include="Resources\values-es\" />
+    <Folder Include="Resources\values-land\" />
+    <Folder Include="Resources\values-es-land\" />
   </ItemGroup>
 </Project>

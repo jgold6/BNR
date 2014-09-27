@@ -154,29 +154,26 @@ namespace HelloMoon
 			// aapt resource value: 0x7f050000
 			public const int app_name = 2131034112;
 			
-			// aapt resource value: 0x7f050001
-			public const int hello_world = 2131034113;
-			
-			// aapt resource value: 0x7f050003
-			public const int hellomoon_audio = 2131034115;
-			
-			// aapt resource value: 0x7f050008
-			public const int hellomoon_image_description = 2131034120;
-			
-			// aapt resource value: 0x7f050006
-			public const int hellomoon_pause = 2131034118;
-			
-			// aapt resource value: 0x7f050004
-			public const int hellomoon_play = 2131034116;
-			
-			// aapt resource value: 0x7f050005
-			public const int hellomoon_stop = 2131034117;
+			// aapt resource value: 0x7f050002
+			public const int hellomoon_audio = 2131034114;
 			
 			// aapt resource value: 0x7f050007
-			public const int hellomoon_video = 2131034119;
+			public const int hellomoon_image_description = 2131034119;
 			
-			// aapt resource value: 0x7f050002
-			public const int menu_settings = 2131034114;
+			// aapt resource value: 0x7f050005
+			public const int hellomoon_pause = 2131034117;
+			
+			// aapt resource value: 0x7f050003
+			public const int hellomoon_play = 2131034115;
+			
+			// aapt resource value: 0x7f050004
+			public const int hellomoon_stop = 2131034116;
+			
+			// aapt resource value: 0x7f050006
+			public const int hellomoon_video = 2131034118;
+			
+			// aapt resource value: 0x7f050001
+			public const int menu_settings = 2131034113;
 			
 			static String()
 			{
