@@ -64,6 +64,7 @@ namespace CriminalIntent
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
+			base.OnCreateView(inflater, container, savedInstanceState);
 			View v = inflater.Inflate(Resource.Layout.fragment_crime, container, false);
 
 			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb) {
@@ -79,7 +80,7 @@ namespace CriminalIntent
 			};
 			mTitleField.TextChanged += (object sender, Android.Text.TextChangedEventArgs e) => {
 				mCrime.Title = e.Text.ToString();
-				Activity.Title = mCrime.Title;
+//				Activity.Title = mCrime.Title;
 			};
 			mTitleField.AfterTextChanged += (object sender, Android.Text.AfterTextChangedEventArgs e) => {
 				// nothing for now

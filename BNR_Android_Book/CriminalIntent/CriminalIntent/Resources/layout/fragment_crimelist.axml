@@ -15,6 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/list_empty_text"
+            android:textColor="#FF4444"
             android:textSize="20sp" />
         <Button
             android:id="@+id/button_new_crime"

@@ -42,7 +42,6 @@ namespace CriminalIntent
 			for (int i = 0; i < mCrimes.Count; i++) {
 				if (mCrimes[i].Id == crimeId) {
 					mViewPager.SetCurrentItem(i, false);
-					Title = mCrimes[i].Title;
 					break;
 				}
 			}
@@ -67,15 +66,15 @@ namespace CriminalIntent
 	#region - PagerAdapter
 	public class CrimePagerAdapter : FragmentStatePagerAdapter
 	{
-		public static Crime[] CONTENT;
+		public static List<Crime> CONTENT;
 		public CrimePagerAdapter(Android.Support.V4.App.FragmentManager fm) : base(fm)
 		{
-			CONTENT = CrimeLab.GetInstance(CrimePagerActivity.context).Crimes.ToArray();
+			CONTENT = CrimeLab.GetInstance(CrimePagerActivity.context).Crimes;
 		}
 
 		public override int Count
 		{
-			get{return CONTENT.Length;}
+			get{return CONTENT.Count;}
 		}
 
 		public override Android.Support.V4.App.Fragment GetItem(int position)

@@ -36,7 +36,16 @@ namespace CriminalIntent
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
+			// For EmptyView in Code version
 			View v = base.OnCreateView(inflater, container, savedInstanceState);
+
+			// Inflate from fragment_crimelist, which has the ListView and the EmptyView
+//			View v = (View)inflater.Inflate(Resource.Layout.fragment_crimelist, container, false);
+//			// Get the button in the EmptyView
+//			Button btnNewCrime = v.FindViewById<Button>(Resource.Id.button_new_crime);
+//			btnNewCrime.Click += (object sender, EventArgs e) => {
+//				NewCrime();
+//			};
 
 			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb) {
 				if (mSubtitleVisible) {
@@ -52,6 +61,7 @@ namespace CriminalIntent
 			base.OnResume();
 			((CrimeAdapter)this.ListAdapter).NotifyDataSetChanged();
 
+			// Create EmptyView in code
 			TextView emptyView = new TextView(Activity);
 			emptyView.Text = "No Crimes yet. Click to add a crime.";
 			emptyView.TextAlignment = TextAlignment.Center;
@@ -133,11 +143,9 @@ namespace CriminalIntent
 		public class CrimeAdapter : ArrayAdapter<Crime>
 		{
 			Activity context;
-			//Crime[] crimes;
 			public CrimeAdapter(Activity context, List<Crime> crimes) : base(context, 0, crimes)
 			{
 				this.context = context;
-				//this.crimes = crimes;
 			}
 
 			public override Android.Views.View GetView(int position, Android.Views.View convertView, Android.Views.ViewGroup parent)
