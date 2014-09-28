@@ -36,6 +36,7 @@ namespace CriminalIntent
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
+			// Chapter 16 done
 			// For EmptyView in Code version
 //			View v = base.OnCreateView(inflater, container, savedInstanceState);
 
