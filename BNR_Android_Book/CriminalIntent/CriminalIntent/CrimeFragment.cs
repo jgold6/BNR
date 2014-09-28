@@ -18,7 +18,7 @@ namespace CriminalIntent
 {
 	public class CrimeFragment : Fragment
     {
-		#region - Sataic Members
+		#region - Static Members
 		public static readonly string EXTRA_CRIME_ID = "com.onobytes.criminalintent.crime_id";
 		public static readonly string DIALOG_DATE = "com.onobytes.criminalintent.dialog_date";
 		public static readonly string DIALOG_TIME = "com.onobytes.criminalintent.dialog_time";
@@ -53,16 +53,25 @@ namespace CriminalIntent
         {
             base.OnCreate(savedInstanceState);
 			//Activity.SetTitle(Resource.String.crime_title);
-			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb)
-				Activity.ActionBar.SetSubtitle(Resource.String.title_activity_crime);
+//			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb)
+//				Activity.ActionBar.SetSubtitle(Resource.String.title_activity_crime);
             // Create your fragment here
 			string crimeId = Arguments.GetString(EXTRA_CRIME_ID);
 			mCrime = CrimeLab.GetInstance(Activity).GetCrime(crimeId);
+
+			HasOptionsMenu = true;
         }
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			View v = inflater.Inflate(Resource.Layout.fragment_crime, container, false);
+
+			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb) {
+				if (NavUtils.GetParentActivityName(Activity) != null) {
+					Activity.ActionBar.SetDisplayHomeAsUpEnabled(true);
+				}
+			}
+
 			mTitleField = (EditText)v.FindViewById(Resource.Id.crime_title_edittext);
 			mTitleField.SetText(mCrime.Title, TextView.BufferType.Normal);
 			mTitleField.BeforeTextChanged += (object sender, Android.Text.TextChangedEventArgs e) => {
@@ -127,6 +136,7 @@ namespace CriminalIntent
 		}
 		#endregion
 
+		#region - Event handlers
 		public override void OnActivityResult(int requestCode, int resultCode, Intent data)
 		{
 			base.OnActivityResult(requestCode, resultCode, data);
@@ -149,6 +159,21 @@ namespace CriminalIntent
 			}
 		}
 
+		public override bool OnOptionsItemSelected(IMenuItem item)
+		{
+			switch (item.ItemId) {
+				case Android.Resource.Id.Home:
+					if (NavUtils.GetParentActivityName(Activity) != null) {
+						NavUtils.NavigateUpFromSameTask(Activity);
+					}
+					return true;
+				default:
+					return base.OnOptionsItemSelected(item);
+			}
+		}
+		#endregion
+
+		#region - Helper Methods
 		public void UpdateDateTime() {
 			// One DateTime Button
 			mDateButton.Text = String.Format("{0}\n{1}", mCrime.Date.ToLongDateString(), mCrime.Date.ToLongTimeString());
@@ -157,6 +182,7 @@ namespace CriminalIntent
 //			mTimeButton.Text = mCrime.Date.ToLongTimeString(); 
 
 		}
+		#endregion
     }
 }
 

@@ -6,12 +6,14 @@ using Android.OS;
 using Android.Views;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 
 namespace CriminalIntent
 {
     public class CrimeListFragment : Android.Support.V4.App.ListFragment
     {
 		#region - member variables
+		bool mSubtitleVisible;
 		#endregion
 
 		#region - Lifecycle
@@ -21,17 +23,46 @@ namespace CriminalIntent
 			HasOptionsMenu = true;
 
 			Activity.SetTitle(Resource.String.crimes_title);
-			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb)
-				Activity.ActionBar.SetSubtitle(Resource.String.title_activity_crimes);
+//			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb)
+//				Activity.ActionBar.SetSubtitle(Resource.String.title_activity_crimes);
 				
-			CrimeAdapter adapter = new CrimeAdapter(Activity, CrimeLab.GetInstance(CrimeListActivity.context).Crimes.ToArray());
+			CrimeAdapter adapter = new CrimeAdapter(Activity, CrimeLab.GetInstance(CrimeListActivity.context).Crimes);
 			this.ListAdapter = adapter;
+
+			RetainInstance = true;
+			mSubtitleVisible = false;
+
+		}
+
+		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+		{
+			View v = base.OnCreateView(inflater, container, savedInstanceState);
+
+			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb) {
+				if (mSubtitleVisible) {
+					Activity.ActionBar.SetSubtitle(Resource.String.subtitle);
+				}
+			}
+
+			return v;
 		}
 
 		public override void OnResume()
 		{
 			base.OnResume();
 			((CrimeAdapter)this.ListAdapter).NotifyDataSetChanged();
+
+			TextView emptyView = new TextView(Activity);
+			emptyView.Text = "No Crimes yet. Click to add a crime.";
+			emptyView.TextAlignment = TextAlignment.Center;
+			emptyView.SetTextSize(Android.Util.ComplexUnitType.Sp, 18);
+			emptyView.SetTextColor(Color.Red);
+			emptyView.Click += (object sender, EventArgs e) => {
+				NewCrime();
+			};
+			((ViewGroup)this.ListView.Parent).AddView(emptyView);
+			this.ListView.EmptyView = emptyView;
+
 		}
 		#endregion
 
@@ -53,23 +84,48 @@ namespace CriminalIntent
 			// Inflate the menu; this adds items to the action bar if it is present.
 			base.OnCreateOptionsMenu(menu, inflater);
 			inflater.Inflate(Resource.Menu.fragment_crime_list, menu);
+			IMenuItem showSubtitle = menu.FindItem(Resource.Id.menu_item_show_subtitle);
+			if (mSubtitleVisible && showSubtitle != null) {
+				showSubtitle.SetTitle(Resource.String.hide_subtitle);
+			}
+
+
 		}
 
 		public override bool OnOptionsItemSelected(IMenuItem item) {
 			switch (item.ItemId) {
 				case Resource.Id.menu_item_new_crime:
-					Crime crime = new Crime();
-					CrimeLab.GetInstance(Activity).AddCrime(crime);
-					CrimeAdapter adapter = new CrimeAdapter(Activity, CrimeLab.GetInstance(CrimeListActivity.context).Crimes.ToArray());
-					this.ListAdapter = adapter;
-				
-					Intent i = new Intent(Activity, typeof(CrimePagerActivity));
-					i.PutExtra(CrimeFragment.EXTRA_CRIME_ID, crime.Id);
-					StartActivity(i);
+					NewCrime();
+					return true;
+				case Resource.Id.menu_item_show_subtitle:
+					if (Activity.ActionBar.Subtitle == null) {
+						Activity.ActionBar.SetSubtitle(Resource.String.subtitle);
+						mSubtitleVisible = true;
+						item.SetTitle(Resource.String.hide_subtitle);
+					}
+					else {
+						Activity.ActionBar.Subtitle = null;
+						mSubtitleVisible = false;
+						item.SetTitle(Resource.String.show_subtitle);
+					}
 					return true;
 				default:
 					return base.OnOptionsItemSelected(item);
 			}
+		}
+		#endregion
+
+		#region - helper methods
+		private void NewCrime()
+		{
+			Crime crime = new Crime();
+			CrimeLab.GetInstance(Activity).AddCrime(crime);
+			CrimeAdapter adapter = this.ListAdapter as CrimeAdapter;
+			adapter.Add(crime);
+
+			Intent i = new Intent(Activity, typeof(CrimePagerActivity));
+			i.PutExtra(CrimeFragment.EXTRA_CRIME_ID, crime.Id);
+			StartActivity(i);
 		}
 		#endregion
 
@@ -78,7 +134,7 @@ namespace CriminalIntent
 		{
 			Activity context;
 			//Crime[] crimes;
-			public CrimeAdapter(Activity context, Crime[] crimes) : base(context, 0, crimes)
+			public CrimeAdapter(Activity context, List<Crime> crimes) : base(context, 0, crimes)
 			{
 				this.context = context;
 				//this.crimes = crimes;

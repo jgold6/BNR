@@ -90,6 +90,8 @@
     <AndroidResource Include="Resources\layout\dialog_date.axml" />
     <AndroidResource Include="Resources\layout\dialog_time.axml" />
     <AndroidResource Include="Resources\menu\fragment_crime_list.xml" />
+    <AndroidResource Include="Resources\menu-v11\fragment_crime_list.xml" />
+    <AndroidResource Include="Resources\layout\fragment_crimelist.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -103,5 +105,6 @@
     <Folder Include="Resources\values-w820dp\" />
     <Folder Include="Resources\menu\" />
     <Folder Include="Model\" />
+    <Folder Include="Resources\menu-v11\" />
   </ItemGroup>
 </Project>

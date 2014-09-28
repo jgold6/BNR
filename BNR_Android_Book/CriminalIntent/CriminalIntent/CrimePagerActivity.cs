@@ -6,7 +6,7 @@ using Android.App;
 
 namespace CriminalIntent
 {
-	[Activity(Label = "", Icon = "@drawable/ic_launcher", Theme="@style/AppTheme")]
+	[Activity(Label = "@string/app_name", Icon = "@drawable/ic_launcher", Theme="@style/AppTheme", ParentActivity=typeof(CrimeListActivity))]
 	public class CrimePagerActivity : FragmentActivity //, Android.Support.V4.View.ViewPager.IOnPageChangeListener
     {
 		public static CrimePagerActivity context {get; private set;}
