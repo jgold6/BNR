@@ -72,7 +72,6 @@
     <None Include="packages.config" />
     <None Include="Resources\values-v11\styles.xml" />
     <None Include="Resources\values-v14\styles.xml" />
-    <None Include="Resources\layout\fragment_crimelist.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -92,6 +91,7 @@
     <AndroidResource Include="Resources\layout\dialog_time.axml" />
     <AndroidResource Include="Resources\menu\fragment_crime_list.xml" />
     <AndroidResource Include="Resources\menu-v11\fragment_crime_list.xml" />
+    <AndroidResource Include="Resources\layout\fragment_crimelist.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

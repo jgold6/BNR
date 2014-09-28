@@ -37,15 +37,15 @@ namespace CriminalIntent
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			// For EmptyView in Code version
-			View v = base.OnCreateView(inflater, container, savedInstanceState);
+//			View v = base.OnCreateView(inflater, container, savedInstanceState);
 
 			// Inflate from fragment_crimelist, which has the ListView and the EmptyView
-//			View v = (View)inflater.Inflate(Resource.Layout.fragment_crimelist, container, false);
-//			// Get the button in the EmptyView
-//			Button btnNewCrime = v.FindViewById<Button>(Resource.Id.button_new_crime);
-//			btnNewCrime.Click += (object sender, EventArgs e) => {
-//				NewCrime();
-//			};
+			View v = (View)inflater.Inflate(Resource.Layout.fragment_crimelist, container, false);
+			// Get the button in the EmptyView
+			Button btnNewCrime = v.FindViewById<Button>(Resource.Id.button_new_crime);
+			btnNewCrime.Click += (object sender, EventArgs e) => {
+				NewCrime();
+			};
 
 			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb) {
 				if (mSubtitleVisible) {
@@ -62,16 +62,16 @@ namespace CriminalIntent
 			((CrimeAdapter)this.ListAdapter).NotifyDataSetChanged();
 
 			// Create EmptyView in code
-			TextView emptyView = new TextView(Activity);
-			emptyView.Text = "No Crimes yet. Click to add a crime.";
-			emptyView.TextAlignment = TextAlignment.Center;
-			emptyView.SetTextSize(Android.Util.ComplexUnitType.Sp, 18);
-			emptyView.SetTextColor(Color.Red);
-			emptyView.Click += (object sender, EventArgs e) => {
-				NewCrime();
-			};
-			((ViewGroup)this.ListView.Parent).AddView(emptyView);
-			this.ListView.EmptyView = emptyView;
+//			TextView emptyView = new TextView(Activity);
+//			emptyView.Text = "No Crimes yet. Click to add a crime.";
+//			emptyView.TextAlignment = TextAlignment.Center;
+//			emptyView.SetTextSize(Android.Util.ComplexUnitType.Sp, 18);
+//			emptyView.SetTextColor(Color.Red);
+//			emptyView.Click += (object sender, EventArgs e) => {
+//				NewCrime();
+//			};
+//			((ViewGroup)this.ListView.Parent).AddView(emptyView);
+//			this.ListView.EmptyView = emptyView;
 
 		}
 		#endregion
