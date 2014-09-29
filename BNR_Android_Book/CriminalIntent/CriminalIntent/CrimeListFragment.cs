@@ -14,6 +14,8 @@ namespace CriminalIntent
     {
 		public static List<int> activatedItems;
 
+		private const string KEY_SUBTITLE_SHOWN = "subtitleShown";
+
 		#region - member variables
 		bool mSubtitleVisible;
 		#endregion
@@ -25,11 +27,13 @@ namespace CriminalIntent
 			HasOptionsMenu = true;
 
 			Activity.SetTitle(Resource.String.crimes_title);
+			// Subtitle set using Options menu
 //			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb)
 //				Activity.ActionBar.SetSubtitle(Resource.String.title_activity_crimes);
-				
-			CrimeAdapter adapter = new CrimeAdapter(Activity, CrimeLab.GetInstance(CrimeListActivity.context).Crimes);
-			this.ListAdapter = adapter;
+
+			// Moved to OnResume() so that list will be updated when navigated back after delete
+//			CrimeAdapter adapter = new CrimeAdapter(Activity, CrimeLab.GetInstance(CrimeListActivity.context).Crimes);
+//			this.ListAdapter = adapter;
 
 			RetainInstance = true;
 			mSubtitleVisible = false;
@@ -43,7 +47,6 @@ namespace CriminalIntent
 
 			// For EmptyView in XML version
 			// Inflate from fragment_crimelist, which has the ListView and the EmptyView
-			base.OnCreateView(inflater, container, savedInstanceState);
 			View v = (View)inflater.Inflate(Resource.Layout.fragment_crimelist, container, false);
 			// Get the button in the EmptyView
 			Button btnNewCrime = v.FindViewById<Button>(Resource.Id.button_new_crime);
@@ -90,7 +93,11 @@ namespace CriminalIntent
 		public override void OnResume()
 		{
 			base.OnResume();
-			((CrimeAdapter)this.ListAdapter).NotifyDataSetChanged();
+			// Create a new ListAdapter instead of updating to deal with delete
+			// not calling OnCreate of this fragment
+//			((CrimeAdapter)this.ListAdapter).NotifyDataSetChanged();
+			CrimeAdapter adapter = new CrimeAdapter(Activity, CrimeLab.GetInstance(CrimeListActivity.context).Crimes);
+			this.ListAdapter = adapter;
 		}
 		#endregion
 

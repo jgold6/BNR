@@ -22,5 +22,6 @@
     <string name="delete_crime">Delete Crime</string>
     <string name="list_empty_text">There are no crimes.</string>
     <string name="list_empty_button_text">Click to add a crime.</string>
+    <string name="take">Take!</string>
 
 </resources>

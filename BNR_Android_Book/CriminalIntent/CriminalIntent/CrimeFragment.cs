@@ -52,7 +52,9 @@ namespace CriminalIntent
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+			// Title set in CrimePagerActivity when page is selected
 //			Activity.SetTitle(Resource.String.crime_title);
+			// Subtitle not used in this fragment
 //			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb)
 //				Activity.ActionBar.SetSubtitle(Resource.String.title_activity_crime);
 
@@ -64,13 +66,14 @@ namespace CriminalIntent
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			base.OnCreateView(inflater, container, savedInstanceState);
 			View v = inflater.Inflate(Resource.Layout.fragment_crime, container, false);
 
 			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb) {
-				if (NavUtils.GetParentActivityName(Activity) != null) {
+				// Using ParentActivity and NavUtils causes OnCreate to be called again
+				// in CrimeListFragment, causing the subtitle view to be reset
+//				if (NavUtils.GetParentActivityName(Activity) != null) {
 					Activity.ActionBar.SetDisplayHomeAsUpEnabled(true);
-				}
+//				}
 			}
 
 			mTitleField = (EditText)v.FindViewById(Resource.Id.crime_title_edittext);
@@ -155,16 +158,20 @@ namespace CriminalIntent
 				case Resource.Id.menu_item_delete_crime:
 					CrimeLab crimelab = CrimeLab.GetInstance(Activity);
 					crimelab.DeleteCrime(mCrime);
-					//adapter.Remove(adapter.GetItem(i));
-					//adapter.NotifyDataSetChanged();
-					if (NavUtils.GetParentActivityName(Activity) != null) {
-						NavUtils.NavigateUpFromSameTask(Activity);
-					}
+					// Using ParentActivity and NavUtils causes OnCreate to be called again
+					// in CrimeListFragment, causing the subtitle view to be reset
+//					if (NavUtils.GetParentActivityName(Activity) != null) {
+//						NavUtils.NavigateUpFromSameTask(Activity);
+//					}
+					Activity.Finish();
 					return true;
 				case Android.Resource.Id.Home:
-					if (NavUtils.GetParentActivityName(Activity) != null) {
-						NavUtils.NavigateUpFromSameTask(Activity);
-					}
+					// Using ParentActivity and NavUtils causes OnCreate to be called again
+					// in CrimeListFragment, causing the subtitle view to be reset
+//					if (NavUtils.GetParentActivityName(Activity) != null) {
+//						NavUtils.NavigateUpFromSameTask(Activity);
+//					}
+					Activity.Finish();
 					return true;
 				default:
 					return base.OnOptionsItemSelected(item);

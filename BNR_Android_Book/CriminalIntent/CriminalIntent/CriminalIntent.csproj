@@ -68,6 +68,7 @@
     <Compile Include="DatePickerFragment.cs" />
     <Compile Include="TimePickerFragment.cs" />
     <Compile Include="CriminalIntentJSONSerializer.cs" />
+    <Compile Include="CrimeCameraFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -99,6 +100,7 @@
     <AndroidResource Include="Resources\drawable\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable\background_activated.xml" />
     <AndroidResource Include="Resources\layout\fragment_crimelist.axml" />
+    <AndroidResource Include="Resources\layout\fragment_crime_camera.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
