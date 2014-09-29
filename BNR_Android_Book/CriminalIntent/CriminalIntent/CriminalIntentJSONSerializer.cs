@@ -24,8 +24,16 @@ namespace CriminalIntent
 		{
 			string json = JsonConvert.SerializeObject(crimes);
 
+			// Sandbox
 			var directory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 			var filePath = Path.Combine(directory, mFilename);
+			// External storage
+//			if (Android.OS.Environment.ExternalStorageState = Android.OS.Environment.MediaRemoved)
+//				var filePath = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, mFilename);
+//			else {
+//				var directory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+//				var filePath = Path.Combine(directory, mFilename);
+//			}
 
 			File.WriteAllText(filePath, json);
 			Debug.WriteLine(String.Format("JSON Save: {0}", json), TAG);
@@ -35,8 +43,16 @@ namespace CriminalIntent
 		{
 			List<Crime> crimes = new List<Crime>();
 
+			// Sandbox
 			var directory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 			var filePath = Path.Combine(directory, mFilename);
+			// External storage
+//			if (Android.OS.Environment.ExternalStorageState = Android.OS.Environment.MediaRemoved)
+//				var filePath = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, mFilename);
+//			else {
+//				var directory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+//				var filePath = Path.Combine(directory, mFilename);
+//			}
 
 			string json = File.ReadAllText(filePath);
 
