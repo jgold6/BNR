@@ -19,6 +19,8 @@ local.properties
 proguard/
 *.log
 
+Resource.designer.cs
+
 *.iml
 *.ipr
 *.iws
