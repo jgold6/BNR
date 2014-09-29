@@ -20,6 +20,7 @@ namespace CriminalIntent
 		#region - Lifecycle
 		protected override void OnCreate(Android.OS.Bundle savedInstanceState)
 		{
+			//RequestWindowFeature(Android.Views.WindowFeatures.ActionBar);
 			base.OnCreate(savedInstanceState);
 			CrimePagerActivity.context = this;
 			mViewPager = new ViewPager(this);

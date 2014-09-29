@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android" >
-   
+    <!--- couldn't get to work. Nothing seems to set the state to activated, 
+    although this resource is assigned and works if state_activated is false, 
+    nothing happens when selecting items to delete with state_activated set to true -->
      <item
         android:state_activated="true"
         android:drawable="@android:color/darker_gray" ></item>

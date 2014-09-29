@@ -38,6 +38,13 @@ namespace CriminalIntent
 				Crimes = new List<Crime>();
 				Debug.WriteLine(String.Format("Error loading crimes: {0}", ex.Message), TAG);
 			}
+
+			// Populate crimes list
+			for (int i = 1; i <= 3; i++) {
+				Crime c = new Crime("Crime #"+i);
+				c.Solved = (i % 2 ==0);
+				Crimes.Add(c);
+			}
 		}
 
 		public static CrimeLab GetInstance(Context c)

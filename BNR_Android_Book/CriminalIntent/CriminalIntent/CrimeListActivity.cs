@@ -26,6 +26,7 @@ namespace CriminalIntent
 		protected override Android.Support.V4.App.Fragment CreateFragment()
 		{
 			CrimeListActivity.context = this;
+
 			return new CrimeListFragment();
 		}
 		#endregion

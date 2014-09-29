@@ -12,6 +12,7 @@ namespace CriminalIntent
 {
     public class CrimeListFragment : Android.Support.V4.App.ListFragment, AbsListView.IMultiChoiceModeListener
     {
+		public static List<int> activatedItems;
 		#region - member variables
 		bool mSubtitleVisible;
 		#endregion
@@ -31,7 +32,7 @@ namespace CriminalIntent
 
 			RetainInstance = true;
 			mSubtitleVisible = false;
-
+			CrimeListFragment.activatedItems = new List<int>();
 		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -41,6 +42,7 @@ namespace CriminalIntent
 
 			// For EmptyView in XML version
 			// Inflate from fragment_crimelist, which has the ListView and the EmptyView
+			base.OnCreateView(inflater, container, savedInstanceState);
 			View v = (View)inflater.Inflate(Resource.Layout.fragment_crimelist, container, false);
 			// Get the button in the EmptyView
 			Button btnNewCrime = v.FindViewById<Button>(Resource.Id.button_new_crime);
@@ -88,7 +90,6 @@ namespace CriminalIntent
 		{
 			base.OnResume();
 			((CrimeAdapter)this.ListAdapter).NotifyDataSetChanged();
-
 		}
 		#endregion
 
@@ -164,6 +165,14 @@ namespace CriminalIntent
 			// Not used
 			Console.WriteLine("OnItemCheckedStateChanged {0}, {1}, {2}. {3}", mode, position, id, chkd);
 
+			// Add or remove item from activatedItems list
+			if (chkd) {
+				activatedItems.Add(position);
+			}
+			else {
+				activatedItems.Remove(position);
+			}
+			((CrimeAdapter)ListView.Adapter).NotifyDataSetChanged();
 		}
 
 		public bool OnCreateActionMode(ActionMode mode, IMenu menu)
@@ -176,7 +185,7 @@ namespace CriminalIntent
 		public bool OnPrepareActionMode(ActionMode mode, IMenu menu)
 		{
 			// Not used
-			return true;
+			return false;
 		}
 
 		public bool OnActionItemClicked(ActionMode mode, IMenuItem item)
@@ -192,7 +201,7 @@ namespace CriminalIntent
 						}
 					}
 					mode.Finish();
-					//adapter.NotifyDataSetChanged();
+					adapter.NotifyDataSetChanged();
 					return true;
 				default:
 					return false;
@@ -201,7 +210,10 @@ namespace CriminalIntent
 
 		public void OnDestroyActionMode(ActionMode mode)
 		{
-			// Not used
+			// Clear out selections
+			CrimeListFragment.activatedItems.Clear();
+			CrimeAdapter adapter = (CrimeAdapter)ListAdapter;
+			adapter.NotifyDataSetChanged();
 		}
 
 		#endregion
@@ -231,21 +243,31 @@ namespace CriminalIntent
 
 			public override Android.Views.View GetView(int position, Android.Views.View convertView, Android.Views.ViewGroup parent)
 			{
-				if (convertView == null) {
-					convertView = context.LayoutInflater.Inflate(Resource.Layout.list_item_crime, null);
+				View view = convertView;
+				if (view == null) {
+					view = context.LayoutInflater.Inflate(Resource.Layout.list_item_crime, null);
 				}
 
 				Crime c = GetItem(position);
 
-				TextView titleTextView = (TextView)convertView.FindViewById(Resource.Id.crime_list_item_titleTextView);
-				TextView dateTextView = (TextView)convertView.FindViewById(Resource.Id.crime_list_item_dateTextView);
-				CheckBox solvedCheckBox = (CheckBox)convertView.FindViewById(Resource.Id.crime_list_item_solvedCheckBox);
+				TextView titleTextView = (TextView)view.FindViewById(Resource.Id.crime_list_item_titleTextView);
+				TextView dateTextView = (TextView)view.FindViewById(Resource.Id.crime_list_item_dateTextView);
+				CheckBox solvedCheckBox = (CheckBox)view.FindViewById(Resource.Id.crime_list_item_solvedCheckBox);
 
 				titleTextView.Text = c.Title;
 				dateTextView.Text = String.Format("{0}\n{1}", c.Date.ToLongDateString(), c.Date.ToLongTimeString());
 				solvedCheckBox.Checked = c.Solved;
 
-				return convertView;
+				// Trials to get selected items to change color
+				// Finally a method that works
+				if (CrimeListFragment.activatedItems.Contains(position)) {
+					view.SetBackgroundColor(Color.Red);
+				}
+				else {
+					view.SetBackgroundColor(Color.White);
+				}
+
+				return view;
 			}
 				
 		}

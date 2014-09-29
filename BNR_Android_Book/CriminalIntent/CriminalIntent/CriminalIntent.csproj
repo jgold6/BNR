@@ -93,12 +93,12 @@
     <AndroidResource Include="Resources\layout\dialog_time.axml" />
     <AndroidResource Include="Resources\menu\fragment_crime_list.xml" />
     <AndroidResource Include="Resources\menu-v11\fragment_crime_list.xml" />
-    <AndroidResource Include="Resources\layout\fragment_crimelist.axml" />
     <AndroidResource Include="Resources\menu\crime_list_item_context.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable-ldpi\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable\background_activated.xml" />
+    <AndroidResource Include="Resources\layout\fragment_crimelist.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
