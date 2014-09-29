@@ -13,6 +13,7 @@ namespace CriminalIntent
     public class CrimeListFragment : Android.Support.V4.App.ListFragment, AbsListView.IMultiChoiceModeListener
     {
 		public static List<int> activatedItems;
+
 		#region - member variables
 		bool mSubtitleVisible;
 		#endregion
@@ -93,7 +94,7 @@ namespace CriminalIntent
 		}
 		#endregion
 
-		#region overrides
+		#region - overrides
 		public override void OnListItemClick(ListView l, View v, int position, long id)
 		{
 			base.OnListItemClick(l, v, position, id);
@@ -105,8 +106,6 @@ namespace CriminalIntent
 			StartActivity(i);
 		}
 			
-
-		// To be used later
 		public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater) {
 			// Inflate the menu; this adds items to the action bar if it is present.
 			base.OnCreateOptionsMenu(menu, inflater);

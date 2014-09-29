@@ -143,6 +143,36 @@ namespace CriminalIntent
 
 		#endregion
 
+		#region - overrides
+		public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater) {
+			// Inflate the menu; this adds items to the action bar if it is present.
+			base.OnCreateOptionsMenu(menu, inflater);
+			inflater.Inflate(Resource.Menu.crime_list_item_context, menu);
+		}
+
+		public override bool OnOptionsItemSelected(IMenuItem item) {
+			switch (item.ItemId) {
+				case Resource.Id.menu_item_delete_crime:
+					CrimeLab crimelab = CrimeLab.GetInstance(Activity);
+					crimelab.DeleteCrime(mCrime);
+					//adapter.Remove(adapter.GetItem(i));
+					//adapter.NotifyDataSetChanged();
+					if (NavUtils.GetParentActivityName(Activity) != null) {
+						NavUtils.NavigateUpFromSameTask(Activity);
+					}
+					return true;
+				case Android.Resource.Id.Home:
+					if (NavUtils.GetParentActivityName(Activity) != null) {
+						NavUtils.NavigateUpFromSameTask(Activity);
+					}
+					return true;
+				default:
+					return base.OnOptionsItemSelected(item);
+			}
+		}
+
+		#endregion
+
 		#region - Event handlers
 		public override void OnActivityResult(int requestCode, int resultCode, Intent data)
 		{
@@ -166,18 +196,6 @@ namespace CriminalIntent
 			}
 		}
 
-		public override bool OnOptionsItemSelected(IMenuItem item)
-		{
-			switch (item.ItemId) {
-				case Android.Resource.Id.Home:
-					if (NavUtils.GetParentActivityName(Activity) != null) {
-						NavUtils.NavigateUpFromSameTask(Activity);
-					}
-					return true;
-				default:
-					return base.OnOptionsItemSelected(item);
-			}
-		}
 		#endregion
 
 		#region - Helper Methods
