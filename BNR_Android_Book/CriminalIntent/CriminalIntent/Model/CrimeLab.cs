@@ -29,6 +29,7 @@ namespace CriminalIntent
 			mAppContext = appContext;
 			mSerializer = new CriminalIntentJSONSerializer(mAppContext, FILENAME);
 
+			// Load Crimes
 			try {
 				Crimes = mSerializer.LoadCrimes();
 				Debug.WriteLine(String.Format("Crimes loaded from file: {0}, Type: {1}", Crimes.Count, Crimes), TAG);
@@ -37,13 +38,6 @@ namespace CriminalIntent
 				Crimes = new List<Crime>();
 				Debug.WriteLine(String.Format("Error loading crimes: {0}", ex.Message), TAG);
 			}
-
-			// Populate crimes list
-//			for (int i = 1; i <= 5; i++) {
-//				Crime c = new Crime("Crime #"+i);
-//				c.Solved = (i % 2 ==0);
-//				Crimes.Add(c);
-//			}
 		}
 
 		public static CrimeLab GetInstance(Context c)
@@ -70,6 +64,11 @@ namespace CriminalIntent
 		public void AddCrime(Crime c)
 		{
 			Crimes.Add(c);
+		}
+
+		public void DeleteCrime(Crime c)
+		{
+			Crimes.Remove(c);
 		}
 
 		public bool SaveCrimes() 

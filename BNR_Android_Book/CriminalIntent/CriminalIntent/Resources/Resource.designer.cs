@@ -805,7 +805,10 @@ namespace CriminalIntent
 			public const int abc_textfield_searchview_right_holo_light = 2130837590;
 			
 			// aapt resource value: 0x7f020057
-			public const int ic_launcher = 2130837591;
+			public const int background_activated = 2130837591;
+			
+			// aapt resource value: 0x7f020058
+			public const int ic_launcher = 2130837592;
 			
 			static Drawable()
 			{
@@ -950,10 +953,13 @@ namespace CriminalIntent
 			public const int list_item = 2131034154;
 			
 			// aapt resource value: 0x7f050049
-			public const int menu_item_new_crime = 2131034185;
+			public const int menu_item_delete_crime = 2131034185;
 			
 			// aapt resource value: 0x7f05004a
-			public const int menu_item_show_subtitle = 2131034186;
+			public const int menu_item_new_crime = 2131034186;
+			
+			// aapt resource value: 0x7f05004b
+			public const int menu_item_show_subtitle = 2131034187;
 			
 			// aapt resource value: 0x7f050012
 			public const int middle = 2131034130;
@@ -1181,7 +1187,10 @@ namespace CriminalIntent
 		{
 			
 			// aapt resource value: 0x7f0c0000
-			public const int fragment_crime_list = 2131492864;
+			public const int crime_list_item_context = 2131492864;
+			
+			// aapt resource value: 0x7f0c0001
+			public const int fragment_crime_list = 2131492865;
 			
 			static Menu()
 			{

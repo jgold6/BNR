@@ -10,7 +10,7 @@ using Android.Graphics;
 
 namespace CriminalIntent
 {
-    public class CrimeListFragment : Android.Support.V4.App.ListFragment
+    public class CrimeListFragment : Android.Support.V4.App.ListFragment, AbsListView.IMultiChoiceModeListener
     {
 		#region - member variables
 		bool mSubtitleVisible;
@@ -36,10 +36,10 @@ namespace CriminalIntent
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			// Chapter 16 done
 			// For EmptyView in Code version
 //			View v = base.OnCreateView(inflater, container, savedInstanceState);
 
+			// For EmptyView in XML version
 			// Inflate from fragment_crimelist, which has the ListView and the EmptyView
 			View v = (View)inflater.Inflate(Resource.Layout.fragment_crimelist, container, false);
 			// Get the button in the EmptyView
@@ -48,25 +48,20 @@ namespace CriminalIntent
 				NewCrime();
 			};
 
+			ListView listView = v.FindViewById<ListView>(Android.Resource.Id.List);
+
 			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb) {
 				if (mSubtitleVisible) {
 					Activity.ActionBar.SetSubtitle(Resource.String.subtitle);
 				}
+				// Use contextual action bar on HoneyComb and higher
+				listView.ChoiceMode = ChoiceMode.MultipleModal;
+				listView.SetMultiChoiceModeListener(this);
 			}
-
-			return v;
-		}
-
-//		public override void OnPause()
-//		{
-//			base.OnPause();
-//			CrimeLab.GetInstance(Activity).SaveCrimes();
-//		}
-
-		public override void OnResume()
-		{
-			base.OnResume();
-			((CrimeAdapter)this.ListAdapter).NotifyDataSetChanged();
+			else {
+				// Use floating Context menus on Froyo and Gingerbread
+				RegisterForContextMenu(listView);
+			}
 
 			// Create EmptyView in code
 //			TextView emptyView = new TextView(Activity);
@@ -77,8 +72,22 @@ namespace CriminalIntent
 //			emptyView.Click += (object sender, EventArgs e) => {
 //				NewCrime();
 //			};
-//			((ViewGroup)this.ListView.Parent).AddView(emptyView);
-//			this.ListView.EmptyView = emptyView;
+//			container.AddView(emptyView);
+//			listView.EmptyView = emptyView;
+
+			return v;
+		}
+
+		public override void OnPause()
+		{
+			base.OnPause();
+			CrimeLab.GetInstance(Activity).SaveCrimes();
+		}
+
+		public override void OnResume()
+		{
+			base.OnResume();
+			((CrimeAdapter)this.ListAdapter).NotifyDataSetChanged();
 
 		}
 		#endregion
@@ -105,8 +114,6 @@ namespace CriminalIntent
 			if (mSubtitleVisible && showSubtitle != null) {
 				showSubtitle.SetTitle(Resource.String.hide_subtitle);
 			}
-
-
 		}
 
 		public override bool OnOptionsItemSelected(IMenuItem item) {
@@ -126,15 +133,77 @@ namespace CriminalIntent
 						item.SetTitle(Resource.String.show_subtitle);
 					}
 					return true;
-				// SaveCrimes menu item
-//				case Resource.Id.menu_item_save_crimes:
-//					var serializer = new CriminalIntentJSONSerializer(Activity, "crimes.json");
-//					serializer.SaveCrimes(CrimeLab.GetInstance(Activity).Crimes);
-//					return true;
 				default:
 					return base.OnOptionsItemSelected(item);
 			}
 		}
+
+		public override void OnCreateContextMenu(IContextMenu menu, View v, IContextMenuContextMenuInfo menuInfo)
+		{
+			Activity.MenuInflater.Inflate(Resource.Menu.crime_list_item_context, menu);
+		}
+
+		public override bool OnContextItemSelected(IMenuItem item)
+		{
+			AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.MenuInfo;
+			int position = info.Position;
+			CrimeAdapter adapter = (CrimeAdapter)ListAdapter;
+			Crime crime = adapter.GetItem(position);
+
+			switch (item.ItemId) {
+				case Resource.Id.menu_item_delete_crime:
+					CrimeLab.GetInstance(Activity).DeleteCrime(crime);
+					adapter.Remove(crime);
+					return true;
+			}
+			return base.OnContextItemSelected(item);
+		}
+
+		public void OnItemCheckedStateChanged(ActionMode mode, int position, long id, bool chkd)
+		{
+			// Not used
+			Console.WriteLine("OnItemCheckedStateChanged {0}, {1}, {2}. {3}", mode, position, id, chkd);
+
+		}
+
+		public bool OnCreateActionMode(ActionMode mode, IMenu menu)
+		{
+			MenuInflater inflater = mode.MenuInflater;
+			inflater.Inflate(Resource.Menu.crime_list_item_context, menu);
+			return true;
+		}
+
+		public bool OnPrepareActionMode(ActionMode mode, IMenu menu)
+		{
+			// Not used
+			return true;
+		}
+
+		public bool OnActionItemClicked(ActionMode mode, IMenuItem item)
+		{
+			switch (item.ItemId) {
+				case Resource.Id.menu_item_delete_crime:
+					CrimeAdapter adapter = (CrimeAdapter)ListAdapter;
+					CrimeLab crimelab = CrimeLab.GetInstance(Activity);
+					for (int i = adapter.Count -1; i >= 0; i--) {
+						if (ListView.IsItemChecked(i)) {
+							crimelab.DeleteCrime(adapter.GetItem(i));
+							adapter.Remove(adapter.GetItem(i));
+						}
+					}
+					mode.Finish();
+					//adapter.NotifyDataSetChanged();
+					return true;
+				default:
+					return false;
+			}
+		}
+
+		public void OnDestroyActionMode(ActionMode mode)
+		{
+			// Not used
+		}
+
 		#endregion
 
 		#region - helper methods

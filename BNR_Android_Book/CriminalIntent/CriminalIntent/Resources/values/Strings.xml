@@ -19,9 +19,8 @@
     <string name="show_subtitle">Show Subtitle</string>
     <string name="hide_subtitle">Hide Subtitle</string>
     <string name="subtitle">If you see something, say something</string>
-    <string name="delete_crime">Delete</string>
+    <string name="delete_crime">Delete Crime</string>
     <string name="list_empty_text">There are no crimes.</string>
     <string name="list_empty_button_text">Click to add a crime.</string>
 
-<!--<string name="save_crimes">Save crimes</string>-->
 </resources>

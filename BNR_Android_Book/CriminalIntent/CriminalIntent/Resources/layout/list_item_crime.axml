@@ -1,34 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:p1="http://schemas.android.com/apk/res/android"
-    p1:layout_width="match_parent"
-    p1:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_activated">
     <CheckBox
-        p1:id="@+id/crime_list_item_solvedCheckBox"
-        p1:layout_width="wrap_content"
-        p1:layout_height="wrap_content"
-        p1:gravity="center"
-        p1:layout_alignParentRight="true"
-        p1:enabled="false"
-        p1:focusable="false"
-        p1:padding="4dp"
-        p1:text="@string/crime_solved_text" />
+        android:id="@+id/crime_list_item_solvedCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        android:enabled="false"
+        android:focusable="false"
+        android:padding="4dp"
+        android:text="@string/crime_solved_text" />
     <TextView
-        p1:id="@+id/crime_list_item_titleTextView"
-        p1:text="Crime title"
-        p1:layout_width="match_parent"
-        p1:layout_height="wrap_content"
-        p1:layout_toLeftOf="@id/crime_list_item_solvedCheckBox"
-        p1:textStyle="bold"
-        p1:paddingLeft="4dp"
-        p1:paddingRight="4dp" />
+        android:id="@+id/crime_list_item_titleTextView"
+        android:text="Crime title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/crime_list_item_solvedCheckBox"
+        android:textStyle="bold"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp" />
     <TextView
-        p1:id="@+id/crime_list_item_dateTextView"
-        p1:text="Crime date"
-        p1:layout_width="match_parent"
-        p1:layout_height="wrap_content"
-        p1:layout_below="@id/crime_list_item_titleTextView"
-        p1:layout_toLeftOf="@id/crime_list_item_solvedCheckBox"
-        p1:paddingLeft="4dp"
-        p1:paddingRight="4dp"
-        p1:paddingTop="4dp" />
+        android:id="@+id/crime_list_item_dateTextView"
+        android:text="Crime date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/crime_list_item_titleTextView"
+        android:layout_toLeftOf="@id/crime_list_item_solvedCheckBox"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="4dp" />
 </RelativeLayout>

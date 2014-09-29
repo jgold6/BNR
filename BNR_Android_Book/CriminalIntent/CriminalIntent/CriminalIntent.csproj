@@ -74,17 +74,15 @@
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="packages.config" />
-    <None Include="Resources\values-v11\styles.xml" />
     <None Include="Resources\values-v14\styles.xml" />
+    <None Include="Resources\values-v11\styles.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\values\dimens.xml" />
     <AndroidResource Include="Resources\values\styles.xml" />
-    <AndroidResource Include="Resources\drawable-hdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable-mdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_launcher.png" />
-    <AndroidResource Include="Resources\drawable\ic_launcher.png" />
     <AndroidResource Include="Resources\values-w820dp\dimens.xml" />
     <AndroidResource Include="Resources\layout\fragment_crime.axml" />
     <AndroidResource Include="Resources\layout-land\fragment_crime.axml" />
@@ -96,6 +94,11 @@
     <AndroidResource Include="Resources\menu\fragment_crime_list.xml" />
     <AndroidResource Include="Resources\menu-v11\fragment_crime_list.xml" />
     <AndroidResource Include="Resources\layout\fragment_crimelist.axml" />
+    <AndroidResource Include="Resources\menu\crime_list_item_context.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable-ldpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable\background_activated.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -110,5 +113,6 @@
     <Folder Include="Resources\menu\" />
     <Folder Include="Model\" />
     <Folder Include="Resources\menu-v11\" />
+    <Folder Include="Resources\drawable-ldpi\" />
   </ItemGroup>
 </Project>
