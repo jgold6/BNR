@@ -57,6 +57,12 @@ namespace CriminalIntent
 			return v;
 		}
 
+//		public override void OnPause()
+//		{
+//			base.OnPause();
+//			CrimeLab.GetInstance(Activity).SaveCrimes();
+//		}
+
 		public override void OnResume()
 		{
 			base.OnResume();
@@ -120,6 +126,11 @@ namespace CriminalIntent
 						item.SetTitle(Resource.String.show_subtitle);
 					}
 					return true;
+				// SaveCrimes menu item
+//				case Resource.Id.menu_item_save_crimes:
+//					var serializer = new CriminalIntentJSONSerializer(Activity, "crimes.json");
+//					serializer.SaveCrimes(CrimeLab.GetInstance(Activity).Crimes);
+//					return true;
 				default:
 					return base.OnOptionsItemSelected(item);
 			}

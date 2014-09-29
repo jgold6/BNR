@@ -80,7 +80,6 @@ namespace CriminalIntent
 			};
 			mTitleField.TextChanged += (object sender, Android.Text.TextChangedEventArgs e) => {
 				mCrime.Title = e.Text.ToString();
-//				Activity.Title = mCrime.Title;
 			};
 			mTitleField.AfterTextChanged += (object sender, Android.Text.AfterTextChangedEventArgs e) => {
 				// nothing for now
@@ -135,6 +134,13 @@ namespace CriminalIntent
 
 			return v;
 		}
+
+		public override void OnPause()
+		{
+			base.OnPause();
+			CrimeLab.GetInstance(Activity).SaveCrimes();
+		}
+
 		#endregion
 
 		#region - Event handlers

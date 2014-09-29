@@ -2,14 +2,21 @@
 using Android.Content;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 
 namespace CriminalIntent
 {
     public  class CrimeLab
     {
-		#region - member variables
+		#region - static variables
+		static readonly string TAG = "CrimeLab";
+		static readonly string FILENAME = "crimes.json";
 		private static CrimeLab sCrimeLab;
+		#endregion
+
+		#region - member variables
 		private Context mAppContext;
+		private CriminalIntentJSONSerializer mSerializer;
 		#endregion
 
 		#region - Properties
@@ -20,7 +27,18 @@ namespace CriminalIntent
 		private CrimeLab(Context appContext)
 		{
 			mAppContext = appContext;
-			Crimes = new List<Crime>();
+			mSerializer = new CriminalIntentJSONSerializer(mAppContext, FILENAME);
+
+			try {
+				Crimes = mSerializer.LoadCrimes();
+				Debug.WriteLine(String.Format("Crimes loaded from file: {0}, Type: {1}", Crimes.Count, Crimes), TAG);
+			}
+			catch (Exception ex) {
+				Crimes = new List<Crime>();
+				Debug.WriteLine(String.Format("Error loading crimes: {0}", ex.Message), TAG);
+			}
+
+			// Populate crimes list
 //			for (int i = 1; i <= 5; i++) {
 //				Crime c = new Crime("Crime #"+i);
 //				c.Solved = (i % 2 ==0);
@@ -52,6 +70,19 @@ namespace CriminalIntent
 		public void AddCrime(Crime c)
 		{
 			Crimes.Add(c);
+		}
+
+		public bool SaveCrimes() 
+		{
+			try {
+				mSerializer.SaveCrimes(Crimes);
+				Debug.WriteLine(String.Format("Crimes saved to file: {0}, Type: {1}", Crimes.Count, Crimes), TAG);
+				return true;
+			}
+			catch (Exception ex) {
+				Debug.WriteLine(String.Format("Error saving crimes: {0}", ex.Message), TAG);
+				return false;
+			}
 		}
 
 		#endregion

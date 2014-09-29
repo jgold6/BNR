@@ -23,4 +23,5 @@
     <string name="list_empty_text">There are no crimes.</string>
     <string name="list_empty_button_text">Click to add a crime.</string>
 
+<!--<string name="save_crimes">Save crimes</string>-->
 </resources>

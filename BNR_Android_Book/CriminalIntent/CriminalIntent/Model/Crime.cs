@@ -2,7 +2,7 @@
 
 namespace CriminalIntent
 {
-	public class Crime : Java.Lang.Object
+	public class Crime 
 	{
 		#region = member variables
 		#endregion
