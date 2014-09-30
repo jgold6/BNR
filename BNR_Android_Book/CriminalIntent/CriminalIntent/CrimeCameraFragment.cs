@@ -134,7 +134,7 @@ namespace CriminalIntent
 			bool success = true;
 			try {
 				os = Activity.OpenFileOutput(filename, Android.Content.FileCreationMode.Private);
-				os.Write(data, 0, sizeof(byte)* data.Length);
+				os.Write(data, 0, data.Length);
 			}
 			catch (Exception ex) {
 				Debug.WriteLine(String.Format("Error writing image to file: {0}, {1}", filename, ex.Message), TAG);

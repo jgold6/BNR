@@ -25,18 +25,18 @@ namespace CriminalIntent
 			float srcWidth = options.OutWidth;
 			float srcHeight = options.OutHeight;
 
-			int inSampleSize = 1;
+			double inSampleSize = 1.0;
 			if (srcHeight > destHeight || srcWidth > destWidth) {
 				if (srcWidth > srcHeight) {
-					inSampleSize = (int)Math.Round(srcHeight / destHeight);
+					inSampleSize = Math.Round(srcHeight / destHeight);
 				}
 				else {
-					inSampleSize = (int)Math.Round(srcWidth / destWidth);
+					inSampleSize = Math.Round(srcWidth / destWidth);
 				}
 			}
 
 			options = new BitmapFactory.Options();
-			options.InSampleSize = inSampleSize;
+			options.InSampleSize = (int)inSampleSize;
 
 			Bitmap bitmap = BitmapFactory.DecodeFile(path, options);
 			return new BitmapDrawable(a.Resources, bitmap);

@@ -14,11 +14,20 @@ using Android.Widget;
 using Android.Content.PM;
 using Android.App;
 using Android.Graphics.Drawables;
+using System.IO;
+using Android.Graphics;
+using Android.Provider;
 
 #endregion
 
 namespace CriminalIntent
 {
+	public static class PhotoApp{
+		public static Java.IO.File _file;
+		public static Java.IO.File _dir;     
+		public static BitmapDrawable bitmap;
+	}
+
 	public class CrimeFragment : Android.Support.V4.App.Fragment
     {
 		#region - Static Members
@@ -141,26 +150,50 @@ namespace CriminalIntent
 				mCrime.Solved = e.IsChecked;
 			};
 
-			mPhotoButton = v.FindViewById<ImageButton>(Resource.Id.crime_imageButton);
-			mPhotoButton.Click += (object sender, EventArgs e) => {
-				Intent i = new Intent(Activity, typeof(CrimeCameraActivity));
-				StartActivityForResult(i, REQUEST_PHOTO);
-			};
-			// If camera is not available, disable button
-			PackageManager pm = Activity.PackageManager;
-			if (!pm.HasSystemFeature(PackageManager.FeatureCamera) && !pm.HasSystemFeature(PackageManager.FeatureCameraFront)) {
-				mPhotoButton.Enabled = false;
-			}
-
 			mPhotoView = v.FindViewById<ImageView>(Resource.Id.crime_imageView);
 			mPhotoView.Click += (object sender, EventArgs e) => {
 				Photo p = mCrime.Photo;
 				if (p == null)
 					return;
 				Android.Support.V4.App.FragmentManager fm = Activity.SupportFragmentManager;
-				string path = Activity.GetFileStreamPath(p.Filename).AbsolutePath;
-				ImageFragment.NewInstance(path).Show(fm, DIALOG_IMAGE);
+
+				// BNR
+//				string path = Activity.GetFileStreamPath(p.Filename).AbsolutePath;
+				if (p.Filename != null)
+					ImageFragment.NewInstance(p.Filename).Show(fm, DIALOG_IMAGE);
 			};
+
+			// From Xamarin guide
+			mPhotoButton = v.FindViewById<ImageButton>(Resource.Id.crime_imageButton);
+			if (IsAppToTakePicture()) {
+
+				CreateDirectoryForPictures();
+
+				if (PhotoApp.bitmap != null) {
+					mPhotoView.SetImageDrawable (PhotoApp.bitmap);
+					PhotoApp.bitmap = null;
+				}
+
+				mPhotoButton.Click += (object sender, EventArgs e) => {
+					// Form xamarin guide
+					Intent intent = new Intent(MediaStore.ActionImageCapture);
+
+					PhotoApp._file = new Java.IO.File(PhotoApp._dir, String.Format("{0}.jpg", Guid.NewGuid()));
+
+					intent.PutExtra(MediaStore.ExtraOutput, Android.Net.Uri.FromFile(PhotoApp._file));
+
+					StartActivityForResult(intent, REQUEST_PHOTO);
+
+					// From BNR Book - trying Xamarin method above
+//					Intent i = new Intent(Activity, typeof(CrimeCameraActivity));
+//					StartActivityForResult(i, REQUEST_PHOTO);
+				};
+			}
+			// If camera is not available, disable button
+//			PackageManager pm = Activity.PackageManager;
+//			if (!pm.HasSystemFeature(PackageManager.FeatureCamera) && !pm.HasSystemFeature(PackageManager.FeatureCameraFront)) {
+//				mPhotoButton.Enabled = false;
+//			}
 
 			return v;
 		}
@@ -241,13 +274,27 @@ namespace CriminalIntent
 
 			}
 			else if (requestCode == REQUEST_PHOTO) {
-				// Create a new photo object and attach it to the crime
-				string filename = data.GetStringExtra(CrimeCameraFragment.EXTRA_PHOTO_FILENAME);
-				if (filename != null) {
-					mCrime.Photo = new Photo(filename);
+				// From Xamarin guide - 
+//				int height = Resources.DisplayMetrics.HeightPixels;
+//				int width = mPhotoView.Width;
+//				PhotoApp.bitmap = PhotoApp._file.Path.LoadAndResizeBitmap (width, height);
+
+				// From BNR
+				if (PhotoApp._file != null) {
+					PhotoApp.bitmap = PictureUtils.GetScaledDrawable(Activity, PhotoApp._file.Path);
+					mCrime.Photo = new Photo(PhotoApp._file.Path);
 					ShowPhoto();
 					System.Diagnostics.Debug.WriteLine(String.Format("Crime '{0}' has a photo at: {1}", mCrime.Title, mCrime.Photo.Filename), TAG);
 				}
+
+				// From BNR book - trying Xamarin Method from guide
+				// Create a new photo object and attach it to the crime
+//				string filename = data.GetStringExtra(CrimeCameraFragment.EXTRA_PHOTO_FILENAME);
+//				if (filename != null) {
+//					mCrime.Photo = new Photo(filename);
+//					ShowPhoto();
+//					System.Diagnostics.Debug.WriteLine(String.Format("Crime '{0}' has a photo at: {1}", mCrime.Title, mCrime.Photo.Filename), TAG);
+//				}
 			}
 		}
 
@@ -263,19 +310,67 @@ namespace CriminalIntent
 
 		}
 
+		private bool IsAppToTakePicture()
+		{
+			Intent intent = new Intent(MediaStore.ActionImageCapture);
+			PackageManager pm = Activity.PackageManager;
+			IList<ResolveInfo> availableActivities = pm.QueryIntentActivities(intent, PackageInfoFlags.MatchDefaultOnly);
+			return availableActivities != null && availableActivities.Count > 0;
+		}
+
+		private void CreateDirectoryForPictures()
+		{
+			PhotoApp._dir = new Java.IO.File(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryPictures), "CriminalIntent");
+			if (!PhotoApp._dir.Exists())
+			{
+				PhotoApp._dir.Mkdirs();
+			}
+		}
+
 		private void ShowPhoto() 
 		{
-			// (Re)set the mage button;s image based on our photo
+			// (Re)set the image button's image based on our photo
 			Photo p = mCrime.Photo;
 			BitmapDrawable b = null;
 			if (p != null) {
-				string path = Activity.GetFileStreamPath(p.Filename).AbsolutePath;
-				b = PictureUtils.GetScaledDrawable(Activity, path);
-				System.Diagnostics.Debug.WriteLine(String.Format("Photo path: {0}", path), TAG);
+				//string path = Activity.GetFileStreamPath(p.Filename).AbsolutePath;
+				b = PictureUtils.GetScaledDrawable(Activity, mCrime.Photo.Filename);
+				System.Diagnostics.Debug.WriteLine(String.Format("Photo path: {0}", mCrime.Photo.Filename), TAG);
 			}
 			mPhotoView.SetImageDrawable(b);
 		}
 		#endregion
     }
+
+	// From Xamarin guide - use GetScaledDrawable from BNR instead
+//	public static class BitmapHelpers
+//	{
+//		public static Bitmap LoadAndResizeBitmap(this string fileName, int width, int height)
+//		{
+//			// First we get the the dimensions of the file on disk
+//			BitmapFactory.Options options = new BitmapFactory.Options { InJustDecodeBounds = true };
+//			BitmapFactory.DecodeFile(fileName, options);
+//
+//			// Next we calculate the ratio that we need to resize the image by
+//			// in order to fit the requested dimensions.
+//			int outHeight = options.OutHeight;
+//			int outWidth = options.OutWidth;
+//			int inSampleSize = 1;
+//
+//			if (outHeight > height || outWidth > width)
+//			{
+//				inSampleSize = outWidth > outHeight
+//					? outHeight / height
+//					: outWidth / width;
+//			}
+//
+//			// Now we will load the image and have BitmapFactory resize it for us.
+//			options.InSampleSize = inSampleSize;
+//			options.InJustDecodeBounds = false;
+//			Bitmap resizedBitmap = BitmapFactory.DecodeFile(fileName, options);
+//
+//			return resizedBitmap;
+//		}
+//	}
 }
 

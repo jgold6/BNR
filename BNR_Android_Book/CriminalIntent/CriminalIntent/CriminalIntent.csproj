@@ -68,8 +68,6 @@
     <Compile Include="DatePickerFragment.cs" />
     <Compile Include="TimePickerFragment.cs" />
     <Compile Include="CriminalIntentJSONSerializer.cs" />
-    <Compile Include="CrimeCameraFragment.cs" />
-    <Compile Include="CrimeCameraActivity.cs" />
     <Compile Include="Model\Photo.cs" />
     <Compile Include="PictureUtils.cs" />
     <Compile Include="ImageFragment.cs" />
@@ -81,6 +79,8 @@
     <None Include="packages.config" />
     <None Include="Resources\values-v14\styles.xml" />
     <None Include="Resources\values-v11\styles.xml" />
+    <None Include="CrimeCameraFragment.cs" />
+    <None Include="CrimeCameraActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
