@@ -11,6 +11,7 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Android.Content.PM;
 
 #endregion
 
@@ -33,6 +34,7 @@ namespace CriminalIntent
 		Button mDateButton;
 //		Button mTimeButton; // Separate date and time buttons
 		CheckBox mSolvedCheckBox;
+		ImageButton mPhotoButton;
 		#endregion
 
 		#region - constructor ... kind of.
@@ -134,6 +136,18 @@ namespace CriminalIntent
 				mCrime.Solved = e.IsChecked;
 				Console.WriteLine("IsChecked: {0}", e.IsChecked);
 			};
+
+			mPhotoButton = v.FindViewById<ImageButton>(Resource.Id.crime_imageButton);
+			mPhotoButton.Click += (object sender, EventArgs e) => {
+				Intent i = new Intent(Activity, typeof(CrimeCameraActivity));
+				StartActivity(i);
+			};
+			// If camera is not available, disable button
+			PackageManager pm = Activity.PackageManager;
+
+			if (!pm.HasSystemFeature(PackageManager.FeatureCamera) && !pm.HasSystemFeature(PackageManager.FeatureCameraFront)) {
+				mPhotoButton.Enabled = false;
+			}
 
 			return v;
 		}

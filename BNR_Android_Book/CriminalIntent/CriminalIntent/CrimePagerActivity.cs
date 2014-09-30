@@ -6,7 +6,9 @@ using Android.App;
 
 namespace CriminalIntent
 {
-	[Activity(Label = "@string/app_name", Icon = "@drawable/ic_launcher", Theme="@style/AppTheme")]// , ParentActivity=typeof(CrimeListActivity)
+	// Command to start an activity from the command line when Exported=true (Exported=true not needed for MainLauncher)
+	// adb -s <devicenumberFromAdbDevices> shell am start -n com.onobytes.criminalintent/criminalintent.CrimeCameraActivity
+	[Activity(Label = "@string/app_name", Icon = "@drawable/ic_launcher", Theme="@style/AppTheme", Exported=true)]// , ParentActivity=typeof(CrimeListActivity)
 	public class CrimePagerActivity : FragmentActivity //, Android.Support.V4.View.ViewPager.IOnPageChangeListener
     {
 		public static CrimePagerActivity context {get; private set;}

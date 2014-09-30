@@ -69,6 +69,7 @@
     <Compile Include="TimePickerFragment.cs" />
     <Compile Include="CriminalIntentJSONSerializer.cs" />
     <Compile Include="CrimeCameraFragment.cs" />
+    <Compile Include="CrimeCameraActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
