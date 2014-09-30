@@ -29,6 +29,7 @@ namespace CriminalIntent
 
 			mCrimes = CrimeLab.GetInstance(CrimePagerActivity.context).Crimes;
 
+			Title = mCrimes[0].Title;
 			CrimePagerAdapter adapter = new CrimePagerAdapter(SupportFragmentManager);
 			mViewPager.Adapter = adapter;
 			mViewPager.PageSelected += (object sender, ViewPager.PageSelectedEventArgs e) => {
