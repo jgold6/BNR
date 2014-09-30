@@ -70,6 +70,9 @@
     <Compile Include="CriminalIntentJSONSerializer.cs" />
     <Compile Include="CrimeCameraFragment.cs" />
     <Compile Include="CrimeCameraActivity.cs" />
+    <Compile Include="Model\Photo.cs" />
+    <Compile Include="PictureUtils.cs" />
+    <Compile Include="ImageFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

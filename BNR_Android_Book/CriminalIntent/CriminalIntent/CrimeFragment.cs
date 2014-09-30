@@ -12,20 +12,24 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Android.Content.PM;
+using Android.App;
+using Android.Graphics.Drawables;
 
 #endregion
 
 namespace CriminalIntent
 {
-	public class CrimeFragment : Fragment
+	public class CrimeFragment : Android.Support.V4.App.Fragment
     {
 		#region - Static Members
+		private static readonly string TAG = "CrimeFragment";
+		private static readonly string DIALOG_IMAGE = "image";
 		public static readonly string EXTRA_CRIME_ID = "com.onobytes.criminalintent.crime_id";
 		public static readonly string DIALOG_DATE = "com.onobytes.criminalintent.dialog_date";
 		public static readonly string DIALOG_TIME = "com.onobytes.criminalintent.dialog_time";
 		public static readonly int REQUEST_DATE = 0;
 		public static readonly int REQUEST_TIME = 1;
-		public static readonly int RESULT_OK = 2;
+		public static readonly int REQUEST_PHOTO = 3;
 		#endregion
 
 		#region - member variables
@@ -35,6 +39,7 @@ namespace CriminalIntent
 //		Button mTimeButton; // Separate date and time buttons
 		CheckBox mSolvedCheckBox;
 		ImageButton mPhotoButton;
+		ImageView mPhotoView;
 		#endregion
 
 		#region - constructor ... kind of.
@@ -96,13 +101,13 @@ namespace CriminalIntent
 				Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(Activity);
 				builder.SetTitle(Resource.String.date_or_time_alert_title);
 				builder.SetPositiveButton(Resource.String.date_or_time_alert_date, (object date, DialogClickEventArgs de) => {
-					FragmentManager fm = Activity.SupportFragmentManager;
+					Android.Support.V4.App.FragmentManager fm = Activity.SupportFragmentManager;
 					DatePickerFragment dialog = DatePickerFragment.NewInstance(mCrime.Date);
 					dialog.SetTargetFragment(this, REQUEST_DATE);
 					dialog.Show(fm, CrimeFragment.DIALOG_DATE);
 				});
 				builder.SetNegativeButton(Resource.String.date_or_time_alert_time, (object time, DialogClickEventArgs de) => {
-					FragmentManager fm = Activity.SupportFragmentManager;
+					Android.Support.V4.App.FragmentManager fm = Activity.SupportFragmentManager;
 					TimePickerFragment dialog = TimePickerFragment.NewInstance(mCrime.Date);
 					dialog.SetTargetFragment(this, REQUEST_TIME);
 					dialog.Show(fm, CrimeFragment.DIALOG_TIME);
@@ -134,28 +139,48 @@ namespace CriminalIntent
 			mSolvedCheckBox.Checked = mCrime.Solved;
 			mSolvedCheckBox.CheckedChange += (object sender, CompoundButton.CheckedChangeEventArgs e) => {
 				mCrime.Solved = e.IsChecked;
-				Console.WriteLine("IsChecked: {0}", e.IsChecked);
 			};
 
 			mPhotoButton = v.FindViewById<ImageButton>(Resource.Id.crime_imageButton);
 			mPhotoButton.Click += (object sender, EventArgs e) => {
 				Intent i = new Intent(Activity, typeof(CrimeCameraActivity));
-				StartActivity(i);
+				StartActivityForResult(i, REQUEST_PHOTO);
 			};
 			// If camera is not available, disable button
 			PackageManager pm = Activity.PackageManager;
-
 			if (!pm.HasSystemFeature(PackageManager.FeatureCamera) && !pm.HasSystemFeature(PackageManager.FeatureCameraFront)) {
 				mPhotoButton.Enabled = false;
 			}
 
+			mPhotoView = v.FindViewById<ImageView>(Resource.Id.crime_imageView);
+			mPhotoView.Click += (object sender, EventArgs e) => {
+				Photo p = mCrime.Photo;
+				if (p == null)
+					return;
+				Android.Support.V4.App.FragmentManager fm = Activity.SupportFragmentManager;
+				string path = Activity.GetFileStreamPath(p.Filename).AbsolutePath;
+				ImageFragment.NewInstance(path).Show(fm, DIALOG_IMAGE);
+			};
+
 			return v;
+		}
+
+		public override void OnStart()
+		{
+			base.OnStart();
+			ShowPhoto();
 		}
 
 		public override void OnPause()
 		{
 			base.OnPause();
 			CrimeLab.GetInstance(Activity).SaveCrimes();
+		}
+
+		public override void OnStop()
+		{
+			base.OnStop();
+			PictureUtils.CleanImageView(mPhotoView);
 		}
 
 		#endregion
@@ -198,7 +223,7 @@ namespace CriminalIntent
 		public override void OnActivityResult(int requestCode, int resultCode, Intent data)
 		{
 			base.OnActivityResult(requestCode, resultCode, data);
-			if (resultCode != CrimeFragment.RESULT_OK)
+			if (resultCode != (int)Result.Ok)
 				return;
 			if (requestCode == REQUEST_DATE) {
 				int year = data.GetIntExtra(DatePickerFragment.EXTRA_YEAR, DateTime.Now.Year);
@@ -215,6 +240,15 @@ namespace CriminalIntent
 				UpdateDateTime();
 
 			}
+			else if (requestCode == REQUEST_PHOTO) {
+				// Create a new photo object and attach it to the crime
+				string filename = data.GetStringExtra(CrimeCameraFragment.EXTRA_PHOTO_FILENAME);
+				if (filename != null) {
+					mCrime.Photo = new Photo(filename);
+					ShowPhoto();
+					System.Diagnostics.Debug.WriteLine(String.Format("Crime '{0}' has a photo at: {1}", mCrime.Title, mCrime.Photo.Filename), TAG);
+				}
+			}
 		}
 
 		#endregion
@@ -227,6 +261,19 @@ namespace CriminalIntent
 //			mDateButton.Text = mCrime.Date.ToLongDateString();
 //			mTimeButton.Text = mCrime.Date.ToLongTimeString(); 
 
+		}
+
+		private void ShowPhoto() 
+		{
+			// (Re)set the mage button;s image based on our photo
+			Photo p = mCrime.Photo;
+			BitmapDrawable b = null;
+			if (p != null) {
+				string path = Activity.GetFileStreamPath(p.Filename).AbsolutePath;
+				b = PictureUtils.GetScaledDrawable(Activity, path);
+				System.Diagnostics.Debug.WriteLine(String.Format("Photo path: {0}", path), TAG);
+			}
+			mPhotoView.SetImageDrawable(b);
 		}
 		#endregion
     }

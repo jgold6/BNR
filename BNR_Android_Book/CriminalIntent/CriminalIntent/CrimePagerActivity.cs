@@ -19,6 +19,7 @@ namespace CriminalIntent
 		public List<Crime> mCrimes {get; private set;}
 		#endregion
 
+
 		#region - Lifecycle
 		protected override void OnCreate(Android.OS.Bundle savedInstanceState)
 		{

@@ -28,7 +28,7 @@ namespace CriminalIntent
 			var directory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 			var filePath = Path.Combine(directory, mFilename);
 			// External storage
-//			if (Android.OS.Environment.ExternalStorageState = Android.OS.Environment.MediaRemoved)
+//			if (Android.OS.Environment.ExternalStorageState != Android.OS.Environment.MediaRemoved)
 //				var filePath = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, mFilename);
 //			else {
 //				var directory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
@@ -47,7 +47,7 @@ namespace CriminalIntent
 			var directory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 			var filePath = Path.Combine(directory, mFilename);
 			// External storage
-//			if (Android.OS.Environment.ExternalStorageState = Android.OS.Environment.MediaRemoved)
+//			if (Android.OS.Environment.ExternalStorageState != Android.OS.Environment.MediaRemoved)
 //				var filePath = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, mFilename);
 //			else {
 //				var directory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);

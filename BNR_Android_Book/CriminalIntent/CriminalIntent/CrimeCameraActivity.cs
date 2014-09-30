@@ -7,7 +7,7 @@ namespace CriminalIntent
 	// Command to start an activity from the command line when Exported=true (Exported=true not needed for MainLauncher)
 	// adb -s <devicenumberFromAdbDevices> shell am start -n com.onobytes.criminalintent/criminalintent.CrimeCameraActivity
 	[Activity(Label = "@string/app_name", Icon = "@drawable/ic_launcher", Theme="@style/AppTheme",
-		ScreenOrientation=Android.Content.PM.ScreenOrientation.Landscape, Exported=true)]
+		Exported=true)]
 	public class CrimeCameraActivity : SingleFragmentActivity
     {
 		public static CrimeCameraActivity context {get; private set;}

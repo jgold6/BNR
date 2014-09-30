@@ -48,7 +48,7 @@ namespace CriminalIntent
 				.SetTitle(Resource.String.date_picker_title)
 				.SetPositiveButton(Android.Resource.String.Ok, (sender, e) => {
 					Console.WriteLine("DatePicker OK Pressed");
-					SendResult(CrimeFragment.RESULT_OK);
+					SendResult((int)Result.Ok);
 			}).Create();
 		}
 

@@ -47,7 +47,7 @@ namespace CriminalIntent
 				.SetTitle(Resource.String.time_picker_title)
 				.SetPositiveButton(Android.Resource.String.Ok, (sender, e) => {
 					Console.WriteLine("TimePicker OK Pressed");
-					SendResult(CrimeFragment.RESULT_OK);
+					SendResult((int)Result.Ok);
 			}).Create();
 		}
 

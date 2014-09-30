@@ -6,18 +6,23 @@ using Android.Widget;
 using System.Diagnostics;
 using System.Drawing;
 using System.Collections.Generic;
+using Java.Util;
+using System.IO;
+using Android.Content;
 
 namespace CriminalIntent
-{
-	public class CrimeCameraFragment : Android.Support.V4.App.Fragment , ISurfaceHolderCallback
+{ 
+	public class CrimeCameraFragment : Android.Support.V4.App.Fragment , ISurfaceHolderCallback , Camera.IShutterCallback, Camera.IPictureCallback
     {
 		#region - static variables
 		private static readonly string TAG = "CrimeCameraFragment";
+		public static readonly string EXTRA_PHOTO_FILENAME = "com.onobyes.criminalintent.photo_filename";
 		#endregion
 
 		#region - member variables
 		Camera mCamera;
 		SurfaceView mSurfaceView;
+		View mProgressViewContainer;
 		#endregion
 
 		#region - Lifecycle
@@ -27,7 +32,10 @@ namespace CriminalIntent
 
 			Button takePictureButton = v.FindViewById<Button>(Resource.Id.crime_camera_takePictureButton);
 			takePictureButton.Click += (object sender, EventArgs e) => {
-				Activity.Finish();
+				//Activity.Finish();
+				if (mCamera != null) {
+					mCamera.TakePicture(this, null, this);
+				}
 			};
 
 			mSurfaceView = v.FindViewById<SurfaceView>(Resource.Id.crime_camera_surfaceView);
@@ -35,6 +43,9 @@ namespace CriminalIntent
 			holder.SetType(SurfaceType.PushBuffers);
 
 			holder.AddCallback(this);
+
+			mProgressViewContainer = v.FindViewById<View>(Resource.Id.crime_camera_progressContainer);
+			mProgressViewContainer.Visibility = ViewStates.Invisible; 
 
 			return v;
 		}
@@ -48,6 +59,7 @@ namespace CriminalIntent
 			else {
 				mCamera = Camera.Open();
 			}
+
 		}
 
 		public override void OnPause()
@@ -91,6 +103,8 @@ namespace CriminalIntent
 			Camera.Parameters parameters = mCamera.GetParameters();
 			Camera.Size s = GetBestSupportedSize(parameters.SupportedPreviewSizes, w, h);
 			parameters.SetPreviewSize(s.Width, s.Height);
+			s = GetBestSupportedSize(parameters.SupportedPictureSizes , w, h);
+			parameters.SetPictureSize(s.Width, s.Height);
 			mCamera.SetParameters(parameters);
 			try {
 				mCamera.StartPreview();
@@ -102,6 +116,52 @@ namespace CriminalIntent
 			}
 		}
 
+		#endregion
+
+		#region - Camera Callbacks
+		public void OnShutter() 
+		{
+			// Display the progress indicator
+			mProgressViewContainer.Visibility= ViewStates.Visible;
+		}
+
+		public void OnPictureTaken(byte[] data, Camera camera)
+		{
+			// Create a filename
+			string filename = UUID.RandomUUID().ToString() + ".jpg";
+			// Save the jpeg data to disk
+			Stream os = null;
+			bool success = true;
+			try {
+				os = Activity.OpenFileOutput(filename, Android.Content.FileCreationMode.Private);
+				os.Write(data, 0, sizeof(byte)* data.Length);
+			}
+			catch (Exception ex) {
+				Debug.WriteLine(String.Format("Error writing image to file: {0}, {1}", filename, ex.Message), TAG);
+				success = false;
+			}
+			finally {
+				try {
+					if (os != null)
+						os.Close();
+				}
+				catch (Exception ex) {
+					Debug.WriteLine(String.Format("Error closing file: {0}, {1}", filename, ex.Message), TAG);
+					success = false;
+				}
+			}
+			// Set the photo filename n the result intent
+			if (success) {
+				Debug.WriteLine(String.Format("Jpeg saved at: {0}", filename), TAG);
+				Intent i = new Intent();
+				i.PutExtra(EXTRA_PHOTO_FILENAME, filename);
+				Activity.SetResult(Result.Ok, i);
+			}
+			else {
+				Activity.SetResult(Result.Canceled);
+			}
+			Activity.Finish();
+		}
 		#endregion
 
 		#region - methods

@@ -12,6 +12,7 @@ namespace CriminalIntent
 		public string Title {get; set;}
 		public bool Solved {get; set;}
 		public DateTime Date {get; set;}
+		public Photo Photo {get; set;}
 		#endregion
 
 		#region - Constructors
