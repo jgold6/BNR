@@ -25,7 +25,7 @@ namespace CriminalIntent
 	public static class PhotoApp{
 		public static Java.IO.File _file;
 		public static Java.IO.File _dir;     
-		public static BitmapDrawable bitmap;
+//		public static BitmapDrawable bitmap;
 	}
 
 	public class CrimeFragment : Android.Support.V4.App.Fragment
@@ -169,13 +169,14 @@ namespace CriminalIntent
 
 				CreateDirectoryForPictures();
 
-				if (PhotoApp.bitmap != null) {
-					mPhotoView.SetImageDrawable (PhotoApp.bitmap);
-					PhotoApp.bitmap = null;
-				}
-
+				// Not needed with BNR's showPhoto method
+//				if (mCrime.Photo != null) {
+//					mPhotoView.SetImageDrawable (PhotoApp.bitmap);
+//					PhotoApp.bitmap = null;
+//				}
+//
 				mPhotoButton.Click += (object sender, EventArgs e) => {
-					// Form xamarin guide
+					// From xamarin guide
 					Intent intent = new Intent(MediaStore.ActionImageCapture);
 
 					PhotoApp._file = new Java.IO.File(PhotoApp._dir, String.Format("{0}.jpg", Guid.NewGuid()));
@@ -189,7 +190,7 @@ namespace CriminalIntent
 //					StartActivityForResult(i, REQUEST_PHOTO);
 				};
 			}
-			// If camera is not available, disable button
+			// If camera is not available, disable button - checked in the if statement above
 //			PackageManager pm = Activity.PackageManager;
 //			if (!pm.HasSystemFeature(PackageManager.FeatureCamera) && !pm.HasSystemFeature(PackageManager.FeatureCameraFront)) {
 //				mPhotoButton.Enabled = false;
@@ -281,7 +282,7 @@ namespace CriminalIntent
 
 				// From BNR
 				if (PhotoApp._file != null) {
-					PhotoApp.bitmap = PictureUtils.GetScaledDrawable(Activity, PhotoApp._file.Path);
+//					PhotoApp.bitmap = PictureUtils.GetScaledDrawable(Activity, PhotoApp._file.Path);
 					mCrime.Photo = new Photo(PhotoApp._file.Path);
 					ShowPhoto();
 					System.Diagnostics.Debug.WriteLine(String.Format("Crime '{0}' has a photo at: {1}", mCrime.Title, mCrime.Photo.Filename), TAG);
