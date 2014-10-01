@@ -17,6 +17,7 @@ using Android.Graphics.Drawables;
 using System.IO;
 using Android.Graphics;
 using Android.Provider;
+using Android.Media;
 
 #endregion
 
@@ -26,6 +27,13 @@ namespace CriminalIntent
 		public static Java.IO.File _file;
 		public static Java.IO.File _dir;     
 //		public static BitmapDrawable bitmap;
+	}
+
+	public enum PhotoOrienation {
+		Normal = 1,
+		Rotate180 = 3,
+		Rotate90 = 6,
+		Rotate270 = 8
 	}
 
 	public class CrimeFragment : Android.Support.V4.App.Fragment
@@ -160,7 +168,7 @@ namespace CriminalIntent
 				// BNR
 //				string path = Activity.GetFileStreamPath(p.Filename).AbsolutePath;
 				if (p.Filename != null)
-					ImageFragment.NewInstance(p.Filename).Show(fm, DIALOG_IMAGE);
+					ImageFragment.NewInstance(p.Filename, p.GetRotation()).Show(fm, DIALOG_IMAGE);
 			};
 
 			// From Xamarin guide
@@ -169,12 +177,6 @@ namespace CriminalIntent
 
 				CreateDirectoryForPictures();
 
-				// Not needed with BNR's showPhoto method
-//				if (mCrime.Photo != null) {
-//					mPhotoView.SetImageDrawable (PhotoApp.bitmap);
-//					PhotoApp.bitmap = null;
-//				}
-//
 				mPhotoButton.Click += (object sender, EventArgs e) => {
 					// From xamarin guide
 					Intent intent = new Intent(MediaStore.ActionImageCapture);
@@ -284,6 +286,11 @@ namespace CriminalIntent
 				if (PhotoApp._file != null) {
 //					PhotoApp.bitmap = PictureUtils.GetScaledDrawable(Activity, PhotoApp._file.Path);
 					mCrime.Photo = new Photo(PhotoApp._file.Path);
+
+					// Get and set picture orienation
+					ExifInterface exif = new ExifInterface(mCrime.Photo.Filename);
+					mCrime.Photo.Orientation = exif.GetAttributeInt(ExifInterface.TagOrientation, (int)PhotoOrienation.Normal);
+
 					ShowPhoto();
 					System.Diagnostics.Debug.WriteLine(String.Format("Crime '{0}' has a photo at: {1}", mCrime.Title, mCrime.Photo.Filename), TAG);
 				}
@@ -333,17 +340,22 @@ namespace CriminalIntent
 			// (Re)set the image button's image based on our photo
 			Photo p = mCrime.Photo;
 			BitmapDrawable b = null;
+
 			if (p != null) {
 				//string path = Activity.GetFileStreamPath(p.Filename).AbsolutePath;
 				b = PictureUtils.GetScaledDrawable(Activity, mCrime.Photo.Filename);
+
+				// Set orientation for display
+				mPhotoView.SetImageDrawable(b);
+				mPhotoView.Rotation = mCrime.Photo.GetRotation();
+
 				System.Diagnostics.Debug.WriteLine(String.Format("Photo path: {0}", mCrime.Photo.Filename), TAG);
 			}
-			mPhotoView.SetImageDrawable(b);
 		}
 		#endregion
     }
 
-	// From Xamarin guide - use GetScaledDrawable from BNR instead
+	// From Xamarin guide - use GetScaledDrawable from BNR instead - example of extension method
 //	public static class BitmapHelpers
 //	{
 //		public static Bitmap LoadAndResizeBitmap(this string fileName, int width, int height)
