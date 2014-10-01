@@ -219,6 +219,7 @@ namespace CriminalIntent
 				mPhotoButton.Enabled = false;
 			}
 			// If camera is not available, disable button - checked in the if statement above
+			// just shows another method
 //			PackageManager pm = Activity.PackageManager;
 //			if (!pm.HasSystemFeature(PackageManager.FeatureCamera) && !pm.HasSystemFeature(PackageManager.FeatureCameraFront)) {
 //				mPhotoButton.Enabled = false;
@@ -319,11 +320,6 @@ namespace CriminalIntent
 					}
 
 					mCrime.Photo = new Photo(PhotoApp._file.Path);
-
-					// Get and set picture orienation
-					ExifInterface exif = new ExifInterface(mCrime.Photo.Filename);
-					mCrime.Photo.Orientation = exif.GetAttributeInt(ExifInterface.TagOrientation, (int)PhotoOrienation.Normal);
-
 					ShowPhoto();
 					System.Diagnostics.Debug.WriteLine(String.Format("Crime '{0}' has a photo at: {1}", mCrime.Title, mCrime.Photo.Filename), TAG);
 				}
