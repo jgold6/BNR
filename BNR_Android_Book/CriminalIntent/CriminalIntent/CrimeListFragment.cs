@@ -14,9 +14,10 @@ namespace CriminalIntent
     {
 		public static List<int> activatedItems;
 
-		private const string KEY_SUBTITLE_SHOWN = "subtitleShown";
+		private static readonly string TAG = "CrimeListFragment";
 
 		#region - member variables
+		private const string KEY_SUBTITLE_SHOWN = "subtitleShown";
 		bool mSubtitleVisible;
 		#endregion
 
@@ -168,8 +169,7 @@ namespace CriminalIntent
 
 		public void OnItemCheckedStateChanged(ActionMode mode, int position, long id, bool chkd)
 		{
-			// Not used
-			Console.WriteLine("OnItemCheckedStateChanged {0}, {1}, {2}. {3}", mode, position, id, chkd);
+			System.Diagnostics.Debug.WriteLine(String.Format("OnItemCheckedStateChanged {0}, {1}, {2}. {3}", mode, position, id, chkd), TAG);
 
 			// Add or remove item from activatedItems list
 			if (chkd) {
