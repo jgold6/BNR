@@ -85,6 +85,11 @@ namespace CriminalIntent
             // Create your fragment here
 			string crimeId = Arguments.GetString(EXTRA_CRIME_ID);
 			mCrime = CrimeLab.GetInstance(Activity).GetCrime(crimeId);
+			if (mCrime.Photo != null && !File.Exists(mCrime.Photo.Filename)) {
+				System.Diagnostics.Debug.WriteLine(String.Format("Crime '{0}' removed missing file link: {1}", mCrime.Title, mCrime.Photo.Filename), TAG);
+				mCrime.Photo = null;
+			}
+
 			HasOptionsMenu = true;
         }
 
@@ -170,6 +175,24 @@ namespace CriminalIntent
 				if (p.Filename != null)
 					ImageFragment.NewInstance(p.Filename, p.GetRotation()).Show(fm, DIALOG_IMAGE);
 			};
+			mPhotoView.LongClick += (object sender, View.LongClickEventArgs e) => {
+				if (mCrime.Photo != null) {
+					AlertDialog.Builder ad = new AlertDialog.Builder(Activity);
+					ad.SetTitle(mCrime.Title);
+					ad.SetMessage("Do you really want to delete the photo evidence of this crime?");
+					ad.SetCancelable(true);
+					ad.SetPositiveButton("DELETE", delegate(object s, DialogClickEventArgs evt) {
+						if (File.Exists(mCrime.Photo.Filename)) {
+							File.Delete(mCrime.Photo.Filename);
+							mCrime.Photo = null;
+							mPhotoView.SetImageDrawable(null);
+						}
+					});
+					ad.SetNegativeButton("Cancel", (s, evt) => {});
+					ad.Show();
+				}
+			};
+
 
 			// From Xamarin guide
 			mPhotoButton = v.FindViewById<ImageButton>(Resource.Id.crime_imageButton);
@@ -191,6 +214,9 @@ namespace CriminalIntent
 //					Intent i = new Intent(Activity, typeof(CrimeCameraActivity));
 //					StartActivityForResult(i, REQUEST_PHOTO);
 				};
+			}
+			else {
+				mPhotoButton.Enabled = false;
 			}
 			// If camera is not available, disable button - checked in the if statement above
 //			PackageManager pm = Activity.PackageManager;
@@ -285,6 +311,13 @@ namespace CriminalIntent
 				// From BNR
 				if (PhotoApp._file != null) {
 //					PhotoApp.bitmap = PictureUtils.GetScaledDrawable(Activity, PhotoApp._file.Path);
+
+					// Delete existing photo, if present
+					if (mCrime.Photo != null && File.Exists(mCrime.Photo.Filename)) {
+						File.Delete(mCrime.Photo.Filename);
+						System.Diagnostics.Debug.WriteLine(String.Format("Crime '{0}' deleted photo at: {1}", mCrime.Title, mCrime.Photo.Filename), TAG);
+					}
+
 					mCrime.Photo = new Photo(PhotoApp._file.Path);
 
 					// Get and set picture orienation
