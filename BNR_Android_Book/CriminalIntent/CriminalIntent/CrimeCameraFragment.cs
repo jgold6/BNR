@@ -102,6 +102,8 @@ namespace CriminalIntent
 			// The surface has changed size. Update the camera preview size
 			Camera.Parameters parameters = mCamera.GetParameters();
 			Camera.Size s = GetBestSupportedSize(parameters.SupportedPreviewSizes, w, h);
+			// Correcting aspect ratio error - gets rid of extraneous lines that jpeg fills in. 
+			s.Width = s.Height > s.Width ? s.Height *3/4 : s.Height *4/3;
 			parameters.SetPreviewSize(s.Width, s.Height);
 			s = GetBestSupportedSize(parameters.SupportedPictureSizes , w, h);
 			parameters.SetPictureSize(s.Width, s.Height);
