@@ -29,13 +29,6 @@ namespace CriminalIntent
 //		public static BitmapDrawable bitmap;
 	}
 
-	public enum PhotoOrienation {
-		Normal = 1,
-		Rotate180 = 3,
-		Rotate90 = 6,
-		Rotate270 = 8
-	}
-
 	public class CrimeFragment : Android.Support.V4.App.Fragment
     {
 		#region - Static Members

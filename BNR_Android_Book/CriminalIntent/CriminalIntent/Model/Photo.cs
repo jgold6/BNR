@@ -3,7 +3,14 @@ using Android.Media;
 
 namespace CriminalIntent
 {
-    public class Photo
+	public enum PhotoOrienation {
+		Normal = 1,
+		Rotate180 = 3,
+		Rotate90 = 6,
+		Rotate270 = 8
+	}
+
+	public class Photo
     {
 		public string Filename {get; private set;}
 		private int mOrientation;
