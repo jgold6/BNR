@@ -263,11 +263,6 @@ namespace CriminalIntent
 
 		public void UpdateUI() 
 		{
-			((CrimeAdapter)ListAdapter).NotifyDataSetChanged();
-		}
-
-		public void RemoveDeletedCrime()
-		{
 			CrimeAdapter adapter = new CrimeAdapter(Activity, CrimeLab.GetInstance(CrimeListActivity.Context).Crimes);
 			this.ListAdapter = adapter;
 		}

@@ -60,7 +60,7 @@ namespace CriminalIntent
 		public interface ICallbacks 
 		{
 			void OnCrimeUpdated();
-			void OnCrimeDeleted();
+			void RemoveCrimeFragment();
 		}
 
 		#region - constructor ... kind of.
@@ -323,7 +323,8 @@ namespace CriminalIntent
 //						if (NavUtils.GetParentActivityName(Activity) != null) {
 //							NavUtils.NavigateUpFromSameTask(Activity);
 //						}
-						mCallBacks.OnCrimeDeleted();
+						mCallBacks.RemoveCrimeFragment();
+						mCallBacks.OnCrimeUpdated();
 					});
 					ad.SetNegativeButton("Cancel", (s, evt) => {});
 					ad.Show();
@@ -334,7 +335,7 @@ namespace CriminalIntent
 //					if (NavUtils.GetParentActivityName(Activity) != null) {
 //						NavUtils.NavigateUpFromSameTask(Activity);
 //					}
-					Activity.Finish();
+					mCallBacks.RemoveCrimeFragment();
 					return true;
 				default:
 					return base.OnOptionsItemSelected(item);

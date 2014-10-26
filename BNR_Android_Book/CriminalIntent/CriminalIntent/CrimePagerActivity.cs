@@ -66,7 +66,7 @@ namespace CriminalIntent
 //		}
 
 		public void OnCrimeUpdated() {}
-		public void OnCrimeDeleted() 
+		public void RemoveCrimeFragment() 
 		{
 			this.Finish();
 		}

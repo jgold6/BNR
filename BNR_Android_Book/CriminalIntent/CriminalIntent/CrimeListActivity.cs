@@ -85,12 +85,9 @@ namespace CriminalIntent
 			}
 		}
 
-		public void OnCrimeDeleted()
+		public void RemoveCrimeFragment()
 		{
 			RemoveDetailView();
-			Android.Support.V4.App.FragmentManager fm = SupportFragmentManager;
-			CrimeListFragment listFragment = (CrimeListFragment)fm.FindFragmentById(Resource.Id.fragmentContainer);
-			listFragment.RemoveDeletedCrime();
 		}
 		#endregion
     }
