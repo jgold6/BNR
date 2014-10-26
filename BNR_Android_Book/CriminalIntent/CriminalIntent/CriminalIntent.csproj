@@ -105,6 +105,10 @@
     <AndroidResource Include="Resources\drawable\background_activated.xml" />
     <AndroidResource Include="Resources\layout\fragment_crimelist.axml" />
     <AndroidResource Include="Resources\layout\fragment_crime_camera.axml" />
+    <AndroidResource Include="Resources\layout\activity_twopane.axml" />
+    <AndroidResource Include="Resources\values\refs.xml" />
+    <AndroidResource Include="Resources\values-sw600dp\refs.xml" />
+    <AndroidResource Include="Resources\values-xlarge\refs.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -120,5 +124,7 @@
     <Folder Include="Model\" />
     <Folder Include="Resources\menu-v11\" />
     <Folder Include="Resources\drawable-ldpi\" />
+    <Folder Include="Resources\values-sw600dp\" />
+    <Folder Include="Resources\values-xlarge\" />
   </ItemGroup>
 </Project>

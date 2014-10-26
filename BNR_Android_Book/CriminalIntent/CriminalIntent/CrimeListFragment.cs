@@ -19,7 +19,13 @@ namespace CriminalIntent
 		#region - member variables
 		private const string KEY_SUBTITLE_SHOWN = "subtitleShown";
 		bool mSubtitleVisible;
+		private ICallbacks mCallbacks;
 		#endregion
+
+		public interface ICallbacks 
+		{
+			void OnCrimeSelected(Crime crime);
+		}
 
 		#region - Lifecycle
 		public override void OnCreate(Android.OS.Bundle savedInstanceState)
@@ -85,10 +91,10 @@ namespace CriminalIntent
 			return v;
 		}
 
-		public override void OnPause()
+		public override void OnAttach(Android.App.Activity activity)
 		{
-			base.OnPause();
-			CrimeLab.GetInstance(Activity).SaveCrimes();
+			base.OnAttach(activity);
+			mCallbacks = (ICallbacks)activity;
 		}
 
 		public override void OnResume()
@@ -96,9 +102,21 @@ namespace CriminalIntent
 			base.OnResume();
 			// Create a new ListAdapter instead of updating to deal with delete
 			// not calling OnCreate of this fragment
-//			((CrimeAdapter)this.ListAdapter).NotifyDataSetChanged();
-			CrimeAdapter adapter = new CrimeAdapter(Activity, CrimeLab.GetInstance(CrimeListActivity.context).Crimes);
+			//			((CrimeAdapter)this.ListAdapter).NotifyDataSetChanged();
+			CrimeAdapter adapter = new CrimeAdapter(Activity, CrimeLab.GetInstance(CrimeListActivity.Context).Crimes);
 			this.ListAdapter = adapter;
+		}
+
+		public override void OnPause()
+		{
+			base.OnPause();
+			CrimeLab.GetInstance(Activity).SaveCrimes();
+		}
+
+		public override void OnDetach()
+		{
+			base.OnDetach();
+			mCallbacks = null;
 		}
 		#endregion
 
@@ -108,10 +126,11 @@ namespace CriminalIntent
 			base.OnListItemClick(l, v, position, id);
 			Crime c = ((CrimeAdapter)ListAdapter).GetItem(position);
 
-			// Start crime activity
-			Intent i = new Intent(Activity,typeof(CrimePagerActivity));
-			i.PutExtra(CrimeFragment.EXTRA_CRIME_ID, c.Id);
-			StartActivity(i);
+			// Start crime activity  or load fragment into detail contatiner
+//			Intent i = new Intent(Activity,typeof(CrimePagerActivity));
+//			i.PutExtra(CrimeFragment.EXTRA_CRIME_ID, c.Id);
+//			StartActivity(i);
+			mCallbacks.OnCrimeSelected(c);
 		}
 			
 		public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater) {
@@ -231,10 +250,17 @@ namespace CriminalIntent
 			CrimeLab.GetInstance(Activity).AddCrime(crime);
 			CrimeAdapter adapter = this.ListAdapter as CrimeAdapter;
 			adapter.Add(crime);
+//			adapter.NotifyDataSetChanged();
+			// Start Activity or load fragment into detail contatiner
+//			Intent i = new Intent(Activity, typeof(CrimePagerActivity));
+//			i.PutExtra(CrimeFragment.EXTRA_CRIME_ID, crime.Id);
+//			StartActivity(i);
+			mCallbacks.OnCrimeSelected(crime);
+		}
 
-			Intent i = new Intent(Activity, typeof(CrimePagerActivity));
-			i.PutExtra(CrimeFragment.EXTRA_CRIME_ID, crime.Id);
-			StartActivity(i);
+		public void UpdateUI() 
+		{
+			((CrimeAdapter)ListAdapter).NotifyDataSetChanged();
 		}
 		#endregion
 

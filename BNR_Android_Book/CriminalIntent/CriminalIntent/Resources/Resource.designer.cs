@@ -865,8 +865,8 @@ namespace CriminalIntent
 			// aapt resource value: 0x7f050011
 			public const int beginning = 2131034129;
 			
-			// aapt resource value: 0x7f05004d
-			public const int button_new_crime = 2131034189;
+			// aapt resource value: 0x7f05004e
+			public const int button_new_crime = 2131034190;
 			
 			// aapt resource value: 0x7f05002e
 			public const int checkbox = 2131034158;
@@ -874,68 +874,71 @@ namespace CriminalIntent
 			// aapt resource value: 0x7f05000d
 			public const int collapseActionView = 2131034125;
 			
-			// aapt resource value: 0x7f050049
-			public const int crime_callButton = 2131034185;
-			
-			// aapt resource value: 0x7f05004c
-			public const int crime_camera_progressContainer = 2131034188;
-			
 			// aapt resource value: 0x7f05004a
-			public const int crime_camera_surfaceView = 2131034186;
+			public const int crime_callButton = 2131034186;
+			
+			// aapt resource value: 0x7f05004d
+			public const int crime_camera_progressContainer = 2131034189;
 			
 			// aapt resource value: 0x7f05004b
-			public const int crime_camera_takePictureButton = 2131034187;
+			public const int crime_camera_surfaceView = 2131034187;
 			
-			// aapt resource value: 0x7f050045
-			public const int crime_date_button = 2131034181;
-			
-			// aapt resource value: 0x7f050044
-			public const int crime_details_textview = 2131034180;
-			
-			// aapt resource value: 0x7f050041
-			public const int crime_imageButton = 2131034177;
-			
-			// aapt resource value: 0x7f050040
-			public const int crime_imageView = 2131034176;
-			
-			// aapt resource value: 0x7f05004e
-			public const int crime_list_item = 2131034190;
-			
-			// aapt resource value: 0x7f050051
-			public const int crime_list_item_dateTextView = 2131034193;
-			
-			// aapt resource value: 0x7f05004f
-			public const int crime_list_item_solvedCheckBox = 2131034191;
-			
-			// aapt resource value: 0x7f050050
-			public const int crime_list_item_titleTextView = 2131034192;
-			
-			// aapt resource value: 0x7f050048
-			public const int crime_reportButton = 2131034184;
+			// aapt resource value: 0x7f05004c
+			public const int crime_camera_takePictureButton = 2131034188;
 			
 			// aapt resource value: 0x7f050046
-			public const int crime_solved_checkbox = 2131034182;
+			public const int crime_date_button = 2131034182;
 			
-			// aapt resource value: 0x7f050047
-			public const int crime_suspectButton = 2131034183;
-			
-			// aapt resource value: 0x7f050043
-			public const int crime_title_edittext = 2131034179;
+			// aapt resource value: 0x7f050045
+			public const int crime_details_textview = 2131034181;
 			
 			// aapt resource value: 0x7f050042
-			public const int crime_title_textview = 2131034178;
+			public const int crime_imageButton = 2131034178;
+			
+			// aapt resource value: 0x7f050041
+			public const int crime_imageView = 2131034177;
+			
+			// aapt resource value: 0x7f05004f
+			public const int crime_list_item = 2131034191;
+			
+			// aapt resource value: 0x7f050052
+			public const int crime_list_item_dateTextView = 2131034194;
+			
+			// aapt resource value: 0x7f050050
+			public const int crime_list_item_solvedCheckBox = 2131034192;
+			
+			// aapt resource value: 0x7f050051
+			public const int crime_list_item_titleTextView = 2131034193;
+			
+			// aapt resource value: 0x7f050049
+			public const int crime_reportButton = 2131034185;
+			
+			// aapt resource value: 0x7f050047
+			public const int crime_solved_checkbox = 2131034183;
+			
+			// aapt resource value: 0x7f050048
+			public const int crime_suspectButton = 2131034184;
+			
+			// aapt resource value: 0x7f050044
+			public const int crime_title_edittext = 2131034180;
+			
+			// aapt resource value: 0x7f050043
+			public const int crime_title_textview = 2131034179;
 			
 			// aapt resource value: 0x7f050029
 			public const int default_activity_button = 2131034153;
 			
+			// aapt resource value: 0x7f05003e
+			public const int detailFragmentContainter = 2131034174;
+			
 			// aapt resource value: 0x7f05000e
 			public const int dialog = 2131034126;
 			
-			// aapt resource value: 0x7f05003e
-			public const int dialog_date_picker = 2131034174;
-			
 			// aapt resource value: 0x7f05003f
-			public const int dialog_time_picker = 2131034175;
+			public const int dialog_date_picker = 2131034175;
+			
+			// aapt resource value: 0x7f050040
+			public const int dialog_time_picker = 2131034176;
 			
 			// aapt resource value: 0x7f050008
 			public const int disableHome = 2131034120;
@@ -979,14 +982,14 @@ namespace CriminalIntent
 			// aapt resource value: 0x7f05002a
 			public const int list_item = 2131034154;
 			
-			// aapt resource value: 0x7f050052
-			public const int menu_item_delete_crime = 2131034194;
-			
 			// aapt resource value: 0x7f050053
-			public const int menu_item_new_crime = 2131034195;
+			public const int menu_item_delete_crime = 2131034195;
 			
 			// aapt resource value: 0x7f050054
-			public const int menu_item_show_subtitle = 2131034196;
+			public const int menu_item_new_crime = 2131034196;
+			
+			// aapt resource value: 0x7f050055
+			public const int menu_item_show_subtitle = 2131034197;
 			
 			// aapt resource value: 0x7f050012
 			public const int middle = 2131034130;
@@ -1182,26 +1185,32 @@ namespace CriminalIntent
 			// aapt resource value: 0x7f030018
 			public const int activity_fragment = 2130903064;
 			
+			// aapt resource value: 0x7f030021
+			public const int activity_masterdetail = 2130903073;
+			
 			// aapt resource value: 0x7f030019
-			public const int dialog_date = 2130903065;
+			public const int activity_twopane = 2130903065;
 			
 			// aapt resource value: 0x7f03001a
-			public const int dialog_time = 2130903066;
+			public const int dialog_date = 2130903066;
 			
 			// aapt resource value: 0x7f03001b
-			public const int fragment_crime = 2130903067;
+			public const int dialog_time = 2130903067;
 			
 			// aapt resource value: 0x7f03001c
-			public const int fragment_crime_camera = 2130903068;
+			public const int fragment_crime = 2130903068;
 			
 			// aapt resource value: 0x7f03001d
-			public const int fragment_crimelist = 2130903069;
+			public const int fragment_crime_camera = 2130903069;
 			
 			// aapt resource value: 0x7f03001e
-			public const int list_item_crime = 2130903070;
+			public const int fragment_crimelist = 2130903070;
 			
 			// aapt resource value: 0x7f03001f
-			public const int support_simple_spinner_dropdown_item = 2130903071;
+			public const int list_item_crime = 2130903071;
+			
+			// aapt resource value: 0x7f030020
+			public const int support_simple_spinner_dropdown_item = 2130903072;
 			
 			static Layout()
 			{

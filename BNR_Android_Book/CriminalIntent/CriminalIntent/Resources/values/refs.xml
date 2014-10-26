@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <item name="activity_masterdetail" type="layout">
+        @layout/activity_fragment
+    </item>
+
+
+</resources> 
