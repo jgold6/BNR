@@ -18,6 +18,7 @@ using System.IO;
 using Android.Graphics;
 using Android.Provider;
 using Android.Media;
+using Android.Database;
 
 #endregion
 
@@ -40,6 +41,7 @@ namespace CriminalIntent
 		public static readonly int REQUEST_DATE = 0;
 		public static readonly int REQUEST_TIME = 1;
 		public static readonly int REQUEST_PHOTO = 3;
+		public static readonly int REQUEST_CONTACT = 4;
 		#endregion
 
 		#region - member variables
@@ -50,6 +52,8 @@ namespace CriminalIntent
 		CheckBox mSolvedCheckBox;
 		ImageButton mPhotoButton;
 		ImageView mPhotoView;
+		Button mSuspectButton;
+		Button mCallButton;
 		#endregion
 
 		#region - constructor ... kind of.
@@ -218,6 +222,41 @@ namespace CriminalIntent
 //				mPhotoButton.Enabled = false;
 //			}
 
+			Button reportButton = v.FindViewById<Button>(Resource.Id.crime_reportButton);
+			reportButton.Click += (object sender, EventArgs e) => {
+				Intent i = new Intent(Intent.ActionSend);
+				i.SetType("text/plain");
+				i.PutExtra(Intent.ExtraText, GetCrimeReport());
+				i.PutExtra(Intent.ExtraSubject, GetString(Resource.String.crime_report_subject));
+				i = Intent.CreateChooser(i, GetString(Resource.String.send_report));
+				StartActivity(i);
+			};
+
+			mSuspectButton = v.FindViewById<Button>(Resource.Id.crime_suspectButton);
+			mCallButton = v.FindViewById<Button>(Resource.Id.crime_callButton);
+
+			mSuspectButton.Click += (object sender, EventArgs e) => {
+				Intent i = new Intent(Intent.ActionPick, ContactsContract.Contacts.ContentUri);
+				StartActivityForResult(i, REQUEST_CONTACT);
+			};
+
+			if (mCrime.Suspect != null) {
+				mSuspectButton.Text = GetString(Resource.String.crime_report_suspect, mCrime.Suspect);
+			}
+
+			if (mCrime.PhoneNumber != null) {
+				mCallButton.Text = GetString(Resource.String.crime_report_call) + " " + mCrime.PhoneNumber;
+				mCallButton.Enabled = true;
+			}
+			else {
+				mCallButton.Enabled = false;
+			}
+
+			mCallButton.Click += (object sender, EventArgs e) => {
+				Intent i = new Intent(Intent.ActionDial, Android.Net.Uri.Parse("tel:" + mCrime.PhoneNumber));//.Replace("(","").Replace(")","").Replace("-","")));
+				StartActivity(i);
+			};
+
 			return v;
 		}
 
@@ -251,14 +290,22 @@ namespace CriminalIntent
 		public override bool OnOptionsItemSelected(IMenuItem item) {
 			switch (item.ItemId) {
 				case Resource.Id.menu_item_delete_crime:
-					CrimeLab crimelab = CrimeLab.GetInstance(Activity);
-					crimelab.DeleteCrime(mCrime);
-					// Using ParentActivity and NavUtils causes OnCreate to be called again
-					// in CrimeListFragment, causing the subtitle view to be reset
-//					if (NavUtils.GetParentActivityName(Activity) != null) {
-//						NavUtils.NavigateUpFromSameTask(Activity);
-//					}
-					Activity.Finish();
+					AlertDialog.Builder ad = new AlertDialog.Builder(Activity);
+					ad.SetTitle(mCrime.Title);
+					ad.SetMessage("Do you really want to delete this crime?");
+					ad.SetCancelable(true);
+					ad.SetPositiveButton("DELETE", delegate(object s, DialogClickEventArgs evt) {
+						CrimeLab crimelab = CrimeLab.GetInstance(Activity);
+						crimelab.DeleteCrime(mCrime);
+						// Using ParentActivity and NavUtils causes OnCreate to be called again
+						// in CrimeListFragment, causing the subtitle view to be reset
+//						if (NavUtils.GetParentActivityName(Activity) != null) {
+//							NavUtils.NavigateUpFromSameTask(Activity);
+//						}
+						Activity.Finish();
+					});
+					ad.SetNegativeButton("Cancel", (s, evt) => {});
+					ad.Show();
 					return true;
 				case Android.Resource.Id.Home:
 					// Using ParentActivity and NavUtils causes OnCreate to be called again
@@ -326,6 +373,57 @@ namespace CriminalIntent
 //					System.Diagnostics.Debug.WriteLine(String.Format("Crime '{0}' has a photo at: {1}", mCrime.Title, mCrime.Photo.Filename), TAG);
 //				}
 			}
+			else if (requestCode == REQUEST_CONTACT) {
+				Android.Net.Uri contactUri = data.Data;
+				// Specify which fields you want to return values for
+				string[] queryFields = new string[] {ContactsContract.ContactsColumns.DisplayName, ContactsContract.ContactsColumns.HasPhoneNumber};
+				// Perform your query = the contactUri is like a "where" clause here
+				ICursor c = Activity.ContentResolver.Query(contactUri, queryFields, null, null, null);
+
+				// Diouble check that you actually got results
+				if (c.Count == 0) {
+					c.Close();
+					return;
+				}
+				// Pull out the first column of the first row of data - 
+				// that is your suspect's name.
+				c.MoveToFirst();
+
+				string suspect = c.GetString(0);
+				int hasNumber = Convert.ToInt32(c.GetString(1));
+				c.Close();
+
+				mCrime.Suspect = suspect;
+				mSuspectButton.Text = GetString(Resource.String.crime_report_suspect, suspect);
+	
+
+				if (hasNumber > 0) {
+					ICursor pCur = Activity.ContentResolver.Query(ContactsContract.CommonDataKinds.Phone.ContentUri, 
+						new string[]{ContactsContract.CommonDataKinds.Phone.Number}, 
+						ContactsContract.ContactsColumns.DisplayName + "=?", 
+						new string[]{suspect}, 
+						null);
+					if (pCur.Count > 0) {
+						pCur.MoveToFirst();
+						// Get first number
+						string number = pCur.GetString(pCur.GetColumnIndex(ContactsContract.CommonDataKinds.Phone.Number));
+						// Loop through all numbers
+//						string number = "";
+//						do {
+//							number = pCur.GetString(pCur.GetColumnIndex(ContactsContract.CommonDataKinds.Phone.Number));
+//						}
+//						while (pCur.MoveToNext());
+						mCallButton.Enabled = true;
+						mCrime.PhoneNumber = number;
+						mCallButton.Text = GetString(Resource.String.crime_report_call) + " " + mCrime.PhoneNumber;
+					}
+				}
+				else {
+					mCallButton.Enabled = false;
+					mCrime.PhoneNumber = null;
+					mCallButton.Text = GetString(Resource.String.crime_report_call);
+				}
+			} 
 		}
 
 		#endregion
@@ -373,6 +471,31 @@ namespace CriminalIntent
 
 				System.Diagnostics.Debug.WriteLine(String.Format("Photo path: {0}", mCrime.Photo.Filename), TAG);
 			}
+		}
+
+		private string GetCrimeReport()
+		{
+			string solvedString = null;
+			if (mCrime.Solved) {
+				solvedString = GetString(Resource.String.crime_report_solved);
+			}
+			else {
+				solvedString = GetString(Resource.String.crime_report_unsolved);
+			}
+
+			string dateString = mCrime.Date.ToString("dddd, MMMMM dd");
+
+			string suspect = mCrime.Suspect;
+			if (suspect == null) {
+				suspect = GetString(Resource.String.crime_report_no_suspect);
+			}
+			else {
+				suspect = GetString(Resource.String.crime_report_suspect, suspect);
+			}
+
+			string report = GetString(Resource.String.crime_report, mCrime.Title, dateString, solvedString, suspect);
+
+			return report;
 		}
 		#endregion
     }
