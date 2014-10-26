@@ -65,7 +65,11 @@ namespace CriminalIntent
 //				Title = crime.Title;
 //		}
 
-		public void OnCrimeUpdated(Crime crime) {}
+		public void OnCrimeUpdated() {}
+		public void OnCrimeDeleted() 
+		{
+			this.Finish();
+		}
 		#endregion
 
     }

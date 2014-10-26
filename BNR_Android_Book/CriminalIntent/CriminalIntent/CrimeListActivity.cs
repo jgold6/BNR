@@ -65,11 +65,32 @@ namespace CriminalIntent
 			}
 		}
 
-		public void OnCrimeUpdated(Crime crime)
+		public void OnCrimeUpdated()
 		{
 			Android.Support.V4.App.FragmentManager fm = SupportFragmentManager;
 			CrimeListFragment listFragment = (CrimeListFragment)fm.FindFragmentById(Resource.Id.fragmentContainer);
 			listFragment.UpdateUI();
+		}
+
+		public void RemoveDetailView()
+		{
+			if (FindViewById(Resource.Id.detailFragmentContainter) != null) {
+				Android.Support.V4.App.FragmentManager fm = SupportFragmentManager;
+				Android.Support.V4.App.FragmentTransaction ft = fm.BeginTransaction();
+				Android.Support.V4.App.Fragment oldDetail = fm.FindFragmentById(Resource.Id.detailFragmentContainter);
+				if (oldDetail != null) {
+					ft.Remove(oldDetail);
+				}
+				ft.Commit();
+			}
+		}
+
+		public void OnCrimeDeleted()
+		{
+			RemoveDetailView();
+			Android.Support.V4.App.FragmentManager fm = SupportFragmentManager;
+			CrimeListFragment listFragment = (CrimeListFragment)fm.FindFragmentById(Resource.Id.fragmentContainer);
+			listFragment.RemoveDeletedCrime();
 		}
 		#endregion
     }

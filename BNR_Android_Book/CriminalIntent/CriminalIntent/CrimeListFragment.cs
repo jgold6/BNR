@@ -25,6 +25,8 @@ namespace CriminalIntent
 		public interface ICallbacks 
 		{
 			void OnCrimeSelected(Crime crime);
+
+			void RemoveDetailView();
 		}
 
 		#region - Lifecycle
@@ -204,6 +206,7 @@ namespace CriminalIntent
 		{
 			MenuInflater inflater = mode.MenuInflater;
 			inflater.Inflate(Resource.Menu.crime_list_item_context, menu);
+			mCallbacks.RemoveDetailView();
 			return true;
 		}
 
@@ -261,6 +264,12 @@ namespace CriminalIntent
 		public void UpdateUI() 
 		{
 			((CrimeAdapter)ListAdapter).NotifyDataSetChanged();
+		}
+
+		public void RemoveDeletedCrime()
+		{
+			CrimeAdapter adapter = new CrimeAdapter(Activity, CrimeLab.GetInstance(CrimeListActivity.Context).Crimes);
+			this.ListAdapter = adapter;
 		}
 		#endregion
 

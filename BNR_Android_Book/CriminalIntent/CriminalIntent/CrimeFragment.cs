@@ -59,7 +59,8 @@ namespace CriminalIntent
 
 		public interface ICallbacks 
 		{
-			void OnCrimeUpdated(Crime crime);
+			void OnCrimeUpdated();
+			void OnCrimeDeleted();
 		}
 
 		#region - constructor ... kind of.
@@ -115,7 +116,7 @@ namespace CriminalIntent
 			};
 			mTitleField.TextChanged += (object sender, Android.Text.TextChangedEventArgs e) => {
 				mCrime.Title = e.Text.ToString();
-				mCallBacks.OnCrimeUpdated(mCrime);
+				mCallBacks.OnCrimeUpdated();
 			};
 			mTitleField.AfterTextChanged += (object sender, Android.Text.AfterTextChangedEventArgs e) => {
 				// nothing for now
@@ -165,7 +166,7 @@ namespace CriminalIntent
 			mSolvedCheckBox.Checked = mCrime.Solved;
 			mSolvedCheckBox.CheckedChange += (object sender, CompoundButton.CheckedChangeEventArgs e) => {
 				mCrime.Solved = e.IsChecked;
-				mCallBacks.OnCrimeUpdated(mCrime);
+				mCallBacks.OnCrimeUpdated();
 			};
 
 			mPhotoView = v.FindViewById<ImageView>(Resource.Id.crime_imageView);
@@ -322,7 +323,7 @@ namespace CriminalIntent
 //						if (NavUtils.GetParentActivityName(Activity) != null) {
 //							NavUtils.NavigateUpFromSameTask(Activity);
 //						}
-						Activity.Finish();
+						mCallBacks.OnCrimeDeleted();
 					});
 					ad.SetNegativeButton("Cancel", (s, evt) => {});
 					ad.Show();
@@ -354,14 +355,14 @@ namespace CriminalIntent
 				int day = data.GetIntExtra(DatePickerFragment.EXTRA_DAY, DateTime.Now.Day);
 				mCrime.Date = new DateTime(year, month, day, mCrime.Date.Hour, mCrime.Date.Minute, 0);
 				UpdateDateTime();
-				mCallBacks.OnCrimeUpdated(mCrime);
+				mCallBacks.OnCrimeUpdated();
 			}
 			else if (requestCode == REQUEST_TIME) {
 				int hour = data.GetIntExtra(TimePickerFragment.EXTRA_HOUR, DateTime.Now.Hour);
 				int minute = data.GetIntExtra(TimePickerFragment.EXTRA_MINUTE, DateTime.Now.Minute);
 				mCrime.Date = new DateTime(mCrime.Date.Year, mCrime.Date.Month, mCrime.Date.Day, hour, minute, 0);
 				UpdateDateTime();
-				mCallBacks.OnCrimeUpdated(mCrime);
+				mCallBacks.OnCrimeUpdated();
 			}
 			else if (requestCode == REQUEST_PHOTO) {
 				// From Xamarin guide - 
@@ -381,7 +382,7 @@ namespace CriminalIntent
 
 					mCrime.Photo = new Photo(PhotoApp._file.Path);
 					ShowPhoto();
-					mCallBacks.OnCrimeUpdated(mCrime);
+					mCallBacks.OnCrimeUpdated();
 					System.Diagnostics.Debug.WriteLine(String.Format("Crime '{0}' has a photo at: {1}", mCrime.Title, mCrime.Photo.Filename), TAG);
 				}
 
@@ -444,7 +445,7 @@ namespace CriminalIntent
 					mCrime.PhoneNumber = null;
 					mCallButton.Text = GetString(Resource.String.crime_report_call);
 				}
-				mCallBacks.OnCrimeUpdated(mCrime);
+				mCallBacks.OnCrimeUpdated();
 			} 
 		}
 
