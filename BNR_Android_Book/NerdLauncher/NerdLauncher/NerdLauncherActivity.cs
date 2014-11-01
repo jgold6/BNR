@@ -9,7 +9,7 @@ using Android.OS;
 
 namespace NerdLauncher
 {
-	[Activity(Label = "NerdLauncher", MainLauncher = true, Icon = "@drawable/icon", Theme="@android:style/Theme.Holo.Light.DarkActionBar")]
+	[Activity(Label = "NerdLauncher", Icon = "@drawable/icon", Theme="@android:style/Theme.Holo.Light.DarkActionBar")]
 	// Allows this activity to replace the home screen on the Android device
 	//[IntentFilter(new[]{Intent.ActionMain}, Categories = new[] {Intent.CategoryHome, Intent.CategoryDefault})]
 	public class NerdLauncherActivity : SingleFragmentActivity

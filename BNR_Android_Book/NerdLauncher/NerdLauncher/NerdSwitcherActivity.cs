@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace NerdLauncher
 {
-	[Activity(Label = "NerdSwitcherActivity", Icon = "@drawable/icon", Theme="@android:style/Theme.Holo.Light.DarkActionBar")]            
+	[Activity(Label = "NerdSwitcherActivity", MainLauncher = true, Icon = "@drawable/icon", Theme="@android:style/Theme.Holo.Light.DarkActionBar")]            
 	public class NerdSwitcherActivity : SingleFragmentActivity
     {
 		public static NerdSwitcherActivity Context {get; private set;}

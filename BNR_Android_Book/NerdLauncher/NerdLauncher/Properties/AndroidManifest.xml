@@ -4,4 +4,5 @@
 	<application android:label="NerdLauncher" android:icon="@drawable/icon">
 	</application>
 	<uses-permission android:name="android.permission.GET_TASKS" />
+	<uses-permission android:name="android.permission.REORDER_TASKS" />
 </manifest>

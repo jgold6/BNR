@@ -24,6 +24,13 @@ namespace NerdLauncher
             base.OnCreate(savedInstanceState);
 
             // Create your fragment here
+
+        }
+
+		public override void OnResume()
+		{
+			base.OnResume();
+
 			ActivityManager am = (ActivityManager)Activity.GetSystemService(Activity.ActivityService);
 			List<ActivityManager.RunningTaskInfo> runningTasks = am.GetRunningTasks(100).ToList();
 
@@ -32,10 +39,10 @@ namespace NerdLauncher
 			foreach (ActivityManager.RunningTaskInfo rt in runningTasks)
 				System.Diagnostics.Debug.WriteLine("[{0}] Task TopActivity ClassName: {1}", TAG, rt.TopActivity.ClassName);
 
-			SwitcherArrayAdapter adapter = new SwitcherArrayAdapter(Activity, Android.Resource.Layout.SimpleListItem1, runningTasks);
+			SwitcherArrayAdapter adapter = new SwitcherArrayAdapter(Activity, Android.Resource.Layout.ActivityListItem, runningTasks);
 
 			this.ListAdapter = adapter;
-        }
+		}
 
 		public override void OnListItemClick(ListView l, View v, int position, long id)
 		{
@@ -45,11 +52,8 @@ namespace NerdLauncher
 
 			if (runningTaskInfo == null) return;
 
-			Intent i = new Intent(Intent.ActionMain);
-			i.SetClassName(runningTaskInfo.BaseActivity.PackageName, runningTaskInfo.BaseActivity.ClassName);
-			i.AddFlags(ActivityFlags.NewTask);
-
-			StartActivity(i);
+			ActivityManager am = (ActivityManager)Activity.GetSystemService(Activity.ActivityService);
+			am.MoveTaskToFront(runningTaskInfo.Id, MoveTaskFlags.WithHome);
 		}
     }
 
@@ -65,12 +69,13 @@ namespace NerdLauncher
 		{
 			View v = convertView;
 			if (v == null)
-				v = context.LayoutInflater.Inflate(Android.Resource.Layout.SimpleListItem1, null);
+				v = context.LayoutInflater.Inflate(Android.Resource.Layout.ActivityListItem, null);
 	
 			ActivityManager.RunningTaskInfo rt = GetItem(position);
 			PackageManager pm = NerdSwitcherActivity.Context.PackageManager;
-
-			v.FindViewById<TextView>(Android.Resource.Id.Text1).Text = rt.BaseActivity.ShortClassName;
+		
+			v.FindViewById<TextView>(Android.Resource.Id.Text1).Text = rt.TopActivity.ClassName;
+			v.FindViewById<ImageView>(Android.Resource.Id.Icon).SetImageBitmap(rt.Thumbnail);
 
 			return v;
 		}
