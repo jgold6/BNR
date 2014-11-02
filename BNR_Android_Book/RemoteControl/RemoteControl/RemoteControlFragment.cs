@@ -18,13 +18,34 @@ namespace RemoteControl
 			mSelectedTextView = v.FindViewById<TextView>(Resource.Id.fragment_remote_control_selectedTextView);
 			mWorkingTextView = v.FindViewById<TextView>(Resource.Id.fragment_remote_control_workingTextView);
 
-			Button zeroButton = v.FindViewById<Button>(Resource.Id.fragment_remote_control_zeroButton);
+			TableLayout tableLayout = v.FindViewById<TableLayout>(Resource.Id.fragment_remote_control_tableLayout);
+			int number = 1;
+			for (int i = 2; i < tableLayout.ChildCount -1; i++) {
+				TableRow row = (TableRow)tableLayout.GetChildAt(i);
+				for (int j = 0; j < row.ChildCount; j++) {
+					Button button = (Button)row.GetChildAt(j);
+					button.Text = number.ToString();
+					button.SetOnClickListener(this);
+					number++;
+				}
+			}
+
+			TableRow bottomRow = (TableRow)tableLayout.GetChildAt(tableLayout.ChildCount -1);
+
+			Button deleteButton= (Button)bottomRow.GetChildAt(0);
+			deleteButton.Text = "Delete";
+			deleteButton.SetTextAppearance(RemoteControlActivity.Context, Resource.Style.RemoteButton_ActionButton);
+			deleteButton.Click += (object sender, EventArgs e) => {
+				mWorkingTextView.Text = "0";
+			};
+
+			Button zeroButton= (Button)bottomRow.GetChildAt(1);
+			zeroButton.Text = "0";
 			zeroButton.SetOnClickListener(this);
 
-			Button oneButton = v.FindViewById<Button>(Resource.Id.fragment_remote_control_oneButton);
-			oneButton.SetOnClickListener(this);
-
-			Button enterButton = v.FindViewById<Button>(Resource.Id.fragment_remote_control_enterButton);
+			Button enterButton = (Button)bottomRow.GetChildAt(2);
+			enterButton.Text = "Enter";
+			enterButton.SetTextAppearance(RemoteControlActivity.Context, Resource.Style.RemoteButton_ActionButton);
 			enterButton.Click += (object sender, EventArgs e) => {
 				Console.WriteLine("Enter Button Clicked");
 				string working = mWorkingTextView.Text;

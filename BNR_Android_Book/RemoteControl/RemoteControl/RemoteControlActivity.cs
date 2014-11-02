@@ -9,7 +9,7 @@ using Android.OS;
 
 namespace RemoteControl
 {
-	[Activity(Label = "RemoteControl", MainLauncher = true, Icon = "@drawable/icon", Theme="@android:style/Theme.Holo.Light.DarkActionBar", ScreenOrientation=Android.Content.PM.ScreenOrientation.Portrait)]
+	[Activity(Label = "RemoteControl", MainLauncher = true, Icon = "@drawable/icon", Theme="@style/AppTheme", ScreenOrientation=Android.Content.PM.ScreenOrientation.Portrait)]
 	public class RemoteControlActivity : SingleFragmentActivity
     {
 		public static RemoteControlActivity Context {get; private set;}
