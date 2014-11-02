@@ -62,6 +62,22 @@
     <AndroidResource Include="Resources\layout\fragment_remote_control.axml" />
     <AndroidResource Include="Resources\values\Styles.xml" />
     <AndroidResource Include="Resources\layout\button_row.axml" />
+    <AndroidResource Include="Resources\drawable\button_shape_normal.xml" />
+    <AndroidResource Include="Resources\drawable\button_shape_pressed.xml" />
+    <AndroidResource Include="Resources\drawable\button_shape.xml" />
+    <AndroidResource Include="Resources\drawable\button_text_color.xml" />
+    <AndroidResource Include="Resources\drawable\action_text_color.xml" />
+    <AndroidResource Include="Resources\drawable\button_shape_shadowed_pressed.xml" />
+    <AndroidResource Include="Resources\drawable\button_shape_shadowed_normal.xml" />
+    <AndroidResource Include="Resources\drawable\button_shape_shadowed.xml" />
+    <AndroidResource Include="Resources\drawable\remote_background.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\bar.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\window.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\bar_patch.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\window_patch.9.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Resources\drawable-hdpi\" />
+  </ItemGroup>
 </Project>
