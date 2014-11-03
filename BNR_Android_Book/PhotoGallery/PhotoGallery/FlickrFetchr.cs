@@ -50,16 +50,37 @@ namespace PhotoGallery
 			return result;
 		}
 
+		// TODO: Limit caching to 50 images.
+		// TODO: Preload 50 images.
+
 		public async Task<Bitmap> GetImageBitmapAsync(string url)
 		{
 			Bitmap bitmap = null;
-			try {
-				byte[] bitmapBytes = await GetUrlBytesAsync(url);
-				bitmap = await BitmapFactory.DecodeByteArrayAsync(bitmapBytes, 0, bitmapBytes.Length);
-				Console.WriteLine("[{0}] Bitmap created", TAG);
+			string[] split = url.Split(new char[]{'/'});
+			string filename = split[split.Length-1];
+			string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), filename + ".bytes");
+			// Check for cached images on filesystem. Filename will be the last part of the url+.bytes.
+			if (File.Exists(path)) {
+				try {
+					byte[] bitmapBytes = File.ReadAllBytes(path);
+					bitmap = await BitmapFactory.DecodeByteArrayAsync(bitmapBytes, 0, bitmapBytes.Length);
+					Console.WriteLine("[{0}] Bitmap created from cache", TAG);
+				}
+				catch (Exception ex) {
+					Console.WriteLine("[{0}] Bitmap creation from cache failed: {1}", TAG, ex.Message);
+				}
 			}
-			catch (Exception ex) {
-				Console.WriteLine("[{0}] Bitmap creation failed: {1}", TAG, ex.Message);
+			// If not, download and cache it.
+			else {
+				try {
+					byte[] bitmapBytes = await GetUrlBytesAsync(url);
+					bitmap = await BitmapFactory.DecodeByteArrayAsync(bitmapBytes, 0, bitmapBytes.Length);
+					File.WriteAllBytes(path, bitmapBytes);
+					Console.WriteLine("[{0}] Bitmap created from url", TAG);
+				}
+				catch (Exception ex) {
+					Console.WriteLine("[{0}] Bitmap creation from url failed: {1}", TAG, ex.Message);
+				}
 			}
 			return bitmap;
 		}
