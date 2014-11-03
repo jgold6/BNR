@@ -5,6 +5,7 @@ using Android.Views;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using Android.Graphics;
 
 namespace PhotoGallery
 {
@@ -60,7 +61,7 @@ namespace PhotoGallery
 			if (Activity == null || mGridView == null) return;
 
 			if (galleryItems != null) {
-				mGridView.Adapter = new ArrayAdapter<GalleryItem>(Activity, Android.Resource.Layout.SimpleGalleryItem, galleryItems);
+				mGridView.Adapter = new GalleryItemAdapter(Activity, galleryItems);
 			}
 			else {
 				mGridView.Adapter = null;
@@ -68,5 +69,36 @@ namespace PhotoGallery
 
 		}
     }
+
+	public class GalleryItemAdapter : ArrayAdapter<GalleryItem>
+	{
+		Activity context;
+
+		public GalleryItemAdapter(Activity context, List<GalleryItem> items) : base(context, 0 , items)
+		{
+			this.context = context;
+		}
+
+		public override View GetView(int position, View convertView, ViewGroup parent)
+		{
+			View view = convertView;
+			if (view == null) {
+				view = context.LayoutInflater.Inflate(Resource.Layout.gallery_item, parent, false);
+			}
+
+			ImageView imageView = view.FindViewById<ImageView>(Resource.Id.gallery_item_imageView);
+			imageView.SetImageResource(Resource.Drawable.face_icon);
+			
+			GalleryItem item = GetItem(position);
+			Task.Run(async () => {
+				Bitmap image = await new FlickrFetchr().GetImageBitmapAsync(item.Url).ConfigureAwait(false);
+				context.RunOnUiThread(() => {
+					imageView.SetImageBitmap(image);
+				});
+			});
+
+			return view;
+		}
+	}
 }
 

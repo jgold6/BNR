@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.IO;
 using System.Collections.Generic;
+using Android.Graphics;
 
 namespace PhotoGallery
 {
@@ -47,6 +48,20 @@ namespace PhotoGallery
 				result += Convert.ToChar(bit);
 			}
 			return result;
+		}
+
+		public async Task<Bitmap> GetImageBitmapAsync(string url)
+		{
+			Bitmap bitmap = null;
+			try {
+				byte[] bitmapBytes = await GetUrlBytesAsync(url);
+				bitmap = await BitmapFactory.DecodeByteArrayAsync(bitmapBytes, 0, bitmapBytes.Length);
+				Console.WriteLine("[{0}] Bitmap created", TAG);
+			}
+			catch (Exception ex) {
+				Console.WriteLine("[{0}] Bitmap creation failed: {1}", TAG, ex.Message);
+			}
+			return bitmap;
 		}
 
 		public async Task<List<GalleryItem>> Fetchitems(string pageNum = "1")
