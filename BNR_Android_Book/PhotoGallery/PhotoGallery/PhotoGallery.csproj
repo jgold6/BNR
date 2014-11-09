@@ -67,9 +67,13 @@
     <AndroidResource Include="Resources\layout\fragment_photo_gallery.axml" />
     <AndroidResource Include="Resources\layout\gallery_item.axml" />
     <AndroidResource Include="Resources\drawable-hdpi\face_icon.png" />
+    <AndroidResource Include="Resources\menu\fragment_photo_gallery.xml" />
+    <AndroidResource Include="Resources\xml\searchable.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Resources\drawable-hdpi\" />
+    <Folder Include="Resources\menu\" />
+    <Folder Include="Resources\xml\" />
   </ItemGroup>
 </Project>

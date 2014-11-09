@@ -15,6 +15,7 @@ namespace PhotoGallery
     }
 
 	// For deserializing the recent photos XML from Flickr
+
 	/// <remarks/>
 	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
 	[System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
@@ -62,11 +63,11 @@ namespace PhotoGallery
 
 		private byte pageField;
 
-		private byte pagesField;
+		private uint pagesField;
 
 		private byte perpageField;
 
-		private ushort totalField;
+		private uint totalField;
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlElementAttribute("photo")]
@@ -98,7 +99,7 @@ namespace PhotoGallery
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public byte pages
+		public uint pages
 		{
 			get
 			{
@@ -126,7 +127,7 @@ namespace PhotoGallery
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public ushort total
+		public uint total
 		{
 			get
 			{

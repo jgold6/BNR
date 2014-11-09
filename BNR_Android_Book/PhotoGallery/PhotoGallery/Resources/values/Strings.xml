@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, Click Me!</string>
     <string name="app_name">PhotoGallery</string>
+
+    <string name="search_hint">Search Flickr</string>
+    <string name="search">Search</string>
+    <string name="clear_search">Clear Search</string>
+
 </resources>

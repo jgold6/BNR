@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Android.Graphics;
 using Android.Util;
+using Android.Preferences;
+using Android.OS;
+using Android.Content;
 
 namespace PhotoGallery
 {
@@ -14,35 +17,27 @@ namespace PhotoGallery
     {
 		private static readonly string TAG = "PhotoGalleryFragment";
 
-		GridView mGridView;
+		#region = member variables
+		public GridView mGridView;
 		List<GalleryItem> galleryItems;
 		int currentPage;
 		bool endReached;
+		string query;
+		#endregion
 
+		#region - Lifecycle methods
 		public override async void OnCreate(Android.OS.Bundle savedInstanceState)
 		{
 //			Console.WriteLine("[{0}] OnCreate Called: {1}", TAG, DateTime.Now.ToLongTimeString());
 			base.OnCreate(savedInstanceState);
 			RetainInstance = true;
+			SetHasOptionsMenu(true);
 
 			currentPage = 1;
 			endReached = false;
-			FlickrFetchr fetchr = new FlickrFetchr();
 
-			ProgressDialog pg = new ProgressDialog(Activity);
-			pg.SetMessage("This may take a minute or two");
-			pg.SetTitle("Loading Images");
-			pg.SetCancelable(false);
-			pg.Show();
+			await UpdateItems();
 
-			galleryItems = await fetchr.Fetchitems(currentPage.ToString());
-//			foreach (GalleryItem item in galleryItems) {
-//				Console.WriteLine("[{0}]\nPhoto Id: {1}\nCaption: {2}\nUrl: {3}", TAG, item.Id, item.Caption, item.Url);
-//			}
-
-			pg.Dismiss();
-
-			SetupAdapter();
 //			Console.WriteLine("[{0}] OnCreate Done: {1}", TAG, DateTime.Now.ToLongTimeString());
 		}
 
@@ -58,11 +53,21 @@ namespace PhotoGallery
 					endReached = true;
 //					Console.WriteLine("[{0}] Scroll Ended", TAG);
 					currentPage++;
-					List<GalleryItem> newItems = await new FlickrFetchr().Fetchitems(currentPage.ToString());
+
+					List<GalleryItem> newItems;
+					if (query != null) {
+						newItems = await new FlickrFetchr().Search(query, currentPage.ToString());
+					}
+					else {
+						newItems = await new FlickrFetchr().Fetchitems(currentPage.ToString());
+					}
+
 					galleryItems = galleryItems.Concat(newItems).ToList();
+
 					var adapter = (ArrayAdapter)mGridView.Adapter;
 					adapter.AddAll(newItems);
 					adapter.NotifyDataSetChanged();
+
 					endReached = false;
 				}
 			};
@@ -79,6 +84,74 @@ namespace PhotoGallery
 			SetupAdapter();
 //			Console.WriteLine("[{0}] OnCreateView Done: {1}", TAG, DateTime.Now.ToLongTimeString());
 			return v;
+		}
+
+		public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
+		{
+			base.OnCreateOptionsMenu(menu, inflater);
+			inflater.Inflate(Resource.Menu.fragment_photo_gallery, menu);
+			// Using SearchView - had issues clearing it. 
+//			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb) {
+//				IMenuItem searchItem = menu.FindItem(Resource.Id.menu_item_search);
+//				SearchView searchView = (SearchView)searchItem.ActionView;
+//
+//				// Get the data from our searchable.xml as a SearchableInfo
+//				SearchManager searchManager = (SearchManager)Activity.GetSystemService(Context.SearchService);
+//				ComponentName name = Activity.ComponentName;
+//				SearchableInfo searchInfo = searchManager.GetSearchableInfo(name);
+//
+//				searchView.SetSearchableInfo(searchInfo);
+//			}
+		}
+
+		public override bool OnOptionsItemSelected(IMenuItem item)
+		{
+			switch (item.ItemId) {
+				case Resource.Id.menu_item_search:
+					currentPage = 1;
+					Activity.OnSearchRequested();
+					return true;
+				case Resource.Id.menu_item_clear:
+					PreferenceManager.GetDefaultSharedPreferences(Activity).Edit().PutString(FlickrFetchr.PREF_SEARCH_QUERY, null).Commit();
+					// Using SearchView - Not sure if this is correct to kill the SearchView
+//					if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb) {
+//						SearchView searchView = (SearchView)item.ActionView;
+//						searchView.SetSearchableInfo(null);
+//					}
+					currentPage = 1;
+					UpdateItems();
+					return true;
+				default:
+					return base.OnOptionsItemSelected(item);
+			}
+		} 
+
+		#endregion
+
+		#region - Adapter
+		public async Task UpdateItems() {
+			if (this.Activity == null)
+				return;
+			ProgressDialog pg = new ProgressDialog(Activity);
+			pg.SetMessage("This may take a minute or two");
+			pg.SetTitle("Loading Images");
+			pg.SetCancelable(false);
+			pg.Show();
+
+			query = PreferenceManager.GetDefaultSharedPreferences(Activity).GetString(FlickrFetchr.PREF_SEARCH_QUERY, null);
+			FlickrFetchr fetchr = new FlickrFetchr();
+			if (query != null) {
+				galleryItems = await fetchr.Search(query, currentPage.ToString());
+			}
+			else {
+				galleryItems = await fetchr.Fetchitems(currentPage.ToString());
+			}
+//			foreach (GalleryItem item in galleryItems) {
+//				Console.WriteLine("[{0}]\nPhoto Id: {1}\nCaption: {2}\nUrl: {3}", TAG, item.Id, item.Caption, item.Url);
+//			}
+			SetupAdapter();
+
+			pg.Dismiss();
 		}
 
 		void SetupAdapter() {
@@ -108,6 +181,7 @@ namespace PhotoGallery
 			}
 
 		}
+
     }
 
 	public class GalleryItemAdapter : ArrayAdapter<GalleryItem>
@@ -144,5 +218,6 @@ namespace PhotoGallery
 			return view;
 		}
 	}
+	#endregion
 }
 
