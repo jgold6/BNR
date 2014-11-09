@@ -119,7 +119,10 @@ namespace PhotoGallery
 //						searchView.SetSearchableInfo(null);
 //					}
 					currentPage = 1;
-					UpdateItems();
+					Task.Run(() => {
+					}).ContinueWith(async(t) => {
+						await UpdateItems();
+					}, TaskScheduler.FromCurrentSynchronizationContext());
 					return true;
 				default:
 					return base.OnOptionsItemSelected(item);

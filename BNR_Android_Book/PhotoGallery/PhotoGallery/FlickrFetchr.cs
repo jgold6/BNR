@@ -24,7 +24,7 @@ namespace PhotoGallery
 		private static readonly string paramText = "text";
 		private static readonly string paramPage = "page";
 		private static readonly string paramPerPage = "per_page";
-		private static readonly string itemsPerPage = "50";
+		private static readonly string itemsPerPage = "20";
 
 		public static readonly string PREF_SEARCH_QUERY = "searchQuery";
 		#endregion
