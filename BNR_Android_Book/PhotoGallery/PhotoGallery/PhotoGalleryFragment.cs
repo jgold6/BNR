@@ -91,7 +91,7 @@ namespace PhotoGallery
 		{
 			base.OnCreateOptionsMenu(menu, inflater);
 			inflater.Inflate(Resource.Menu.fragment_photo_gallery, menu);
-			// Using SearchView - had issues clearing it. 
+			// Using SearchView 
 			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb) {
 				IMenuItem searchItem = menu.FindItem(Resource.Id.menu_item_search);
 				SearchView searchView = (SearchView)searchItem.ActionView;
@@ -128,7 +128,7 @@ namespace PhotoGallery
 			switch (item.ItemId) {
 				case Resource.Id.menu_item_search:
 					currentPage = 1;
-					Activity.OnSearchRequested();
+					Activity.StartSearch(lastQuery, true, null, false);
 					return true;
 				case Resource.Id.menu_item_clear:
 					PreferenceManager.GetDefaultSharedPreferences(Activity).Edit().PutString(FlickrFetchr.PREF_SEARCH_QUERY, null).Commit();
