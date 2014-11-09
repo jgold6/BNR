@@ -143,8 +143,6 @@ namespace PhotoGallery
 
 			return view;
 		}
-
-
 	}
 }
 
