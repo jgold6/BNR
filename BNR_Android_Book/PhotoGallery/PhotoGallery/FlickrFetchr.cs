@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Collections.Generic;
 using Android.Graphics;
+using Android.Widget;
 
 namespace PhotoGallery
 {
@@ -27,6 +28,7 @@ namespace PhotoGallery
 		private static readonly string itemsPerPage = "20";
 
 		public static readonly string PREF_SEARCH_QUERY = "searchQuery";
+		public uint NumberOfHits {get; set;}
 		#endregion
 
 		async Task<byte[]> GetUrlBytesAsync(string url) {
@@ -149,6 +151,7 @@ namespace PhotoGallery
 //				Console.WriteLine("[{0}] Fetchitems Start Deserialzer: {1}", TAG, DateTime.Now.ToLongTimeString());
 				using (var reader = new StringReader(xmlString)) {
 					var rsp = (rsp)serializer.Deserialize(reader);
+					NumberOfHits = rsp.photos.total;
 					var photos = rsp.photos.photo;
 					foreach (rspPhotosPhoto photo in photos) {
 						//Console.WriteLine("[{0}]\nPhoto Id: {1}\nCaption: {2}\nUrl: {3}", TAG, photo.id, photo.title, photo.url_s);

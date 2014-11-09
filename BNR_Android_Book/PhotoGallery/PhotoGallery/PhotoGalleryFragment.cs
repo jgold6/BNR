@@ -23,6 +23,7 @@ namespace PhotoGallery
 		int currentPage;
 		bool endReached;
 		string query;
+		string lastQuery;
 		#endregion
 
 		#region - Lifecycle methods
@@ -91,17 +92,28 @@ namespace PhotoGallery
 			base.OnCreateOptionsMenu(menu, inflater);
 			inflater.Inflate(Resource.Menu.fragment_photo_gallery, menu);
 			// Using SearchView - had issues clearing it. 
-//			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb) {
-//				IMenuItem searchItem = menu.FindItem(Resource.Id.menu_item_search);
-//				SearchView searchView = (SearchView)searchItem.ActionView;
-//
-//				// Get the data from our searchable.xml as a SearchableInfo
-//				SearchManager searchManager = (SearchManager)Activity.GetSystemService(Context.SearchService);
-//				ComponentName name = Activity.ComponentName;
-//				SearchableInfo searchInfo = searchManager.GetSearchableInfo(name);
-//
-//				searchView.SetSearchableInfo(searchInfo);
-//			}
+			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb) {
+				IMenuItem searchItem = menu.FindItem(Resource.Id.menu_item_search);
+				SearchView searchView = (SearchView)searchItem.ActionView;
+
+				// Get the data from our searchable.xml as a SearchableInfo
+				SearchManager searchManager = (SearchManager)Activity.GetSystemService(Context.SearchService);
+				ComponentName name = Activity.ComponentName;
+				SearchableInfo searchInfo = searchManager.GetSearchableInfo(name);
+				searchView.SetSearchableInfo(searchInfo);
+				searchView.QueryTextFocusChange += (object sender, View.FocusChangeEventArgs e) => {
+					if (e.HasFocus && lastQuery != null && lastQuery != String.Empty) {
+						searchView.SetQuery(lastQuery, false);
+					}
+				};
+				searchView.Close += async (object sender, SearchView.CloseEventArgs e) => {
+					e.Handled = false;
+					PreferenceManager.GetDefaultSharedPreferences(Activity).Edit().PutString(FlickrFetchr.PREF_SEARCH_QUERY, null).Commit();
+					query = null;
+					currentPage = 1;
+					await UpdateItems();
+				};
+			}
 		}
 
 		public override bool OnOptionsItemSelected(IMenuItem item)
@@ -142,6 +154,8 @@ namespace PhotoGallery
 			pg.Show();
 
 			query = PreferenceManager.GetDefaultSharedPreferences(Activity).GetString(FlickrFetchr.PREF_SEARCH_QUERY, null);
+			if (query != null && query != String.Empty)
+				lastQuery = query;
 			FlickrFetchr fetchr = new FlickrFetchr();
 			if (query != null) {
 				galleryItems = await fetchr.Search(query, currentPage.ToString());
@@ -153,6 +167,7 @@ namespace PhotoGallery
 //				Console.WriteLine("[{0}]\nPhoto Id: {1}\nCaption: {2}\nUrl: {3}", TAG, item.Id, item.Caption, item.Url);
 //			}
 			SetupAdapter();
+			Toast.MakeText(Activity, String.Format("Results: {0}", fetchr.NumberOfHits), ToastLength.Long).Show();
 
 			pg.Dismiss();
 		}
