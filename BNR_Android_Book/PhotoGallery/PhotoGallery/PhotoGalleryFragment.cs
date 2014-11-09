@@ -101,9 +101,15 @@ namespace PhotoGallery
 				ComponentName name = Activity.ComponentName;
 				SearchableInfo searchInfo = searchManager.GetSearchableInfo(name);
 				searchView.SetSearchableInfo(searchInfo);
+				searchView.SubmitButtonEnabled = true;
+
 				searchView.QueryTextFocusChange += (object sender, View.FocusChangeEventArgs e) => {
 					if (e.HasFocus && lastQuery != null && lastQuery != String.Empty) {
 						searchView.SetQuery(lastQuery, false);
+						currentPage = 1;
+						int id = searchView.Context.Resources.GetIdentifier("android:id/search_src_text", null, null);
+						EditText editText = searchView.FindViewById<EditText>(id);
+						editText.SelectAll();
 					}
 				};
 				searchView.Close += async (object sender, SearchView.CloseEventArgs e) => {
@@ -116,6 +122,7 @@ namespace PhotoGallery
 			}
 		}
 
+		// SearchView does not call these methods.
 		public override bool OnOptionsItemSelected(IMenuItem item)
 		{
 			switch (item.ItemId) {
@@ -125,11 +132,6 @@ namespace PhotoGallery
 					return true;
 				case Resource.Id.menu_item_clear:
 					PreferenceManager.GetDefaultSharedPreferences(Activity).Edit().PutString(FlickrFetchr.PREF_SEARCH_QUERY, null).Commit();
-					// Using SearchView - Not sure if this is correct to kill the SearchView
-//					if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb) {
-//						SearchView searchView = (SearchView)item.ActionView;
-//						searchView.SetSearchableInfo(null);
-//					}
 					currentPage = 1;
 					Task.Run(() => {
 					}).ContinueWith(async(t) => {
