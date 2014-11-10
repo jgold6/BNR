@@ -28,6 +28,7 @@ namespace PhotoGallery
 		private static readonly string itemsPerPage = "20";
 
 		public static readonly string PREF_SEARCH_QUERY = "searchQuery";
+		public static readonly string PREF_LAST_RESULT_ID = "lastResultId";
 		public uint NumberOfHits {get; set;}
 		#endregion
 

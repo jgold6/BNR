@@ -39,6 +39,12 @@ namespace PhotoGallery
 
 			await UpdateItems();
 
+			// Start PollService - check for new pics in background
+//			Intent i = new Intent(Activity, typeof(PollService));
+//			Activity.StartService(i);
+			// Same as above on a timer
+//			PollService.SetServiceAlarm(Activity, true);
+
 //			Console.WriteLine("[{0}] OnCreate Done: {1}", TAG, DateTime.Now.ToLongTimeString());
 		}
 
@@ -138,10 +144,31 @@ namespace PhotoGallery
 						await UpdateItems();
 					}, TaskScheduler.FromCurrentSynchronizationContext());
 					return true;
+				case Resource.Id.menu_item_toggle_polling:
+					bool shouldStartAlarm = !PollService.IsServiceAlarmOn(Activity);
+					PollService.SetServiceAlarm(Activity, shouldStartAlarm);
+
+					if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb)
+						Activity.InvalidateOptionsMenu();
+
+					return true;
 				default:
 					return base.OnOptionsItemSelected(item);
 			}
 		} 
+
+		public override void OnPrepareOptionsMenu(IMenu menu)
+		{
+			base.OnPrepareOptionsMenu(menu);
+
+			IMenuItem toggleItem = menu.FindItem(Resource.Id.menu_item_toggle_polling);
+			if (PollService.IsServiceAlarmOn(Activity)) {
+				toggleItem.SetTitle(Resource.String.stop_polling);
+			}
+			else {
+				toggleItem.SetTitle(Resource.String.start_polling);
+			}
+		}
 
 		#endregion
 

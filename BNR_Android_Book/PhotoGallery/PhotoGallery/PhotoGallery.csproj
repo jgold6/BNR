@@ -53,6 +53,7 @@
     <Compile Include="PhotoGalleryFragment.cs" />
     <Compile Include="FlickrFetchr.cs" />
     <Compile Include="GalleryItem.cs" />
+    <Compile Include="PollService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
