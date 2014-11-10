@@ -13,7 +13,7 @@ namespace PhotoGallery
     {
 		private static readonly string TAG = "PollService";
 
-		private static readonly int POLL_INTERVAL = 1000 * 15; // 15 seconds
+		private static readonly int POLL_INTERVAL = 1000 * 60 * 5; // 5 minutes
 
 		public PollService() : base(TAG)
         {
