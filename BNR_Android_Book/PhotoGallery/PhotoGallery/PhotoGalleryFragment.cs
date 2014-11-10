@@ -13,7 +13,7 @@ using Android.Content;
 
 namespace PhotoGallery
 {
-    public class PhotoGalleryFragment : Fragment
+	public class PhotoGalleryFragment : VisibleFragment
     {
 		private static readonly string TAG = "PhotoGalleryFragment";
 
@@ -157,10 +157,8 @@ namespace PhotoGallery
 				case Resource.Id.menu_item_toggle_polling:
 					bool shouldStartAlarm = !PollService.IsServiceAlarmOn(Activity);
 					PollService.SetServiceAlarm(Activity, shouldStartAlarm);
-
 					if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb)
 						Activity.InvalidateOptionsMenu();
-
 					return true;
 				default:
 					return base.OnOptionsItemSelected(item);
@@ -263,14 +261,15 @@ namespace PhotoGallery
 //			if (view == null) {
 //				view = context.LayoutInflater.Inflate(Resource.Layout.gallery_item, parent, false);
 //			}
-
-			// Don't recycle
+//
+//			// Don't recycle
 			View view = context.LayoutInflater.Inflate(Resource.Layout.gallery_item, parent, false);
 
 			ImageView imageView = view.FindViewById<ImageView>(Resource.Id.gallery_item_imageView);
 			imageView.SetImageResource(Resource.Drawable.face_icon);
 
 			GalleryItem item = GetItem(position);
+
 			Task.Run(async () => {
 				Bitmap image = await new FlickrFetchr().GetImageBitmapAsync(item.Url, position).ConfigureAwait(false);
 				context.RunOnUiThread(() => {

@@ -4,7 +4,8 @@ using Android.App;
 
 // Information about this assembly is defined by the following attributes.
 // Change them to the values specific to your project.
-
+[Permission(Name="com.onobytes.PhotoGallery.PRIVATE", ProtectionLevel=Android.Content.PM.Protection.Signature)]
+[UsesPermission("com.onobytes.PhotoGallery.PRIVATE")]
 [assembly: AssemblyTitle("PhotoGallery")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]

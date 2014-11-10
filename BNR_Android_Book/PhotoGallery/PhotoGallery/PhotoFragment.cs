@@ -15,7 +15,10 @@ namespace PhotoGallery
 {
     public class PhotoFragment : Fragment
     {
-		public ImageView mImageView;
+		private static readonly string TAG = "PhotoFragment";
+
+		ImageView mImageView;
+		string photoUrl;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -31,7 +34,7 @@ namespace PhotoGallery
 
 			mImageView = v.FindViewById<ImageView>(Resource.Id.photoView);
 
-			string photoUrl = Activity.Intent.GetStringExtra(PhotoGalleryFragment.PHOTO_URL_EXTRA);
+			photoUrl = Activity.Intent.GetStringExtra(PhotoGalleryFragment.PHOTO_URL_EXTRA);
 
 			photoUrl = photoUrl.Substring(0, photoUrl.Length-6) + ".jpg";
 
@@ -45,11 +48,20 @@ namespace PhotoGallery
 				Bitmap image = await new FlickrFetchr().GetImageBitmapAsync(photoUrl, 0).ConfigureAwait(false);
 				Activity.RunOnUiThread(() => {
 					mImageView.SetImageBitmap(image);
+					Console.WriteLine("[{0}] File created: {1}", TAG, photoUrl);
 					pg.Dismiss();
 				});
 			});
 
 			return v;
+		}
+
+		public override void OnDestroyView()
+		{
+			base.OnDestroyView();
+			new FlickrFetchr().DeleteImageFile(photoUrl);
+			Console.WriteLine("[{0}] File deleted: {1}", TAG, photoUrl);
+			mImageView = null;
 		}
     }
 }

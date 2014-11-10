@@ -284,6 +284,13 @@ namespace PhotoGallery
 			string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), filename + ".bytes");
 			return path;
 		}
+
+		public void DeleteImageFile(string Url)
+		{
+			string path = GetPathFromUrl(Url);
+			if (File.Exists(path))
+				File.Delete(path);
+		}
     }
 }
 

@@ -56,6 +56,8 @@
     <Compile Include="PollService.cs" />
     <Compile Include="PhotoActivity.cs" />
     <Compile Include="PhotoFragment.cs" />
+    <Compile Include="StartupReceiver.cs" />
+    <Compile Include="VisibleFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

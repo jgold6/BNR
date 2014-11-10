@@ -13,7 +13,12 @@ namespace PhotoGallery
     {
 		private static readonly string TAG = "PollService";
 
-		private static readonly int POLL_INTERVAL = 1000 * 60 * 5; // 5 minutes
+		private static readonly int POLL_INTERVAL = 1000 * 15; // 5 minutes
+		public static readonly string PREF_IS_ALARM_ON = "isAlarmOn";
+
+		public static readonly string ACTION_SHOW_NOTIFICATION = "com.onobytes.PhotoGallery.SHOW_NOTIFICATION";
+
+		public static readonly string PERM_PRIVATE = "com.onobytes.PhotoGallery.PRIVATE";
 
 		public PollService() : base(TAG)
         {
@@ -48,7 +53,6 @@ namespace PhotoGallery
 			if (!resultId.Equals(lastResultId)) {
 				Console.WriteLine("[{0}] Got a new result: {1}", TAG, resultId);
 
-				Resources r = Resources;
 				PendingIntent pi = PendingIntent.GetActivity(this, 0, new Intent(this, typeof(PhotoGalleryActivity)), 0);
 
 				Notification notification = new Notification.Builder(this)
@@ -60,9 +64,13 @@ namespace PhotoGallery
 					.SetAutoCancel(true)
 					.Build();
 
-				NotificationManager notificationManager = (NotificationManager)GetSystemService(NotificationService);
+				// Doesn't pay attention to if the app is already in the foreground
+//				NotificationManager notificationManager = (NotificationManager)GetSystemService(NotificationService);
+//				notificationManager.Notify(0, notification);
+//				SendBroadcast(new Intent(ACTION_SHOW_NOTIFICATION), PERM_PRIVATE);
 
-				notificationManager.Notify(0, notification);
+				// Only get notification when app is in background
+				ShowBackgroundNotification(0, notification);
 
 			}
 			else {
@@ -86,6 +94,8 @@ namespace PhotoGallery
 				alarmManager.Cancel(pi);
 				pi.Cancel();
 			}
+
+			PreferenceManager.GetDefaultSharedPreferences(context).Edit().PutBoolean(PollService.PREF_IS_ALARM_ON, isOn).Commit();
 		}
 
 		public static bool IsServiceAlarmOn(Context context)
@@ -93,6 +103,15 @@ namespace PhotoGallery
 			Intent i = new Intent(context, typeof(PollService));
 			PendingIntent pi = PendingIntent.GetService(context, 0, i, PendingIntentFlags.NoCreate);
 			return pi != null;
+		}
+
+		void ShowBackgroundNotification(int requestCode, Notification notification)
+		{
+			Intent i = new Intent(ACTION_SHOW_NOTIFICATION);
+			i.PutExtra("REQUEST_CODE", requestCode);
+			i.PutExtra("NOTIFICATION", notification);
+
+			SendOrderedBroadcast(i, PERM_PRIVATE, null, null, Result.Ok, null, null);
 		}
     }
 }
