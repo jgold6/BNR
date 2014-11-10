@@ -11,4 +11,11 @@
     <string name="new_pictures_title">New PhotoGallery Pictures</string>
     <string name="new_pictures_text">You have new pictures in PhotoGallery</string>
 
+    <string name="loading_images_title">Loading Images</string>
+    <string name="loading_photo_title">Loading Images</string>
+    <string name="loading_images_message">This may take a bit</string>
+    <string name="loading_photo_message">This may take a second</string>
+    <string name="results">Results</string>
+    <string name="recent_photos">Recent Photos</string>
+
 </resources>

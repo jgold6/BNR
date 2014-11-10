@@ -187,8 +187,8 @@ namespace PhotoGallery
 			if (this.Activity == null)
 				return;
 			ProgressDialog pg = new ProgressDialog(Activity);
-			pg.SetMessage("This may take a second");
-			pg.SetTitle("Loading Images");
+			pg.SetMessage(Resources.GetString(Resource.String.loading_images_message));
+			pg.SetTitle(Resources.GetString(Resource.String.loading_images_title));
 			pg.SetCancelable(false);
 			pg.Show();
 
@@ -206,7 +206,13 @@ namespace PhotoGallery
 //				Console.WriteLine("[{0}]\nPhoto Id: {1}\nCaption: {2}\nUrl: {3}", TAG, item.Id, item.Caption, item.Url);
 //			}
 			SetupAdapter();
-			Toast.MakeText(Activity, String.Format("Results: {0}", fetchr.NumberOfHits), ToastLength.Long).Show();
+			Toast.MakeText(Activity, 
+				String.Format("{0} {1}: {2}", 
+				(query != null ? query + " " + Resources.GetString(Resource.String.search) : Resources.GetString(Resource.String.recent_photos)), 
+				Resources.GetString(Resource.String.results), 
+				fetchr.NumberOfHits), 
+				ToastLength.Long)
+				.Show();
 
 			pg.Dismiss();
 		}

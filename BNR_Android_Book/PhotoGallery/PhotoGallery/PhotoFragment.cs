@@ -36,8 +36,8 @@ namespace PhotoGallery
 			photoUrl = photoUrl.Substring(0, photoUrl.Length-6) + ".jpg";
 
 			ProgressDialog pg = new ProgressDialog(Activity);
-			pg.SetMessage("This may take a second");
-			pg.SetTitle("Loading Photo");
+			pg.SetMessage(Resources.GetString(Resource.String.loading_photo_message));
+			pg.SetTitle(Resources.GetString(Resource.String.loading_photo_title));
 			pg.SetCancelable(false);
 			pg.Show();
 
