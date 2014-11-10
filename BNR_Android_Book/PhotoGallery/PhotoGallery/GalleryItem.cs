@@ -7,6 +7,13 @@ namespace PhotoGallery
 		public string Id {get; set;}
 		public string Caption {get; set;}
 		public string Url {get; set;}
+		public string Owner {get; set;}
+
+		public string PhotoPageUrl{
+			get {
+				return String.Format("http://www.flicker.com/photos/{0}/{1}", Owner, Id);
+			}
+		}
 
 		public override string ToString()
 		{

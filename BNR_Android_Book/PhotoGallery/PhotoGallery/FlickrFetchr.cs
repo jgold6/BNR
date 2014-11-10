@@ -159,7 +159,8 @@ namespace PhotoGallery
 						GalleryItem item = new GalleryItem(){
 							Caption = photo.title,
 							Id = photo.id.ToString(),
-							Url = photo.url_s
+							Url = photo.url_s,
+							Owner = photo.owner
 						};
 						items.Add(item);
 					}

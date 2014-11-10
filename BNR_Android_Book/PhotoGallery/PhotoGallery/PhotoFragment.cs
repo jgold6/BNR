@@ -13,7 +13,7 @@ using Android.Content;
 
 namespace PhotoGallery
 {
-    public class PhotoFragment : Fragment
+	public class PhotoFragment : VisibleFragment
     {
 		private static readonly string TAG = "PhotoFragment";
 
@@ -23,7 +23,7 @@ namespace PhotoGallery
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
+			RetainInstance = true;
             // Create your fragment here
         }
 

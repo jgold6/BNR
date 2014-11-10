@@ -58,6 +58,8 @@
     <Compile Include="PhotoFragment.cs" />
     <Compile Include="StartupReceiver.cs" />
     <Compile Include="VisibleFragment.cs" />
+    <Compile Include="PhotoPageFragment.cs" />
+    <Compile Include="PhotoPageActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -76,6 +78,7 @@
     <AndroidResource Include="Resources\xml\searchable.xml" />
     <AndroidResource Include="Resources\menu-v11\fragment_photo_gallery.xml" />
     <AndroidResource Include="Resources\layout\fragment_photo.axml" />
+    <AndroidResource Include="Resources\layout\fragment_photo_page.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

@@ -90,6 +90,19 @@ namespace PhotoGallery
 				}
 			};
 
+			mGridView.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => {
+				GalleryItem item = galleryItems[e.Position];
+				var photoPageUri = Android.Net.Uri.Parse(item.PhotoPageUrl);
+
+				// Implicit intent
+//				Intent i = new Intent(Intent.ActionView, photoPageUri);
+				// Explicit intent
+				Intent i = new Intent(Activity, typeof(PhotoPageActivity));
+				i.SetData(photoPageUri);
+
+				StartActivity(i);
+			};
+
 			mGridView.ItemLongClick += (object sender, AdapterView.ItemLongClickEventArgs e) => {
 				if (galleryItems[e.Position].Url != null && galleryItems[e.Position].Url != String.Empty) {
 					Intent intent = new Intent(Activity, typeof(PhotoActivity));
