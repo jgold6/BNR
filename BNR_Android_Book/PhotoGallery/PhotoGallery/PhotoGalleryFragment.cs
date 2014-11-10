@@ -17,6 +17,8 @@ namespace PhotoGallery
     {
 		private static readonly string TAG = "PhotoGalleryFragment";
 
+		public static readonly string PHOTO_URL_EXTRA = "photoUrl";
+
 		#region = member variables
 		public GridView mGridView;
 		List<GalleryItem> galleryItems;
@@ -85,6 +87,14 @@ namespace PhotoGallery
 					Task.Run(async () => {
 						await new FlickrFetchr().PreloadImages(mGridView.FirstVisiblePosition, mGridView.LastVisiblePosition, galleryItems);
 					});
+				}
+			};
+
+			mGridView.ItemLongClick += (object sender, AdapterView.ItemLongClickEventArgs e) => {
+				if (galleryItems[e.Position].Url != null && galleryItems[e.Position].Url != String.Empty) {
+					Intent intent = new Intent(Activity, typeof(PhotoActivity));
+					intent.PutExtra(PHOTO_URL_EXTRA, galleryItems[e.Position].Url);
+					Activity.StartActivity(intent);
 				}
 			};
 
@@ -177,7 +187,7 @@ namespace PhotoGallery
 			if (this.Activity == null)
 				return;
 			ProgressDialog pg = new ProgressDialog(Activity);
-			pg.SetMessage("This may take a minute or two");
+			pg.SetMessage("This may take a second");
 			pg.SetTitle("Loading Images");
 			pg.SetCancelable(false);
 			pg.Show();

@@ -54,6 +54,8 @@
     <Compile Include="FlickrFetchr.cs" />
     <Compile Include="GalleryItem.cs" />
     <Compile Include="PollService.cs" />
+    <Compile Include="PhotoActivity.cs" />
+    <Compile Include="PhotoFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -71,6 +73,7 @@
     <AndroidResource Include="Resources\menu\fragment_photo_gallery.xml" />
     <AndroidResource Include="Resources\xml\searchable.xml" />
     <AndroidResource Include="Resources\menu-v11\fragment_photo_gallery.xml" />
+    <AndroidResource Include="Resources\layout\fragment_photo.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
