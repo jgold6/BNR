@@ -69,6 +69,10 @@ namespace Whereami
 //			locator.PositionError += (object sender, PositionErrorEventArgs e) => {
 //				Console.WriteLine("Could not find position: {0}, {1}", e.Error, e.ToString() );
 //			};
+
+			var clm = new CLLocationManager();
+			clm.RequestAlwaysAuthorization();
+
 			actIndicator.StartAnimating();
 			gettingLocLabel.Hidden = false;
 			textField.Enabled = false;

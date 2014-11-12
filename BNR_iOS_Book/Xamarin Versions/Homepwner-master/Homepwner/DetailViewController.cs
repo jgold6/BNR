@@ -126,8 +126,8 @@ namespace Homepwner
 				};
 				this.PresentViewController(navController, true, null);
 				if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad) {
-					//navController.View.Bounds = new RectangleF(50.0f, 50.0f, 320.0f, 260.0f);
-					navController.View.Superview.Bounds = new RectangleF(0.0f, 0.0f, 480.0f, 260.0f);
+					//navController.View.Bounds = new RectangleF(50.0f, 50.0f, 240.0f, 160.0f);
+					//navController.View.Superview.Bounds = new RectangleF(0.0f, 0.0f, 480.0f, 260.0f);
 					dp.Bounds = new RectangleF(-100.0f, 0.0f, 0.0f, 0.0f);
 				}
 			};

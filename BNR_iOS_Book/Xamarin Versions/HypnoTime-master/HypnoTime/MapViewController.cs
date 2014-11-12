@@ -50,8 +50,13 @@ namespace HypnoTime
 //			locator.PositionError += (object sender, PositionErrorEventArgs e) => {
 //				Console.WriteLine("Could not find position: {0}, {1}", e.Error, e.ToString() );
 //			};
+
 			actIndicator.Hidden = true;
 			mapView.MapType = MKMapType.Standard;
+
+			var clm = new CLLocationManager();
+			clm.RequestAlwaysAuthorization();
+
 			mapView.ShowsUserLocation = true;
 
 			//currLocation = new CLLocationCoordinate2D(20.7592, -156.4572);
