@@ -183,12 +183,12 @@ namespace Nerdfeed
 			this.NavigationController.NavigationBar.TintColor = UIColor.LightGray;
 			this.NavigationController.NavigationBar.Translucent = false;
 			this.NavigationController.NavigationBar.BarStyle = UIBarStyle.Black;
-			UIView statusBarBackground = new UIView(new RectangleF(0, 0, UIScreen.MainScreen.Bounds.Width, 20));
-			statusBarBackground.BackgroundColor = UIColor.DarkGray;
-			statusBarBackground.AutoresizingMask = (UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleRightMargin | UIViewAutoresizing.FlexibleBottomMargin);
-			this.NavigationController.View.Add(statusBarBackground);
-			if (UIDevice.CurrentDevice.CheckSystemVersion(7,0) || UIDevice.CurrentDevice.CheckSystemVersion(7,1))
-				this.NavigationController.View.TintColor = UIColor.Green;
+//			UIView statusBarBackground = new UIView(new RectangleF(0, 0, UIScreen.MainScreen.Bounds.Width, 20));
+//			statusBarBackground.BackgroundColor = UIColor.DarkGray;
+//			statusBarBackground.AutoresizingMask = (UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleRightMargin | UIViewAutoresizing.FlexibleBottomMargin);
+//			this.NavigationController.View.Add(statusBarBackground);
+//			if (UIDevice.CurrentDevice.CheckSystemVersion(7,0) || UIDevice.CurrentDevice.CheckSystemVersion(7,1))
+//				this.NavigationController.View.TintColor = UIColor.Green;
 		}
 
 		public override int RowsInSection(UITableView tableView, int section)
