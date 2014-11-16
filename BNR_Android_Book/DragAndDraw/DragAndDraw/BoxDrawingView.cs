@@ -23,6 +23,7 @@ namespace DragAndDraw
 
 		Box mRotationStart;
 		float mInitialRotation;
+		int pointer2Index;
 
 		#region - Constructors
 		public BoxDrawingView(Context context) : base(context, null)
@@ -88,6 +89,8 @@ namespace DragAndDraw
 
 			switch (e.Action) {
 				case MotionEventActions.PointerDown:
+					pointer2Index = 1;
+					break;
 				case MotionEventActions.Down:
 					// Set the current box and add it to the List<Box> mBoxes
 					if (mCurrentBox == null) {
@@ -104,6 +107,7 @@ namespace DragAndDraw
 						// Set the starting coordinates for the rotation
 						mRotationStart = new Box(new System.Drawing.PointF(pCoords.X, pCoords.Y), e.GetPointerId(1));
 						mInitialRotation = mCurrentBox.Rotation;
+						pointer2Index = 1;
 					}
 					break;
 				case MotionEventActions.Move:
@@ -112,10 +116,10 @@ namespace DragAndDraw
 						mCurrentBox.Current = curr;
 					}
 					// Handle second pointer move, set rotation amount
-					if (mRotationStart != null && mRotationStart.PointerId == e.GetPointerId(1)) {
+					if (mRotationStart != null && mRotationStart.PointerId == e.GetPointerId(pointer2Index)) {
 						// Get coordinates of pointer 2
 						MotionEvent.PointerCoords pCoords = new MotionEvent.PointerCoords();
-						e.GetPointerCoords(1, pCoords);
+						e.GetPointerCoords(pointer2Index, pCoords);
 						// Set the rotation of the box to the difference between the origin of mRotation and the current position of pointer 2
 						mCurrentBox.Rotation = mInitialRotation + pCoords.Y - mRotationStart.Origin.Y;
 					}
@@ -125,6 +129,8 @@ namespace DragAndDraw
 					mRotationStart = null;
 					break;
 				case MotionEventActions.PointerUp:
+					pointer2Index = 0;
+					break;
 				case MotionEventActions.Up:
 					mCurrentBox = null;
 					mRotationStart = null;
