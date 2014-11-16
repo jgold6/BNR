@@ -8,11 +8,13 @@ namespace DragAndDraw
 		PointF mOrigin;
 		PointF mCurrent;
 		int mPointerId;
+		float mRotation;
 
-		public Box(PointF origin)//, int pointerId)
+		public Box(PointF origin, int pointerId)
         {
 			mOrigin = mCurrent = origin;
-//			mPointerId = pointerId;
+			mPointerId = pointerId;
+			mRotation = 0;
         }
 
 		public PointF Origin {
@@ -24,9 +26,14 @@ namespace DragAndDraw
 			set {mCurrent = value;}
 		}
 
-//		public int PointerId {
-//			get {return mPointerId;}
-//		}
+		public int PointerId {
+			get {return mPointerId;}
+		}
+
+		public float Rotation {
+			get {return mRotation;}
+			set {mRotation = value%360;}
+		}
     }
 }
 
