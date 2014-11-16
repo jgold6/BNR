@@ -67,7 +67,13 @@ namespace DragAndDraw
 			canvas.DrawPaint(mBackgroundPaint);
 
 			// Test Text
-			canvas.DrawText("How about now?", 10, canvas.Height/2, mTextPaint);
+			canvas.Save();
+			canvas.Rotate(315, canvas.Width/2, canvas.Height/2);
+			var textWidth = mTextPaint.MeasureText("How about now?");
+			Rect textBounds = new Rect();
+			mTextPaint.GetTextBounds("a", 0, 1, textBounds);
+			canvas.DrawText("How about now?", canvas.Width/2-textWidth/2, canvas.Height/2 - textBounds.Height()/2, mTextPaint);
+			canvas.Restore();
 
 			foreach (Box box in mBoxes) {
 				float left = Math.Min(box.Origin.X, box.Current.X);
