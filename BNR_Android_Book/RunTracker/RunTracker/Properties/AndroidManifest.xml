@@ -3,4 +3,8 @@
 	<uses-sdk android:minSdkVersion="15" android:targetSdkVersion="19" />
 	<application android:label="RunTracker" android:icon="@drawable/icon">
 	</application>
+	<uses-permission android:name="android.permission.LOCATION_HARDWARE" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-feature android:required="true" android:name="android.hardware.location.gps" />
 </manifest>

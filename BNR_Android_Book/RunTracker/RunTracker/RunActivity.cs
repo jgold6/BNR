@@ -12,6 +12,8 @@ namespace RunTracker
 	[Activity(Label = "RunTracker", MainLauncher = true, Icon = "@drawable/icon", Theme="@style/AppTheme")]
 	public class RunActivity : SingleFragmentActivity
     {
+		public static readonly string TAG = "RunActivity";
+
 		protected override Fragment CreateFragment()
 		{
 			return new RunFragment();

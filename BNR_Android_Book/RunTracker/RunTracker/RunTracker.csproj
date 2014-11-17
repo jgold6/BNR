@@ -49,6 +49,9 @@
     <Compile Include="SingleFragmentActivity.cs" />
     <Compile Include="RunActivity.cs" />
     <Compile Include="RunFragment.cs" />
+    <Compile Include="RunManager.cs" />
+    <Compile Include="LocationReceiver.cs" />
+    <Compile Include="Run.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
