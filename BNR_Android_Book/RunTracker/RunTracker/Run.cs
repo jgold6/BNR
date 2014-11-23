@@ -5,21 +5,23 @@ namespace RunTracker
 {
     public class Run
     {
-		Date mStartDate;
+		DateTime mStartTimeUTC;
 
         public Run()
         {
-			mStartDate = new Date();
+			mStartTimeUTC = DateTime.UtcNow;
         }
 
-		public Date StartDate {
-			get {return mStartDate;}
-			set {mStartDate = value;}
+		public DateTime StartDate {
+			get {return mStartTimeUTC;}
+			set {mStartTimeUTC = value;}
 		}
 
-		public int GetDurationSeconds(long endMillis)
+		public int GetDurationSeconds(DateTime endTime)
 		{
-			return (int)((endMillis - mStartDate.Time) / 1000);
+			int seconds = (int)Math.Round((endTime - mStartTimeUTC).TotalSeconds);
+
+			return seconds;
 		}
 
 		public static string FormatDuration(int durationSeconds)

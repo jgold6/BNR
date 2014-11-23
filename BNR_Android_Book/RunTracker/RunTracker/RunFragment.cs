@@ -75,7 +75,8 @@ namespace RunTracker
 
 			int durationSeconds = 0;
 			if (CurrentRun != null && LastLocation != null) {
-				durationSeconds = CurrentRun.GetDurationSeconds(LastLocation.Time);
+				DateTime lastLocTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(LastLocation.Time);
+				durationSeconds = CurrentRun.GetDurationSeconds(lastLocTime);
 				mLatitudeTextView.Text = LastLocation.Latitude.ToString();
 				mLongitudeTextView.Text = LastLocation.Longitude.ToString();
 				mAltitudeTextView.Text = LastLocation.Altitude.ToString();
