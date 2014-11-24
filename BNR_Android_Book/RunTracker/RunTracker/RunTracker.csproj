@@ -52,12 +52,16 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SingleFragmentActivity.cs" />
-    <Compile Include="RunActivity.cs" />
     <Compile Include="RunFragment.cs" />
     <Compile Include="RunManager.cs" />
     <Compile Include="LocationReceiver.cs" />
     <Compile Include="Run.cs" />
     <Compile Include="RunLocation.cs" />
+    <Compile Include="RunActivity.cs" />
+    <Compile Include="RunListActivity.cs" />
+    <Compile Include="RunListFragment.cs" />
+    <Compile Include="RunLocationListActivity.cs" />
+    <Compile Include="RunLocationListFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -69,7 +73,8 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
     <AndroidResource Include="Resources\layout\activity_fragment.axml" />
     <AndroidResource Include="Resources\values\Styles.xml" />
-    <AndroidResource Include="Resources\layout\fragment_run.xml" />
+    <AndroidResource Include="Resources\layout\fragment_run.axml" />
+    <AndroidResource Include="Resources\menu\run_list_options.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -77,5 +82,8 @@
       <Version>1.0.8.1</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\menu\" />
   </ItemGroup>
 </Project>

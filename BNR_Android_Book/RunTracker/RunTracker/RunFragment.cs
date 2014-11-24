@@ -70,6 +70,7 @@ namespace RunTracker
 				mRunManager.StopRun(CurrentRun);
 				CurrentRun = null;
 				UpdateUI();
+				Activity.Finish();
 			};
 
 			UpdateUI();
@@ -133,6 +134,7 @@ namespace RunTracker
 		protected override void OnLocationReceived(Context context, Android.Locations.Location loc)
 		{
 			//base.OnLocationReceived(context, loc);
+			RunManager rm = RunManager.Get(mRunFragment.Activity);
 
 			// trying to ignore old locations, but this call always seems to pass a location with the current time
 			// so leaving out for now
@@ -153,8 +155,7 @@ namespace RunTracker
 				rl.Longitude = loc.Longitude;
 				rl.Altitude = loc.Altitude;
 				rl.Time = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(loc.Time);
-				//TODO: Add to database
-				RunManager rm = RunManager.Get(mRunFragment.Activity);
+				rl.Provider = loc.Provider;
 				rm.InsertItem<RunLocation>(rl);
 			}
 

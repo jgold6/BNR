@@ -18,6 +18,8 @@ namespace RunTracker
 		public double Altitude {get; set;}
 
 		public DateTime Time {get; set;}
+
+		public string Provider {get; set;}
     }
 }
 

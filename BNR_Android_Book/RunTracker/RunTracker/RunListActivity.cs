@@ -9,16 +9,16 @@ using Android.OS;
 
 namespace RunTracker
 {
-	[Activity(Label = "@string/app_name", Icon = "@drawable/icon", Theme="@style/AppTheme")]
-	public class RunActivity : SingleFragmentActivity
+	[Activity(Label = "@string/app_name", MainLauncher = true, Icon = "@drawable/icon", Theme="@style/AppTheme")]
+	public class RunListActivity : SingleFragmentActivity
     {
-		public static readonly string TAG = "RunActivity";
+		public static readonly string TAG = "RunListActivity";
 
-		RunFragment mContent;
+		RunListFragment mContent;
 
 		protected override Fragment CreateFragment()
 		{
-			mContent = new RunFragment();
+			mContent = new RunListFragment();
 			return mContent;
 		}
 
@@ -27,7 +27,7 @@ namespace RunTracker
 			base.OnCreate(savedInstanceState);
 			if (savedInstanceState != null) {
 				// Restore the Fragments instance
-				mContent = (RunFragment)FragmentManager.GetFragment(savedInstanceState, "mContent");
+				mContent = (RunListFragment)FragmentManager.GetFragment(savedInstanceState, "mContent");
 			}
 		}
 

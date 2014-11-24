@@ -12,4 +12,12 @@
     <string name="gps_enabled">GPS Enabled</string>
     <string name="gps_disabled">GPS Disabled</string>
     <string name="cell_text">Run at %1$s</string>
+    <string name="new_run">Current run</string>
+    <string name="start_date">Start Date</string>
+    <string name="start_time">Start Time</string>
+    <string name="loc_time">Time at location</string>
+    <string name="delete_item">Delete item</string>
+    <string name="are_you_sure">Do you really want to delete this run?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 </resources>

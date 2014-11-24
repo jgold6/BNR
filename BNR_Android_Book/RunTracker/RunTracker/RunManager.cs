@@ -113,7 +113,7 @@ namespace RunTracker
 			var db = new SQLiteConnection(mDbPath);
 			db.Insert(item, item.GetType());
 			db.Close();
-//			ListAll();
+			ListAll();
 		}
 
 		public void UpdateItem<T>(T item)
@@ -121,13 +121,13 @@ namespace RunTracker
 			var db = new SQLiteConnection(mDbPath);
 			db.Update(item, item.GetType());
 			db.Close();
-//			ListAll();
+			ListAll();
 		}
 
-		public void DeleteItem<T>(T item)
+		public void DeleteItem(Run item)
 		{
 			var db = new SQLiteConnection(mDbPath);
-			var rowsDeleted = db.Delete<T>(item);
+			var rowsDeleted = db.Delete<Run>(item.Id);
 			db.Close();
 			Console.WriteLine("{0} Rows Deleted: {1}", TAG, rowsDeleted);
 //			ListAll();
@@ -165,7 +165,7 @@ namespace RunTracker
 			return items;
 		}
 
-		public List<RunLocation> GetLocationsForRun(Run run)
+		public List<RunLocation> GetLocationsForRun(int runId)
 		{
 			// ORM
 //			List<RunLocation> matched = new List<RunLocation>();
@@ -179,7 +179,7 @@ namespace RunTracker
 //			}
 
 			// ADO
-			var ADOitems = db.Query<RunLocation>("SELECT * FROM RunLocations WHERE RunId=" + run.Id).ToList();
+			var ADOitems = db.Query<RunLocation>("SELECT * FROM RunLocations WHERE RunId=" + runId).ToList();
 
 			db.Close();
 
@@ -205,9 +205,17 @@ namespace RunTracker
 			var runs = GetRuns();
 			foreach (Run run in runs) {
 				Console.WriteLine("{0} RunId: {1}, Active: {2}, Date: {3}", TAG, run.Id, run.Active, run.StartDate);
-				var locations = GetLocationsForRun(run);
+				var locations = GetLocationsForRun(run.Id);
 				foreach (RunLocation location in locations) {
-					Console.WriteLine("{0} Location: {1}, Lat: {2:F3}, Long: {3:F3}, RunId: {4}, Time: {5}", TAG, location.Id, location.Latitude, location.Longitude, location.RunId, location.Time);
+					Console.WriteLine("{0} Location: {1}, Lat: {2:F3}, Long: {3:F3}, RunId: {4}, Time: {5}, Provider: {6}", 
+						TAG, 
+						location.Id, 
+						location.Latitude, 
+						location.Longitude, 
+						location.RunId, 
+						location.Time,
+						location.Provider
+					);
 				}
 			}
 			Console.WriteLine("{0} ************************************", TAG);
