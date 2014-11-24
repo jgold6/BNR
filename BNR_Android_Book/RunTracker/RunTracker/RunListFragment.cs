@@ -14,6 +14,11 @@ using System.Collections.Generic;
 
 //TODO: Chapter 36. Display a run on a map tracing a path for the run using the RunLocations. And that finishes the book!
 
+//TODO: Make it so the current run updates wth new locations even if the RunFragmnet is not being displayed. 
+// The system is creating a LocationReceiver, whihc continues to run after the RunFragment is off screen.
+// RunLocationReceiver does not receive updates as it is not registered, but registering requires a default public constructor
+// and then RunLocationReceiver won;t have a reference to the RunFfragment. Requires a bit of refactoring.
+
 namespace RunTracker
 {
     public class RunListFragment : ListFragment

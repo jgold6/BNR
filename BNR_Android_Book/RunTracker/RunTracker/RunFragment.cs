@@ -121,7 +121,7 @@ namespace RunTracker
 			mStopButton.Enabled = started;
 		}
 	}
-
+		
 	public class RunLocationReceiver : LocationReceiver
 	{
 		RunFragment mRunFragment;
