@@ -33,6 +33,7 @@ namespace RunTracker
 		private static readonly int REQUEST_NEW_RUN = 0;
 
 		RunManager mRunManager;
+		IMenu mMenu;
 
 		public override async void OnCreate(Android.OS.Bundle savedInstanceState)
 		{
@@ -61,7 +62,7 @@ namespace RunTracker
 				AlertDialog.Builder ad = new AlertDialog.Builder(Activity);
 				ad.SetTitle(Activity.GetString(Resource.String.delete_item));
 				ad.SetMessage(Activity.GetString(Resource.String.are_you_sure));
-				ad.SetPositiveButton(Activity.GetString(Resource.String.ok), async (s, dcea) => {
+				ad.SetPositiveButton(Activity.GetString(Resource.String.ok), (s, dcea) => {
 					Run run = (Run)((RunListAdapter)ListAdapter).GetItem(e.Position);
 					mRunManager.DeleteItem(run);
 					RunListAdapter adapter = (RunListAdapter)ListAdapter;
@@ -77,6 +78,14 @@ namespace RunTracker
 		{
 			base.OnCreateOptionsMenu(menu, inflater);
 			inflater.Inflate(Resource.Menu.run_list_options, menu);
+			mMenu = menu;
+			IMenuItem newRun = mMenu.FindItem(Resource.Id.menu_item_new_run);
+			if (mRunManager.IsTrackingRun()) {
+				newRun.SetTitle(Resource.String.current_run);
+			}
+			else {
+				newRun.SetTitle(Resource.String.new_run);
+			}
 		}
 
 		public override bool OnOptionsItemSelected(IMenuItem item)
@@ -107,6 +116,14 @@ namespace RunTracker
 //					adapter.Add(runs[runs.Count -1]);
 //				}
 //				adapter.NotifyDataSetChanged();
+
+				IMenuItem newRun = mMenu.FindItem(Resource.Id.menu_item_new_run);
+				if (mRunManager.IsTrackingRun()) {
+					newRun.SetTitle(Resource.String.current_run);
+				}
+				else {
+					newRun.SetTitle(Resource.String.new_run);
+				}
 			}
 		}
 
