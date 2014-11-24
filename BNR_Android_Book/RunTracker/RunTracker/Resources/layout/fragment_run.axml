@@ -8,11 +8,14 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:paddingRight="5sp"
-            android:text="@string/started" />
+            android:text="@string/started"
+            android:textSize="24dp"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/run_startedTextView"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="24dp" />
     </TableRow>
     <TableRow>
         <TextView
@@ -20,11 +23,14 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:paddingRight="5sp"
-            android:text="@string/latitude" />
+            android:text="@string/latitude"
+            android:textSize="24dp"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/run_latitudeTextView"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="24dp" />
     </TableRow>
     <TableRow>
         <TextView
@@ -32,11 +38,14 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:paddingRight="5sp"
-            android:text="@string/longitude" />
+            android:text="@string/longitude"
+            android:textSize="24dp"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/run_longitudeTextView"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="24dp" />
     </TableRow>
     <TableRow>
         <TextView
@@ -44,11 +53,14 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:paddingRight="5sp"
-            android:text="@string/altitude" />
+            android:text="@string/altitude"
+            android:textSize="24dp"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/run_altitudeTextView"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="24dp" />
     </TableRow>
     <TableRow>
         <TextView
@@ -56,12 +68,14 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:paddingRight="5sp"
-            android:text="@string/elapsed_time" />
+            android:text="@string/elapsed_time"
+            android:textSize="24dp"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/run_durationTextView"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="25sp" />
+            android:textSize="36dp" />
     </TableRow>
     <LinearLayout
         android:orientation="horizontal"
@@ -71,12 +85,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/start" />
+            android:text="@string/start"
+            android:textSize="24dp" />
         <Button
             android:id="@+id/run_stopButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/stop" />
+            android:text="@string/stop"
+            android:textSize="24dp" />
     </LinearLayout>
 </TableLayout>
