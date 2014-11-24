@@ -62,16 +62,12 @@ namespace RunTracker
 			mStopButton = view.FindViewById<Button>(Resource.Id.run_stopButton);
 
 			mStartButton.Click += (object sender, EventArgs e) => {
-				mRunManager.StartLocationUpdates();
-				CurrentRun = new Run();
-				mRunManager.InsertItem<Run>(CurrentRun);
+				CurrentRun = mRunManager.StartNewRun();
 				UpdateUI();
 			};
 
 			mStopButton.Click += (object sender, EventArgs e) => {
-				mRunManager.StopLocationUpdates();
-				CurrentRun.Active = false;
-				mRunManager.UpdateItem<Run>(CurrentRun);
+				mRunManager.StopRun(CurrentRun);
 				CurrentRun = null;
 				UpdateUI();
 			};
@@ -137,9 +133,20 @@ namespace RunTracker
 		protected override void OnLocationReceived(Context context, Android.Locations.Location loc)
 		{
 			//base.OnLocationReceived(context, loc);
-			mRunFragment.LastLocation = loc;
+
+			// trying to ignore old locations, but this call always seems to pass a location with the current time
+			// so leaving out for now
+//			var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+//			var now = DateTime.UtcNow;
+//			var seconds = (now - epoch).TotalSeconds;
+//
+//			var locTimeSeconds = loc.Time /1000;
+//
+//			if (locTimeSeconds < seconds - 60)
+//				return;
 
 			if (mRunFragment.CurrentRun != null) {
+				mRunFragment.LastLocation = loc;
 				RunLocation rl = new RunLocation();
 				rl.RunId = mRunFragment.CurrentRun.Id;
 				rl.Latitude = loc.Latitude;

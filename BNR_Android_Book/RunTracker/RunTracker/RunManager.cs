@@ -78,6 +78,21 @@ namespace RunTracker
 			}
 		}
 
+		public Run StartNewRun()
+		{
+			StartLocationUpdates();
+			Run run = new Run();
+			InsertItem<Run>(run);
+			return run;
+		}
+
+		public void StopRun(Run run)
+		{
+			StopLocationUpdates();
+			run.Active = false;
+			UpdateItem<Run>(run);
+		}
+
 		public bool IsTrackingRun()
 		{
 			return GetLocationPendingIntent(false) != null;
@@ -152,18 +167,27 @@ namespace RunTracker
 
 		public List<RunLocation> GetLocationsForRun(Run run)
 		{
-			List<RunLocation> matched = new List<RunLocation>();
+			// ORM
+//			List<RunLocation> matched = new List<RunLocation>();
 			var db = new SQLiteConnection(mDbPath);
 
-			var items = db.Table<RunLocation>().ToList();
-			foreach(RunLocation loc in items) {
-				if (run.Id == loc.RunId)
-					matched.Add(loc);
-			}
+			//ORM
+//			var items = db.Table<RunLocation>().ToList();
+//			foreach(RunLocation loc in items) {
+//				if (run.Id == loc.RunId)
+//					matched.Add(loc);
+//			}
+
+			// ADO
+			var ADOitems = db.Query<RunLocation>("SELECT * FROM RunLocations WHERE RunId=" + run.Id).ToList();
 
 			db.Close();
 
-			return matched;
+			// ORM
+//			return matched;
+
+			// ADO
+			return ADOitems;
 		}
 
 		public Run GetActiveRun()
@@ -183,7 +207,7 @@ namespace RunTracker
 				Console.WriteLine("{0} RunId: {1}, Active: {2}, Date: {3}", TAG, run.Id, run.Active, run.StartDate);
 				var locations = GetLocationsForRun(run);
 				foreach (RunLocation location in locations) {
-					Console.WriteLine("{0} Location: {1}, Lat: {2}, Long: {3}, RunId: {4}", TAG, location.Id, location.Latitude, location.Longitude, location.RunId);
+					Console.WriteLine("{0} Location: {1}, Lat: {2:F3}, Long: {3:F3}, RunId: {4}, Time: {5}", TAG, location.Id, location.Latitude, location.Longitude, location.RunId, location.Time);
 				}
 			}
 			Console.WriteLine("{0} ************************************", TAG);
