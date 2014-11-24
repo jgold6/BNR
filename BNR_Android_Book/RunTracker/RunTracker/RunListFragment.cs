@@ -6,18 +6,21 @@ using Android.Content;
 using Android.Locations;
 using System.Collections.Generic;
 
-//TODO: Allow a run to be continued, so selecting a run from the list opens it in the RunFragment. Need to rework RunFragment so it can continue a passed in Run
-// Also give the current run a different color in the RunListFragment (Chapter 34 Challenge 1)
+//DONE! Give the current run a different color in the RunListFragment (Chapter 34 Challenge 1)
 //TODO: Send a notification that the user's run is being tracked and open the App when clicked (Chapter 34 Challenge 2). 
 
 //DONE! Chapter 35 is about using loaders. I can do the same with async/await, so do that instead. Just don't block the UI thread when the Runs/RunLocations are loading.
 
 //TODO: Chapter 36. Display a run on a map tracing a path for the run using the RunLocations. And that finishes the book!
 
-//TODO: Make it so the current run updates wth new locations even if the RunFragmnet is not being displayed. 
-// The system is creating a LocationReceiver, whihc continues to run after the RunFragment is off screen.
+//DONE! Just used my handy dandy RunManager singleton and updated the database with the new locations.
+// I forgot I already made a GetActiveRun method in RunManager. Made it easy. 
+// ****Make it so the current run updates wth new locations even if the RunFragmnet is not being displayed. 
+// The system is creating a LocationReceiver, which continues to run after the RunFragment is off screen.
 // RunLocationReceiver does not receive updates as it is not registered, but registering requires a default public constructor
-// and then RunLocationReceiver won;t have a reference to the RunFfragment. Requires a bit of refactoring.
+// and then RunLocationReceiver won't have a reference to the RunFfragment. Requires a bit of refactoring.****
+
+using Android.Graphics;
 
 namespace RunTracker
 {
@@ -58,7 +61,7 @@ namespace RunTracker
 				AlertDialog.Builder ad = new AlertDialog.Builder(Activity);
 				ad.SetTitle(Activity.GetString(Resource.String.delete_item));
 				ad.SetMessage(Activity.GetString(Resource.String.are_you_sure));
-				ad.SetPositiveButton(Activity.GetString(Resource.String.ok), (s, dcea) => {
+				ad.SetPositiveButton(Activity.GetString(Resource.String.ok), async (s, dcea) => {
 					Run run = (Run)((RunListAdapter)ListAdapter).GetItem(e.Position);
 					mRunManager.DeleteItem(run);
 					RunListAdapter adapter = (RunListAdapter)ListAdapter;
@@ -94,11 +97,16 @@ namespace RunTracker
 			base.OnActivityResult(requestCode, resultCode, data);
 			if (REQUEST_NEW_RUN == requestCode) {
 				List<Run> runs = await mRunManager.GetRuns();
-				RunListAdapter adapter = (RunListAdapter)ListAdapter;
-				if (runs.Count > adapter.Count) {
-					adapter.Add(runs[runs.Count -1]);
-					adapter.NotifyDataSetChanged();
-				}
+				// Lazy way to update all of the data on the adapter
+				RunListAdapter adapter = new RunListAdapter(Activity, runs);
+				ListAdapter = adapter;
+				// This was working great to add a new run if there was one, but also needed to see if any
+				// no longer active runs needed their item in the adapter updated. 
+//				RunListAdapter adapter = (RunListAdapter)ListAdapter;
+//				if (runs.Count > adapter.Count) {
+//					adapter.Add(runs[runs.Count -1]);
+//				}
+//				adapter.NotifyDataSetChanged();
 			}
 		}
 
@@ -125,6 +133,13 @@ namespace RunTracker
 
 				timeTextView.Text = String.Format("{0}: {1}", context.GetString(Resource.String.start_time), r.StartDate.ToLocalTime().ToShortTimeString());
 				dateTextView.Text = String.Format("{0}: {1}", context.GetString(Resource.String.start_date), r.StartDate.ToLocalTime().ToShortDateString());
+
+				if (r.Active) {
+					view.SetBackgroundColor(Color.LightGray);
+				}
+				else {
+					view.SetBackgroundColor(Color.White);
+				}
 
 				return view;
 			}

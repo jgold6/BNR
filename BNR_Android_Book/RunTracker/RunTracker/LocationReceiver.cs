@@ -3,6 +3,7 @@
 using Android.App;
 using Android.Content;
 using Android.Locations;
+using Android.Widget;
 
 namespace RunTracker
 {
@@ -23,18 +24,32 @@ namespace RunTracker
 			// If you get here, something else has happened
 			if (intent.HasExtra(LocationManager.KeyProviderEnabled)) {
 				bool enabled = intent.GetBooleanExtra(LocationManager.KeyProviderEnabled, false);
-				OnProviderEnabledChanged(enabled);
+				OnProviderEnabledChanged(context, enabled);
 			}
 		}
 
-		protected virtual void OnLocationReceived(Context context, Location loc)
+		protected virtual async void OnLocationReceived(Context context, Location loc)
 		{
 //			Console.WriteLine("[{0}] {1} Got location from {2}: {3}, {4}", TAG, this, loc.Provider, loc.Latitude, loc.Longitude);
+			RunManager rm = RunManager.Get(context);
+			Run run = await rm.GetActiveRun();
+			if (rm.IsTrackingRun() && run != null) {
+				RunLocation rl = new RunLocation();
+				rl.RunId = run.Id;
+				rl.Latitude = loc.Latitude;
+				rl.Longitude = loc.Longitude;
+				rl.Altitude = loc.Altitude;
+				rl.Time = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(loc.Time);
+				rl.Provider = loc.Provider;
+				rm.InsertItem<RunLocation>(rl);
+			}
 		}
 
-		protected virtual void OnProviderEnabledChanged(bool enabled)
+		protected virtual void OnProviderEnabledChanged(Context context, bool enabled)
 		{
 //			Console.WriteLine("[{0}] Provider {1}", TAG, (enabled ? "enabled" : "disabled"));
+			int toastText = enabled ? Resource.String.gps_enabled : Resource.String.gps_disabled;
+			Toast.MakeText(context, toastText, ToastLength.Long).Show();
 		}
     }
 }

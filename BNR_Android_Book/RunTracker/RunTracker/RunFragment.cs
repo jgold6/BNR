@@ -149,25 +149,27 @@ namespace RunTracker
 
 			if (rm.IsTrackingRun()) {
 				mRunFragment.LastLocation = loc;
-				RunLocation rl = new RunLocation();
-				rl.RunId = mRunFragment.CurrentRun.Id;
-				rl.Latitude = loc.Latitude;
-				rl.Longitude = loc.Longitude;
-				rl.Altitude = loc.Altitude;
-				rl.Time = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(loc.Time);
-				rl.Provider = loc.Provider;
-				rm.InsertItem<RunLocation>(rl);
+				// Moved to LocationReceiver
+//				RunLocation rl = new RunLocation();
+//				rl.RunId = mRunFragment.CurrentRun.Id;
+//				rl.Latitude = loc.Latitude;
+//				rl.Longitude = loc.Longitude;
+//				rl.Altitude = loc.Altitude;
+//				rl.Time = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(loc.Time);
+//				rl.Provider = loc.Provider;
+//				rm.InsertItem<RunLocation>(rl);
 			}
 
 			if (mRunFragment.IsVisible)
 				mRunFragment.UpdateUI();
 		}
 
-		protected override void OnProviderEnabledChanged(bool enabled)
+		protected override void OnProviderEnabledChanged(Context context, bool enabled)
 		{
 			//base.OnProviderEnabledChanged(enabled);
-			int toastText = enabled ? Resource.String.gps_enabled : Resource.String.gps_disabled;
-			Toast.MakeText(mRunFragment.Activity, toastText, ToastLength.Long).Show();
+			// Moved to LocationReceiver
+//			int toastText = enabled ? Resource.String.gps_enabled : Resource.String.gps_disabled;
+//			Toast.MakeText(mRunFragment.Activity, toastText, ToastLength.Long).Show();
 		}
 	}
 }
