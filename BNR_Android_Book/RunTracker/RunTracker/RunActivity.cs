@@ -14,9 +14,27 @@ namespace RunTracker
     {
 		public static readonly string TAG = "RunActivity";
 
+		RunFragment mContent;
+
 		protected override Fragment CreateFragment()
 		{
-			return new RunFragment();
+			mContent = new RunFragment();
+			return mContent;
+		}
+
+		protected override void OnCreate(Bundle savedInstanceState)
+		{
+			base.OnCreate(savedInstanceState);
+			if (savedInstanceState != null) {
+				// Restore the Fragments instance
+				mContent = (RunFragment)FragmentManager.GetFragment(savedInstanceState, "mContent");
+			}
+		}
+
+		protected override void OnSaveInstanceState(Bundle outState)
+		{
+			base.OnSaveInstanceState(outState);
+			FragmentManager.PutFragment(outState, "mContent", mContent);
 		}
     }
 }

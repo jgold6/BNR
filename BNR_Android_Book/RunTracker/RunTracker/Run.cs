@@ -1,25 +1,24 @@
 ﻿using System;
-using Java.Util;
+using SQLite;
 
 namespace RunTracker
 {
+	[Table("Runs")]
     public class Run
     {
-		DateTime mStartTimeUTC;
+		[PrimaryKey, AutoIncrement, Column("_id")]
+		public int Id {get; set;}
+
+		public DateTime StartDate {get; set;}
 
         public Run()
         {
-			mStartTimeUTC = DateTime.UtcNow;
+			StartDate = DateTime.UtcNow;
         }
-
-		public DateTime StartDate {
-			get {return mStartTimeUTC;}
-			set {mStartTimeUTC = value;}
-		}
 
 		public int GetDurationSeconds(DateTime endTime)
 		{
-			int seconds = (int)Math.Round((endTime - mStartTimeUTC).TotalSeconds);
+			int seconds = (int)Math.Round((endTime - StartDate).TotalSeconds);
 
 			return seconds;
 		}

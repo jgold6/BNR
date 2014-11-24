@@ -42,6 +42,11 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
+    <Reference Include="Mono.Data.Sqlite" />
+    <Reference Include="System.Data" />
+    <Reference Include="SQLite">
+      <HintPath>..\Components\sqlite-net-1.0.8.1\lib\android\SQLite.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -52,6 +57,8 @@
     <Compile Include="RunManager.cs" />
     <Compile Include="LocationReceiver.cs" />
     <Compile Include="Run.cs" />
+    <Compile Include="RunDatabaseHelper.cs" />
+    <Compile Include="RunLocation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -66,4 +73,10 @@
     <AndroidResource Include="Resources\layout\fragment_run.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <ItemGroup>
+    <XamarinComponentReference Include="sqlite-net">
+      <Version>1.0.8.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+  </ItemGroup>
 </Project>

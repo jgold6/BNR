@@ -11,6 +11,8 @@ namespace RunTracker
     {
 		public static readonly string TAG = "RunFragment";
 
+		public static readonly string RUN_ID = "RUN_ID";
+		public static readonly string RUN_START_DATE = "RUN_START_DATE";
 
 		RunManager mRunManager;
 
@@ -21,10 +23,20 @@ namespace RunTracker
 		Button mStartButton, mStopButton;
 		TextView mStartedTextView, mLatitudeTextView, mLongitudeTextView, mAltitudeTextView, mDurationTextView;
 
+		public override void OnActivityCreated(Android.OS.Bundle savedInstanceState)
+		{
+			base.OnActivityCreated(savedInstanceState);
+			if (savedInstanceState != null && savedInstanceState.GetString(RUN_START_DATE) != null) {
+				CurrentRun = new Run();
+				CurrentRun.StartDate = DateTime.Parse(savedInstanceState.GetString(RUN_START_DATE));
+				CurrentRun.Id = savedInstanceState.GetInt(RUN_ID);
+			}
+		}
+
 		public override void OnCreate(Android.OS.Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
-			RetainInstance = true;
+
 			mRunManager = RunManager.Get(Activity);
 			CurrentLocationReceiver = new RunLocationReceiver(this);
 			Activity.RegisterReceiver(CurrentLocationReceiver, new IntentFilter(RunManager.ACTION_LOCATION));
@@ -46,6 +58,7 @@ namespace RunTracker
 			mStartButton.Click += (object sender, EventArgs e) => {
 				mRunManager.StartLocationUpdates();
 				CurrentRun = new Run();
+				//TODO: Add to database - keep track of current run id
 				UpdateUI();
 			};
 
@@ -60,10 +73,19 @@ namespace RunTracker
 			return view;
 		}
 
+		public override void OnSaveInstanceState(Android.OS.Bundle outState)
+		{
+			base.OnSaveInstanceState(outState);
+			if (CurrentRun != null) {
+				outState.PutInt(RUN_ID, CurrentRun.Id);
+				outState.PutString(RUN_START_DATE, CurrentRun.StartDate.ToString());
+			}
+		}
+			
 		public override void OnDestroy()
 		{
 			Activity.UnregisterReceiver(CurrentLocationReceiver);
-			base.OnStop();
+			base.OnDestroy();
 		}
 
 		public void UpdateUI()
@@ -72,6 +94,8 @@ namespace RunTracker
 
 			if (CurrentRun != null)
 				mStartedTextView.Text = CurrentRun.StartDate.ToString();
+			else 
+				mStartedTextView.Text = "";
 
 			int durationSeconds = 0;
 			if (CurrentRun != null && LastLocation != null) {
@@ -80,6 +104,11 @@ namespace RunTracker
 				mLatitudeTextView.Text = LastLocation.Latitude.ToString();
 				mLongitudeTextView.Text = LastLocation.Longitude.ToString();
 				mAltitudeTextView.Text = LastLocation.Altitude.ToString();
+			}
+			else {
+				mLatitudeTextView.Text = "";
+				mLongitudeTextView.Text = "";
+				mAltitudeTextView.Text = "";
 			}
 			mDurationTextView.Text = Run.FormatDuration(durationSeconds);
 
@@ -101,6 +130,17 @@ namespace RunTracker
 		{
 			//base.OnLocationReceived(context, loc);
 			mRunFragment.LastLocation = loc;
+
+			if (mRunFragment.CurrentRun != null) {
+				RunLocation rl = new RunLocation();
+				rl.RunId = mRunFragment.CurrentRun.Id;
+				rl.Latitude = loc.Latitude;
+				rl.Longitude = loc.Longitude;
+				rl.Altitude = loc.Altitude;
+				rl.Time = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(loc.Time);
+				//TODO: Add to database
+			}
+
 			if (mRunFragment.IsVisible)
 				mRunFragment.UpdateUI();
 		}
