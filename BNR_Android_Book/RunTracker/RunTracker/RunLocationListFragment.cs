@@ -49,7 +49,7 @@ namespace RunTracker
 				TextView timeTextView = (TextView)view.FindViewById(Android.Resource.Id.Text1);
 				TextView locTextView = (TextView)view.FindViewById(Android.Resource.Id.Text2);
 
-				timeTextView.Text = String.Format("{0}: {1}", context.GetString(Resource.String.loc_time), rl.Time.ToLocalTime().ToShortTimeString());
+				timeTextView.Text = String.Format("{0}: {1}", context.GetString(Resource.String.loc_time), rl.Time.ToLocalTime().ToLongTimeString());
 				locTextView.Text = String.Format("{0} {1:F5}, {2} {3:F5}, {4} {5:F5}", 
 					context.GetString(Resource.String.latitude), rl.Latitude,
 					context.GetString(Resource.String.longitude), rl.Longitude,

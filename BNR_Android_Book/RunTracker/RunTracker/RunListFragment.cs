@@ -38,9 +38,9 @@ namespace RunTracker
 
 		}
 
-		public override void OnResume()
+		public override void OnActivityCreated(Android.OS.Bundle savedInstanceState)
 		{
-			base.OnResume();
+			base.OnActivityCreated(savedInstanceState);
 			ListView.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => {
 				Run run = (Run)((RunListAdapter)ListAdapter).GetItem(e.Position);
 				Intent i = new Intent(Activity, typeof(RunLocationListActivity));
@@ -50,20 +50,18 @@ namespace RunTracker
 			};
 
 			ListView.ItemLongClick += (object sender, AdapterView.ItemLongClickEventArgs e) => {
+				e.Handled = true;
 				AlertDialog.Builder ad = new AlertDialog.Builder(Activity);
 				ad.SetTitle(Activity.GetString(Resource.String.delete_item));
 				ad.SetMessage(Activity.GetString(Resource.String.are_you_sure));
-				ad.SetPositiveButton(Activity.GetString(Resource.String.ok), (s, dcea) => { 
-					e.Handled = true;
+				ad.SetPositiveButton(Activity.GetString(Resource.String.ok), (s, dcea) => {
 					Run run = (Run)((RunListAdapter)ListAdapter).GetItem(e.Position);
 					mRunManager.DeleteItem(run);
 					RunListAdapter adapter = (RunListAdapter)ListAdapter;
 					adapter.Remove(run);
 					adapter.NotifyDataSetChanged();
 				});
-				ad.SetNegativeButton(Activity.GetString(Resource.String.cancel), (s, dcea) => {
-					e.Handled = true;
-				});
+				ad.SetNegativeButton(Activity.GetString(Resource.String.cancel), (s, dcea) => {});
 				ad.Show();
 			};
 		}

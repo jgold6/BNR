@@ -147,7 +147,7 @@ namespace RunTracker
 //			if (locTimeSeconds < seconds - 60)
 //				return;
 
-			if (mRunFragment.CurrentRun != null) {
+			if (rm.IsTrackingRun()) {
 				mRunFragment.LastLocation = loc;
 				RunLocation rl = new RunLocation();
 				rl.RunId = mRunFragment.CurrentRun.Id;
