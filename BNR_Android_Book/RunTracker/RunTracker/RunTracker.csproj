@@ -53,15 +53,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SingleFragmentActivity.cs" />
     <Compile Include="RunFragment.cs" />
-    <Compile Include="RunManager.cs" />
     <Compile Include="LocationReceiver.cs" />
-    <Compile Include="Run.cs" />
-    <Compile Include="RunLocation.cs" />
     <Compile Include="RunActivity.cs" />
     <Compile Include="RunListActivity.cs" />
     <Compile Include="RunListFragment.cs" />
     <Compile Include="RunLocationListActivity.cs" />
     <Compile Include="RunLocationListFragment.cs" />
+    <Compile Include="Models\Run.cs" />
+    <Compile Include="Models\RunLocation.cs" />
+    <Compile Include="Models\RunManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -79,6 +79,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Resources\menu\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="sqlite-net">
