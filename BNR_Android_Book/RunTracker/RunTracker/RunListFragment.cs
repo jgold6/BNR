@@ -6,6 +6,10 @@ using Android.Content;
 using Android.Locations;
 using System.Collections.Generic;
 
+//TODO: Allow a run to be continued, so selecting a run form the list opens it in the RunFragment. Need to rework RunFragment so it can continue a passed in Run
+// Also give the current run a different color in the RunListFragment (Challenge 1)
+//TODO: Send a notification that the user's run is being tracked and open the App when clicked. 
+
 namespace RunTracker
 {
     public class RunListFragment : ListFragment
