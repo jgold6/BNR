@@ -57,7 +57,6 @@
     <Compile Include="RunManager.cs" />
     <Compile Include="LocationReceiver.cs" />
     <Compile Include="Run.cs" />
-    <Compile Include="RunDatabaseHelper.cs" />
     <Compile Include="RunLocation.cs" />
   </ItemGroup>
   <ItemGroup>

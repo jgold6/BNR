@@ -3,6 +3,7 @@ using SQLite;
 
 namespace RunTracker
 {
+	[Table("RunLocations")]
     public class RunLocation
     {
 		[PrimaryKey, AutoIncrement, Column("_id")]

@@ -11,9 +11,12 @@ namespace RunTracker
 
 		public DateTime StartDate {get; set;}
 
+		public bool Active {get; set;}
+
         public Run()
         {
 			StartDate = DateTime.UtcNow;
+			Active = true;
         }
 
 		public int GetDurationSeconds(DateTime endTime)

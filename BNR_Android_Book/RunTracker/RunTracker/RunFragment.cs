@@ -38,6 +38,12 @@ namespace RunTracker
 			base.OnCreate(savedInstanceState);
 
 			mRunManager = RunManager.Get(Activity);
+			mRunManager.CreateDatabase();
+			if (CurrentRun == null) {
+				Run run = mRunManager.GetActiveRun();
+				if (run != null)
+					CurrentRun = run;
+			}
 			CurrentLocationReceiver = new RunLocationReceiver(this);
 			Activity.RegisterReceiver(CurrentLocationReceiver, new IntentFilter(RunManager.ACTION_LOCATION));
 		}
@@ -58,12 +64,14 @@ namespace RunTracker
 			mStartButton.Click += (object sender, EventArgs e) => {
 				mRunManager.StartLocationUpdates();
 				CurrentRun = new Run();
-				//TODO: Add to database - keep track of current run id
+				mRunManager.InsertItem<Run>(CurrentRun);
 				UpdateUI();
 			};
 
 			mStopButton.Click += (object sender, EventArgs e) => {
 				mRunManager.StopLocationUpdates();
+				CurrentRun.Active = false;
+				mRunManager.UpdateItem<Run>(CurrentRun);
 				CurrentRun = null;
 				UpdateUI();
 			};
@@ -93,7 +101,7 @@ namespace RunTracker
 			bool started = mRunManager.IsTrackingRun();
 
 			if (CurrentRun != null)
-				mStartedTextView.Text = CurrentRun.StartDate.ToString();
+				mStartedTextView.Text = CurrentRun.StartDate.ToLocalTime().ToString();
 			else 
 				mStartedTextView.Text = "";
 
@@ -139,6 +147,8 @@ namespace RunTracker
 				rl.Altitude = loc.Altitude;
 				rl.Time = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(loc.Time);
 				//TODO: Add to database
+				RunManager rm = RunManager.Get(mRunFragment.Activity);
+				rm.InsertItem<RunLocation>(rl);
 			}
 
 			if (mRunFragment.IsVisible)

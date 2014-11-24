@@ -2,6 +2,10 @@
 using Android.Content;
 using Android.Locations;
 using Android.App;
+using System.IO;
+using SQLite;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RunTracker
 {
@@ -11,6 +15,9 @@ namespace RunTracker
 
 		public static readonly string ACTION_LOCATION = "com.onobytes.runtracker.ACTION_LOCATION";
 
+		private string mDbName;
+		private string mDbPath;
+
 		private static RunManager sRunManager;
 		private Context mAppContext;
 		private LocationManager mLocationManager;
@@ -18,6 +25,8 @@ namespace RunTracker
         private RunManager(Context appContext)
         {
 			mAppContext = appContext;
+			mDbName = "runs.db3";
+			mDbPath = Path.Combine (System.Environment.GetFolderPath (System.Environment.SpecialFolder.Personal), mDbName);
 			mLocationManager = (LocationManager)mAppContext.GetSystemService(Context.LocationService);
         }
 
@@ -73,6 +82,113 @@ namespace RunTracker
 		{
 			return GetLocationPendingIntent(false) != null;
 		}
+
+		#region - Database
+		public void CreateDatabase() 
+		{
+			var db = new SQLiteConnection(mDbPath);
+			db.CreateTable<Run>();
+			db.CreateTable<RunLocation>();
+			db.Close();
+//			ListAll();
+		}
+
+		public void InsertItem<T>(T item)
+		{
+			var db = new SQLiteConnection(mDbPath);
+			db.Insert(item, item.GetType());
+			db.Close();
+//			ListAll();
+		}
+
+		public void UpdateItem<T>(T item)
+		{
+			var db = new SQLiteConnection(mDbPath);
+			db.Update(item, item.GetType());
+			db.Close();
+//			ListAll();
+		}
+
+		public void DeleteItem<T>(T item)
+		{
+			var db = new SQLiteConnection(mDbPath);
+			var rowsDeleted = db.Delete<T>(item);
+			db.Close();
+			Console.WriteLine("{0} Rows Deleted: {1}", TAG, rowsDeleted);
+//			ListAll();
+		}
+
+		public Run GetRun(int id)
+		{
+			var db = new SQLiteConnection(mDbPath);
+			var item = db.Get<Run>(id);
+			db.Close();
+			return item;
+		}
+
+		public RunLocation GetRunLocation(int id)
+		{
+			var db = new SQLiteConnection(mDbPath);
+			var item = db.Get<RunLocation>(id);
+			db.Close();
+			return item;
+		}
+
+		public List<Run> GetRuns()
+		{
+			var db = new SQLiteConnection(mDbPath);
+			var items = db.Table<Run>().ToList();
+			db.Close();
+			return items;
+		}
+
+		public List<RunLocation> GetRunLocations()
+		{
+			var db = new SQLiteConnection(mDbPath);
+			var items = db.Table<RunLocation>().ToList();
+			db.Close();
+			return items;
+		}
+
+		public List<RunLocation> GetLocationsForRun(Run run)
+		{
+			List<RunLocation> matched = new List<RunLocation>();
+			var db = new SQLiteConnection(mDbPath);
+
+			var items = db.Table<RunLocation>().ToList();
+			foreach(RunLocation loc in items) {
+				if (run.Id == loc.RunId)
+					matched.Add(loc);
+			}
+
+			db.Close();
+
+			return matched;
+		}
+
+		public Run GetActiveRun()
+		{
+			var runs = GetRuns();
+			foreach (Run run in runs) {
+				if (run.Active)
+					return run;
+			}
+			return null;
+		}
+
+		private void ListAll()
+		{
+			var runs = GetRuns();
+			foreach (Run run in runs) {
+				Console.WriteLine("{0} RunId: {1}, Active: {2}, Date: {3}", TAG, run.Id, run.Active, run.StartDate);
+				var locations = GetLocationsForRun(run);
+				foreach (RunLocation location in locations) {
+					Console.WriteLine("{0} Location: {1}, Lat: {2}, Long: {3}, RunId: {4}", TAG, location.Id, location.Latitude, location.Longitude, location.RunId);
+				}
+			}
+			Console.WriteLine("{0} ************************************", TAG);
+		}
+		#endregion
     }
 }
 

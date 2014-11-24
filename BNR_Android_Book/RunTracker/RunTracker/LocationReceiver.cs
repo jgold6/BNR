@@ -29,12 +29,12 @@ namespace RunTracker
 
 		protected virtual void OnLocationReceived(Context context, Location loc)
 		{
-			Console.WriteLine("[{0}] {1} Got location from {2}: {3}, {4}", TAG, this, loc.Provider, loc.Latitude, loc.Longitude);
+			//Console.WriteLine("[{0}] {1} Got location from {2}: {3}, {4}", TAG, this, loc.Provider, loc.Latitude, loc.Longitude);
 		}
 
 		protected virtual void OnProviderEnabledChanged(bool enabled)
 		{
-			Console.WriteLine("[{0}] Provider {1}", TAG, (enabled ? "enabled" : "disabled"));
+			//Console.WriteLine("[{0}] Provider {1}", TAG, (enabled ? "enabled" : "disabled"));
 		}
     }
 }
