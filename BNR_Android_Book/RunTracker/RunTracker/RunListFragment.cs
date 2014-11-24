@@ -25,7 +25,6 @@ namespace RunTracker
 		private static readonly int REQUEST_NEW_RUN = 0;
 
 		RunManager mRunManager;
-		List<Run> mRuns;
 
 		public override void OnCreate(Android.OS.Bundle savedInstanceState)
 		{
@@ -34,9 +33,7 @@ namespace RunTracker
 			mRunManager = RunManager.Get(Activity);
 			mRunManager.CreateDatabase();
 
-			mRuns = mRunManager.GetRuns();
-
-			RunListAdapter adapter = new RunListAdapter(Activity, mRuns);
+			RunListAdapter adapter = new RunListAdapter(Activity, mRunManager.GetRuns());
 			ListAdapter = adapter;
 
 		}
@@ -53,19 +50,20 @@ namespace RunTracker
 			};
 
 			ListView.ItemLongClick += (object sender, AdapterView.ItemLongClickEventArgs e) => {
-
 				AlertDialog.Builder ad = new AlertDialog.Builder(Activity);
 				ad.SetTitle(Activity.GetString(Resource.String.delete_item));
 				ad.SetMessage(Activity.GetString(Resource.String.are_you_sure));
 				ad.SetPositiveButton(Activity.GetString(Resource.String.ok), (s, dcea) => { 
+					e.Handled = true;
 					Run run = (Run)((RunListAdapter)ListAdapter).GetItem(e.Position);
 					mRunManager.DeleteItem(run);
-					mRuns = mRunManager.GetRuns();
 					RunListAdapter adapter = (RunListAdapter)ListAdapter;
 					adapter.Remove(run);
 					adapter.NotifyDataSetChanged();
 				});
-				ad.SetNegativeButton(Activity.GetString(Resource.String.cancel), (s, dcea) => {});
+				ad.SetNegativeButton(Activity.GetString(Resource.String.cancel), (s, dcea) => {
+					e.Handled = true;
+				});
 				ad.Show();
 			};
 		}
@@ -92,11 +90,11 @@ namespace RunTracker
 		public override void OnActivityResult(int requestCode, Result resultCode, Intent data)
 		{
 			base.OnActivityResult(requestCode, resultCode, data);
-			if (REQUEST_NEW_RUN == requestCode && !mRunManager.IsTrackingRun()) {
-				mRuns = mRunManager.GetRuns();
+			if (REQUEST_NEW_RUN == requestCode) {
+				List<Run> runs = mRunManager.GetRuns();
 				RunListAdapter adapter = (RunListAdapter)ListAdapter;
-				if (mRuns.Count > adapter.Count) {
-					adapter.Add(mRuns[mRuns.Count -1]);
+				if (runs.Count > adapter.Count) {
+					adapter.Add(runs[runs.Count -1]);
 					adapter.NotifyDataSetChanged();
 				}
 			}
