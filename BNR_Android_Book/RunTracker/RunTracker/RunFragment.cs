@@ -70,7 +70,7 @@ namespace RunTracker
 				mRunManager.StopRun(CurrentRun);
 				CurrentRun = null;
 				UpdateUI();
-				Activity.Finish();
+//				Activity.Finish();
 			};
 
 			UpdateUI();
@@ -99,8 +99,8 @@ namespace RunTracker
 
 			if (CurrentRun != null)
 				mStartedTextView.Text = CurrentRun.StartDate.ToLocalTime().ToString();
-			else 
-				mStartedTextView.Text = "";
+//			else 
+//				mStartedTextView.Text = "";
 
 			int durationSeconds = 0;
 			if (CurrentRun != null && LastLocation != null) {
@@ -109,13 +109,13 @@ namespace RunTracker
 				mLatitudeTextView.Text = LastLocation.Latitude.ToString();
 				mLongitudeTextView.Text = LastLocation.Longitude.ToString();
 				mAltitudeTextView.Text = LastLocation.Altitude.ToString();
+				mDurationTextView.Text = Run.FormatDuration(durationSeconds);
 			}
-			else {
-				mLatitudeTextView.Text = "";
-				mLongitudeTextView.Text = "";
-				mAltitudeTextView.Text = "";
-			}
-			mDurationTextView.Text = Run.FormatDuration(durationSeconds);
+//			else {
+//				mLatitudeTextView.Text = "";
+//				mLongitudeTextView.Text = "";
+//				mAltitudeTextView.Text = "";
+//			}
 
 			mStartButton.Enabled = !started;
 			mStopButton.Enabled = started;

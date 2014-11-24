@@ -82,9 +82,11 @@ namespace RunTracker
 			IMenuItem newRun = mMenu.FindItem(Resource.Id.menu_item_new_run);
 			if (mRunManager.IsTrackingRun()) {
 				newRun.SetTitle(Resource.String.current_run);
+				newRun.SetIcon(Android.Resource.Drawable.IcMenuInfoDetails);
 			}
 			else {
 				newRun.SetTitle(Resource.String.new_run);
+				newRun.SetIcon(Android.Resource.Drawable.IcMenuAdd);
 			}
 		}
 
@@ -120,9 +122,11 @@ namespace RunTracker
 				IMenuItem newRun = mMenu.FindItem(Resource.Id.menu_item_new_run);
 				if (mRunManager.IsTrackingRun()) {
 					newRun.SetTitle(Resource.String.current_run);
+					newRun.SetIcon(Android.Resource.Drawable.IcMenuInfoDetails);
 				}
 				else {
 					newRun.SetTitle(Resource.String.new_run);
+					newRun.SetIcon(Android.Resource.Drawable.IcMenuAdd);
 				}
 			}
 		}
@@ -149,7 +153,7 @@ namespace RunTracker
 				TextView dateTextView = (TextView)view.FindViewById(Android.Resource.Id.Text2);
 
 				timeTextView.Text = String.Format("{0}: {1}", context.GetString(Resource.String.start_time), r.StartDate.ToLocalTime().ToShortTimeString());
-				dateTextView.Text = String.Format("{0}: {1}", context.GetString(Resource.String.start_date), r.StartDate.ToLocalTime().ToShortDateString());
+				dateTextView.Text = String.Format("{0}: {1}", context.GetString(Resource.String.start_date), r.StartDate.ToLocalTime().ToLongDateString());
 
 				if (r.Active) {
 					view.SetBackgroundColor(Color.LightGray);
