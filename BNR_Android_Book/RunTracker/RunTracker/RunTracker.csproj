@@ -78,12 +78,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
+    <Folder Include="Resources\menu\" />
+  </ItemGroup>
+  <ItemGroup>
     <XamarinComponentReference Include="sqlite-net">
       <Version>1.0.8.1</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\menu\" />
   </ItemGroup>
 </Project>

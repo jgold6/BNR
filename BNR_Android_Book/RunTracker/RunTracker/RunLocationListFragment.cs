@@ -14,7 +14,7 @@ namespace RunTracker
 
 		RunManager mRunManager;
 
-		public override void OnCreate(Android.OS.Bundle savedInstanceState)
+		public override async void OnCreate(Android.OS.Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
 
@@ -23,7 +23,7 @@ namespace RunTracker
 			mRunManager = RunManager.Get(Activity);
 
 			if (runId != -1) {
-				RunLocationListAdapter adapter = new RunLocationListAdapter(Activity, mRunManager.GetLocationsForRun(runId));
+				RunLocationListAdapter adapter = new RunLocationListAdapter(Activity, await mRunManager.GetLocationsForRun(runId));
 				ListAdapter = adapter;
 			}
 		}

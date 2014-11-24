@@ -10,7 +10,7 @@ using System.Collections.Generic;
 // Also give the current run a different color in the RunListFragment (Chapter 34 Challenge 1)
 //TODO: Send a notification that the user's run is being tracked and open the App when clicked (Chapter 34 Challenge 2). 
 
-//TODO: Chapter 35 is about using loaders. I can do the same with async/await, so do that instead. Just don't block the UI thread when the Runs/RunLocations are loading.
+//DONE! Chapter 35 is about using loaders. I can do the same with async/await, so do that instead. Just don't block the UI thread when the Runs/RunLocations are loading.
 
 //TODO: Chapter 36. Display a run on a map tracing a path for the run using the RunLocations. And that finishes the book!
 
@@ -26,16 +26,15 @@ namespace RunTracker
 
 		RunManager mRunManager;
 
-		public override void OnCreate(Android.OS.Bundle savedInstanceState)
+		public override async void OnCreate(Android.OS.Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
 			SetHasOptionsMenu(true);
 			mRunManager = RunManager.Get(Activity);
 			mRunManager.CreateDatabase();
 
-			RunListAdapter adapter = new RunListAdapter(Activity, mRunManager.GetRuns());
+			RunListAdapter adapter = new RunListAdapter(Activity, await mRunManager.GetRuns());
 			ListAdapter = adapter;
-
 		}
 
 		public override void OnActivityCreated(Android.OS.Bundle savedInstanceState)
@@ -85,11 +84,11 @@ namespace RunTracker
 			}
 		}
 
-		public override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+		public override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
 		{
 			base.OnActivityResult(requestCode, resultCode, data);
 			if (REQUEST_NEW_RUN == requestCode) {
-				List<Run> runs = mRunManager.GetRuns();
+				List<Run> runs = await mRunManager.GetRuns();
 				RunListAdapter adapter = (RunListAdapter)ListAdapter;
 				if (runs.Count > adapter.Count) {
 					adapter.Add(runs[runs.Count -1]);

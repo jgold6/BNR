@@ -33,14 +33,14 @@ namespace RunTracker
 			}
 		}
 
-		public override void OnCreate(Android.OS.Bundle savedInstanceState)
+		public override async void OnCreate(Android.OS.Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
 
 			mRunManager = RunManager.Get(Activity);
 			mRunManager.CreateDatabase();
 			if (CurrentRun == null) {
-				Run run = mRunManager.GetActiveRun();
+				Run run = await mRunManager.GetActiveRun();
 				if (run != null)
 					CurrentRun = run;
 			}
