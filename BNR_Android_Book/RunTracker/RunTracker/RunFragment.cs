@@ -44,10 +44,10 @@ namespace RunTracker
 			await UpdateUI();
 		}
 
-		public override async void OnCreate(Android.OS.Bundle savedInstanceState)
+		public override void OnCreate(Android.OS.Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
-//			RetainInstance = true;
+
 			mRunManager = RunManager.Get(Activity);
 			CurrentLocationReceiver = new RunLocationReceiver(this);
 			Activity.RegisterReceiver(CurrentLocationReceiver, new IntentFilter(RunManager.ACTION_LOCATION));

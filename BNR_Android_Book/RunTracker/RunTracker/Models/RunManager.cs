@@ -167,7 +167,7 @@ namespace RunTracker
 			return items;
 		}
 
-		public async Task<List<RunLocation>> GetRunLocations()
+		public async Task<List<RunLocation>> GetAllRunLocations()
 		{
 			List<RunLocation> items = null;
 			var db = new SQLiteConnection(mDbPath);
