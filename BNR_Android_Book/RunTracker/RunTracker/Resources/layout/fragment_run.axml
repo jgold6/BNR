@@ -82,27 +82,11 @@
         android:layout_height="wrap_content">
         <Button
             android:id="@+id/run_startButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/start"
-            android:textSize="24dp"
-            android:textColor="#ff3da542"
-            android:shadowDx="-1"
-            android:shadowDy="1"
-            android:shadowColor="#ff000000"
-            android:shadowRadius="0" />
+            style="@style/StartStopButton.StartButton" />
         <Button
             android:id="@+id/run_stopButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/stop"
-            android:textSize="24dp"
-            android:textColor="#ffc14141"
-            android:shadowDx="-1"
-            android:shadowDy="1"
-            android:shadowColor="#ff000000"
-            android:shadowRadius="0" />
+            style="@style/StartStopButton.StopButton" />
     </LinearLayout>
 </TableLayout>

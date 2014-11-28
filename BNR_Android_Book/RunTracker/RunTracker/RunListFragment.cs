@@ -18,7 +18,7 @@ using System.Collections.Generic;
 // ****Make it so the current run updates wth new locations even if the RunFragmnet is not being displayed. 
 // The system is creating a LocationReceiver, which continues to run after the RunFragment is off screen.
 // RunLocationReceiver does not receive updates as it is not registered, but registering requires a default public constructor
-// and then RunLocationReceiver won't have a reference to the RunFfragment. Requires a bit of refactoring.****
+// and then RunLocationReceiver won't have a reference to the RunFragment. Requires a bit of refactoring.****
 
 using Android.Graphics;
 
@@ -31,6 +31,7 @@ namespace RunTracker
 		public static readonly string RUN_ID = "RUN_ID";
 
 		private static readonly int REQUEST_NEW_RUN = 0;
+		private static readonly int VIEW_RUN = 1;
 
 		RunManager mRunManager;
 		IMenu mMenu;
@@ -39,6 +40,7 @@ namespace RunTracker
 		{
 			base.OnCreate(savedInstanceState);
 			SetHasOptionsMenu(true);
+			RetainInstance = true;
 			mRunManager = RunManager.Get(Activity);
 			mRunManager.CreateDatabase();
 
@@ -50,11 +52,19 @@ namespace RunTracker
 		{
 			base.OnActivityCreated(savedInstanceState);
 			ListView.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => {
+				// Open run in RunLocationListFragment
+//				Run run = (Run)((RunListAdapter)ListAdapter).GetItem(e.Position);
+//				Intent i = new Intent(Activity, typeof(RunLocationListActivity));
+//				i.PutExtra(RUN_ID, run.Id);
+//				i.SetFlags(ActivityFlags.ClearTop);
+//				StartActivity(i);
+
+				// Open run in RunFragment
 				Run run = (Run)((RunListAdapter)ListAdapter).GetItem(e.Position);
-				Intent i = new Intent(Activity, typeof(RunLocationListActivity));
+				Intent i = new Intent(Activity, typeof(RunActivity));
 				i.PutExtra(RUN_ID, run.Id);
 				i.SetFlags(ActivityFlags.ClearTop);
-				StartActivity(i);
+				StartActivityForResult(i, VIEW_RUN);
 			};
 
 			ListView.ItemLongClick += (object sender, AdapterView.ItemLongClickEventArgs e) => {
@@ -106,7 +116,7 @@ namespace RunTracker
 		public override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
 		{
 			base.OnActivityResult(requestCode, resultCode, data);
-			if (REQUEST_NEW_RUN == requestCode) {
+			if (REQUEST_NEW_RUN == requestCode || VIEW_RUN == requestCode) {
 				List<Run> runs = await mRunManager.GetRuns();
 				// Lazy way to update all of the data on the adapter
 				RunListAdapter adapter = new RunListAdapter(Activity, runs);
@@ -157,6 +167,7 @@ namespace RunTracker
 
 				if (r.Active) {
 					view.SetBackgroundColor(Color.LightGray);
+					timeTextView.Text += " - " + context.GetString(Resource.String.current_run);
 				}
 				else {
 					view.SetBackgroundColor(Color.White);

@@ -1,4 +1,25 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <style name="AppTheme" parent="@android:style/Theme.Holo.Light" />
+
+    <style name="StartStopButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">24dp</item>
+
+        <item name="android:layout_weight">1</item>
+        <item name="android:shadowDx">-1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowColor">#ff000000</item>
+        <item name="android:shadowRadius">0</item>
+
+    </style> 
+
+    <style name="StartStopButton.StartButton">
+        <item name="android:textColor">@drawable/start_button_text_color</item>
+    </style> 
+
+    <style name="StartStopButton.StopButton">
+        <item name="android:textColor">@drawable/stop_button_text_color</item>
+    </style> 
 </resources>
