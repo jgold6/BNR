@@ -75,7 +75,6 @@ namespace RunTracker
 				mRunManager.StopRun(CurrentRun);
 				CurrentRun = null;
 				await UpdateUI();
-//				Activity.Finish();
 			};
 
 			UpdateUI().Wait();
