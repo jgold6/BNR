@@ -24,7 +24,7 @@ using Android.Graphics;
 
 namespace RunTracker
 {
-    public class RunListFragment : ListFragment
+	public class RunListFragment : ListFragment
 	{
 		public static readonly string TAG = "RunListFragment";
 
@@ -36,7 +36,7 @@ namespace RunTracker
 		RunManager mRunManager;
 		IMenu mMenu;
 
-		public override async void OnCreate(Android.OS.Bundle savedInstanceState)
+		public override void OnCreate(Android.OS.Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
 			SetHasOptionsMenu(true);
@@ -44,7 +44,7 @@ namespace RunTracker
 			mRunManager = RunManager.Get(Activity);
 			mRunManager.CreateDatabase();
 
-			RunListAdapter adapter = new RunListAdapter(Activity, await mRunManager.GetRuns());
+			RunListAdapter adapter = new RunListAdapter(Activity, mRunManager.GetRuns());
 			ListAdapter = adapter;
 		}
 
@@ -53,11 +53,11 @@ namespace RunTracker
 			base.OnActivityCreated(savedInstanceState);
 			ListView.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => {
 				// Open run in RunLocationListFragment
-//				Run run = (Run)((RunListAdapter)ListAdapter).GetItem(e.Position);
-//				Intent i = new Intent(Activity, typeof(RunLocationListActivity));
-//				i.PutExtra(RUN_ID, run.Id);
-//				i.SetFlags(ActivityFlags.ClearTop);
-//				StartActivity(i);
+				//				Run run = (Run)((RunListAdapter)ListAdapter).GetItem(e.Position);
+				//				Intent i = new Intent(Activity, typeof(RunLocationListActivity));
+				//				i.PutExtra(RUN_ID, run.Id);
+				//				i.SetFlags(ActivityFlags.ClearTop);
+				//				StartActivity(i);
 
 				// Open run in RunFragment
 				Run run = (Run)((RunListAdapter)ListAdapter).GetItem(e.Position);
@@ -111,21 +111,21 @@ namespace RunTracker
 			}
 		}
 
-		public override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
+		public override void OnActivityResult(int requestCode, Result resultCode, Intent data)
 		{
 			base.OnActivityResult(requestCode, resultCode, data);
 			if (REQUEST_NEW_RUN == requestCode || VIEW_RUN == requestCode) {
-				List<Run> runs = await mRunManager.GetRuns();
+				List<Run> runs = mRunManager.GetRuns();
 				// Lazy way to update all of the data on the adapter
 				RunListAdapter adapter = new RunListAdapter(Activity, runs);
 				ListAdapter = adapter;
 				// This was working great to add a new run if there was one, but also needed to see if any
 				// no longer active runs needed their item in the adapter updated. 
-//				RunListAdapter adapter = (RunListAdapter)ListAdapter;
-//				if (runs.Count > adapter.Count) {
-//					adapter.Add(runs[runs.Count -1]);
-//				}
-//				adapter.NotifyDataSetChanged();
+				//				RunListAdapter adapter = (RunListAdapter)ListAdapter;
+				//				if (runs.Count > adapter.Count) {
+				//					adapter.Add(runs[runs.Count -1]);
+				//				}
+				//				adapter.NotifyDataSetChanged();
 
 				IMenuItem newRun = mMenu.FindItem(Resource.Id.menu_item_new_run);
 				if (mRunManager.IsTrackingRun()) {
@@ -175,6 +175,6 @@ namespace RunTracker
 			}
 		}
 		#endregion
-    }
+	}
 }
 

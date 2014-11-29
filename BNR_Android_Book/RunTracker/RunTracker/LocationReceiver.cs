@@ -28,11 +28,11 @@ namespace RunTracker
 			}
 		}
 
-		protected virtual async void OnLocationReceived(Context context, Location loc)
+		protected virtual void OnLocationReceived(Context context, Location loc)
 		{
 			//			Console.WriteLine("[{0}] {1} Got location from {2}: {3}, {4}", TAG, this, loc.Provider, loc.Latitude, loc.Longitude);
 			RunManager rm = RunManager.Get(context);
-			Run run = await rm.GetActiveRun();
+			Run run = rm.GetActiveRun();
 			if (rm.IsTrackingRun() && run != null) {
 				RunLocation rl = new RunLocation();
 				rl.RunId = run.Id;
