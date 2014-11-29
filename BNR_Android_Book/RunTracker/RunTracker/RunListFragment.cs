@@ -9,7 +9,7 @@ using System.Collections.Generic;
 //DONE! Give the current run a different color in the RunListFragment (Chapter 34 Challenge 1)
 //TODO: Send a notification that the user's run is being tracked and open the App when clicked (Chapter 34 Challenge 2). 
 
-//TODO:! Chapter 35 is about using loaders. I can do the same with async/await, so do that instead. Just don't block the UI thread when the Runs/RunLocations are loading.
+//DONE:! Chapter 35 is about using loaders. Not really needed with the way SQLite was used. 
 
 //DONE: Chapter 36. Display a run on a map tracing a path for the run using the RunLocations. And that finishes the book!
 
