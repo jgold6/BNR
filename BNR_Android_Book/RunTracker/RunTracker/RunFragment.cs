@@ -204,7 +204,7 @@ namespace RunTracker
 			MarkerOptions startMarkerOptions = new MarkerOptions();
 			startMarkerOptions.SetPosition(startLatLng);
 			startMarkerOptions.SetTitle(Activity.GetString(Resource.String.run_start));
-			startMarkerOptions.SetSnippet(Activity.GetString(Resource.String.run_started_at_format, new Java.Lang.Object[]{new Java.Lang.String(mRunLocations[0].Time.ToLongTimeString())}));
+			startMarkerOptions.SetSnippet(Activity.GetString(Resource.String.run_started_at_format, new Java.Lang.Object[]{new Java.Lang.String(mRunLocations[0].Time.ToLocalTime().ToLongTimeString())}));
 			mGoogleMap.AddMarker(startMarkerOptions);
 
 			if (mRunManager.GetActiveRun() == null || (mRunManager.GetActiveRun() != null && CurrentRun.Id != mRunManager.GetActiveRun().Id)) {
@@ -212,7 +212,7 @@ namespace RunTracker
 				MarkerOptions stopMarkerOptions = new MarkerOptions();
 				stopMarkerOptions.SetPosition(stopLatLng);
 				stopMarkerOptions.SetTitle(Activity.GetString(Resource.String.run_finish));
-				stopMarkerOptions.SetSnippet(Activity.GetString(Resource.String.run_finished_at_format, new Java.Lang.Object[]{new Java.Lang.String(mRunLocations[mRunLocations.Count-1].Time.ToLongTimeString())}));
+				stopMarkerOptions.SetSnippet(Activity.GetString(Resource.String.run_finished_at_format, new Java.Lang.Object[]{new Java.Lang.String(mRunLocations[mRunLocations.Count-1].Time.ToLocalTime().ToLongTimeString())}));
 				mGoogleMap.AddMarker(stopMarkerOptions);
 			}
 

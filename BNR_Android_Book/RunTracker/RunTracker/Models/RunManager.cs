@@ -106,7 +106,6 @@ namespace RunTracker
 			db.CreateTable<Run>();
 			db.CreateTable<RunLocation>();
 			db.Close();
-			//			ListAll();
 		}
 
 		public void InsertItem<T>(T item)
@@ -114,7 +113,6 @@ namespace RunTracker
 			var db = new SQLiteConnection(mDbPath);
 			db.Insert(item, item.GetType());
 			db.Close();
-			//			ListAll();
 		}
 
 		public void UpdateItem<T>(T item)
@@ -122,7 +120,6 @@ namespace RunTracker
 			var db = new SQLiteConnection(mDbPath);
 			db.Update(item, item.GetType());
 			db.Close();
-			//			ListAll();
 		}
 
 		public void DeleteItem(Run item)
@@ -131,7 +128,6 @@ namespace RunTracker
 			var rowsDeleted = db.Delete<Run>(item.Id);
 			db.Close();
 			Console.WriteLine("{0} Rows Deleted: {1}", TAG, rowsDeleted);
-			//			ListAll();
 		}
 
 		public Run GetRun(int id)
@@ -170,60 +166,44 @@ namespace RunTracker
 
 		public List<RunLocation> GetLocationsForRun(int runId)
 		{
-			List<RunLocation> ADOitems = null;
-
-			// ORM
-			//			List<RunLocation> matched = new List<RunLocation>();
 			var db = new SQLiteConnection(mDbPath);
 
-			//ORM
-			//			var items = db.Table<RunLocation>().ToList();
-			//			foreach(RunLocation loc in items) {
-			//				if (run.Id == loc.RunId)
-			//					matched.Add(loc);
-			//			}
-
-			// ADO
-			ADOitems = db.Query<RunLocation>("SELECT * FROM RunLocations WHERE RunId=" + runId).ToList();
-
-			db.Close();
-
 			// ORM
-			//			return matched;
+//			List<RunLocation> matched = new List<RunLocation>();
+//			var items = db.Table<RunLocation>().ToList();
+//			foreach(RunLocation loc in items) {
+//				if (run.Id == loc.RunId)
+//					matched.Add(loc);
+//			}
+//			db.Close();
+//			return matched;
 
 			// ADO
+			List<RunLocation> ADOitems = null;
+			ADOitems = db.Query<RunLocation>("SELECT * FROM RunLocations WHERE RunId=" + runId).ToList();
+			db.Close();
 			return ADOitems;
 		}
 
 		public Run GetActiveRun()
 		{
-			var runs = GetRuns();
-			foreach (Run run in runs) {
-				if (run.Active)
-					return run;
-			}
-			return null;
-		}
+			//ORM
+//			var runs = GetRuns();
+//			foreach (Run run in runs) {
+//				if (run.Active)
+//					return run;
+//			}
+//			return null;
 
-		private void ListAll()
-		{
-			var runs = GetRuns();
-			foreach (Run run in runs) {
-				Console.WriteLine("{0} RunId: {1}, Active: {2}, Date: {3}", TAG, run.Id, run.Active, run.StartDate);
-				var locations = GetLocationsForRun(run.Id);
-				foreach (RunLocation location in locations) {
-					Console.WriteLine("{0} Location: {1}, Lat: {2:F3}, Long: {3:F3}, RunId: {4}, Time: {5}, Provider: {6}", 
-						TAG, 
-						location.Id, 
-						location.Latitude, 
-						location.Longitude, 
-						location.RunId, 
-						location.Time,
-						location.Provider
-					);
-				}
-			}
-			Console.WriteLine("{0} ************************************", TAG);
+			// ADO
+			var db = new SQLiteConnection(mDbPath);
+			List<Run> ADOitems = null;
+			Run run = null;
+			ADOitems = db.Query<Run>("SELECT * FROM Runs WHERE Active").ToList();
+			if (ADOitems.Count == 1)
+				run = ADOitems[0];
+			db.Close();
+			return run;
 		}
 		#endregion
 	}
