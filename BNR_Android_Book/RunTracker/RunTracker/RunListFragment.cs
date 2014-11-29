@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 //TODO:! Chapter 35 is about using loaders. I can do the same with async/await, so do that instead. Just don't block the UI thread when the Runs/RunLocations are loading.
 
-//TODO: Chapter 36. Display a run on a map tracing a path for the run using the RunLocations. And that finishes the book!
+//DONE: Chapter 36. Display a run on a map tracing a path for the run using the RunLocations. And that finishes the book!
 
 //DONE! Just used my handy dandy RunManager singleton and updated the database with the new locations.
 // I forgot I already made a GetActiveRun method in RunManager. Made it easy. 

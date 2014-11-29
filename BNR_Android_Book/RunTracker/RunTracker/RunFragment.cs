@@ -31,6 +31,7 @@ namespace RunTracker
 		LinearLayout mMapLayout;
 		int mMapWidth;
 		int mMapHeight;
+		bool mMapShouldFollow = true;
 
 		public override void OnCreate(Android.OS.Bundle savedInstanceState)
 		{
@@ -138,7 +139,7 @@ namespace RunTracker
 //				var location = new LatLng(mRunLocations[mRunLocations.Count -1].Latitude, mRunLocations[mRunLocations.Count -1].Longitude);
 //				var cu = CameraUpdateFactory.NewLatLngZoom (location, 20);
 //				mGoogleMap.MoveCamera (cu);
-				DrawRunTrack();
+				DrawRunTrack(false);
 
 				if (mRunManager.IsTrackingRun()) {
 					mStartButton.Enabled = false;
@@ -171,7 +172,7 @@ namespace RunTracker
 //					var location = new LatLng(LastLocation.Latitude, LastLocation.Longitude);
 //					var cu = CameraUpdateFactory.NewLatLngZoom (location, 20);
 //					mGoogleMap.MoveCamera (cu);
-					DrawRunTrack();
+					DrawRunTrack(true);
 				}
 
 				mStartButton.Enabled = !started;
@@ -179,7 +180,7 @@ namespace RunTracker
 			}
 		}
 
-		void DrawRunTrack() {
+		void DrawRunTrack(bool mapShouldFollow) {
 			if (mRunLocations.Count < 1)
 				return;
 			// Set up overlay for the map with the current run's locations
@@ -195,16 +196,37 @@ namespace RunTracker
 			}
 			// Add the polyline to the map
 			mGoogleMap.AddPolyline(line);
+
+			// Add markers
+			LatLng startLatLng = new LatLng(mRunLocations[0].Latitude, mRunLocations[0].Longitude);
+			MarkerOptions startMarkerOptions = new MarkerOptions();
+			startMarkerOptions.SetPosition(startLatLng);
+			startMarkerOptions.SetTitle(Activity.GetString(Resource.String.run_start));
+			startMarkerOptions.SetSnippet(Activity.GetString(Resource.String.run_started_at_format, new Java.Lang.Object[]{new Java.Lang.String(mRunLocations[0].Time.ToShortDateString())}));
+			mGoogleMap.AddMarker(startMarkerOptions);
+
+			if (mRunManager.GetActiveRun() == null || (mRunManager.GetActiveRun() != null && CurrentRun.Id != mRunManager.GetActiveRun().Id)) {
+				LatLng stopLatLng = new LatLng(mRunLocations[mRunLocations.Count-1].Latitude, mRunLocations[mRunLocations.Count-1].Longitude);
+				MarkerOptions stopMarkerOptions = new MarkerOptions();
+				stopMarkerOptions.SetPosition(stopLatLng);
+				stopMarkerOptions.SetTitle(Activity.GetString(Resource.String.run_finish));
+				stopMarkerOptions.SetSnippet(Activity.GetString(Resource.String.run_finished_at_format, new Java.Lang.Object[]{new Java.Lang.String(mRunLocations[mRunLocations.Count-1].Time.ToShortDateString())}));
+				mGoogleMap.AddMarker(stopMarkerOptions);
+			}
+
 			// Make the map zoom to show the track, with some padding
 			// Use the size of the map linear layout in pixels as a bounding box
-			// Construct a movement instruction for the map
 			LatLngBounds latLngBounds = latLngBuilder.Build();
-			CameraUpdate movement = CameraUpdateFactory.NewLatLngBounds(latLngBounds, mMapWidth, mMapHeight, 1);
-			try {
-				mGoogleMap.MoveCamera(movement);
-			}
-			catch (Exception ex) {
-				Console.WriteLine("[{0}] No Layout yet {1}", TAG, ex.Message);
+			// Construct a movement instruction for the map
+			CameraUpdate movement = CameraUpdateFactory.NewLatLngBounds(latLngBounds, mMapWidth, mMapHeight, 15);
+			if (mMapShouldFollow) {
+				try {
+					mGoogleMap.MoveCamera(movement);
+					mMapShouldFollow = mapShouldFollow;
+				}
+				catch (Exception ex) {
+					Console.WriteLine("[{0}] No Layout yet {1}", TAG, ex.Message);
+				}
 			}
 		}
 	}
