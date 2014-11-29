@@ -70,12 +70,11 @@ namespace RunTracker
 
 			mGoogleMap = ((MapFragment)FragmentManager.FindFragmentById(Resource.Id.mapFrag)).Map;
 			mGoogleMap.MyLocationEnabled = true;
+			mGoogleMap.MapType = GoogleMap.MapTypeHybrid;
 
 			mMapLayout = view.FindViewById<LinearLayout>(Resource.Id.mapLayout);
 			ViewTreeObserver vto  = view.ViewTreeObserver;
 			vto.AddOnGlobalLayoutListener(this);
-
-			//			UpdateUI();
 
 			return view;
 		}
@@ -102,8 +101,6 @@ namespace RunTracker
 					CurrentRun = run;
 				}
 			}
-
-			//			UpdateUI();
 		}
 
 		public override void OnSaveInstanceState(Android.OS.Bundle outState)
