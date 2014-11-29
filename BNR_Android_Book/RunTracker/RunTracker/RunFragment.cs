@@ -217,7 +217,7 @@ namespace RunTracker
 			// Use the size of the map linear layout in pixels as a bounding box
 			LatLngBounds latLngBounds = latLngBuilder.Build();
 			// Construct a movement instruction for the map
-			CameraUpdate movement = CameraUpdateFactory.NewLatLngBounds(latLngBounds, mMapWidth, mMapHeight, 15);
+			CameraUpdate movement = CameraUpdateFactory.NewLatLngBounds(latLngBounds, mMapWidth, mMapHeight, 50);
 			if (mMapShouldFollow) {
 				try {
 					mGoogleMap.MoveCamera(movement);
