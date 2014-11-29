@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace RunTracker
 {
-    public class RunManager
-    {
+	public class RunManager
+	{
 		public static readonly string TAG = "RunManager";
 
 		public static readonly string ACTION_LOCATION = "com.onobytes.runtracker.ACTION_LOCATION";
@@ -23,13 +23,13 @@ namespace RunTracker
 		private Context mAppContext;
 		private LocationManager mLocationManager;
 
-        private RunManager(Context appContext)
-        {
+		private RunManager(Context appContext)
+		{
 			mAppContext = appContext;
 			mDbName = "runs.db3";
 			mDbPath = Path.Combine (System.Environment.GetFolderPath (System.Environment.SpecialFolder.Personal), mDbName);
 			mLocationManager = (LocationManager)mAppContext.GetSystemService(Context.LocationService);
-        }
+		}
 
 		public static RunManager Get(Context c)
 		{
@@ -106,7 +106,9 @@ namespace RunTracker
 			db.CreateTable<Run>();
 			db.CreateTable<RunLocation>();
 			db.Close();
-//			ListAll();
+			//			Task.Run(async () => {
+			//				await ListAll();
+			//			});
 		}
 
 		public void InsertItem<T>(T item)
@@ -114,7 +116,9 @@ namespace RunTracker
 			var db = new SQLiteConnection(mDbPath);
 			db.Insert(item, item.GetType());
 			db.Close();
-//			ListAll();
+			//			Task.Run(async () => {
+			//				await ListAll();
+			//			});
 		}
 
 		public void UpdateItem<T>(T item)
@@ -122,7 +126,9 @@ namespace RunTracker
 			var db = new SQLiteConnection(mDbPath);
 			db.Update(item, item.GetType());
 			db.Close();
-//			ListAll();
+			//			Task.Run(async () => {
+			//				await ListAll();
+			//			});
 		}
 
 		public void DeleteItem(Run item)
@@ -131,7 +137,9 @@ namespace RunTracker
 			var rowsDeleted = db.Delete<Run>(item.Id);
 			db.Close();
 			Console.WriteLine("{0} Rows Deleted: {1}", TAG, rowsDeleted);
-//			ListAll();
+			//			Task.Run(async () => {
+			//				await ListAll();
+			//			});
 		}
 
 		public Run GetRun(int id)
@@ -150,54 +158,54 @@ namespace RunTracker
 			return item;
 		}
 
-		public List<Run> GetRuns()
+		public async Task<List<Run>> GetRuns()
 		{
 			List<Run> items = null;
 			var db = new SQLiteConnection(mDbPath);
-			items = db.Table<Run>().ToList();
+			await Task.Run(() => {items = db.Table<Run>().ToList();});
 			db.Close();
 			return items;
 		}
 
-		public List<RunLocation> GetAllRunLocations()
+		public async Task<List<RunLocation>> GetAllRunLocations()
 		{
 			List<RunLocation> items = null;
 			var db = new SQLiteConnection(mDbPath);
-			items = db.Table<RunLocation>().ToList();
+			await Task.Run(() => {items = db.Table<RunLocation>().ToList();});
 			db.Close();
 			return items;
 		}
 
-		public List<RunLocation> GetLocationsForRun(int runId)
+		public async Task<List<RunLocation>> GetLocationsForRun(int runId)
 		{
 			List<RunLocation> ADOitems = null;
 
 			// ORM
-//			List<RunLocation> matched = new List<RunLocation>();
+			//			List<RunLocation> matched = new List<RunLocation>();
 			var db = new SQLiteConnection(mDbPath);
 
 			//ORM
-//			var items = db.Table<RunLocation>().ToList();
-//			foreach(RunLocation loc in items) {
-//				if (run.Id == loc.RunId)
-//					matched.Add(loc);
-//			}
+			//			var items = db.Table<RunLocation>().ToList();
+			//			foreach(RunLocation loc in items) {
+			//				if (run.Id == loc.RunId)
+			//					matched.Add(loc);
+			//			}
 
 			// ADO
-			ADOitems = db.Query<RunLocation>("SELECT * FROM RunLocations WHERE RunId=" + runId).ToList();
+			await Task.Run(() => {ADOitems = db.Query<RunLocation>("SELECT * FROM RunLocations WHERE RunId=" + runId).ToList();});
 
 			db.Close();
 
 			// ORM
-//			return matched;
+			//			return matched;
 
 			// ADO
 			return ADOitems;
 		}
 
-		public Run GetActiveRun()
+		public async Task<Run> GetActiveRun()
 		{
-			var runs = GetRuns();
+			var runs = await GetRuns();
 			foreach (Run run in runs) {
 				if (run.Active)
 					return run;
@@ -205,12 +213,12 @@ namespace RunTracker
 			return null;
 		}
 
-		private void ListAll()
+		private async Task ListAll()
 		{
-			var runs = GetRuns();
+			var runs = await GetRuns();
 			foreach (Run run in runs) {
 				Console.WriteLine("{0} RunId: {1}, Active: {2}, Date: {3}", TAG, run.Id, run.Active, run.StartDate);
-				var locations = GetLocationsForRun(run.Id);
+				var locations = await GetLocationsForRun(run.Id);
 				foreach (RunLocation location in locations) {
 					Console.WriteLine("{0} Location: {1}, Lat: {2:F3}, Long: {3:F3}, RunId: {4}, Time: {5}, Provider: {6}", 
 						TAG, 
@@ -226,6 +234,5 @@ namespace RunTracker
 			Console.WriteLine("{0} ************************************", TAG);
 		}
 		#endregion
-    }
+	}
 }
-

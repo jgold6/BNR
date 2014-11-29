@@ -36,7 +36,7 @@ namespace RunTracker
 		RunManager mRunManager;
 		IMenu mMenu;
 
-		public override void OnCreate(Android.OS.Bundle savedInstanceState)
+		public override async void OnCreate(Android.OS.Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
 			SetHasOptionsMenu(true);
@@ -44,7 +44,7 @@ namespace RunTracker
 			mRunManager = RunManager.Get(Activity);
 			mRunManager.CreateDatabase();
 
-			RunListAdapter adapter = new RunListAdapter(Activity, mRunManager.GetRuns());
+			RunListAdapter adapter = new RunListAdapter(Activity, await mRunManager.GetRuns());
 			ListAdapter = adapter;
 		}
 
@@ -111,11 +111,11 @@ namespace RunTracker
 			}
 		}
 
-		public override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+		public override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
 		{
 			base.OnActivityResult(requestCode, resultCode, data);
 			if (REQUEST_NEW_RUN == requestCode || VIEW_RUN == requestCode) {
-				List<Run> runs = mRunManager.GetRuns();
+				List<Run> runs = await mRunManager.GetRuns();
 				// Lazy way to update all of the data on the adapter
 				RunListAdapter adapter = new RunListAdapter(Activity, runs);
 				ListAdapter = adapter;

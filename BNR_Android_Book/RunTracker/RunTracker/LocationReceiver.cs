@@ -9,8 +9,8 @@ namespace RunTracker
 {
 	[BroadcastReceiver(Name="com.onobytes.RunTracker.LocationReceiver", Exported=false)]
 	[IntentFilter (new[]{"com.onobytes.runtracker.ACTION_LOCATION"})]
-    public class LocationReceiver : BroadcastReceiver
-    {
+	public class LocationReceiver : BroadcastReceiver
+	{
 		public static readonly string TAG = "LocationReceiver";
 
 		public override void OnReceive(Context context, Intent intent)
@@ -28,11 +28,11 @@ namespace RunTracker
 			}
 		}
 
-		protected virtual void OnLocationReceived(Context context, Location loc)
+		protected virtual async void OnLocationReceived(Context context, Location loc)
 		{
-//			Console.WriteLine("[{0}] {1} Got location from {2}: {3}, {4}", TAG, this, loc.Provider, loc.Latitude, loc.Longitude);
+			//			Console.WriteLine("[{0}] {1} Got location from {2}: {3}, {4}", TAG, this, loc.Provider, loc.Latitude, loc.Longitude);
 			RunManager rm = RunManager.Get(context);
-			Run run = rm.GetActiveRun();
+			Run run = await rm.GetActiveRun();
 			if (rm.IsTrackingRun() && run != null) {
 				RunLocation rl = new RunLocation();
 				rl.RunId = run.Id;
@@ -47,10 +47,10 @@ namespace RunTracker
 
 		protected virtual void OnProviderEnabledChanged(Context context, bool enabled)
 		{
-//			Console.WriteLine("[{0}] Provider {1}", TAG, (enabled ? "enabled" : "disabled"));
+			//			Console.WriteLine("[{0}] Provider {1}", TAG, (enabled ? "enabled" : "disabled"));
 			int toastText = enabled ? Resource.String.gps_enabled : Resource.String.gps_disabled;
 			Toast.MakeText(context, toastText, ToastLength.Long).Show();
 		}
-    }
+	}
 }
 

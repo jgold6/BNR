@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace RunTracker
 {
-    public class RunLocationListFragment : ListFragment
+	public class RunLocationListFragment : ListFragment
 	{
 		public static readonly string TAG = "RunLocationListFragment";
 
@@ -16,7 +16,7 @@ namespace RunTracker
 		public BroadcastReceiver CurrentLocationReceiver {get; set;}
 		public int mRunId;
 
-		public override void OnCreate(Android.OS.Bundle savedInstanceState)
+		public override async void OnCreate(Android.OS.Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
 
@@ -25,7 +25,7 @@ namespace RunTracker
 			mRunManager = RunManager.Get(Activity);
 
 			if (mRunId != -1) {
-				RunLocationListAdapter adapter = new RunLocationListAdapter(Activity, mRunManager.GetLocationsForRun(mRunId));
+				RunLocationListAdapter adapter = new RunLocationListAdapter(Activity, await mRunManager.GetLocationsForRun(mRunId));
 				ListAdapter = adapter;
 			}
 
@@ -39,7 +39,7 @@ namespace RunTracker
 			base.OnDestroy();
 		}
 
-    }
+	}
 
 	#region - ArrayAdapter 
 	public class RunLocationListAdapter : ArrayAdapter<RunLocation>
@@ -83,14 +83,14 @@ namespace RunTracker
 			mRunLocationListFragment = runFrag;
 		}
 
-		protected override void OnLocationReceived(Context context, Android.Locations.Location loc)
+		protected override async void OnLocationReceived(Context context, Android.Locations.Location loc)
 		{
 			//base.OnLocationReceived(context, loc);
 			RunManager rm = RunManager.Get(mRunLocationListFragment.Activity);
-			Run activeRun = rm.GetActiveRun();
+			Run activeRun = await rm.GetActiveRun();
 			if (activeRun != null && activeRun.Id == mRunLocationListFragment.mRunId) {
 				RunLocationListAdapter adapter = ((RunLocationListAdapter)mRunLocationListFragment.ListAdapter);
-				List<RunLocation> runLocations= rm.GetLocationsForRun(activeRun.Id);
+				List<RunLocation> runLocations= await rm.GetLocationsForRun(activeRun.Id);
 				RunLocation runLocation = runLocations[runLocations.Count -1];
 				adapter.Add(runLocation);
 				adapter.NotifyDataSetChanged();
@@ -104,4 +104,3 @@ namespace RunTracker
 		}
 	}
 }
-
