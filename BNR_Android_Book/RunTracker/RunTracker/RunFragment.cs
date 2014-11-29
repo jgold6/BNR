@@ -132,12 +132,12 @@ namespace RunTracker
 				mLongitudeTextView.Text = mRunLocations[0].Longitude.ToString();
 				mAltitudeTextView.Text = mRunLocations[0].Altitude.ToString();
 
-				int durationSeconds = (mRunLocations[mRunLocations.Count -1].Time - CurrentRun.StartDate).Seconds;
+				int durationSeconds = (int)Math.Ceiling((mRunLocations[mRunLocations.Count -1].Time - CurrentRun.StartDate).TotalSeconds);
 				mDurationTextView.Text = Run.FormatDuration(durationSeconds);
 
-				//				var location = new LatLng(mRunLocations[mRunLocations.Count -1].Latitude, mRunLocations[mRunLocations.Count -1].Longitude);
-				//				var cu = CameraUpdateFactory.NewLatLngZoom (location, 20);
-				//				mGoogleMap.MoveCamera (cu);
+//				var location = new LatLng(mRunLocations[mRunLocations.Count -1].Latitude, mRunLocations[mRunLocations.Count -1].Longitude);
+//				var cu = CameraUpdateFactory.NewLatLngZoom (location, 20);
+//				mGoogleMap.MoveCamera (cu);
 				DrawRunTrack(false);
 
 				if (mRunManager.IsTrackingRun()) {
@@ -168,9 +168,9 @@ namespace RunTracker
 					mAltitudeTextView.Text = LastLocation.Altitude.ToString();
 					mDurationTextView.Text = Run.FormatDuration(durationSeconds);
 
-					//					var location = new LatLng(LastLocation.Latitude, LastLocation.Longitude);
-					//					var cu = CameraUpdateFactory.NewLatLngZoom (location, 20);
-					//					mGoogleMap.MoveCamera (cu);
+//					var location = new LatLng(LastLocation.Latitude, LastLocation.Longitude);
+//					var cu = CameraUpdateFactory.NewLatLngZoom (location, 20);
+//					mGoogleMap.MoveCamera (cu);
 					DrawRunTrack(true);
 				}
 

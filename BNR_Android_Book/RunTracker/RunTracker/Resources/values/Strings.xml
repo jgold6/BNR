@@ -27,4 +27,7 @@
     <string name="run_started_at_format">Run started at %s</string>
     <string name="run_finish">Run Finish</string>
     <string name="run_finished_at_format">Run Finished at %s</string>
+
+    <string name="tracking_run_notification_title">RunTracker is tracking a run</string>
+    <string name="tracking_run_notification_text">Open the RunTracker app</string>
 </resources>

@@ -13,6 +13,9 @@ namespace RunTracker
 	{
 		public static readonly string TAG = "LocationReceiver";
 
+		public static readonly string ACTION_SHOW_NOTIFICATION = "com.onobytes.RunTracker.SHOW_NOTIFICATION";
+		public static readonly string PERM_PRIVATE = "com.onobytes.RunTracker.PRIVATE";
+
 		public override void OnReceive(Context context, Intent intent)
 		{
 			// If you got a location extra, use it
@@ -42,12 +45,33 @@ namespace RunTracker
 				rl.Time = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(loc.Time);
 				rl.Provider = loc.Provider;
 				rm.InsertItem<RunLocation>(rl);
+
+				if ((DateTime.UtcNow - run.StartDate).Minutes % 5 == 0 && (DateTime.UtcNow - run.StartDate).Seconds % 60 == 0) { 
+
+					Intent intent = new Intent(context, typeof(RunActivity));
+
+					const int pendingIntentId = 0;
+					PendingIntent pendingIntent = PendingIntent.GetActivity(context, pendingIntentId, intent, PendingIntentFlags.OneShot);
+
+					Notification notification = new Notification.Builder(context)
+						.SetTicker(context.Resources.GetString(Resource.String.tracking_run_notification_title))
+						.SetSmallIcon(Android.Resource.Drawable.IcMenuView)
+						.SetContentTitle(context.Resources.GetString(Resource.String.tracking_run_notification_title))
+						.SetContentText(context.Resources.GetString(Resource.String.tracking_run_notification_text))
+						.SetContentIntent(pendingIntent)
+						.SetAutoCancel(true)
+						.Build();
+
+					NotificationManager notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
+
+					const int notificationId = 0;
+					notificationManager.Notify(notificationId, notification);
+				}
 			}
 		}
 
 		protected virtual void OnProviderEnabledChanged(Context context, bool enabled)
 		{
-			//			Console.WriteLine("[{0}] Provider {1}", TAG, (enabled ? "enabled" : "disabled"));
 			int toastText = enabled ? Resource.String.gps_enabled : Resource.String.gps_disabled;
 			Toast.MakeText(context, toastText, ToastLength.Long).Show();
 		}
