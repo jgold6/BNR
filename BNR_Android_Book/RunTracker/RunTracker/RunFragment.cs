@@ -6,10 +6,12 @@ using Android.Content;
 using Android.Locations;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Android.Gms.Maps;
+using Android.Gms.Maps.Model;
 
 namespace RunTracker
 {
-    public class RunFragment : Fragment
+	public class RunFragment : Fragment, ViewTreeObserver.IOnGlobalLayoutListener
     {
 		public static readonly string TAG = "RunFragment";
 
@@ -25,24 +27,10 @@ namespace RunTracker
 		List<RunLocation> mRunLocations;
 		Button mStartButton, mStopButton;
 		TextView mStartedTextView, mLatitudeTextView, mLongitudeTextView, mAltitudeTextView, mDurationTextView;
-
-		public override async void OnActivityCreated(Android.OS.Bundle savedInstanceState)
-		{
-			base.OnActivityCreated(savedInstanceState);
-			if (savedInstanceState != null && savedInstanceState.GetInt(RUN_ID, -1) != -1) {
-				CurrentRun = mRunManager.GetRun(savedInstanceState.GetInt(RUN_ID));
-			}
-			else if (Activity.Intent.GetIntExtra(RUN_ID, -1) != -1) {
-				CurrentRun = mRunManager.GetRun(Activity.Intent.GetIntExtra(RUN_ID, -1));
-			}
-			else if (CurrentRun == null) {
-				Run run = await mRunManager.GetActiveRun();
-				if (run != null)
-					CurrentRun = run;
-			}
-
-			await UpdateUI();
-		}
+		GoogleMap mGoogleMap;
+		LinearLayout mMapLayout;
+		int mMapWidth;
+		int mMapHeight;
 
 		public override void OnCreate(Android.OS.Bundle savedInstanceState)
 		{
@@ -66,20 +54,53 @@ namespace RunTracker
 			mStartButton = view.FindViewById<Button>(Resource.Id.run_startButton);
 			mStopButton = view.FindViewById<Button>(Resource.Id.run_stopButton);
 
-			mStartButton.Click += async (object sender, EventArgs e) => {
+			mStartButton.Click += (object sender, EventArgs e) => {
 				CurrentRun = mRunManager.StartNewRun();
-				await UpdateUI();
+				UpdateUI();
 			};
 
-			mStopButton.Click += async (object sender, EventArgs e) => {
+			mStopButton.Click += (object sender, EventArgs e) => {
 				mRunManager.StopRun(CurrentRun);
 				CurrentRun = null;
-				await UpdateUI();
+				UpdateUI();
 			};
 
-			UpdateUI().Wait();
+			mGoogleMap = ((MapFragment)FragmentManager.FindFragmentById(Resource.Id.mapFrag)).Map;
+			mGoogleMap.MyLocationEnabled = true;
+
+			mMapLayout = view.FindViewById<LinearLayout>(Resource.Id.mapLayout);
+			ViewTreeObserver vto  = view.ViewTreeObserver;
+			vto.AddOnGlobalLayoutListener(this);
+
+//			UpdateUI();
 
 			return view;
+		}
+
+		public void OnGlobalLayout()
+		{
+			mMapWidth = mMapLayout.Width;
+			mMapHeight = mMapLayout.Height;
+			UpdateUI();
+		}
+
+		public override void OnActivityCreated(Android.OS.Bundle savedInstanceState)
+		{
+			base.OnActivityCreated(savedInstanceState);
+			if (savedInstanceState != null && savedInstanceState.GetInt(RUN_ID, -1) != -1) {
+				CurrentRun = mRunManager.GetRun(savedInstanceState.GetInt(RUN_ID));
+			}
+			else if (Activity.Intent.GetIntExtra(RUN_ID, -1) != -1) {
+				CurrentRun = mRunManager.GetRun(Activity.Intent.GetIntExtra(RUN_ID, -1));
+			}
+			else if (CurrentRun == null) {
+				Run run = mRunManager.GetActiveRun();
+				if (run != null) {
+					CurrentRun = run;
+				}
+			}
+				
+//			UpdateUI();
 		}
 
 		public override void OnSaveInstanceState(Android.OS.Bundle outState)
@@ -101,11 +122,10 @@ namespace RunTracker
 			base.OnDestroy();
 		}
 
-		public async Task UpdateUI()
+		public void UpdateUI()
 		{
 			if (CurrentRun != null && !CurrentRun.Active) {
-				mRunLocations = await mRunManager.GetLocationsForRun(CurrentRun.Id);
-
+				mRunLocations = mRunManager.GetLocationsForRun(CurrentRun.Id);
 				mStartedTextView.Text = CurrentRun.StartDate.ToLocalTime().ToString();
 
 				mLatitudeTextView.Text = mRunLocations[0].Latitude.ToString();
@@ -114,6 +134,11 @@ namespace RunTracker
 
 				int durationSeconds = (mRunLocations[mRunLocations.Count -1].Time - CurrentRun.StartDate).Seconds;
 				mDurationTextView.Text = Run.FormatDuration(durationSeconds);
+
+//				var location = new LatLng(mRunLocations[mRunLocations.Count -1].Latitude, mRunLocations[mRunLocations.Count -1].Longitude);
+//				var cu = CameraUpdateFactory.NewLatLngZoom (location, 20);
+//				mGoogleMap.MoveCamera (cu);
+				DrawRunTrack();
 
 				if (mRunManager.IsTrackingRun()) {
 					mStartButton.Enabled = false;
@@ -129,8 +154,10 @@ namespace RunTracker
 			else {
 				bool started = mRunManager.IsTrackingRun();
 
-				if (CurrentRun != null)
+				if (CurrentRun != null) {
+					mRunLocations = mRunManager.GetLocationsForRun(CurrentRun.Id);
 					mStartedTextView.Text = CurrentRun.StartDate.ToLocalTime().ToString();
+				}
 
 				int durationSeconds = 0;
 				if (CurrentRun != null && LastLocation != null) {
@@ -140,10 +167,44 @@ namespace RunTracker
 					mLongitudeTextView.Text = LastLocation.Longitude.ToString();
 					mAltitudeTextView.Text = LastLocation.Altitude.ToString();
 					mDurationTextView.Text = Run.FormatDuration(durationSeconds);
+
+//					var location = new LatLng(LastLocation.Latitude, LastLocation.Longitude);
+//					var cu = CameraUpdateFactory.NewLatLngZoom (location, 20);
+//					mGoogleMap.MoveCamera (cu);
+					DrawRunTrack();
 				}
 
 				mStartButton.Enabled = !started;
 				mStopButton.Enabled = started;
+			}
+		}
+
+		void DrawRunTrack() {
+			if (mRunLocations.Count < 1)
+				return;
+			// Set up overlay for the map with the current run's locations
+			// Create a polyline with all of the points
+			PolylineOptions line = new PolylineOptions();
+			// Create a LatLngBounds so you can zoom to fit
+			LatLngBounds.Builder latLngBuilder = new LatLngBounds.Builder();
+			// Add the locations of the current run
+			foreach (RunLocation loc in mRunLocations) {
+				LatLng latLng = new LatLng(loc.Latitude, loc.Longitude);
+				line.Add(latLng);
+				latLngBuilder.Include(latLng);
+			}
+			// Add the polyline to the map
+			mGoogleMap.AddPolyline(line);
+			// Make the map zoom to show the track, with some padding
+			// Use the size of the map linear layout in pixels as a bounding box
+			// Construct a movement instruction for the map
+			LatLngBounds latLngBounds = latLngBuilder.Build();
+			CameraUpdate movement = CameraUpdateFactory.NewLatLngBounds(latLngBounds, mMapWidth, mMapHeight, 1);
+			try {
+				mGoogleMap.MoveCamera(movement);
+			}
+			catch (Exception ex) {
+				Console.WriteLine("[{0}] No Layout yet {1}", TAG, ex.Message);
 			}
 		}
 	}
@@ -157,7 +218,7 @@ namespace RunTracker
 			mRunFragment = runFrag;
 		}
 
-		protected override async void OnLocationReceived(Context context, Android.Locations.Location loc)
+		protected override void OnLocationReceived(Context context, Android.Locations.Location loc)
 		{
 			//base.OnLocationReceived(context, loc);
 			RunManager rm = RunManager.Get(mRunFragment.Activity);
@@ -187,7 +248,7 @@ namespace RunTracker
 			}
 
 			if (mRunFragment.IsVisible)
-				await mRunFragment.UpdateUI();
+				mRunFragment.UpdateUI();
 		}
 
 		protected override void OnProviderEnabledChanged(Context context, bool enabled)

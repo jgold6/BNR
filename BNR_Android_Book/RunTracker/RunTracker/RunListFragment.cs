@@ -9,7 +9,7 @@ using System.Collections.Generic;
 //DONE! Give the current run a different color in the RunListFragment (Chapter 34 Challenge 1)
 //TODO: Send a notification that the user's run is being tracked and open the App when clicked (Chapter 34 Challenge 2). 
 
-//DONE! Chapter 35 is about using loaders. I can do the same with async/await, so do that instead. Just don't block the UI thread when the Runs/RunLocations are loading.
+//TODO:! Chapter 35 is about using loaders. I can do the same with async/await, so do that instead. Just don't block the UI thread when the Runs/RunLocations are loading.
 
 //TODO: Chapter 36. Display a run on a map tracing a path for the run using the RunLocations. And that finishes the book!
 
@@ -36,7 +36,7 @@ namespace RunTracker
 		RunManager mRunManager;
 		IMenu mMenu;
 
-		public override async void OnCreate(Android.OS.Bundle savedInstanceState)
+		public override void OnCreate(Android.OS.Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
 			SetHasOptionsMenu(true);
@@ -44,7 +44,7 @@ namespace RunTracker
 			mRunManager = RunManager.Get(Activity);
 			mRunManager.CreateDatabase();
 
-			RunListAdapter adapter = new RunListAdapter(Activity, await mRunManager.GetRuns());
+			RunListAdapter adapter = new RunListAdapter(Activity, mRunManager.GetRuns());
 			ListAdapter = adapter;
 		}
 
@@ -63,7 +63,6 @@ namespace RunTracker
 				Run run = (Run)((RunListAdapter)ListAdapter).GetItem(e.Position);
 				Intent i = new Intent(Activity, typeof(RunActivity));
 				i.PutExtra(RUN_ID, run.Id);
-				i.SetFlags(ActivityFlags.ClearTop);
 				StartActivityForResult(i, VIEW_RUN);
 			};
 
@@ -105,7 +104,6 @@ namespace RunTracker
 			switch (item.ItemId) {
 				case Resource.Id.menu_item_new_run:
 					Intent i = new Intent(Activity, typeof(RunActivity));
-					i.SetFlags(ActivityFlags.ClearTop);
 					StartActivityForResult(i, REQUEST_NEW_RUN);
 					return true;
 				default:
@@ -113,11 +111,11 @@ namespace RunTracker
 			}
 		}
 
-		public override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
+		public override void OnActivityResult(int requestCode, Result resultCode, Intent data)
 		{
 			base.OnActivityResult(requestCode, resultCode, data);
 			if (REQUEST_NEW_RUN == requestCode || VIEW_RUN == requestCode) {
-				List<Run> runs = await mRunManager.GetRuns();
+				List<Run> runs = mRunManager.GetRuns();
 				// Lazy way to update all of the data on the adapter
 				RunListAdapter adapter = new RunListAdapter(Activity, runs);
 				ListAdapter = adapter;

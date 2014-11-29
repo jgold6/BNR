@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <TableRow>
         <TextView
@@ -13,7 +14,7 @@
             android:textStyle="bold" />
         <TextView
             android:id="@+id/run_startedTextView"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="24dp" />
     </TableRow>
@@ -28,7 +29,7 @@
             android:textStyle="bold" />
         <TextView
             android:id="@+id/run_latitudeTextView"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="24dp" />
     </TableRow>
@@ -43,7 +44,7 @@
             android:textStyle="bold" />
         <TextView
             android:id="@+id/run_longitudeTextView"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="24dp" />
     </TableRow>
@@ -58,7 +59,7 @@
             android:textStyle="bold" />
         <TextView
             android:id="@+id/run_altitudeTextView"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="24dp" />
     </TableRow>
@@ -73,7 +74,7 @@
             android:textStyle="bold" />
         <TextView
             android:id="@+id/run_durationTextView"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="36dp" />
     </TableRow>
@@ -88,5 +89,17 @@
             android:id="@+id/run_stopButton"
             android:text="@string/stop"
             style="@style/StartStopButton.StopButton" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/mapLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <fragment
+            android:id="@+id/mapFrag"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:name="com.google.android.gms.maps.MapFragment" />
     </LinearLayout>
 </TableLayout>

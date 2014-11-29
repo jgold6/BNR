@@ -22,4 +22,9 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="current_run">Current Run</string>
+
+    <string name="run_start">Run Start</string>
+    <string name="run_started_at_format">Run started at %s</string>
+    <string name="run_finish">Run Finish</string>
+    <string name="run_finished_at_format">Run Finished at %s</string>
 </resources>
