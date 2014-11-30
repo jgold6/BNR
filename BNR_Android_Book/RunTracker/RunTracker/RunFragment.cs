@@ -73,7 +73,7 @@ namespace RunTracker
 			mGoogleMap.MapType = GoogleMap.MapTypeHybrid;
 
 			mMapLayout = view.FindViewById<LinearLayout>(Resource.Id.mapLayout);
-			ViewTreeObserver vto  = view.ViewTreeObserver;
+			ViewTreeObserver vto  = mMapLayout.ViewTreeObserver;
 			vto.AddOnGlobalLayoutListener(this);
 
 			return view;
@@ -81,6 +81,7 @@ namespace RunTracker
 
 		public void OnGlobalLayout()
 		{
+			mMapLayout.ViewTreeObserver.RemoveGlobalOnLayoutListener(this);
 			mMapWidth = mMapLayout.Width;
 			mMapHeight = mMapLayout.Height;
 			UpdateUI();
