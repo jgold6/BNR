@@ -48,17 +48,17 @@ namespace RunTracker
 
 				if ((DateTime.UtcNow - run.StartDate).Minutes % 5 == 0 && (DateTime.UtcNow - run.StartDate).Seconds % 60 == 0) { 
 
-					Intent intent = new Intent(context, typeof(RunActivity));
-
-					const int pendingIntentId = 0;
-					PendingIntent pendingIntent = PendingIntent.GetActivity(context, pendingIntentId, intent, PendingIntentFlags.OneShot);
+					// Open activity on click notification. (Need to handle properly so off for now) 
+//					Intent intent = new Intent(context, typeof(RunActivity));
+//					const int pendingIntentId = 0;
+//					PendingIntent pendingIntent = PendingIntent.GetActivity(context, pendingIntentId, intent, PendingIntentFlags.OneShot);
 
 					Notification notification = new Notification.Builder(context)
 						.SetTicker(context.Resources.GetString(Resource.String.tracking_run_notification_title))
 						.SetSmallIcon(Android.Resource.Drawable.IcMenuView)
 						.SetContentTitle(context.Resources.GetString(Resource.String.tracking_run_notification_title))
 						.SetContentText(context.Resources.GetString(Resource.String.tracking_run_notification_text))
-						.SetContentIntent(pendingIntent)
+//						.SetContentIntent(pendingIntent)
 						.SetAutoCancel(true)
 						.Build();
 
