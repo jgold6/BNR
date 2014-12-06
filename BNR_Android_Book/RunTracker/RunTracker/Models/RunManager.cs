@@ -146,25 +146,25 @@ namespace RunTracker
 			return item;
 		}
 
-		public List<Run> GetRuns()
+		public async Task<List<Run>> GetRuns()
 		{
 			List<Run> items = null;
 			var db = new SQLiteConnection(mDbPath);
-			items = db.Table<Run>().ToList();
+			await Task.Run(() => {items = db.Table<Run>().ToList();});
 			db.Close();
 			return items;
 		}
 
-		public List<RunLocation> GetAllRunLocations()
+		public async Task<List<RunLocation>> GetAllRunLocations()
 		{
 			List<RunLocation> items = null;
 			var db = new SQLiteConnection(mDbPath);
-			items = db.Table<RunLocation>().ToList();
+			await Task.Run(() => {items = db.Table<RunLocation>().ToList();});
 			db.Close();
 			return items;
 		}
 
-		public List<RunLocation> GetLocationsForRun(int runId)
+		public async Task<List<RunLocation>> GetLocationsForRun(int runId)
 		{
 			var db = new SQLiteConnection(mDbPath);
 
@@ -180,12 +180,12 @@ namespace RunTracker
 
 			// ADO
 			List<RunLocation> ADOitems = null;
-			ADOitems = db.Query<RunLocation>("SELECT * FROM RunLocations WHERE RunId=" + runId).ToList();
+			await Task.Run(() => {ADOitems = db.Query<RunLocation>("SELECT * FROM RunLocations WHERE RunId=" + runId).ToList();});
 			db.Close();
 			return ADOitems;
 		}
 
-		public Run GetActiveRun()
+		public async Task<Run> GetActiveRun()
 		{
 			//ORM
 //			var runs = GetRuns();
@@ -199,7 +199,7 @@ namespace RunTracker
 			var db = new SQLiteConnection(mDbPath);
 			List<Run> ADOitems = null;
 			Run run = null;
-			ADOitems = db.Query<Run>("SELECT * FROM Runs WHERE Active").ToList();
+			await Task.Run(() => {ADOitems = db.Query<Run>("SELECT * FROM Runs WHERE Active").ToList();});
 			if (ADOitems.Count == 1)
 				run = ADOitems[0];
 			db.Close();

@@ -36,7 +36,7 @@ namespace RunTracker
 		RunManager mRunManager;
 		IMenu mMenu;
 
-		public override void OnCreate(Android.OS.Bundle savedInstanceState)
+		public override async void OnCreate(Android.OS.Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
 			SetHasOptionsMenu(true);
@@ -44,7 +44,7 @@ namespace RunTracker
 			mRunManager = RunManager.Get(Activity);
 			mRunManager.CreateDatabase();
 
-			RunListAdapter adapter = new RunListAdapter(Activity, mRunManager.GetRuns());
+			RunListAdapter adapter = new RunListAdapter(Activity, await mRunManager.GetRuns());
 			ListAdapter = adapter;
 		}
 
@@ -111,11 +111,11 @@ namespace RunTracker
 			}
 		}
 
-		public override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+		public override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
 		{
 			base.OnActivityResult(requestCode, resultCode, data);
 			if (REQUEST_NEW_RUN == requestCode || VIEW_RUN == requestCode) {
-				List<Run> runs = mRunManager.GetRuns();
+				List<Run> runs = await mRunManager.GetRuns();
 				// Lazy way to update all of the data on the adapter
 				RunListAdapter adapter = new RunListAdapter(Activity, runs);
 				ListAdapter = adapter;
@@ -156,13 +156,13 @@ namespace RunTracker
 				}
 
 				Run r = GetItem(position);
-				RunManager rm = RunManager.Get(context);
-				List<RunLocation> locs = rm.GetLocationsForRun(r.Id);
+//				RunManager rm = RunManager.Get(context);
+//				List<RunLocation> locs = rm.GetLocationsForRun(r.Id);
 
 				TextView timeTextView = (TextView)view.FindViewById(Android.Resource.Id.Text1);
 				TextView dateTextView = (TextView)view.FindViewById(Android.Resource.Id.Text2);
 
-				timeTextView.Text = String.Format("{0}: {1}\n", 
+				timeTextView.Text = String.Format("{0}: {1}", 
 					context.GetString(Resource.String.start_time), 
 					r.StartDate.ToLocalTime().ToShortTimeString()
 				);
@@ -170,14 +170,14 @@ namespace RunTracker
 
 				if (r.Active) {
 					view.SetBackgroundColor(Color.LightGray);
-					timeTextView.Text += context.GetString(Resource.String.current_run);
+					timeTextView.Text += " - " + context.GetString(Resource.String.current_run);
 				}
 				else {
 					view.SetBackgroundColor(Color.White);
-					timeTextView.Text += String.Format("{0}: {1}", 
-						context.GetString(Resource.String.duration),
-						Run.FormatDuration(r.GetDurationSeconds(locs[locs.Count -1].Time))
-					);
+//					timeTextView.Text += String.Format("{0}: {1}", 
+//						context.GetString(Resource.String.duration),
+//						Run.FormatDuration(r.GetDurationSeconds(locs[locs.Count -1].Time))
+//					);
 				}
 
 				return view;

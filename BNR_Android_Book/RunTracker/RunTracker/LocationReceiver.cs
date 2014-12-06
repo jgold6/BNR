@@ -31,11 +31,11 @@ namespace RunTracker
 			}
 		}
 
-		protected virtual void OnLocationReceived(Context context, Location loc)
+		protected virtual async void OnLocationReceived(Context context, Location loc)
 		{
 			//			Console.WriteLine("[{0}] {1} Got location from {2}: {3}, {4}", TAG, this, loc.Provider, loc.Latitude, loc.Longitude);
 			RunManager rm = RunManager.Get(context);
-			Run run = rm.GetActiveRun();
+			Run run = await rm.GetActiveRun();
 			if (rm.IsTrackingRun() && run != null) {
 				RunLocation rl = new RunLocation();
 				rl.RunId = run.Id;
@@ -49,16 +49,16 @@ namespace RunTracker
 				if ((DateTime.UtcNow - run.StartDate).Minutes % 5 == 0 && (DateTime.UtcNow - run.StartDate).Seconds % 60 == 0) { 
 
 					// Open activity on click notification. (Need to handle properly so off for now) 
-//					Intent intent = new Intent(context, typeof(RunActivity));
-//					const int pendingIntentId = 0;
-//					PendingIntent pendingIntent = PendingIntent.GetActivity(context, pendingIntentId, intent, PendingIntentFlags.OneShot);
+					Intent intent = new Intent(context, typeof(RunActivity));
+					const int pendingIntentId = 0;
+					PendingIntent pendingIntent = PendingIntent.GetActivity(context, pendingIntentId, intent, PendingIntentFlags.OneShot);
 
 					Notification notification = new Notification.Builder(context)
 						.SetTicker(context.Resources.GetString(Resource.String.tracking_run_notification_title))
 						.SetSmallIcon(Android.Resource.Drawable.IcMenuView)
 						.SetContentTitle(context.Resources.GetString(Resource.String.tracking_run_notification_title))
 						.SetContentText(context.Resources.GetString(Resource.String.tracking_run_notification_text))
-//						.SetContentIntent(pendingIntent)
+						.SetContentIntent(pendingIntent)
 						.SetAutoCancel(true)
 						.Build();
 
