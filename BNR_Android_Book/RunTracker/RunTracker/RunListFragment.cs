@@ -156,9 +156,6 @@ namespace RunTracker
 				}
 
 				Run r = GetItem(position);
-//				RunManager rm = RunManager.Get(context);
-//				List<RunLocation> locs = rm.GetLocationsForRun(r.Id);
-
 				TextView timeTextView = (TextView)view.FindViewById(Android.Resource.Id.Text1);
 				TextView dateTextView = (TextView)view.FindViewById(Android.Resource.Id.Text2);
 
@@ -174,10 +171,10 @@ namespace RunTracker
 				}
 				else {
 					view.SetBackgroundColor(Color.White);
-//					timeTextView.Text += String.Format("{0}: {1}", 
-//						context.GetString(Resource.String.duration),
-//						Run.FormatDuration(r.GetDurationSeconds(locs[locs.Count -1].Time))
-//					);
+					timeTextView.Text += " - " + String.Format("{0}: {1}", 
+						context.GetString(Resource.String.duration),
+						Run.FormatDuration(r.Duration)
+					);
 				}
 
 				return view;

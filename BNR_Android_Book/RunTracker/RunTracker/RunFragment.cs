@@ -168,6 +168,8 @@ namespace RunTracker
 					mLongitudeTextView.Text = LastLocation.Longitude.ToString();
 					mAltitudeTextView.Text = LastLocation.Altitude.ToString();
 					mDurationTextView.Text = Run.FormatDuration(durationSeconds);
+					CurrentRun.Duration = durationSeconds;
+					mRunManager.UpdateItem<Run>(CurrentRun);
 
 //					var location = new LatLng(LastLocation.Latitude, LastLocation.Longitude);
 //					var cu = CameraUpdateFactory.NewLatLngZoom (location, 20);

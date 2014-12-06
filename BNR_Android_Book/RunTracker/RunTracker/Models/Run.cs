@@ -11,6 +11,8 @@ namespace RunTracker
 
 		public DateTime StartDate {get; set;}
 
+		public int Duration {get; set;}
+
 		public bool Active {get; set;}
 
         public Run()
@@ -22,7 +24,6 @@ namespace RunTracker
 		public int GetDurationSeconds(DateTime endTime)
 		{
 			int seconds = (int)Math.Round((endTime - StartDate).TotalSeconds);
-
 			return seconds;
 		}
 
