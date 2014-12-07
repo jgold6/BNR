@@ -36,6 +36,8 @@ namespace RunTracker
 			base.OnSaveInstanceState(outState);
 			FragmentManager.PutFragment(outState, "mContent", mContent);
 		}
+
+
     }
 }
 

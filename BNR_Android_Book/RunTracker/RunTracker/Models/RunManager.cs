@@ -6,7 +6,6 @@ using System.IO;
 using SQLite;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace RunTracker
 {
@@ -146,25 +145,25 @@ namespace RunTracker
 			return item;
 		}
 
-		public async Task<List<Run>> GetRuns()
+		public List<Run> GetRuns()
 		{
 			List<Run> items = null;
 			var db = new SQLiteConnection(mDbPath);
-			await Task.Run(() => {items = db.Table<Run>().ToList();});
+			items = db.Table<Run>().ToList();
 			db.Close();
 			return items;
 		}
 
-		public async Task<List<RunLocation>> GetAllRunLocations()
+		public List<RunLocation> GetAllRunLocations()
 		{
 			List<RunLocation> items = null;
 			var db = new SQLiteConnection(mDbPath);
-			await Task.Run(() => {items = db.Table<RunLocation>().ToList();});
+			items = db.Table<RunLocation>().ToList();
 			db.Close();
 			return items;
 		}
 
-		public async Task<List<RunLocation>> GetLocationsForRun(int runId)
+		public List<RunLocation> GetLocationsForRun(int runId)
 		{
 			var db = new SQLiteConnection(mDbPath);
 
@@ -180,12 +179,12 @@ namespace RunTracker
 
 			// ADO
 			List<RunLocation> ADOitems = null;
-			await Task.Run(() => {ADOitems = db.Query<RunLocation>("SELECT * FROM RunLocations WHERE RunId=" + runId).ToList();});
+			ADOitems = db.Query<RunLocation>("SELECT * FROM RunLocations WHERE RunId=" + runId).ToList();
 			db.Close();
 			return ADOitems;
 		}
 
-		public async Task<Run> GetActiveRun()
+		public Run GetActiveRun()
 		{
 			//ORM
 //			var runs = GetRuns();
@@ -199,7 +198,7 @@ namespace RunTracker
 			var db = new SQLiteConnection(mDbPath);
 			List<Run> ADOitems = null;
 			Run run = null;
-			await Task.Run(() => {ADOitems = db.Query<Run>("SELECT * FROM Runs WHERE Active").ToList();});
+			ADOitems = db.Query<Run>("SELECT * FROM Runs WHERE Active").ToList();
 			if (ADOitems.Count == 1)
 				run = ADOitems[0];
 			db.Close();

@@ -8,12 +8,12 @@ namespace RunTracker
 {
     public abstract class SingleFragmentActivity : Activity
     {
-		// Allows for multi-threaded access to Sqlite
-		[DllImport("libsqlite.so")]
-		internal static extern int sqlite3_shutdown();
-
-		[DllImport("libsqlite.so")]
-		internal static extern int sqlite3_initialize();
+		// Allows for multi-threaded access to Sqlite - disabling async so disabled for mow.
+//		[DllImport("libsqlite.so")]
+//		internal static extern int sqlite3_shutdown();
+//
+//		[DllImport("libsqlite.so")]
+//		internal static extern int sqlite3_initialize();
 
 
 		protected abstract Fragment CreateFragment();
@@ -25,9 +25,10 @@ namespace RunTracker
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
-			sqlite3_shutdown();
-			SqliteConnection.SetConfig(SQLiteConfig.Serialized);
-			sqlite3_initialize();
+			// Allows for multi-threaded access to Sqlite - disabling async so disabled for mow.
+//			sqlite3_shutdown();
+//			SqliteConnection.SetConfig(SQLiteConfig.Serialized);
+//			sqlite3_initialize();
 
 			//RequestWindowFeature(Android.Views.WindowFeatures.ActionBar);
 			base.OnCreate(savedInstanceState);
