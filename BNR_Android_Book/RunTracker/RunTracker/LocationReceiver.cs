@@ -4,6 +4,8 @@ using Android.App;
 using Android.Content;
 using Android.Locations;
 using Android.Widget;
+using System.Runtime.InteropServices;
+using Mono.Data.Sqlite;
 
 namespace RunTracker
 {
@@ -11,6 +13,13 @@ namespace RunTracker
 	[IntentFilter (new[]{"com.onobytes.runtracker.ACTION_LOCATION"})]
 	public class LocationReceiver : BroadcastReceiver
 	{
+		// Allows for multi-threaded access to Sqlite
+		[DllImport("libsqlite.so")]
+		internal static extern int sqlite3_shutdown();
+
+		[DllImport("libsqlite.so")]
+		internal static extern int sqlite3_initialize();
+
 		public static readonly string TAG = "LocationReceiver";
 
 		public static readonly string ACTION_SHOW_NOTIFICATION = "com.onobytes.RunTracker.SHOW_NOTIFICATION";
@@ -18,6 +27,10 @@ namespace RunTracker
 
 		public override void OnReceive(Context context, Intent intent)
 		{
+			sqlite3_shutdown();
+			SqliteConnection.SetConfig(SQLiteConfig.Serialized);
+			sqlite3_initialize();
+
 			// If you got a location extra, use it
 			Location loc = (Location)intent.GetParcelableExtra(LocationManager.KeyLocationChanged);
 			if (loc != null) {
@@ -49,7 +62,7 @@ namespace RunTracker
 				if ((DateTime.UtcNow - run.StartDate).Minutes % 5 == 0 && (DateTime.UtcNow - run.StartDate).Seconds % 60 == 0) { 
 
 					// Open activity on click notification. (Need to handle properly so off for now) 
-					Intent intent = new Intent(context, typeof(RunActivity));
+					Intent intent = new Intent(context, typeof(RunListActivity));
 					const int pendingIntentId = 0;
 					PendingIntent pendingIntent = PendingIntent.GetActivity(context, pendingIntentId, intent, PendingIntentFlags.OneShot);
 

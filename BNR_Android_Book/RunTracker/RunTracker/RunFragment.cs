@@ -260,29 +260,34 @@ namespace RunTracker
 			//			if (locTimeSeconds < seconds - 60)
 			//				return;
 
-			if (rm.IsTrackingRun()) {
-				mRunFragment.LastLocation = loc;
-				// Moved to LocationReceiver
-				//				RunLocation rl = new RunLocation();
-				//				rl.RunId = mRunFragment.CurrentRun.Id;
-				//				rl.Latitude = loc.Latitude;
-				//				rl.Longitude = loc.Longitude;
-				//				rl.Altitude = loc.Altitude;
-				//				rl.Time = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(loc.Time);
-				//				rl.Provider = loc.Provider;
-				//				rm.InsertItem<RunLocation>(rl);
-			}
+			var now = DateTime.UtcNow;
+			var lastLocTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(loc.Time);
 
-			if (mRunFragment.IsVisible)
-				await mRunFragment.UpdateUI();
+			if ((now - lastLocTime).TotalSeconds < 10.0) {
+				if (rm.IsTrackingRun()) {
+					mRunFragment.LastLocation = loc;
+					// Moved to LocationReceiver
+//					RunLocation rl = new RunLocation();
+//					rl.RunId = mRunFragment.CurrentRun.Id;
+//					rl.Latitude = loc.Latitude;
+//					rl.Longitude = loc.Longitude;
+//					rl.Altitude = loc.Altitude;
+//					rl.Time = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(loc.Time);
+//					rl.Provider = loc.Provider;
+//					rm.InsertItem<RunLocation>(rl);
+				}
+
+				if (mRunFragment.IsVisible)
+					await mRunFragment.UpdateUI();
+			}
 		}
 
 		protected override void OnProviderEnabledChanged(Context context, bool enabled)
 		{
 			//base.OnProviderEnabledChanged(enabled);
 			// Moved to LocationReceiver
-			//			int toastText = enabled ? Resource.String.gps_enabled : Resource.String.gps_disabled;
-			//			Toast.MakeText(mRunFragment.Activity, toastText, ToastLength.Long).Show();
+//			int toastText = enabled ? Resource.String.gps_enabled : Resource.String.gps_disabled;
+//			Toast.MakeText(mRunFragment.Activity, toastText, ToastLength.Long).Show();
 		}
 	}
 }
