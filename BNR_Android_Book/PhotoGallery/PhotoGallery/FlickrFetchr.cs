@@ -25,7 +25,7 @@ namespace PhotoGallery
 		private static readonly string paramText = "text";
 		private static readonly string paramPage = "page";
 		private static readonly string paramPerPage = "per_page";
-		private static readonly string itemsPerPage = "20";
+		private static readonly string itemsPerPage = "100";
 
 		public static readonly string PREF_SEARCH_QUERY = "searchQuery";
 		public static readonly string PREF_LAST_RESULT_ID = "lastResultId";
@@ -227,7 +227,7 @@ namespace PhotoGallery
 //				}
 //			}
 
-			// Preload 10 before displated photos
+			// Preload 10 before displayed photos
 			for  (int i = (pos1 - 10 >= 0 ? pos1 - 10 : 0); i < pos1; i++) {
 				string path = GetPathFromUrl(items[i].Url);
 				if (!File.Exists(path)) {
