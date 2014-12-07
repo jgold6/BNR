@@ -10,6 +10,8 @@ using Android.Util;
 using Android.Preferences;
 using Android.OS;
 using Android.Content;
+using System.Threading;
+using Java.Interop;
 
 namespace PhotoGallery
 {
@@ -269,30 +271,44 @@ namespace PhotoGallery
 
 		public override View GetView(int position, View convertView, ViewGroup parent)
 		{
+			// Don't recycle
+//			View view = context.LayoutInflater.Inflate(Resource.Layout.gallery_item, parent, false);
+
 			// Recycle
-//			View view = convertView;
-//			if (view == null) {
-//				view = context.LayoutInflater.Inflate(Resource.Layout.gallery_item, parent, false);
-//			}
-//
-//			// Don't recycle
-			View view = context.LayoutInflater.Inflate(Resource.Layout.gallery_item, parent, false);
+			CancellationTokenSource cts;
+			View view = convertView;
+			if (view == null) {
+				view = context.LayoutInflater.Inflate(Resource.Layout.gallery_item, parent, false);
+			}
+			else {
+				var wrapper = view.Tag.JavaCast<Wrapper<CancellationTokenSource>>();
+				cts = wrapper.Data;
+				cts.Cancel();
+			}
 
 			ImageView imageView = view.FindViewById<ImageView>(Resource.Id.gallery_item_imageView);
 			imageView.SetImageResource(Resource.Drawable.face_icon);
 
 			GalleryItem item = GetItem(position);
 
+			cts = new CancellationTokenSource();
 			Task.Run(async () => {
 				Bitmap image = await new FlickrFetchr().GetImageBitmapAsync(item.Url, position).ConfigureAwait(false);
-				context.RunOnUiThread(() => {
-					imageView.SetImageBitmap(image);
-				});
-			});
-
+				if (!cts.IsCancellationRequested) {
+					context.RunOnUiThread(() => {
+						imageView.SetImageBitmap(image);
+					});
+				}
+			}, cts.Token);
+			view.Tag = new Wrapper<CancellationTokenSource> { Data = cts };
 			return view;
 		}
 	}
 	#endregion
+
+	public class Wrapper<T>: Java.Lang.Object
+	{
+		public T Data;
+	}
 }
 
