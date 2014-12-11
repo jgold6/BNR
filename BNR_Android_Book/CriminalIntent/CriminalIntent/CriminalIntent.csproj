@@ -71,6 +71,7 @@
     <Compile Include="Model\Photo.cs" />
     <Compile Include="PictureUtils.cs" />
     <Compile Include="ImageFragment.cs" />
+    <Compile Include="SmartFragmentStatePagerAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

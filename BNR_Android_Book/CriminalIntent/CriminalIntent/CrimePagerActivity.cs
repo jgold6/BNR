@@ -3,6 +3,7 @@ using Android.Support.V4.View;
 using Android.Support.V4.App;
 using System.Collections.Generic;
 using Android.App;
+using Android.Util;
 
 namespace CriminalIntent
 {
@@ -75,9 +76,11 @@ namespace CriminalIntent
     }
 
 	#region - PagerAdapter
-	public class CrimePagerAdapter : FragmentStatePagerAdapter
+	public class CrimePagerAdapter : SmartFragmentStatePagerAdapter
 	{
 		public static List<Crime> CONTENT;
+
+
 		public CrimePagerAdapter(Android.Support.V4.App.FragmentManager fm) : base(fm)
 		{
 			CONTENT = CrimeLab.GetInstance(CrimePagerActivity.context).Crimes;
