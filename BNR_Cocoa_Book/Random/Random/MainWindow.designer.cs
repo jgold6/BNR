@@ -13,13 +13,16 @@ namespace Random
 	partial class MainWindowController
 	{
 		[Outlet]
-		MonoMac.AppKit.NSView mainView { get; set; }
+		MonoMac.AppKit.NSButton btnGenerate { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnOpenModal { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSButton btnSeed { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnGenerate { get; set; }
+		MonoMac.AppKit.NSView mainView { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField textField { get; set; }
@@ -27,26 +30,37 @@ namespace Random
 		[Action ("generate:")]
 		partial void generate (MonoMac.Foundation.NSObject sender);
 
+		[Action ("openModal:")]
+		partial void openModal (MonoMac.Foundation.NSObject sender);
+
 		[Action ("seed:")]
 		partial void seed (MonoMac.Foundation.NSObject sender);
-
+		
 		void ReleaseDesignerOutlets ()
 		{
 			if (mainView != null) {
 				mainView.Dispose ();
 				mainView = null;
 			}
+
 			if (btnSeed != null) {
 				btnSeed.Dispose ();
 				btnSeed = null;
 			}
+
 			if (btnGenerate != null) {
 				btnGenerate.Dispose ();
 				btnGenerate = null;
 			}
+
 			if (textField != null) {
 				textField.Dispose ();
 				textField = null;
+			}
+
+			if (btnOpenModal != null) {
+				btnOpenModal.Dispose ();
+				btnOpenModal = null;
 			}
 		}
 	}

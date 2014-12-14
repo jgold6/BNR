@@ -8,7 +8,7 @@ namespace Random
 {
     public partial class AppDelegate : NSApplicationDelegate
     {
-        MainWindowController mainWindowController;
+		MainWindowController mainWindowController;
 
         public AppDelegate()
         {
@@ -16,7 +16,7 @@ namespace Random
 
         public override void FinishedLaunching(NSObject notification)
         {
-            mainWindowController = new MainWindowController();
+			mainWindowController = new MainWindowController();
             mainWindowController.Window.MakeKeyAndOrderFront(this);
         }
     }

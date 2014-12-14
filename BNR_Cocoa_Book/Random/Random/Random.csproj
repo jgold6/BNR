@@ -81,13 +81,22 @@
     <Compile Include="AppDelegate.designer.cs">
       <DependentUpon>AppDelegate.cs</DependentUpon>
     </Compile>
+    <Compile Include="ControlsController.cs" />
+    <Compile Include="ControlsWindow.cs" />
+    <Compile Include="ControlsWindow.designer.cs">
+      <DependentUpon>ControlsWindow.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
     <InterfaceDefinition Include="MainMenu.xib" />
+    <InterfaceDefinition Include="Controls.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <BundleResource Include="Resources\LittleBeach.png" />
+  </ItemGroup>
 </Project>

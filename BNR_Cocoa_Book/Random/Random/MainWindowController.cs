@@ -78,8 +78,14 @@ namespace Random
 			int generated = rnd.Next(1, 101);
 
 			textField.IntValue = generated;
+
 		}
 
+		partial void openModal (MonoMac.Foundation.NSObject sender)
+		{
+			ControlsController controlsController = new ControlsController();
+			NSApplication.SharedApplication.RunModalForWindow(controlsController.Window);
+		}
 		#endregion
 
         //strongly typed window accessor
