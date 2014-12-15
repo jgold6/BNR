@@ -13,19 +13,43 @@ namespace SpeakLine
 	partial class MainWindowController
 	{
 		[Outlet]
+		MonoMac.AppKit.NSButton btnSpeak { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnStop { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTableView tableView { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField textField { get; set; }
 
-		[Action ("btnSpeak:")]
-		partial void btnSpeak (MonoMac.Foundation.NSObject sender);
+		[Action ("btnSpeakHandler:")]
+		partial void btnSpeakHandler (MonoMac.Foundation.NSObject sender);
 
-		[Action ("btnStop:")]
-		partial void btnStop (MonoMac.Foundation.NSObject sender);
+		[Action ("btnStopHandler:")]
+		partial void btnStopHandler (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnSpeak != null) {
+				btnSpeak.Dispose ();
+				btnSpeak = null;
+			}
+
+			if (btnStop != null) {
+				btnStop.Dispose ();
+				btnStop = null;
+			}
+
 			if (textField != null) {
 				textField.Dispose ();
 				textField = null;
+			}
+
+			if (tableView != null) {
+				tableView.Dispose ();
+				tableView = null;
 			}
 		}
 	}
