@@ -28,10 +28,7 @@ namespace SpeakLine
 		public MonoMac.AppKit.NSTableView tableViewTodo { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField textField { get; set; }
-
-		[Outlet]
-		public MonoMac.AppKit.NSTextField todoTextField { get; set; }
+		public MonoMac.AppKit.NSTextField textField { get; set; }
 
 		[Action ("btnAddTodoHandler:")]
 		partial void btnAddTodoHandler (MonoMac.Foundation.NSObject sender);
@@ -62,11 +59,6 @@ namespace SpeakLine
 			if (textField != null) {
 				textField.Dispose ();
 				textField = null;
-			}
-
-			if (todoTextField != null) {
-				todoTextField.Dispose ();
-				todoTextField = null;
 			}
 
 			if (btnAddTodo != null) {

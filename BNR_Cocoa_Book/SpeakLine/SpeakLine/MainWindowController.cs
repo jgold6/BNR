@@ -66,17 +66,13 @@ namespace SpeakLine
 
 			this.Window.WeakDelegate = this;
 
-//			textField.Activated += (object sender, EventArgs e) => {
-//				btnSpeak.PerformClick(textField);
-//			};
+			textField.Activated += (object sender, EventArgs e) => {
+				btnAddTodo.PerformClick(textField);
+			};
 
 			// To do
 			todoTableViewSource = new TodoTableViewSource(new WeakReference(this));
 			tableViewTodo.Source = todoTableViewSource;
-
-			todoTextField.Activated += (object sender, EventArgs e) => {
-				btnAddTodo.PerformClick(todoTextField);
-			};
 
 		}
 
@@ -104,32 +100,36 @@ namespace SpeakLine
 
 		partial void btnAddTodoHandler (MonoMac.Foundation.NSObject sender)
 		{
-			if (todoTextField.StringValue != "") {
+			if (textField.StringValue != "") {
 				if (btnAddTodo.Title == "Add") {
-					todoTableViewSource.todoItems.Add(todoTextField.StringValue);
+					todoTableViewSource.todoItems.Add(textField.StringValue);
 					tableViewTodo.ReloadData();
-					todoTextField.StringValue = "";
+					textField.StringValue = "";
 				}
-				else if (btnAddTodo.Title == "Edit") {
+				else if (btnAddTodo.Title == "Update") {
 					todoTableViewSource.todoItems.RemoveAt(tableViewTodo.SelectedRow);
-					todoTableViewSource.todoItems.Insert(tableViewTodo.SelectedRow, todoTextField.StringValue);
+					todoTableViewSource.todoItems.Insert(tableViewTodo.SelectedRow, textField.StringValue);
 					tableViewTodo.ReloadData();
-					todoTextField.StringValue = "";
-					btnAddTodo.Title = "Add";
 				}
 			}
+			else if (btnAddTodo.Title == "Update") {
+				btnAddTodo.Title = "Add";
+				todoTableViewSource.todoItems.RemoveAt(tableViewTodo.SelectedRow);
+				tableViewTodo.ReloadData();
+				tableViewTodo.DeselectAll(btnAddTodo);
+			}
+			textField.BecomeFirstResponder();
 		}
 
 		#region - NSSpeechSynthesizer Weak Delegate Methods
 		[Export("speechSynthesizer:didFinishSpeaking:")]
 		public void DidFinishSpeaking(NSSpeechSynthesizer sender, bool finishedSpeaking)
 		{
-//			Console.WriteLine("Finished Speaking = {0}", finishedSpeaking);
 			btnStop.Enabled = false;
 			btnSpeak.Enabled = true;
 			tableView.Enabled = true;
 			textField.Enabled = true;
-
+			textField.BecomeFirstResponder();
 		}
 
 		#endregion
@@ -185,7 +185,7 @@ namespace SpeakLine
 		[Export("windowWillResize:toSize:")]
 		public System.Drawing.SizeF WillResize(NSWindow sender, System.Drawing.SizeF toFrameSize)
 		{
-			float newWidth = toFrameSize.Width < 690 ? 690 : toFrameSize.Width;
+			float newWidth = toFrameSize.Width < 820 ? 820 : toFrameSize.Width;
 			float newHieght = toFrameSize.Height < 500 ? 500 : toFrameSize.Height;
 			return new SizeF(newWidth, newHieght);
 		}
@@ -217,10 +217,15 @@ namespace SpeakLine
 			MainWindowController mwc = (MainWindowController)mainWindowController.Target;
 			int selectedRow = mwc.tableViewTodo.SelectedRow;
 			if (selectedRow != -1) {
-				mwc.btnAddTodo.Title = "Edit";
-				mwc.todoTextField.StringValue = todoItems[selectedRow];
-				mwc.todoTextField.BecomeFirstResponder();
+				mwc.btnAddTodo.Title = "Update";
+				mwc.textField.StringValue = todoItems[selectedRow];
 			}
+			else {
+				mwc.btnAddTodo.Title = "Add";
+				mwc.tableViewTodo.DeselectRow(selectedRow);
+				mwc.textField.StringValue = "";
+			}
+			mwc.textField.BecomeFirstResponder();
 		}
 	}
 }
