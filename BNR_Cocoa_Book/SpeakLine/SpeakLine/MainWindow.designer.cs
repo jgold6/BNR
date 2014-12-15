@@ -13,6 +13,9 @@ namespace SpeakLine
 	partial class MainWindowController
 	{
 		[Outlet]
+		public MonoMac.AppKit.NSButton btnAddTodo { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSButton btnSpeak { get; set; }
 
 		[Outlet]
@@ -22,7 +25,16 @@ namespace SpeakLine
 		MonoMac.AppKit.NSTableView tableView { get; set; }
 
 		[Outlet]
+		public MonoMac.AppKit.NSTableView tableViewTodo { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField textField { get; set; }
+
+		[Outlet]
+		public MonoMac.AppKit.NSTextField todoTextField { get; set; }
+
+		[Action ("btnAddTodoHandler:")]
+		partial void btnAddTodoHandler (MonoMac.Foundation.NSObject sender);
 
 		[Action ("btnSpeakHandler:")]
 		partial void btnSpeakHandler (MonoMac.Foundation.NSObject sender);
@@ -42,14 +54,29 @@ namespace SpeakLine
 				btnStop = null;
 			}
 
+			if (tableView != null) {
+				tableView.Dispose ();
+				tableView = null;
+			}
+
 			if (textField != null) {
 				textField.Dispose ();
 				textField = null;
 			}
 
-			if (tableView != null) {
-				tableView.Dispose ();
-				tableView = null;
+			if (todoTextField != null) {
+				todoTextField.Dispose ();
+				todoTextField = null;
+			}
+
+			if (btnAddTodo != null) {
+				btnAddTodo.Dispose ();
+				btnAddTodo = null;
+			}
+
+			if (tableViewTodo != null) {
+				tableViewTodo.Dispose ();
+				tableViewTodo = null;
 			}
 		}
 	}

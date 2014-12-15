@@ -13,6 +13,8 @@ namespace SpeakLine
 		NSSpeechSynthesizer speechSynth;
 		string[] voices;
 
+		TodoTableViewSource todoTableViewSource;
+
         #region Constructors
 
         // Called when created from unmanaged code
@@ -63,6 +65,19 @@ namespace SpeakLine
 			tableView.ScrollRowToVisible(defaultRow);
 
 			this.Window.WeakDelegate = this;
+
+//			textField.Activated += (object sender, EventArgs e) => {
+//				btnSpeak.PerformClick(textField);
+//			};
+
+			// To do
+			todoTableViewSource = new TodoTableViewSource(new WeakReference(this));
+			tableViewTodo.Source = todoTableViewSource;
+
+			todoTextField.Activated += (object sender, EventArgs e) => {
+				btnAddTodo.PerformClick(todoTextField);
+			};
+
 		}
 
         #endregion
@@ -79,6 +94,7 @@ namespace SpeakLine
 			btnStop.Enabled = true;
 			btnSpeak.Enabled = false;
 			tableView.Enabled = false;
+			textField.Enabled = false;
 		}
 
 		partial void btnStopHandler (MonoMac.Foundation.NSObject sender)
@@ -86,15 +102,34 @@ namespace SpeakLine
 			speechSynth.StopSpeaking(NSSpeechBoundary.hWord);
 		}
 
+		partial void btnAddTodoHandler (MonoMac.Foundation.NSObject sender)
+		{
+			if (todoTextField.StringValue != "") {
+				if (btnAddTodo.Title == "Add") {
+					todoTableViewSource.todoItems.Add(todoTextField.StringValue);
+					tableViewTodo.ReloadData();
+					todoTextField.StringValue = "";
+				}
+				else if (btnAddTodo.Title == "Edit") {
+					todoTableViewSource.todoItems.RemoveAt(tableViewTodo.SelectedRow);
+					todoTableViewSource.todoItems.Insert(tableViewTodo.SelectedRow, todoTextField.StringValue);
+					tableViewTodo.ReloadData();
+					todoTextField.StringValue = "";
+					btnAddTodo.Title = "Add";
+				}
+			}
+		}
+
 		#region - NSSpeechSynthesizer Weak Delegate Methods
 		[Export("speechSynthesizer:didFinishSpeaking:")]
 		public void DidFinishSpeaking(NSSpeechSynthesizer sender, bool finishedSpeaking)
 		{
-			Console.WriteLine("Finished Speaking = {0}", finishedSpeaking);
-			
+//			Console.WriteLine("Finished Speaking = {0}", finishedSpeaking);
 			btnStop.Enabled = false;
 			btnSpeak.Enabled = true;
 			tableView.Enabled = true;
+			textField.Enabled = true;
+
 		}
 
 		#endregion
@@ -150,36 +185,42 @@ namespace SpeakLine
 		[Export("windowWillResize:toSize:")]
 		public System.Drawing.SizeF WillResize(NSWindow sender, System.Drawing.SizeF toFrameSize)
 		{
-			Console.WriteLine("ToFrameSize: {0}", toFrameSize);
-			float newWidth = toFrameSize.Width < 671 ? 671 : toFrameSize.Width;
-			float newHieght = toFrameSize.Height < 150 ? 150 : toFrameSize.Height;
+			float newWidth = toFrameSize.Width < 690 ? 690 : toFrameSize.Width;
+			float newHieght = toFrameSize.Height < 500 ? 500 : toFrameSize.Height;
 			return new SizeF(newWidth, newHieght);
 		}
     }
 
-	public class VoicesTableViewSource : NSTableViewSource
+	public class TodoTableViewSource : NSTableViewSource
 	{
+		public List<string> todoItems;
+		WeakReference mainWindowController;
+
+		public TodoTableViewSource(WeakReference mwc)
+		{
+			todoItems = new List<string>();
+			mainWindowController = mwc;
+		}
+
 		public override int GetRowCount(NSTableView tableView)
 		{
-			throw new System.NotImplementedException ();
+			return todoItems.Count;
 		}
 
 		public override NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
 		{
-			throw new System.NotImplementedException ();
+			return new NSString(todoItems[row]);
 		}
 
 		public override void SelectionDidChange(NSNotification notification)
 		{
-			throw new System.NotImplementedException ();
-		}
-	}
-
-	public class WindowDel : NSWindowDelegate
-	{
-		public override System.Drawing.SizeF WillResize(NSWindow sender, System.Drawing.SizeF toFrameSize)
-		{
-			return toFrameSize;
+			MainWindowController mwc = (MainWindowController)mainWindowController.Target;
+			int selectedRow = mwc.tableViewTodo.SelectedRow;
+			if (selectedRow != -1) {
+				mwc.btnAddTodo.Title = "Edit";
+				mwc.todoTextField.StringValue = todoItems[selectedRow];
+				mwc.todoTextField.BecomeFirstResponder();
+			}
 		}
 	}
 }
