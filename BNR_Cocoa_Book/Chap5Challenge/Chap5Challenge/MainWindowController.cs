@@ -5,12 +5,10 @@ using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 
-namespace SpeakLine
+namespace Chap5Challenge
 {
     public partial class MainWindowController : MonoMac.AppKit.NSWindowController
     {
-		NSSpeechSynthesizer speechSynth;
-
         #region Constructors
 
         // Called when created from unmanaged code
@@ -35,24 +33,19 @@ namespace SpeakLine
         // Shared initialization code
         void Initialize()
         {
-			speechSynth = new NSSpeechSynthesizer("com.apple.speech.synthesis.voice.Trinoids");
         }
+
+		public override void AwakeFromNib()
+		{
+			base.AwakeFromNib();
+		}
 
         #endregion
 
-		partial void btnSpeak (MonoMac.Foundation.NSObject sender)
+		partial void btnCountCharClicked (MonoMac.Foundation.NSObject sender)
 		{
-			string value = textField.StringValue;
-			// Is the string 0 length?
-			if (value.Length == 0) {
-				return;
-			}
-			speechSynth.StartSpeakingString(value);
-		}
-
-		partial void btnStop (MonoMac.Foundation.NSObject sender)
-		{
-			speechSynth.StopSpeaking(NSSpeechBoundary.hWord);
+			lblOutput.StringValue = String.Format("'{0}' has {1} characters", textField.StringValue, textField.StringValue.Length);
+			textField.StringValue = "";
 		}
 
         //strongly typed window accessor
