@@ -10,13 +10,18 @@ namespace SpeakLine
 {
 	public partial class MainWindowController : MonoMac.AppKit.NSWindowController
     {
-		NSSpeechSynthesizer speechSynth;
-		string[] voices;
+		#region - Member Variables
+		NSSpeechSynthesizer mSpeechSynth;
+		string[] mVoices;
+		#endregion
 
-		TodoTableViewSource todoTableViewSource;
+		#region - Public Properties
+		//strongly typed window accessor
+		public new MainWindow Window{get {return (MainWindow)base.Window;}}
+		public PhrasesTableViewSource PhrasesTableViewSource {get; private set;}
+		#endregion
 
         #region Constructors
-
         // Called when created from unmanaged code
         public MainWindowController(IntPtr handle) : base(handle)
         {
@@ -39,45 +44,62 @@ namespace SpeakLine
         // Shared initialization code
         void Initialize()
         {
-			speechSynth = new NSSpeechSynthesizer();
-			voices = NSSpeechSynthesizer.AvailableVoices;
+			mSpeechSynth = new NSSpeechSynthesizer();
+			mVoices = NSSpeechSynthesizer.AvailableVoices;
         }
+		#endregion
 
+		#region - Lifecycle methods
 		public override void AwakeFromNib()
 		{
 			base.AwakeFromNib();
 
-			speechSynth.WeakDelegate = this;
+			this.Window.WeakDelegate = this;
 
-			tableView.WeakDelegate = this;
-			tableView.WeakDataSource = this;
+			mSpeechSynth.WeakDelegate = this;
 
+			// Voices
+			voicesTableView.WeakDelegate = this;
+			voicesTableView.WeakDataSource = this;
+
+			// Phrases
+			PhrasesTableViewSource = new PhrasesTableViewSource(new WeakReference(this));
+			phrasesTableView.Source = PhrasesTableViewSource;
+			phrasesTableView.mainWindowController = new WeakReference(this);
+
+			// Select row for default voice in voicesTableView
 			string defaultVoice = NSSpeechSynthesizer.DefaultVoice;
 			int defaultRow = -1;
-			for (int i = 0; i < voices.Count<string>(); i++) {
-				if (voices[i] == defaultVoice) {
+			for (int i = 0; i < mVoices.Count<string>(); i++) {
+				if (mVoices[i] == defaultVoice) {
 					defaultRow = i;
 					break;
 				}
 			}
 			NSIndexSet indices = NSIndexSet.FromIndex(defaultRow);
-			tableView.SelectRows(indices, false);
-			tableView.ScrollRowToVisible(defaultRow);
+			voicesTableView.SelectRows(indices, false);
+			voicesTableView.ScrollRowToVisible(defaultRow);
 
-			this.Window.WeakDelegate = this;
-
+			// Handles when return is pressed while editing or textField loses focus
 			textField.Activated += (object sender, EventArgs e) => {
-				btnAddTodo.PerformClick(textField);
+				// If the add button is enabled, then add this item to the list
+				if (btnAddPhrase.Enabled) {
+					btnAddPhrase.PerformClick(textField);
+				}
 			};
-
-			// To do
-			todoTableViewSource = new TodoTableViewSource(new WeakReference(this));
-			tableViewTodo.Source = todoTableViewSource;
-
+			textField.Changed += (object sender, EventArgs e) => {
+				if (phrasesTableView.SelectedRow > -1) {
+					string text = textField.StringValue;
+					phrasesTableView.DeselectAll(textField);
+					textField.StringValue = text;
+					textField.CurrentEditor.SelectedRange = new NSRange(text.Length, 0);
+					btnAddPhrase.Enabled = true;
+				}
+			};
 		}
-
         #endregion
 
+		#region - Actions from XIB
 		partial void btnSpeakHandler (MonoMac.Foundation.NSObject sender)
 		{
 			string value = textField.StringValue;
@@ -85,41 +107,36 @@ namespace SpeakLine
 			if (value.Length == 0) {
 				return;
 			}
-			speechSynth.StartSpeakingString(value);
+			mSpeechSynth.StartSpeakingString(value);
 
 			btnStop.Enabled = true;
 			btnSpeak.Enabled = false;
-			tableView.Enabled = false;
+			voicesTableView.Enabled = false;
 			textField.Enabled = false;
 		}
 
 		partial void btnStopHandler (MonoMac.Foundation.NSObject sender)
 		{
-			speechSynth.StopSpeaking(NSSpeechBoundary.hWord);
+			mSpeechSynth.StopSpeaking(NSSpeechBoundary.hWord);
 		}
 
-		partial void btnAddTodoHandler (MonoMac.Foundation.NSObject sender)
+		partial void btnAddPhraseHandler (MonoMac.Foundation.NSObject sender)
 		{
 			if (textField.StringValue != "") {
-				if (btnAddTodo.Title == "Add") {
-					todoTableViewSource.todoItems.Add(textField.StringValue);
-					tableViewTodo.ReloadData();
-					textField.StringValue = "";
-				}
-				else if (btnAddTodo.Title == "Update") {
-					todoTableViewSource.todoItems.RemoveAt(tableViewTodo.SelectedRow);
-					todoTableViewSource.todoItems.Insert(tableViewTodo.SelectedRow, textField.StringValue);
-					tableViewTodo.ReloadData();
-				}
+				PhrasesTableViewSource.todoItems.Add(textField.StringValue);
+				phrasesTableView.ReloadData();
+				textField.StringValue = "";
 			}
-			else if (btnAddTodo.Title == "Update") {
-				btnAddTodo.Title = "Add";
-				todoTableViewSource.todoItems.RemoveAt(tableViewTodo.SelectedRow);
-				tableViewTodo.ReloadData();
-				tableViewTodo.DeselectAll(btnAddTodo);
-			}
-			textField.BecomeFirstResponder();
 		}
+
+		partial void btnClearHandler (MonoMac.Foundation.NSObject sender)
+		{
+			textField.StringValue = "";
+			phrasesTableView.DeselectAll(btnClear);
+			textField.BecomeFirstResponder();
+			btnAddPhrase.Enabled = true;
+		}
+		#endregion
 
 		#region - NSSpeechSynthesizer Weak Delegate Methods
 		[Export("speechSynthesizer:didFinishSpeaking:")]
@@ -127,24 +144,22 @@ namespace SpeakLine
 		{
 			btnStop.Enabled = false;
 			btnSpeak.Enabled = true;
-			tableView.Enabled = true;
+			voicesTableView.Enabled = true;
 			textField.Enabled = true;
-			textField.BecomeFirstResponder();
 		}
-
 		#endregion
 
-		#region - NSTableView Weak Delegate and DataSource Methods
+		#region - voicesTableView Weak Delegate and DataSource Methods
 		[Export("numberOfRowsInTableView:")]
 		public int GetRowCount(NSTableView tv)
 		{
-			return voices.Count<string>();
+			return mVoices.Count<string>();
 		}
 
 		[Export("tableView:objectValueForTableColumn:row:")]
 		public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
 		{
-			NSDictionary dict = NSSpeechSynthesizer.AttributesForVoice(voices[row]);
+			NSDictionary dict = NSSpeechSynthesizer.AttributesForVoice(mVoices[row]);
 			// See all of the keys and Value types
 //			var keys = dict.Keys;
 //			var values = dict.Values;
@@ -164,39 +179,32 @@ namespace SpeakLine
 		[Export("tableViewSelectionDidChange:")]
 		public void SelectionDidChange(NSNotification notification)
 		{
-			int row = tableView.SelectedRow;
+			int row = voicesTableView.SelectedRow;
 			if (row == -1)
 				return;
-			string selectedVoice = voices[row];
-			speechSynth.Voice = selectedVoice;
+			string selectedVoice = mVoices[row];
+			mSpeechSynth.Voice = selectedVoice;
 		}
-
 		#endregion
 
-        //strongly typed window accessor
-        public new MainWindow Window
-        {
-            get
-            {
-                return (MainWindow)base.Window;
-            }
-        }
-
+		#region - Window WeakDelegate methods
 		[Export("windowWillResize:toSize:")]
 		public System.Drawing.SizeF WillResize(NSWindow sender, System.Drawing.SizeF toFrameSize)
 		{
 			float newWidth = toFrameSize.Width < 820 ? 820 : toFrameSize.Width;
-			float newHieght = toFrameSize.Height < 500 ? 500 : toFrameSize.Height;
+			float newHieght = toFrameSize.Height < 250 ? 250 : toFrameSize.Height;
 			return new SizeF(newWidth, newHieght);
 		}
+		#endregion
     }
 
-	public class TodoTableViewSource : NSTableViewSource
+	#region - PhrasesTableViewSource class
+	public class PhrasesTableViewSource : NSTableViewSource
 	{
 		public List<string> todoItems;
 		WeakReference mainWindowController;
 
-		public TodoTableViewSource(WeakReference mwc)
+		public PhrasesTableViewSource(WeakReference mwc)
 		{
 			todoItems = new List<string>();
 			mainWindowController = mwc;
@@ -212,21 +220,60 @@ namespace SpeakLine
 			return new NSString(todoItems[row]);
 		}
 
+		public override void ObjectDidEndEditing(NSObject editor)
+		{
+			base.ObjectDidEndEditing(editor);
+			NSTextField ed = (NSTextField)editor;
+			Console.WriteLine("Edited Row = {0}", ed.StringValue);
+		}
+
 		public override void SelectionDidChange(NSNotification notification)
 		{
 			MainWindowController mwc = (MainWindowController)mainWindowController.Target;
-			int selectedRow = mwc.tableViewTodo.SelectedRow;
+			int selectedRow = mwc.phrasesTableView.SelectedRow;
 			if (selectedRow != -1) {
-				mwc.btnAddTodo.Title = "Update";
 				mwc.textField.StringValue = todoItems[selectedRow];
+				mwc.btnAddPhrase.Enabled = false;
 			}
 			else {
-				mwc.btnAddTodo.Title = "Add";
-				mwc.tableViewTodo.DeselectRow(selectedRow);
+				mwc.phrasesTableView.DeselectRow(selectedRow);
 				mwc.textField.StringValue = "";
+				mwc.textField.BecomeFirstResponder();
+				mwc.btnAddPhrase.Enabled = true;
 			}
-			mwc.textField.BecomeFirstResponder();
 		}
 	}
+	#endregion
+
+	#region - PhrasesTableView class
+	[Register("PhrasesTableView")]
+	public class PhrasesTableView : NSTableView
+	{
+		public WeakReference mainWindowController {get; set;}
+
+		public PhrasesTableView(IntPtr handle) : base(handle)
+		{}
+
+		// Allows editing directly in cell
+		public override void TextDidEndEditing(NSNotification notification)
+		{
+			base.TextDidEndEditing(notification);
+			int row = this.SelectedRow;
+			MainWindowController mwc = (MainWindowController)mainWindowController.Target;
+			NSTextView tv = (NSTextView)notification.Object;
+			if (tv.Value !="") {
+				mwc.PhrasesTableViewSource.todoItems[row] = tv.Value;
+				mwc.btnAddPhrase.Enabled = false;
+			}
+			else {
+				mwc.PhrasesTableViewSource.todoItems.RemoveAt(row);
+				mwc.phrasesTableView.DeselectAll(this);
+				mwc.btnAddPhrase.Enabled = true;
+			}
+			mwc.textField.StringValue = tv.Value;
+			mwc.phrasesTableView.ReloadData();
+		}
+	}
+	#endregion
 }
 

@@ -13,7 +13,10 @@ namespace SpeakLine
 	partial class MainWindowController
 	{
 		[Outlet]
-		public MonoMac.AppKit.NSButton btnAddTodo { get; set; }
+		public MonoMac.AppKit.NSButton btnAddPhrase { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnClear { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSButton btnSpeak { get; set; }
@@ -22,16 +25,19 @@ namespace SpeakLine
 		MonoMac.AppKit.NSButton btnStop { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTableView tableView { get; set; }
+		public SpeakLine.PhrasesTableView phrasesTableView { get; private set; }
 
 		[Outlet]
-		public MonoMac.AppKit.NSTableView tableViewTodo { get; set; }
+		public MonoMac.AppKit.NSTextField textField { get; private set; }
 
 		[Outlet]
-		public MonoMac.AppKit.NSTextField textField { get; set; }
+		MonoMac.AppKit.NSTableView voicesTableView { get; set; }
 
-		[Action ("btnAddTodoHandler:")]
-		partial void btnAddTodoHandler (MonoMac.Foundation.NSObject sender);
+		[Action ("btnAddPhraseHandler:")]
+		partial void btnAddPhraseHandler (MonoMac.Foundation.NSObject sender);
+
+		[Action ("btnClearHandler:")]
+		partial void btnClearHandler (MonoMac.Foundation.NSObject sender);
 
 		[Action ("btnSpeakHandler:")]
 		partial void btnSpeakHandler (MonoMac.Foundation.NSObject sender);
@@ -41,6 +47,16 @@ namespace SpeakLine
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnAddPhrase != null) {
+				btnAddPhrase.Dispose ();
+				btnAddPhrase = null;
+			}
+
+			if (btnClear != null) {
+				btnClear.Dispose ();
+				btnClear = null;
+			}
+
 			if (btnSpeak != null) {
 				btnSpeak.Dispose ();
 				btnSpeak = null;
@@ -51,9 +67,9 @@ namespace SpeakLine
 				btnStop = null;
 			}
 
-			if (tableView != null) {
-				tableView.Dispose ();
-				tableView = null;
+			if (phrasesTableView != null) {
+				phrasesTableView.Dispose ();
+				phrasesTableView = null;
 			}
 
 			if (textField != null) {
@@ -61,14 +77,9 @@ namespace SpeakLine
 				textField = null;
 			}
 
-			if (btnAddTodo != null) {
-				btnAddTodo.Dispose ();
-				btnAddTodo = null;
-			}
-
-			if (tableViewTodo != null) {
-				tableViewTodo.Dispose ();
-				tableViewTodo = null;
+			if (voicesTableView != null) {
+				voicesTableView.Dispose ();
+				voicesTableView = null;
 			}
 		}
 	}
