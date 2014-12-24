@@ -157,9 +157,9 @@
 													<bool key="NSIsEditable">YES</bool>
 													<reference key="NSTableView" ref="916900745"/>
 													<object class="NSSortDescriptor" key="NSSortDescriptorPrototype">
-														<string key="NSKey">name</string>
+														<string key="NSKey">name.length</string>
 														<bool key="NSAscending">YES</bool>
-														<string key="NSSelector">caseInsensitiveCompare:</string>
+														<string key="NSSelector">compare:</string>
 													</object>
 												</object>
 												<object class="NSTableColumn" id="306996761">
