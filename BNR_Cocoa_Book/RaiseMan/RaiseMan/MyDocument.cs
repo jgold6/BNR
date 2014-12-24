@@ -9,16 +9,39 @@ namespace RaiseMan
 {
     public partial class MyDocument : MonoMac.AppKit.NSDocument
     {
+		NSMutableArray _employees;
+
+		[Export("employees")]
+		NSMutableArray Employees {
+			get
+			{
+				return _employees;
+			}
+			set
+			{
+				if (value == _employees)
+					return;
+				_employees = value;
+			}
+		}
+
         // Called when created from unmanaged code
         public MyDocument(IntPtr handle) : base(handle)
         {
+			Initialize();
         }
         
         // Called when created directly from a XIB file
         [Export("initWithCoder:")]
         public MyDocument(NSCoder coder) : base(coder)
         {
+			Initialize();
         }
+
+		void Initialize()
+		{
+			Employees = new NSMutableArray();
+		}
 
         public override void WindowControllerDidLoadNib(NSWindowController windowController)
         {
@@ -60,6 +83,13 @@ namespace RaiseMan
             }
         }
 
+		partial void btnCheckEntries (MonoMac.Foundation.NSObject sender)
+		{
+			for (int i = 0; i < _employees.Count; i++) {
+				Person employee = _employees.GetItem<Person>(i);
+				Console.WriteLine("Person Name: {0}, Expected Raise: {1:P0}, {2}", employee.Name, employee.ExpectedRaise, employee.ExpectedRaise);
+			}
+		}
     }
 }
 
