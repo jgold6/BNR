@@ -10,11 +10,9 @@ namespace RaiseMan
 {
     public partial class MyDocument : MonoMac.AppKit.NSDocument
     {
+		bool firstTime = true;
 		#region - Member variables and properties
 		NSMutableArray _employees;
-//		Stack<int> _undoIndexes;
-//		Stack<int> _redoIndexes;
-//		Stack<Person> _removedPersons;
 
 		[Export("employees")]
 		NSMutableArray Employees {
@@ -60,9 +58,6 @@ namespace RaiseMan
             base.WindowControllerDidLoadNib(windowController);
             
             // Add code to here after the controller has loaded the document window
-//			_undoIndexes = new Stack<int>();
-//			_redoIndexes = new Stack<int>();
-//			_removedPersons = new Stack<Person>();
 			Employees = new NSMutableArray();
 			for (int i = 0; i < 5; i++) {
 				arrayController.Add(this);
@@ -98,10 +93,26 @@ namespace RaiseMan
 		#region - Actions
 		partial void btnCheckEntries (MonoMac.Foundation.NSObject sender)
 		{
+			if (firstTime) {
+				firstTime = false;
+				Employees.GetItem<Person>(0).Name = "One";
+				Employees.GetItem<Person>(1).Name = "Two";
+				Employees.GetItem<Person>(2).Name = "Three";
+				Employees.GetItem<Person>(3).Name = "Four";
+				Employees.GetItem<Person>(4).Name = "Five";
+				tableView.ReloadData();
+			}
 			for (int i = 0; i < Employees.Count; i++) {
 				Person employee = Employees.GetItem<Person>(i);
-				Console.WriteLine("Person Name: {0}, Expected Raise: {1:P0}, {2}", employee.Name, employee.ExpectedRaise, employee.ExpectedRaise);
+				Console.WriteLine("Employees Person Name: {0}, Expected Raise: {1:P0}, {2}", employee.Name, employee.ExpectedRaise, employee.ExpectedRaise);
 			}
+			Console.WriteLine("****************************");
+			NSObject[] arrObjects = arrayController.ArrangedObjects();
+			foreach (NSObject obj in arrObjects) {
+				Person employee = (Person)obj;
+				Console.WriteLine("ArrayController Person Name: {0}, Expected Raise: {1:P0}, {2}", employee.Name, employee.ExpectedRaise, employee.ExpectedRaise);
+			}
+			Console.WriteLine("****************************");
 		}
 		#endregion
 
@@ -114,10 +125,8 @@ namespace RaiseMan
 			// Add the inverse of this operation to the undo stack
 			NSArray args = NSArray.FromObjects(new object[]{p, new NSNumber(index)});
 			undo.RegisterUndoWithTarget(this, new Selector("undoAdd:"), args);
-			if (!undo.IsUndoing && !undo.IsRedoing) {
+			if (!undo.IsUndoing) {
 				undo.SetActionname("Add Person");
-//				_undoIndexes.Push(index);
-//				_redoIndexes.Clear();
 			}
 			// Add the person to the array
 			Employees.Insert(p, index);
@@ -128,39 +137,28 @@ namespace RaiseMan
 		public void RemoveObjectFromEmployeesAtIndex(int index)
 		{
 			NSUndoManager undo = this.UndoManager;
-			Person p = Employees.GetItem<Person>((int)index);
+			Person p = Employees.GetItem<Person>(index);
 			Console.WriteLine("Removing {0} from {1}", p, Employees);
 			// Add the inverse of this operation to the undo stack
 			NSArray args = NSArray.FromObjects(new object[]{p, new NSNumber(index)});
 			undo.RegisterUndoWithTarget(this, new Selector("undoRemove:"), args);
-			if (!undo.IsUndoing && !undo.IsRedoing) {
+			if (!undo.IsUndoing) {
 				undo.SetActionname("Remove Person");
-//				_undoIndexes.Push(index);
-//				_redoIndexes.Clear();
 			}
 			// Remove the person from the array
 			Employees.RemoveObject(index);
-//			_removedPersons.Push(p);
 		}
 
 		[Export("undoAdd:")]
 		public void UndoAdd(NSObject o)
 		{
 			Person p = ((NSArray)o).GetItem<Person>(0);
-			int i = ((NSArray)o).GetItem<NSNumber>(1).Int32Value;
+//			NSNumber i = ((NSArray)o).GetItem<NSNumber>(1);
 
 			Console.WriteLine("Undoing Add person");
-//			NSUndoManager undo = this.UndoManager;
-//			int index = 0;
-//			if (undo.IsUndoing) {
-//				index = _undoIndexes.Pop();
-//				_redoIndexes.Push(index);
-//			}
-//			else  {
-//				index = _redoIndexes.Pop();
-//				_undoIndexes.Push(index);
-//			}
-			arrayController.RemoveAt(i);
+
+			// Tell the array controller to remove the person, not the object at index with removeAt(i.ToInt32);
+			arrayController.RemoveObject(p);
 		}
 
 		[Export("undoRemove:")]
@@ -170,16 +168,8 @@ namespace RaiseMan
 			NSNumber i = ((NSArray)o).GetItem<NSNumber>(1);
 
 			Console.WriteLine("Undoing Remove person");
-//			NSUndoManager undo = this.UndoManager;
-//			int index = 0;
-//			if (undo.IsUndoing) {
-//				index = _undoIndexes.Pop();
-//				_redoIndexes.Push(index);
-//			}
-//			else {
-//				index = _redoIndexes.Pop();
-//				_undoIndexes.Push(index);
-//			}
+
+			// Tell the arrayController to insert the person
 			arrayController.Insert(p, i.Int32Value);
 		}
 		#endregion
