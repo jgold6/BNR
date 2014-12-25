@@ -52,7 +52,6 @@ namespace RaiseMan
 			for (int i = 0; i < 5; i++) {
 				arrayController.Add(this);
 			}
-
         }
         
         //
@@ -106,13 +105,10 @@ namespace RaiseMan
 			if (!undo.IsUndoing && !undo.IsRedoing) {
 				undo.SetActionname("Add Person");
 				// Add the person to the array
-				Employees.Insert(p, index);
 				_undoIndexes.Push(index);
 				_redoIndexes.Clear();
 			}
-			else {
-				Employees.Insert(p, index);
-			}
+			Employees.Insert(p, index);
 
 		}
 
@@ -127,15 +123,11 @@ namespace RaiseMan
 			if (!undo.IsUndoing && !undo.IsRedoing) {
 				undo.SetActionname("Remove Person");
 				// Remove the person from the array
-				Employees.RemoveObject(index);
 				_undoIndexes.Push(index);
-				_removedPersons.Push(p);
 				_redoIndexes.Clear();
 			}
-			else {
-				Employees.RemoveObject(index);
-				_removedPersons.Push(p);
-			}
+			Employees.RemoveObject(index);
+			_removedPersons.Push(p);
 		}
 
 		[Export("undoAdd")]
