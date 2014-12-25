@@ -12,11 +12,24 @@ namespace RaiseMan
 	[Register ("MyDocument")]
 	partial class MyDocument
 	{
+		[Outlet]
+		public MonoMac.AppKit.NSTableView tableView { get; set; }
+
 		[Action ("btnCheckEntries:")]
 		partial void btnCheckEntries (MonoMac.Foundation.NSObject sender);
+
+		[Action ("createEmployee:")]
+		partial void createEmployee (MonoMac.Foundation.NSObject sender);
+
+		[Action ("deleteSelectedEmployees:")]
+		partial void deleteSelectedEmployees (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (tableView != null) {
+				tableView.Dispose ();
+				tableView = null;
+			}
 		}
 	}
 }
