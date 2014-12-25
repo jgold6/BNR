@@ -4,12 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
+using MonoMac.ObjCRuntime;
 
 namespace RaiseMan
 {
     public partial class MyDocument : MonoMac.AppKit.NSDocument
     {
 		NSMutableArray _employees;
+		Stack<int> _undoIndexes;
+		Stack<int> _redoIndexes;
+		Stack<Person> _removedPersons;
 
 		[Export("employees")]
 		NSMutableArray Employees {
@@ -28,26 +32,27 @@ namespace RaiseMan
         // Called when created from unmanaged code
         public MyDocument(IntPtr handle) : base(handle)
         {
-			Initialize();
         }
         
         // Called when created directly from a XIB file
         [Export("initWithCoder:")]
         public MyDocument(NSCoder coder) : base(coder)
         {
-			Initialize();
         }
-
-		void Initialize()
-		{
-			Employees = new NSMutableArray();
-		}
 
         public override void WindowControllerDidLoadNib(NSWindowController windowController)
         {
             base.WindowControllerDidLoadNib(windowController);
             
             // Add code to here after the controller has loaded the document window
+			_undoIndexes = new Stack<int>();
+			_redoIndexes = new Stack<int>();
+			_removedPersons = new Stack<Person>();
+			Employees = new NSMutableArray();
+			for (int i = 0; i < 5; i++) {
+				arrayController.Add(this);
+			}
+
         }
         
         //
@@ -85,10 +90,86 @@ namespace RaiseMan
 
 		partial void btnCheckEntries (MonoMac.Foundation.NSObject sender)
 		{
-			for (int i = 0; i < _employees.Count; i++) {
-				Person employee = _employees.GetItem<Person>(i);
+			for (int i = 0; i < Employees.Count; i++) {
+				Person employee = Employees.GetItem<Person>(i);
 				Console.WriteLine("Person Name: {0}, Expected Raise: {1:P0}, {2}", employee.Name, employee.ExpectedRaise, employee.ExpectedRaise);
 			}
+		}
+
+		[Export("insertObject:inEmployeesAtIndex:")]
+		public void InsertObjectInEmployeesAtIndex(Person p, int index)
+		{
+			NSUndoManager undo = this.UndoManager;
+			Console.WriteLine("Adding {0} to {1}", p, Employees);
+			// Add the inverse of this operation to the undo stack
+			undo.RegisterUndoWithTarget(this, new Selector("undoAdd"), new NSObject());
+			if (!undo.IsUndoing && !undo.IsRedoing) {
+				undo.SetActionname("Add Person");
+				// Add the person to the array
+				Employees.Insert(p, index);
+				_undoIndexes.Push(index);
+				_redoIndexes.Clear();
+			}
+			else {
+				Employees.Insert(p, index);
+			}
+
+		}
+
+		[Export("removeObjectFromEmployeesAtIndex:")]
+		public void RemoveObjectFromEmployeesAtIndex(int index)
+		{
+			NSUndoManager undo = this.UndoManager;
+			Person p = Employees.GetItem<Person>((int)index);
+			Console.WriteLine("Removing {0} from {1}", p, Employees);
+			// Add the inverse of this operation to the undo stack
+			undo.RegisterUndoWithTarget(this, new Selector("undoRemove"), new NSObject());
+			if (!undo.IsUndoing && !undo.IsRedoing) {
+				undo.SetActionname("Remove Person");
+				// Remove the person from the array
+				Employees.RemoveObject(index);
+				_undoIndexes.Push(index);
+				_removedPersons.Push(p);
+				_redoIndexes.Clear();
+			}
+			else {
+				Employees.RemoveObject(index);
+				_removedPersons.Push(p);
+			}
+		}
+
+		[Export("undoAdd")]
+		public void UndoAdd()
+		{
+			Console.WriteLine("Undoing Add person");
+			NSUndoManager undo = this.UndoManager;
+			int index = 0;
+			if (undo.IsUndoing) {
+				index = _undoIndexes.Pop();
+				_redoIndexes.Push(index);
+			}
+			else  {
+				index = _redoIndexes.Pop();
+				_undoIndexes.Push(index);
+			}
+			arrayController.RemoveAt(index);
+		}
+
+		[Export("undoRemove")]
+		public void UndoRemove()
+		{
+			Console.WriteLine("Undoing Remove person");
+			NSUndoManager undo = this.UndoManager;
+			int index = 0;
+			if (undo.IsUndoing) {
+				index = _undoIndexes.Pop();
+				_redoIndexes.Push(index);
+			}
+			else {
+				index = _redoIndexes.Pop();
+				_undoIndexes.Push(index);
+			}
+			arrayController.Insert(_removedPersons.Pop(), index);
 		}
     }
 }
