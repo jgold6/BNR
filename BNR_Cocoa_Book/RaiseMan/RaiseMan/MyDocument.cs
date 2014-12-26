@@ -12,7 +12,6 @@ namespace RaiseMan
     public partial class MyDocument : MonoMac.AppKit.NSDocument
     {
 		#region - Member variables and properties
-//		bool _firstTime = true;
 		NSMutableArray _employees;
 
 		[Export("employees")]
@@ -72,10 +71,6 @@ namespace RaiseMan
             
             // Add code to here after the controller has loaded the document window
 			Employees = new NSMutableArray();
-			// Add five starter entries
-//			for (int i = 0; i < 5; i++) {
-//				arrayController.Add(this);
-//			}
         }
 		#endregion
 
@@ -107,19 +102,6 @@ namespace RaiseMan
 		#region - Actions
 		partial void btnCheckEntries (MonoMac.Foundation.NSObject sender)
 		{
-//			if (_firstTime) {
-//				_firstTime = false;
-//				Employees.GetItem<Person>(0).SetValueForKey(new NSString("One"), new NSString("name"));
-//				Employees.GetItem<Person>(1).SetValueForKey(new NSString("Two"), new NSString("name"));
-//				Employees.GetItem<Person>(2).SetValueForKey(new NSString("Three"), new NSString("name"));
-//				Employees.GetItem<Person>(3).SetValueForKey(new NSString("Four"), new NSString("name"));
-//				Employees.GetItem<Person>(4).SetValueForKey(new NSString("Five"), new NSString("name"));
-//				Employees.GetItem<Person>(0).SetValueForKey(new NSNumber(0.01f), new NSString("expectedRaise"));
-//				Employees.GetItem<Person>(1).SetValueForKey(new NSNumber(0.02f), new NSString("expectedRaise"));
-//				Employees.GetItem<Person>(2).SetValueForKey(new NSNumber(0.03f), new NSString("expectedRaise"));
-//				Employees.GetItem<Person>(3).SetValueForKey(new NSNumber(0.04f), new NSString("expectedRaise"));
-//				Employees.GetItem<Person>(4).SetValueForKey(new NSNumber(0.05f), new NSString("expectedRaise"));
-//			}
 			for (int i = 0; i < Employees.Count; i++) {
 				Person employee = Employees.GetItem<Person>(i);
 				Console.WriteLine("Employees Person Name: {0}, Expected Raise: {1:P0}, {2}", employee.Name, employee.ExpectedRaise, employee.ExpectedRaise);
@@ -251,7 +233,6 @@ namespace RaiseMan
 		[Export("removeObjectFromEmployeesAtIndex:")]
 		public void RemoveObjectFromEmployeesAtIndex(int index)
 		{
-//			_firstTime = false;
 			NSUndoManager undo = this.UndoManager;
 			Person p = Employees.GetItem<Person>(index);
 			Console.WriteLine("Removing {0} from {1}", p, Employees);
