@@ -186,7 +186,10 @@ namespace RaiseMan
 			NSObject newValue = ((NSArray)o).GetItem<NSObject>(2);
 			// setValue:forKeyPath: will cause the key-value observing method
 			// to be called, which takes care of the undo stuff
-			obj.SetValueForKeyPath(newValue, keyPath);
+			if (newValue.DebugDescription != "<null>")
+				obj.SetValueForKeyPath(newValue, keyPath);
+			else
+				obj.SetValueForKeyPath(new NSString("New Person"), keyPath);
 		}
 
 		[Export("observeValueForKeyPath:ofObject:change:context:")]
