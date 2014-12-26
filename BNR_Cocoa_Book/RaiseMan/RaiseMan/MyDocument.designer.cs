@@ -20,6 +20,9 @@ namespace RaiseMan
 
 		[Action ("btnCheckEntries:")]
 		partial void btnCheckEntries (MonoMac.Foundation.NSObject sender);
+
+		[Action ("btnCreateEmployee:")]
+		partial void btnCreateEmployee (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
