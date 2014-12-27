@@ -213,6 +213,7 @@ namespace RaiseMan
 			NSArray args = NSArray.FromObjects(new object[]{keyPath, obj, oldValue});
 			undo.RegisterUndoWithTarget(this, new Selector("changeKeyPath:ofObject:toValue:"), args);
 			undo.SetActionname("Edit");
+			arrayController.RearrangeObjects();
 		}
 		#endregion
 
