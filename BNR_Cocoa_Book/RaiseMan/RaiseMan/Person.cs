@@ -27,6 +27,13 @@ namespace RaiseMan
 			this.ExpectedRaise = decoder.DecodeFloat("expectedRaise");
 		}
 
+		public override void EncodeTo(NSCoder coder)
+		{
+			if (this.Name != null)
+				coder.Encode(new NSString(this.Name), "name");
+			coder.Encode(this.ExpectedRaise, "expectedRaise");
+		}
+
 		public override void SetNilValueForKey(NSString key)
 		{
 			if (key.ToString() == "expectedRaise")

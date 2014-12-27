@@ -70,7 +70,8 @@ namespace RaiseMan
             base.WindowControllerDidLoadNib(windowController);
             
             // Add code to here after the controller has loaded the document window
-			Employees = new NSMutableArray();
+			if (Employees == null)
+				Employees = new NSMutableArray();
         }
 		#endregion
 
@@ -84,8 +85,16 @@ namespace RaiseMan
         // on the return NSData value.
         public override NSData GetAsData(string documentType, out NSError outError)
         {
-            outError = NSError.FromDomain(NSError.OsStatusErrorDomain, -4);
-            return null;
+			outError = null;
+			// End editing
+			tableView.Window.EndEditingFor(null);
+
+			// Create an NSData object from the employees array
+			return NSKeyedArchiver.ArchivedDataWithRootObject(Employees);
+
+			// Default template code
+//			outError = NSError.FromDomain(NSError.OsStatusErrorDomain, -4);
+//			return null;
         }
         
         //
@@ -94,8 +103,27 @@ namespace RaiseMan
         //
         public override bool ReadFromData(NSData data, string typeName, out NSError outError)
         {
-            outError = NSError.FromDomain(NSError.OsStatusErrorDomain, -4);
-            return false;
+			outError = null;
+			Console.WriteLine("About to read data of type {0}", typeName);
+
+			NSMutableArray newArray = null;
+			try {
+				newArray = (NSMutableArray)NSKeyedUnarchiver.UnarchiveObject(data);
+			}
+			catch (Exception ex) {
+				Console.WriteLine("Error loading file: Exception: {0}", ex.Message);
+				if (outError != null) {
+					NSDictionary d = NSDictionary.FromObjectAndKey(new NSString("The data is corrupted."), NSError.LocalizedFailureReasonErrorKey);
+					outError = NSError.FromDomain(NSError.OsStatusErrorDomain, -4, d);
+				}
+				return false;
+			}
+			this.Employees = newArray;
+			return true;
+
+			// Default template code
+//			outError = NSError.FromDomain(NSError.OsStatusErrorDomain, -4);
+//			return false;
         }
 		#endregion
 
