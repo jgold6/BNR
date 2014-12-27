@@ -271,6 +271,7 @@ namespace RaiseMan
 
 			// Tell the arrayController to insert the person
 			arrayController.Insert(p, i.Int32Value);
+			arrayController.RearrangeObjects();
 		}
 		#endregion
     }
