@@ -137,6 +137,11 @@ namespace RaiseMan
 			}
 
 			// Create the object
+			// Should be able to do arrayController.NewObject, but it returns an NSObjectController
+			// not an NSObject and also causes an InvalidCastException
+//			var p = arrayController.NewObject;
+			// Plus I can't figure out how to get the Person object from that.
+			// Creating my own Person object instead
 			Person p = new Person();
 
 			// Add it to the content array of arrayController
