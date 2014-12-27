@@ -4,7 +4,7 @@ using MonoMac.Foundation;
 namespace RaiseMan
 {
 	[Register("Person")]
-    public class Person : NSObject
+	public class Person : NSObject, INSCoding
     {
 		[Export("name")]
 		public string Name {get; set;}
@@ -17,6 +17,15 @@ namespace RaiseMan
 			ExpectedRaise = 0.05f;
 			Name = "New Person";
         }
+
+		[Export("initWithCoder:")]
+		public Person(NSCoder decoder)
+		{
+			NSString str = (NSString)decoder.DecodeObject("name");
+			if (str != null)
+				this.Name = str.ToString();
+			this.ExpectedRaise = decoder.DecodeFloat("expectedRaise");
+		}
 
 		public override void SetNilValueForKey(NSString key)
 		{
