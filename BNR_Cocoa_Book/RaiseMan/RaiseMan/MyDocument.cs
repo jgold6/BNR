@@ -269,7 +269,7 @@ namespace RaiseMan
 
 			Console.WriteLine("Undoing Remove person");
 
-			// Tell the arrayController to insert the person
+			// Tell the arrayController to insert the person and sort if necessary
 			arrayController.Insert(p, i.Int32Value);
 			arrayController.RearrangeObjects();
 		}
