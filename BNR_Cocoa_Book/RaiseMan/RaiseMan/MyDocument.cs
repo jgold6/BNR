@@ -218,7 +218,14 @@ namespace RaiseMan
 			NSArray args = NSArray.FromObjects(new object[]{keyPath, obj, oldValue});
 			undo.RegisterUndoWithTarget(this, new Selector("changeKeyPath:ofObject:toValue:"), args);
 			undo.SetActionname("Edit");
+
+			// Sort if necessary
 			arrayController.RearrangeObjects();
+
+			// Keep the row selected.
+			// Without this, the row is selected in gray (tableView loses focus) and the arrow keys don't work to navigate to other items
+			// and the return key does not trigger editing of the item again.
+			tableView.EditColumn(0, tableView.SelectedRow, null, false);
 		}
 		#endregion
 
