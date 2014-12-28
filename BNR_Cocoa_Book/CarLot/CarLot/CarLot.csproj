@@ -4,11 +4,11 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectTypeGuids>{42C0BBD9-55CE-4FC1-8D90-A7348ABAFB23};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{F95BE4D8-97DD-4688-A2CC-C27901B1C137}</ProjectGuid>
+    <ProjectGuid>{89F265B5-C188-46E9-8D67-2E306177215B}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>RaiseMan</RootNamespace>
+    <RootNamespace>CarLot</RootNamespace>
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
-    <AssemblyName>RaiseMan</AssemblyName>
+    <AssemblyName>CarLot</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,7 +40,6 @@
     <CodeSigningKey>Developer ID Application</CodeSigningKey>
     <EnableCodeSigning>true</EnableCodeSigning>
     <CreatePackage>true</CreatePackage>
-    <PackageSigningKey>Developer ID Installer</PackageSigningKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -79,7 +78,6 @@
     <Compile Include="MainMenu.xib.designer.cs">
       <DependentUpon>MainMenu.xib</DependentUpon>
     </Compile>
-    <Compile Include="Person.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MyDocument.xib" />
