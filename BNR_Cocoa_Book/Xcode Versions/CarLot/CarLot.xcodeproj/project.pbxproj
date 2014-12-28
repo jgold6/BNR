@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		184619D61A4FDB97004F99D5 /* CarArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184619D51A4FDB97004F99D5 /* CarArrayController.m */; };
 		18F6A20A1A4FC9C200E1079E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F6A2091A4FC9C200E1079E /* AppDelegate.m */; };
 		18F6A20C1A4FC9C200E1079E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F6A20B1A4FC9C200E1079E /* main.m */; };
 		18F6A20F1A4FC9C200E1079E /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F6A20E1A4FC9C200E1079E /* Document.m */; };
@@ -28,6 +29,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		184619D41A4FDB97004F99D5 /* CarArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarArrayController.h; sourceTree = "<group>"; };
+		184619D51A4FDB97004F99D5 /* CarArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarArrayController.m; sourceTree = "<group>"; };
 		18F6A2031A4FC9C200E1079E /* CarLot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarLot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18F6A2071A4FC9C200E1079E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18F6A2081A4FC9C200E1079E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -85,6 +88,8 @@
 			children = (
 				18F6A2081A4FC9C200E1079E /* AppDelegate.h */,
 				18F6A2091A4FC9C200E1079E /* AppDelegate.m */,
+				184619D41A4FDB97004F99D5 /* CarArrayController.h */,
+				184619D51A4FDB97004F99D5 /* CarArrayController.m */,
 				18F6A20D1A4FC9C200E1079E /* Document.h */,
 				18F6A20E1A4FC9C200E1079E /* Document.m */,
 				18F6A2101A4FC9C200E1079E /* Document.xib */,
@@ -223,6 +228,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				18F6A2151A4FC9C200E1079E /* Document.xcdatamodeld in Sources */,
+				184619D61A4FDB97004F99D5 /* CarArrayController.m in Sources */,
 				18F6A20F1A4FC9C200E1079E /* Document.m in Sources */,
 				18F6A20C1A4FC9C200E1079E /* main.m in Sources */,
 				18F6A20A1A4FC9C200E1079E /* AppDelegate.m in Sources */,
@@ -420,6 +426,7 @@
 				18F6A22B1A4FC9C300E1079E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		18F6A22C1A4FC9C300E1079E /* Build configuration list for PBXNativeTarget "CarLotTests" */ = {
 			isa = XCConfigurationList;
@@ -428,6 +435,7 @@
 				18F6A22E1A4FC9C300E1079E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
