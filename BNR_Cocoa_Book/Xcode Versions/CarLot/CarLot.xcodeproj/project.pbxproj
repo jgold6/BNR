@@ -1,0 +1,448 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		18F6A20A1A4FC9C200E1079E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F6A2091A4FC9C200E1079E /* AppDelegate.m */; };
+		18F6A20C1A4FC9C200E1079E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F6A20B1A4FC9C200E1079E /* main.m */; };
+		18F6A20F1A4FC9C200E1079E /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F6A20E1A4FC9C200E1079E /* Document.m */; };
+		18F6A2121A4FC9C200E1079E /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18F6A2101A4FC9C200E1079E /* Document.xib */; };
+		18F6A2151A4FC9C200E1079E /* Document.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 18F6A2131A4FC9C200E1079E /* Document.xcdatamodeld */; };
+		18F6A2171A4FC9C200E1079E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18F6A2161A4FC9C200E1079E /* Images.xcassets */; };
+		18F6A21A1A4FC9C200E1079E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18F6A2181A4FC9C200E1079E /* MainMenu.xib */; };
+		18F6A2261A4FC9C300E1079E /* CarLotTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F6A2251A4FC9C300E1079E /* CarLotTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		18F6A2201A4FC9C300E1079E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18F6A1FB1A4FC9C200E1079E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 18F6A2021A4FC9C200E1079E;
+			remoteInfo = CarLot;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		18F6A2031A4FC9C200E1079E /* CarLot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarLot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		18F6A2071A4FC9C200E1079E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18F6A2081A4FC9C200E1079E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		18F6A2091A4FC9C200E1079E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		18F6A20B1A4FC9C200E1079E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		18F6A20D1A4FC9C200E1079E /* Document.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
+		18F6A20E1A4FC9C200E1079E /* Document.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Document.m; sourceTree = "<group>"; };
+		18F6A2111A4FC9C200E1079E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Document.xib; sourceTree = "<group>"; };
+		18F6A2141A4FC9C200E1079E /* Document.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Document.xcdatamodel; sourceTree = "<group>"; };
+		18F6A2161A4FC9C200E1079E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		18F6A2191A4FC9C200E1079E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		18F6A21F1A4FC9C300E1079E /* CarLotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CarLotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		18F6A2241A4FC9C300E1079E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18F6A2251A4FC9C300E1079E /* CarLotTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CarLotTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		18F6A2001A4FC9C200E1079E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18F6A21C1A4FC9C300E1079E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		18F6A1FA1A4FC9C200E1079E = {
+			isa = PBXGroup;
+			children = (
+				18F6A2051A4FC9C200E1079E /* CarLot */,
+				18F6A2221A4FC9C300E1079E /* CarLotTests */,
+				18F6A2041A4FC9C200E1079E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		18F6A2041A4FC9C200E1079E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18F6A2031A4FC9C200E1079E /* CarLot.app */,
+				18F6A21F1A4FC9C300E1079E /* CarLotTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		18F6A2051A4FC9C200E1079E /* CarLot */ = {
+			isa = PBXGroup;
+			children = (
+				18F6A2081A4FC9C200E1079E /* AppDelegate.h */,
+				18F6A2091A4FC9C200E1079E /* AppDelegate.m */,
+				18F6A20D1A4FC9C200E1079E /* Document.h */,
+				18F6A20E1A4FC9C200E1079E /* Document.m */,
+				18F6A2101A4FC9C200E1079E /* Document.xib */,
+				18F6A2161A4FC9C200E1079E /* Images.xcassets */,
+				18F6A2181A4FC9C200E1079E /* MainMenu.xib */,
+				18F6A2131A4FC9C200E1079E /* Document.xcdatamodeld */,
+				18F6A2061A4FC9C200E1079E /* Supporting Files */,
+			);
+			path = CarLot;
+			sourceTree = "<group>";
+		};
+		18F6A2061A4FC9C200E1079E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				18F6A2071A4FC9C200E1079E /* Info.plist */,
+				18F6A20B1A4FC9C200E1079E /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		18F6A2221A4FC9C300E1079E /* CarLotTests */ = {
+			isa = PBXGroup;
+			children = (
+				18F6A2251A4FC9C300E1079E /* CarLotTests.m */,
+				18F6A2231A4FC9C300E1079E /* Supporting Files */,
+			);
+			path = CarLotTests;
+			sourceTree = "<group>";
+		};
+		18F6A2231A4FC9C300E1079E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				18F6A2241A4FC9C300E1079E /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		18F6A2021A4FC9C200E1079E /* CarLot */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18F6A2291A4FC9C300E1079E /* Build configuration list for PBXNativeTarget "CarLot" */;
+			buildPhases = (
+				18F6A1FF1A4FC9C200E1079E /* Sources */,
+				18F6A2001A4FC9C200E1079E /* Frameworks */,
+				18F6A2011A4FC9C200E1079E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CarLot;
+			productName = CarLot;
+			productReference = 18F6A2031A4FC9C200E1079E /* CarLot.app */;
+			productType = "com.apple.product-type.application";
+		};
+		18F6A21E1A4FC9C300E1079E /* CarLotTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18F6A22C1A4FC9C300E1079E /* Build configuration list for PBXNativeTarget "CarLotTests" */;
+			buildPhases = (
+				18F6A21B1A4FC9C300E1079E /* Sources */,
+				18F6A21C1A4FC9C300E1079E /* Frameworks */,
+				18F6A21D1A4FC9C300E1079E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				18F6A2211A4FC9C300E1079E /* PBXTargetDependency */,
+			);
+			name = CarLotTests;
+			productName = CarLotTests;
+			productReference = 18F6A21F1A4FC9C300E1079E /* CarLotTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		18F6A1FB1A4FC9C200E1079E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Jonathan Goldberger";
+				TargetAttributes = {
+					18F6A2021A4FC9C200E1079E = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					18F6A21E1A4FC9C300E1079E = {
+						CreatedOnToolsVersion = 6.1.1;
+						TestTargetID = 18F6A2021A4FC9C200E1079E;
+					};
+				};
+			};
+			buildConfigurationList = 18F6A1FE1A4FC9C200E1079E /* Build configuration list for PBXProject "CarLot" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 18F6A1FA1A4FC9C200E1079E;
+			productRefGroup = 18F6A2041A4FC9C200E1079E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				18F6A2021A4FC9C200E1079E /* CarLot */,
+				18F6A21E1A4FC9C300E1079E /* CarLotTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		18F6A2011A4FC9C200E1079E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18F6A2121A4FC9C200E1079E /* Document.xib in Resources */,
+				18F6A2171A4FC9C200E1079E /* Images.xcassets in Resources */,
+				18F6A21A1A4FC9C200E1079E /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18F6A21D1A4FC9C300E1079E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		18F6A1FF1A4FC9C200E1079E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18F6A2151A4FC9C200E1079E /* Document.xcdatamodeld in Sources */,
+				18F6A20F1A4FC9C200E1079E /* Document.m in Sources */,
+				18F6A20C1A4FC9C200E1079E /* main.m in Sources */,
+				18F6A20A1A4FC9C200E1079E /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18F6A21B1A4FC9C300E1079E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18F6A2261A4FC9C300E1079E /* CarLotTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		18F6A2211A4FC9C300E1079E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 18F6A2021A4FC9C200E1079E /* CarLot */;
+			targetProxy = 18F6A2201A4FC9C300E1079E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		18F6A2101A4FC9C200E1079E /* Document.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18F6A2111A4FC9C200E1079E /* Base */,
+			);
+			name = Document.xib;
+			sourceTree = "<group>";
+		};
+		18F6A2181A4FC9C200E1079E /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18F6A2191A4FC9C200E1079E /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		18F6A2271A4FC9C300E1079E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		18F6A2281A4FC9C300E1079E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		18F6A22A1A4FC9C300E1079E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = CarLot/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		18F6A22B1A4FC9C300E1079E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = CarLot/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		18F6A22D1A4FC9C300E1079E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = CarLotTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CarLot.app/Contents/MacOS/CarLot";
+			};
+			name = Debug;
+		};
+		18F6A22E1A4FC9C300E1079E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = CarLotTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CarLot.app/Contents/MacOS/CarLot";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		18F6A1FE1A4FC9C200E1079E /* Build configuration list for PBXProject "CarLot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18F6A2271A4FC9C300E1079E /* Debug */,
+				18F6A2281A4FC9C300E1079E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		18F6A2291A4FC9C300E1079E /* Build configuration list for PBXNativeTarget "CarLot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18F6A22A1A4FC9C300E1079E /* Debug */,
+				18F6A22B1A4FC9C300E1079E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		18F6A22C1A4FC9C300E1079E /* Build configuration list for PBXNativeTarget "CarLotTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18F6A22D1A4FC9C300E1079E /* Debug */,
+				18F6A22E1A4FC9C300E1079E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		18F6A2131A4FC9C200E1079E /* Document.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				18F6A2141A4FC9C200E1079E /* Document.xcdatamodel */,
+			);
+			currentVersion = 18F6A2141A4FC9C200E1079E /* Document.xcdatamodel */;
+			path = Document.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 18F6A1FB1A4FC9C200E1079E /* Project object */;
+}
