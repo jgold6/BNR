@@ -114,6 +114,10 @@ namespace CarLot
 				return false;
 			}
 			this.Cars = newArray;
+			// For Revert to Saved. Have to point the array controller to the new array.
+			if (arrayController != null) {
+				arrayController.Content = this.Cars;
+			}
 			return true;
         }
 		#endregion
