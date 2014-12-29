@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
+using MonoMac.ObjCRuntime;
 
 namespace CarLot
 {
-    public partial class MyDocument : MonoMac.AppKit.NSDocument
+	public partial class MyDocument : MonoMac.AppKit.NSDocument
     {
 		#region - Member variables and properties
 		NSMutableArray _cars;
@@ -22,19 +23,19 @@ namespace CarLot
 			{
 				if (value == _cars)
 					return;
-//				if (_cars != null) {
-//					for (int i = 0; i < _cars.Count; i++) {
-//						Car car = _cars.GetItem<Car>(i);
-//						this.StopObservingCar(car);
-//					}
-//				}
+				if (_cars != null) {
+					for (int i = 0; i < _cars.Count; i++) {
+						Car car = _cars.GetItem<Car>(i);
+						this.StopObservingCar(car);
+					}
+				}
 
 				_cars = value;
 
-//				for (int i = 0; i < _cars.Count; i++) {
-//					Car car = _cars.GetItem<Car>(i);
-//					this.StartObservingCar(car);
-//				}
+				for (int i = 0; i < _cars.Count; i++) {
+					Car car = _cars.GetItem<Car>(i);
+					this.StartObservingCar(car);
+				}
 			}
 		}
 
@@ -83,8 +84,12 @@ namespace CarLot
         // on the return NSData value.
         public override NSData GetAsData(string documentType, out NSError outError)
         {
-            outError = NSError.FromDomain(NSError.OsStatusErrorDomain, -4);
-            return null;
+			outError = null;
+			// End editing
+			tableView.Window.EndEditingFor(null);
+
+			// Create an NSData object from the cars array
+			return NSKeyedArchiver.ArchivedDataWithRootObject(Cars);
         }
         
         //
@@ -93,70 +98,24 @@ namespace CarLot
         //
         public override bool ReadFromData(NSData data, string typeName, out NSError outError)
         {
-            outError = NSError.FromDomain(NSError.OsStatusErrorDomain, -4);
-            return false;
-        }
-		#endregion
+			outError = null;
+			Console.WriteLine("About to read data of type {0}", typeName);
 
-		#region - Key Observing
-//		[Export("startObservingCar:")]
-//		public void StartObservingCar(Car car)
-//		{
-//			car.AddObserver(this, new NSString("name"), NSKeyValueObservingOptions.Old, this.Handle);
-//			car.AddObserver(this, new NSString("expectedRaise"), NSKeyValueObservingOptions.Old, this.Handle);
-//		}
-//
-//		[Export("stopObservingPerson:")]
-//		public void StopObservingCar(Car car)
-//		{
-//			car.RemoveObserver(this, new NSString("name"));
-//			car.RemoveObserver(this, new NSString("expectedRaise"));
-//		}
-//
-//		[Export("changeKeyPath:ofObject:toValue:")]
-//		public void ChangeKeyPathOfObjectToValue(NSObject o)
-//		{
-//			NSString keyPath = ((NSArray)o).GetItem<NSString>(0);
-//			NSObject obj = ((NSArray)o).GetItem<NSObject>(1);
-//			NSObject newValue = ((NSArray)o).GetItem<NSObject>(2);
-//			// setValue:forKeyPath: will cause the key-value observing method
-//			// to be called, which takes care of the undo stuff
-//			if (newValue.DebugDescription != "<null>")
-//				obj.SetValueForKeyPath(newValue, keyPath);
-//			else
-//				obj.SetValueForKeyPath(new NSString("New Person"), keyPath);
-//		}
-//
-//		[Export("observeValueForKeyPath:ofObject:change:context:")]
-//		public void ObserveValueForKeyPath(NSString keyPath, NSObject obj, NSDictionary change, IntPtr context)
-//		{
-//			if (context != this.Handle) {
-//				// If the context does not match, this message
-//				// must be intended for our superclass
-//				base.ObserveValue(keyPath, obj, change, context);
-//				return;
-//			}
-//
-//			NSUndoManager undo = this.UndoManager;
-//			NSObject oldValue = change.ObjectForKey(ChangeOldKey);
-//
-//			// NSNull objects are used to represent nil in a dictinoary
-//			if (oldValue == NSNull.Null) {
-//				oldValue = null;
-//			}
-//			Console.WriteLine("oldValue = {0}", oldValue);
-//			NSArray args = NSArray.FromObjects(new object[]{keyPath, obj, oldValue});
-//			undo.RegisterUndoWithTarget(this, new Selector("changeKeyPath:ofObject:toValue:"), args);
-//			undo.SetActionname("Edit");
-//
-//			// Sort if necessary
-//			arrayController.RearrangeObjects();
-//
-//			// Keep the row selected.
-//			// Without this, the row is selected in gray (tableView loses focus) and the arrow keys don't work to navigate to other items
-//			// and the return key does not trigger editing of the item again.
-//			tableView.EditColumn(0, tableView.SelectedRow, null, false);
-//		}
+			NSMutableArray newArray = null;
+			try {
+				newArray = (NSMutableArray)NSKeyedUnarchiver.UnarchiveObject(data);
+			}
+			catch (Exception ex) {
+				Console.WriteLine("Error loading file: Exception: {0}", ex.Message);
+				if (outError != null) {
+					NSDictionary d = NSDictionary.FromObjectAndKey(new NSString("The data is corrupted."), NSError.LocalizedFailureReasonErrorKey);
+					outError = NSError.FromDomain(NSError.OsStatusErrorDomain, -4, d);
+				}
+				return false;
+			}
+			this.Cars = newArray;
+			return true;
+        }
 		#endregion
 
 		#region - Actions
@@ -164,15 +123,196 @@ namespace CarLot
 		{
 			for (int i = 0; i < Cars.Count; i++) {
 				Car car = Cars.GetItem<Car>(i);
-				Console.WriteLine("Cars MakeModel: {0}, Price: {1:C2}, OnSpecial: {2}, Condition: {3}, Date Purchased {4}", car.MakeModel, car.Price, car.OnSpecial, car.Condition, car.DatePurchased.DescriptionWithLocale(NSLocale.CurrentLocale));
+				Console.WriteLine("Cars MakeModel: {0}, Price: {1:C2}, OnSpecial: {2}, Condition: {3}, Date Purchased {4}, Photo: {5}", car.MakeModel, car.Price, car.OnSpecial, car.Condition, car.DatePurchased.DescriptionWithLocale(NSLocale.CurrentLocale), car.Photo);
 			}
 			Console.WriteLine("****************************");
 			NSObject[] arrObjects = arrayController.ArrangedObjects();
 			foreach (NSObject obj in arrObjects) {
 				Car car = (Car)obj;
-				Console.WriteLine("ACon MakeModel: {0}, Price: {1:C2}, OnSpecial: {2}, Condition: {3}, Date Purchased {4}", car.MakeModel, car.Price, car.OnSpecial, car.Condition, car.DatePurchased.DescriptionWithLocale(NSLocale.CurrentLocale));
+				Console.WriteLine("ACon MakeModel: {0}, Price: {1:C2}, OnSpecial: {2}, Condition: {3}, Date Purchased {4}, Photo: {5}", car.MakeModel, car.Price, car.OnSpecial, car.Condition, car.DatePurchased.DescriptionWithLocale(NSLocale.CurrentLocale), car.Photo);
 			}
 			Console.WriteLine("****************************");
+		}
+
+		partial void btnCreateCar (MonoMac.Foundation.NSObject sender)
+		{
+			NSWindow w = tableView.Window;
+
+			// try to end any editing that is taking place
+			bool editingEnded = w.MakeFirstResponder(w);
+			if (!editingEnded) {
+				Console.WriteLine("Unable to end editing");
+				return;
+			}
+
+			NSUndoManager undo = this.UndoManager;
+
+			// Has an edit occurred already in this event?
+			if (undo.GroupingLevel > 0) {
+				// Close the last group
+				undo.EndUndoGrouping();
+				// Open a new group
+				undo.BeginUndoGrouping();
+			}
+
+			// Create the object
+			// Should be able to do arrayController.NewObject, but it returns an NSObjectController
+			// not an NSObject and also causes an InvalidCastException
+			//			var p = arrayController.NewObject;
+			// Plus I can't figure out how to get the Person object from that.
+			// Creating my own Person object instead
+			Car c = new Car();
+
+			// Add it to the content array of arrayController
+			arrayController.AddObject(c);
+
+			// Re-sort (in case the user has sorted a column)
+			arrayController.RearrangeObjects();
+
+			// Get the sorted array
+			NSArray a = NSArray.FromNSObjects(arrayController.ArrangedObjects());
+
+			// Find the object just added
+			int row = -1;
+			for (int i = 0; i < a.Count; i++) {
+				if (c == a.GetItem<Car>(i)) {
+					row = i;
+					break;
+				}
+			}
+			Console.WriteLine("Starting edit of {0} in row {1}", c, row);
+
+			// Begin the edit of the first column
+			tableView.EditColumn(0, row, null, true);
+		}
+		#endregion
+
+		#region - Key Observing
+		[Export("startObservingCar:")]
+		public void StartObservingCar(Car car)
+		{
+			car.AddObserver(this, new NSString("makeModel"), NSKeyValueObservingOptions.Old, this.Handle);
+			car.AddObserver(this, new NSString("datePurchased"), NSKeyValueObservingOptions.Old, this.Handle);
+			car.AddObserver(this, new NSString("condition"), NSKeyValueObservingOptions.Old, this.Handle);
+			car.AddObserver(this, new NSString("onSpecial"), NSKeyValueObservingOptions.Old, this.Handle);
+			car.AddObserver(this, new NSString("price"), NSKeyValueObservingOptions.Old, this.Handle);
+			car.AddObserver(this, new NSString("photo"), NSKeyValueObservingOptions.Old, this.Handle);
+		}
+
+		[Export("stopObservingPerson:")]
+		public void StopObservingCar(Car car)
+		{
+			car.RemoveObserver(this, new NSString("makeModel"));
+			car.RemoveObserver(this, new NSString("datePurchased"));
+			car.RemoveObserver(this, new NSString("condition"));
+			car.RemoveObserver(this, new NSString("onSpecial"));
+			car.RemoveObserver(this, new NSString("price"));
+			car.RemoveObserver(this, new NSString("photo"));
+		}
+
+		[Export("changeKeyPath:ofObject:toValue:")]
+		public void ChangeKeyPathOfObjectToValue(NSObject o)
+		{
+			NSString keyPath = ((NSArray)o).GetItem<NSString>(0);
+			NSObject obj = ((NSArray)o).GetItem<NSObject>(1);
+			NSObject newValue = ((NSArray)o).GetItem<NSObject>(2);
+			// setValue:forKeyPath: will cause the key-value observing method
+			// to be called, which takes care of the undo stuff
+			if (newValue.DebugDescription != "<null>")
+				obj.SetValueForKeyPath(newValue, keyPath);
+			else
+				obj.SetValueForKeyPath(new NSString("New Car"), keyPath);
+		}
+
+		[Export("observeValueForKeyPath:ofObject:change:context:")]
+		public void ObserveValueForKeyPath(NSString keyPath, NSObject obj, NSDictionary change, IntPtr context)
+		{
+			if (context != this.Handle) {
+				// If the context does not match, this message
+				// must be intended for our superclass
+				base.ObserveValue(keyPath, obj, change, context);
+				return;
+			}
+
+			NSUndoManager undo = this.UndoManager;
+			NSObject oldValue = change.ObjectForKey(ChangeOldKey);
+
+			// NSNull objects are used to represent nil in a dictinoary
+			if (oldValue == NSNull.Null) {
+				oldValue = null;
+			}
+			Console.WriteLine("oldValue = {0}", oldValue);
+			NSArray args = NSArray.FromObjects(new object[]{keyPath, obj, oldValue});
+			undo.RegisterUndoWithTarget(this, new Selector("changeKeyPath:ofObject:toValue:"), args);
+			undo.SetActionname("Edit");
+
+			// Sort if necessary
+			arrayController.RearrangeObjects();
+
+			// Keep the row selected.
+			// Without this, the row is selected in gray (tableView loses focus) and the arrow keys don't work to navigate to other items
+			// and the return key does not trigger editing of the item again.
+			/// TODO: OOPS does not work in a view based tableview - causes stackoverflow as this method gets called infinitely.
+//			tableView.EditColumn(0, tableView.SelectedRow, null, false);
+		}
+		#endregion
+
+		#region - ArrayController methods
+		[Export("insertObject:inCarsAtIndex:")]
+		public void InsertObjectInCarsAtIndex(Car c, int index)
+		{
+			NSUndoManager undo = this.UndoManager;
+			Console.WriteLine("Adding {0} to {1}", c, Cars);
+			// Add the inverse of this operation to the undo stack
+			NSArray args = NSArray.FromObjects(new object[]{c, new NSNumber(index)});
+			undo.RegisterUndoWithTarget(this, new Selector("undoAdd:"), args);
+			if (!undo.IsUndoing) {
+				undo.SetActionname("Add Car");
+			}
+			// Add the car to the array
+			this.StartObservingCar(c);
+			Cars.Insert(c, index);
+		}
+
+		[Export("removeObjectFromCarsAtIndex:")]
+		public void RemoveObjectFromCarsAtIndex(int index)
+		{
+			NSUndoManager undo = this.UndoManager;
+			Car c = Cars.GetItem<Car>(index);
+			Console.WriteLine("Removing {0} from {1}", c, Cars);
+			// Add the inverse of this operation to the undo stack
+			NSArray args = NSArray.FromObjects(new object[]{c, new NSNumber(index)});
+			undo.RegisterUndoWithTarget(this, new Selector("undoRemove:"), args);
+			if (!undo.IsUndoing) {
+				undo.SetActionname("Remove Car");
+			}
+			// Remove the person from the array
+			this.StopObservingCar(c);
+			Cars.RemoveObject(index);
+		}
+
+		[Export("undoAdd:")]
+		public void UndoAdd(NSObject o)
+		{
+			Car c = ((NSArray)o).GetItem<Car>(0);
+
+			Console.WriteLine("Undoing Add person");
+
+			// Tell the array controller to remove the person, not the object at index with removeAt(i.ToInt32);
+			arrayController.RemoveObject(c);
+		}
+
+		[Export("undoRemove:")]
+		public void UndoRemove(NSObject o)
+		{
+			Car c = ((NSArray)o).GetItem<Car>(0);
+			NSNumber i = ((NSArray)o).GetItem<NSNumber>(1);
+
+			Console.WriteLine("Undoing Remove person");
+
+			// Tell the arrayController to insert the person and sort if necessary
+			arrayController.Insert(c, i.Int32Value);
+			arrayController.RearrangeObjects();
 		}
 		#endregion
     }
