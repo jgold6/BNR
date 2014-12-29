@@ -288,7 +288,7 @@
 											<string key="NSFrameSize">{521, 126}</string>
 											<reference key="NSSuperview" ref="727438866"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="262654200"/>
+											<reference key="NSNextKeyView" ref="993862661"/>
 											<string key="NSReuseIdentifierKey">_NS:13</string>
 											<bool key="NSEnabled">YES</bool>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -514,7 +514,7 @@
 							<string key="NSFrame">{{20, 273}, {523, 144}}</string>
 							<reference key="NSSuperview" ref="21739532"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="993862661"/>
+							<reference key="NSNextKeyView" ref="727438866"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSsFlags">133682</int>
 							<reference key="NSVScroller" ref="435618063"/>
@@ -616,7 +616,7 @@
 										<object class="NSDatePicker" id="661618351">
 											<reference key="NSNextResponder" ref="9399259"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{125, 153}, {104, 27}}</string>
+											<string key="NSFrame">{{125, 153}, {118, 27}}</string>
 											<reference key="NSSuperview" ref="9399259"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="783427866"/>
@@ -625,31 +625,8 @@
 											<object class="NSDatePickerCell" key="NSCell" id="226839294">
 												<int key="NSCellFlags">71303168</int>
 												<int key="NSCellFlags2">0</int>
-												<object class="NSCalendarDate" key="NSContents">
+												<object class="NSDate" key="NSContents">
 													<double key="NS.time">-595929600</double>
-													<object class="NSTimeZone" key="NS.timezone">
-														<string key="NS.name">US/Pacific</string>
-														<object class="NSMutableData" key="NS.data">
-															<bytes key="NS.bytes">VFppZgAAAAAAAAAAAAAAAAAAAAAAAAAEAAAABAAAAAAAAAC5AAAABAAAABCepkign7sVkKCGKqChmveQ
-y4kaoNIj9HDSYSYQ1v50INiArZDa/tGg28CQENzes6DdqayQ3r6VoN+JjpDgnneg4WlwkOJ+WaDjSVKQ
-5F47oOUpNJDmR1gg5xJREOgnOiDo8jMQ6gccIOrSFRDr5v4g7LH3EO3G4CDukdkQ76/8oPBxuxDxj96g
-8n/BkPNvwKD0X6OQ9U+ioPY/hZD3L4Sg+CiiEPkPZqD6CIQQ+viDIPvoZhD82GUg/chIEP64RyD/qCoQ
-AJgpIAGIDBACeAsgA3EokARhJ6AFUQqQBkEJoAcw7JAHjUOgCRDOkAmtvyAK8LCQC+CvoAzZzRANwJGg
-DrmvEA+priAQmZEQEYmQIBJ5cxATaXIgFFlVEBVJVCAWOTcQFyk2IBgiU5AZCRggGgI1kBryNKAb4heQ
-HNIWoB3B+ZAesfigH6HbkCB2KyAhgb2QIlYNICNq2hAkNe8gJUq8ECYV0SAnKp4QJ/7toCkKgBAp3s+g
-KupiECu+saAs036QLZ6ToC6zYJAvfnWgMJNCkDFnkiAycySQM0d0IDRTBpA1J1YgNjLokDcHOCA4HAUQ
-OOcaIDn75xA6xvwgO9vJEDywGKA9u6sQPo/6oD+bjRBAb9ygQYSpkEJPvqBDZIuQRC+goEVEbZBF89Mg
-Ry2KEEfTtSBJDWwQSbOXIErtThBLnLOgTNZqkE18laBOtkyQT1x3oFCWLpBRPFmgUnYQkFMcO6BUVfKQ
-VPwdoFY11JBW5TogWB7xEFjFHCBZ/tMQWqT+IFvetRBchOAgXb6XEF5kwiBfnnkQYE3eoGGHlZBiLcCg
-Y2d3kGQNoqBlR1mQZe2EoGcnO5BnzWagaQcdkGmtSKBq5v+Qa5ZlIGzQHBBtdkcgbq/+EG9WKSBwj+AQ
-cTYLIHJvwhBzFe0gdE+kEHT/CaB2OMCQdt7roHgYopB4vs2gefiEkHqer6B72GaQfH6RoH24SJB+XnOg
-f5gqkAABAAECAwEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEA
-AQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEA
-AQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEA
-AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</bytes>
-														</object>
-													</object>
-													<string key="NS.format">%Y-%m-%d %H:%M:%S %z</string>
 												</object>
 												<reference key="NSSupport" ref="815347348"/>
 												<string key="NSCellIdentifier">_NS:9</string>
@@ -687,7 +664,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 										<object class="NSLevelIndicator" id="358536360">
 											<reference key="NSNextResponder" ref="9399259"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{88, 127}, {138, 13}}</string>
+											<string key="NSFrame">{{88, 127}, {138, 17}}</string>
 											<reference key="NSSuperview" ref="9399259"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="846961452"/>
@@ -702,6 +679,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 												<double key="NSMaxValue">5</double>
 												<double key="NSWarningValue">2</double>
 												<double key="NSCriticalValue">2</double>
+												<int key="NSNumberOfTickMarks">6</int>
 												<int key="NSIndicatorStyle">3</int>
 											</object>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -720,7 +698,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 											<string key="NSFrame">{{245, 11}, {291, 165}}</string>
 											<reference key="NSSuperview" ref="9399259"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView"/>
 											<string key="NSReuseIdentifierKey">_NS:9</string>
 											<string key="NSHuggingPriority">{251, 251}</string>
 											<bool key="NSEnabled">YES</bool>

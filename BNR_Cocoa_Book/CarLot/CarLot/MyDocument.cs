@@ -220,8 +220,12 @@ namespace CarLot
 			// to be called, which takes care of the undo stuff
 			if (newValue.DebugDescription != "<null>")
 				obj.SetValueForKeyPath(newValue, keyPath);
-			else
-				obj.SetValueForKeyPath(new NSString("New Car"), keyPath);
+			else {
+				if (keyPath.ToString() == "makeModel")
+					obj.SetValueForKeyPath(new NSString(""), keyPath);
+				else if (keyPath.ToString() == "photo")
+					obj.SetValueForKeyPath(new NSImage(), keyPath);
+			}
 		}
 
 		[Export("observeValueForKeyPath:ofObject:change:context:")]

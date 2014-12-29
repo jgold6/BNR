@@ -35,7 +35,7 @@ namespace CarLot
 			Price = 0.0f;
 			DatePurchased = NSDate.Now;
 			OnSpecial = false;
-			Condition = 3;
+			Condition = 0;
 		}
 
 		[Export("initWithCoder:")]
