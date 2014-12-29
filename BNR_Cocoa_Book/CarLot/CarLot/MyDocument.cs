@@ -251,7 +251,8 @@ namespace CarLot
 			undo.SetActionname("Edit");
 
 			// Sort if necessary
-			arrayController.RearrangeObjects();
+			// Not sorting avoids problem discussed in next comment
+//			arrayController.RearrangeObjects();
 
 			// Keep the row selected.
 			// Without this, the row is selected in gray (tableView loses focus) and the arrow keys don't work to navigate to other items
