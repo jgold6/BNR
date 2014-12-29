@@ -252,12 +252,23 @@ namespace CarLot
 
 			// Sort if necessary
 			// Not sorting avoids problem discussed in next comment
+			//
+			/// TODO: figure out how to sort after an edit AND hold onto the selection.
+			/// Tried subclassing the NSTextField cell and creating a reference outlet to the arrayController
+			/// But this outlet was always null. Need an outlet collection?
+			/// However it did work properly when I did make a static property holding the array controller that I could
+			/// access via an NSTextField cell subclass. Problem here was when multiple documents were open, 
+			/// as it can only reference one array controller at a time.
+			/// 
+			/// OK, setting AutoRearrangeContent on the arrayController does the sort automatically after an edit
+			/// but the item is then once again unfocused.
 //			arrayController.RearrangeObjects();
 
 			// Keep the row selected.
 			// Without this, the row is selected in gray (tableView loses focus) and the arrow keys don't work to navigate to other items
 			// and the return key does not trigger editing of the item again.
-			/// TODO: OOPS does not work in a view based tableview - causes stackoverflow as this method gets called infinitely.
+			/// TODO: Oops - does not work in a view based table view, 
+			/// causes stack overflow as this method (ObserveValueForKeyPath) gets called infinitely.
 //			tableView.EditColumn(0, tableView.SelectedRow, null, false);
 		}
 		#endregion
@@ -301,7 +312,7 @@ namespace CarLot
 		{
 			Car c = ((NSArray)o).GetItem<Car>(0);
 
-			Console.WriteLine("Undoing Add person");
+			Console.WriteLine("Undoing Add car");
 
 			// Tell the array controller to remove the person, not the object at index with removeAt(i.ToInt32);
 			arrayController.RemoveObject(c);
@@ -313,7 +324,7 @@ namespace CarLot
 			Car c = ((NSArray)o).GetItem<Car>(0);
 			NSNumber i = ((NSArray)o).GetItem<NSNumber>(1);
 
-			Console.WriteLine("Undoing Remove person");
+			Console.WriteLine("Undoing Remove car");
 
 			// Tell the arrayController to insert the person and sort if necessary
 			arrayController.Insert(c, i.Int32Value);

@@ -6,6 +6,7 @@
 //
 using MonoMac.Foundation;
 using System.CodeDom.Compiler;
+using MonoMac.AppKit;
 
 namespace CarLot
 {
@@ -23,7 +24,7 @@ namespace CarLot
 
 		[Action ("btnCreateCar:")]
 		partial void btnCreateCar (MonoMac.Foundation.NSObject sender);
-
+		
 		void ReleaseDesignerOutlets ()
 		{
 			if (arrayController != null) {

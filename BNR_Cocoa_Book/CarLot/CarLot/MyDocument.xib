@@ -546,7 +546,7 @@
 								<int key="NSButtonFlags">-2038284288</int>
 								<int key="NSButtonFlags2">268435585</int>
 								<string key="NSAlternateContents"/>
-								<string key="NSKeyEquivalent">n</string>
+								<string key="NSKeyEquivalent">N</string>
 								<int key="NSPeriodicDelay">200</int>
 								<int key="NSPeriodicInterval">25</int>
 							</object>
@@ -935,14 +935,6 @@
 						<reference key="destination" ref="771067837"/>
 					</object>
 					<int key="connectionID">35</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">textField</string>
-						<reference key="source" ref="262654200"/>
-						<reference key="destination" ref="140550539"/>
-					</object>
-					<int key="connectionID">36</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1501,7 +1493,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">137</int>
+			<int key="maxID">141</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
