@@ -148,10 +148,6 @@ namespace RaiseMan
 
 		partial void createEmployee (MonoMac.Foundation.NSObject sender)
 		{
-			// try to end any editing that is taking place
-			if (!StopEditing())
-				return;
-
 			NSUndoManager undo = this.UndoManager;
 			// Has an edit occurred already in this event?
 			if (undo.GroupingLevel > 0) {
@@ -167,9 +163,7 @@ namespace RaiseMan
 			// Undo add
 			NSArray args = NSArray.FromObjects(new object[]{newEmployee});
 			undo.RegisterUndoWithTarget(this, new Selector("undoAdd:"), args);
-			if (!undo.IsUndoing) {
-				undo.SetActionname("Add Person");
-			}
+			undo.SetActionname("Add Person");
 
 			Employees.Add(newEmployee);
 			StartObservingPerson(newEmployee);
@@ -212,9 +206,7 @@ namespace RaiseMan
 				int index = Employees.IndexOf(p);
 				NSArray args = NSArray.FromObjects(new object[]{p, new NSNumber(index)});
 				undo.RegisterUndoWithTarget(this, new Selector("undoRemove:"), args);
-				if (!undo.IsUndoing) {
-					undo.SetActionname("Remove Person");
-				}
+				undo.SetActionname("Remove Person");
 
 				StopObservingPerson(p);
 				Employees.Remove(p);
@@ -240,22 +232,23 @@ namespace RaiseMan
 			NSUndoManager undo = this.UndoManager;
 			NSArray args = NSArray.FromObjects(new object[]{p, new NSNumber(index)});
 			undo.RegisterUndoWithTarget(this, new Selector("undoRemove:"), args);
-			if (!undo.IsUndoing) {
-				undo.SetActionname("Remove Person");
-			}
 
 			StopObservingPerson(p);
+			// have to push any previous selections that are after this up one
+			for (int i = index; i < Employees.Count; i++) {
+				if (tableView.IsRowSelected(i)) {
+					tableView.DeselectRow(i);
+					tableView.SelectRow(i-1, true);
+				}
+			}
 			Employees.Remove(p);
 			tableView.ReloadData();
-			tableView.DeselectAll(this);
 		}
 
 		[Export("undoRemove:")]
 		public void UndoRemove(NSObject o)
 		{
-			// try to end any editing that is taking place
-			if (!StopEditing())
-				return;
+			NSIndexSet selections = tableView.SelectedRows;
 
 			Person p = ((NSArray)o).GetItem<Person>(0);
 			NSNumber index = ((NSArray)o).GetItem<NSNumber>(1);
@@ -266,23 +259,22 @@ namespace RaiseMan
 			NSUndoManager undo = this.UndoManager;
 			NSArray args = NSArray.FromObjects(new object[]{p});
 			undo.RegisterUndoWithTarget(this, new Selector("undoAdd:"), args);
-			if (!undo.IsUndoing) {
-				undo.SetActionname("Add Person");
-			}
+
 			StartObservingPerson(p);
 			Employees.Insert(index.Int32Value, p);
-			/// TODO: Select all re-added rows 
-			// have to push any previous selections that are after this up one
-//			for (int i = index.Int32Value; i < Employees.Count; i++) {
-//				if (tableView.IsRowSelected(i)) {
-//					tableView.DeselectRow(i);
-//					tableView.SelectRow(i+1, true);
-//				}
-//			}
-//			tableView.SelectRow(index.Int32Value, true);
-			tableView.DeselectAll(this);
-			SortData(tableView.SortDescriptors);
 			tableView.ReloadData();
+			// have to push any previous selections that are after this up one
+			for (int i = Employees.Count-1; i > index.Int32Value; i--) {
+				if (tableView.IsRowSelected(i-1)) {
+					tableView.DeselectRow(i-1);
+					tableView.SelectRow(i, true);
+				}
+			}
+			// Uncomment to reselect added rows. However I decided that maintaining the current selection is more important
+			// So as not to change the items the user has selected. 
+//			tableView.SelectRow(index.Int32Value, true);
+
+			SortData(tableView.SortDescriptors);
 		}
 
 		[Export("changeKeyPath:ofObject:toValue:")]
