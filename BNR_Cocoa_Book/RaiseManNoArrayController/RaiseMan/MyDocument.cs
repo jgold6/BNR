@@ -179,11 +179,14 @@ namespace RaiseMan
 			Console.WriteLine("Starting edit of {0} in row {1}", newEmployee, row);
 
 			// Begin the edit of the first column
+			tableView.SelectRow(row, false);
 			tableView.EditColumn(0, row, null, true);
 		}
 
 		partial void deleteSelectedEmployees (MonoMac.Foundation.NSObject sender)
 		{
+			if (!StopEditing())
+				return;
 			// Which row(s) are selected?
 			NSIndexSet rows = tableView.SelectedRows;
 
@@ -217,6 +220,7 @@ namespace RaiseMan
 				Employees.Remove(p);
 			}
 			tableView.ReloadData();
+			tableView.DeselectAll(this);
 		}
 		#endregion
 
@@ -243,6 +247,7 @@ namespace RaiseMan
 			StopObservingPerson(p);
 			Employees.Remove(p);
 			tableView.ReloadData();
+			tableView.DeselectAll(this);
 		}
 
 		[Export("undoRemove:")]
@@ -266,9 +271,17 @@ namespace RaiseMan
 			}
 			StartObservingPerson(p);
 			Employees.Insert(index.Int32Value, p);
-			if (tableView.SortDescriptors.Count() > 0) {
-				SortData(tableView.SortDescriptors);
-			}
+			/// TODO: Select all re-added rows 
+			// have to push any previous selections that are after this up one
+//			for (int i = index.Int32Value; i < Employees.Count; i++) {
+//				if (tableView.IsRowSelected(i)) {
+//					tableView.DeselectRow(i);
+//					tableView.SelectRow(i+1, true);
+//				}
+//			}
+//			tableView.SelectRow(index.Int32Value, true);
+			tableView.DeselectAll(this);
+			SortData(tableView.SortDescriptors);
 			tableView.ReloadData();
 		}
 
@@ -369,18 +382,33 @@ namespace RaiseMan
 
 		#region - Helper methods
 		public void SortData(NSSortDescriptor[] descriptors) {
-			NSSortDescriptor descriptor = descriptors[0];
-			if (descriptor.Key == "name") {
-				if (descriptor.Ascending)
-					_employees.Sort((emp1, emp2)=>emp1.Name.ToLower().CompareTo(emp2.Name.ToLower()));
-				else
-					_employees.Sort((emp1, emp2)=>emp2.Name.ToLower().CompareTo(emp1.Name.ToLower()));
+			NSIndexSet selections = tableView.SelectedRows;
+			// Get a list of people to be removed
+			List<Person> selectedPersons = new List<Person>();
+			for (int i = 0; i < selections.Count; i++) {
+				int index = (int)selections.ElementAt(i);
+				Person p = Employees[index];
+				selectedPersons.Add(p);
 			}
-			else if (descriptor.Key == "expectedRaise") {
-				if (descriptor.Ascending)
-					_employees.Sort((emp1, emp2)=>emp1.ExpectedRaise.CompareTo(emp2.ExpectedRaise));
-				else
-					_employees.Sort((emp1, emp2)=>emp2.ExpectedRaise.CompareTo(emp1.ExpectedRaise));
+			if (descriptors.Count<NSSortDescriptor>() > 0) {
+				NSSortDescriptor descriptor = descriptors[0];
+				if (descriptor.Key == "name") {
+					if (descriptor.Ascending)
+						_employees.Sort((emp1, emp2)=>emp1.Name.ToLower().CompareTo(emp2.Name.ToLower()));
+					else
+						_employees.Sort((emp1, emp2)=>emp2.Name.ToLower().CompareTo(emp1.Name.ToLower()));
+				}
+				else if (descriptor.Key == "expectedRaise") {
+					if (descriptor.Ascending)
+						_employees.Sort((emp1, emp2)=>emp1.ExpectedRaise.CompareTo(emp2.ExpectedRaise));
+					else
+						_employees.Sort((emp1, emp2)=>emp2.ExpectedRaise.CompareTo(emp1.ExpectedRaise));
+				}
+			}
+
+			tableView.DeselectAll(this);
+			foreach (Person p in selectedPersons) {
+				tableView.SelectRow(Employees.IndexOf(p), true);
 			}
 		}
 
