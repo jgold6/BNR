@@ -146,16 +146,11 @@ namespace RaiseMan
 			}
 		}
 
-		// TODO: Set up undo
 		partial void createEmployee (MonoMac.Foundation.NSObject sender)
 		{
-			NSWindow w = tableView.Window;
 			// try to end any editing that is taking place
-			bool editingEnded = w.MakeFirstResponder(w);
-			if (!editingEnded) {
-				Console.WriteLine("Unable to end editing");
+			if (!StopEditing())
 				return;
-			}
 
 			NSUndoManager undo = this.UndoManager;
 			// Has an edit occurred already in this event?
@@ -198,14 +193,20 @@ namespace RaiseMan
 				return;
 			}
 
+			// Get a list of people to be removed
+			List<Person> removedPersons = new List<Person>();
 			NSUndoManager undo = this.UndoManager;
-			undo.BeginUndoGrouping();
 			for (int i = 0; i < rows.Count; i++) {
 				int index = (int)rows.ElementAt(i);
 				Person p = Employees[index];
-				Console.WriteLine("Removing {0} from {1}", p, Employees);
+				removedPersons.Add(p);
+			}
 
+			// remove each Person and add to the undo stack
+			foreach(Person p in removedPersons) {
+				Console.WriteLine("Removing {0} from {1}", p, Employees);
 				// Add the inverse of this operation to the undo stack
+				int index = Employees.IndexOf(p);
 				NSArray args = NSArray.FromObjects(new object[]{p, new NSNumber(index)});
 				undo.RegisterUndoWithTarget(this, new Selector("undoRemove:"), args);
 				if (!undo.IsUndoing) {
@@ -213,9 +214,8 @@ namespace RaiseMan
 				}
 
 				StopObservingPerson(p);
-				Employees.RemoveAt(index);
+				Employees.Remove(p);
 			}
-			undo.EndUndoGrouping();
 			tableView.ReloadData();
 		}
 		#endregion
@@ -224,13 +224,9 @@ namespace RaiseMan
 		[Export("undoAdd:")]
 		public void UndoAdd(NSObject o)
 		{
-			NSWindow w = tableView.Window;
 			// try to end any editing that is taking place
-			bool editingEnded = w.MakeFirstResponder(w);
-			if (!editingEnded) {
-				Console.WriteLine("Unable to end editing");
+			if (!StopEditing())
 				return;
-			}
 
 			Person p = ((NSArray)o).GetItem<Person>(0);
 			int index = Employees.IndexOf(p);
@@ -243,7 +239,8 @@ namespace RaiseMan
 			if (!undo.IsUndoing) {
 				undo.SetActionname("Remove Person");
 			}
-				
+
+			StopObservingPerson(p);
 			Employees.Remove(p);
 			tableView.ReloadData();
 		}
@@ -251,13 +248,9 @@ namespace RaiseMan
 		[Export("undoRemove:")]
 		public void UndoRemove(NSObject o)
 		{
-			NSWindow w = tableView.Window;
 			// try to end any editing that is taking place
-			bool editingEnded = w.MakeFirstResponder(w);
-			if (!editingEnded) {
-				Console.WriteLine("Unable to end editing");
+			if (!StopEditing())
 				return;
-			}
 
 			Person p = ((NSArray)o).GetItem<Person>(0);
 			NSNumber index = ((NSArray)o).GetItem<NSNumber>(1);
@@ -271,24 +264,10 @@ namespace RaiseMan
 			if (!undo.IsUndoing) {
 				undo.SetActionname("Add Person");
 			}
-				
+			StartObservingPerson(p);
 			Employees.Insert(index.Int32Value, p);
 			if (tableView.SortDescriptors.Count() > 0) {
-				NSSortDescriptor[] newDescriptors = tableView.SortDescriptors;
-
-				NSSortDescriptor descriptor = newDescriptors[0];
-				if (descriptor.Key == "name") {
-					if (descriptor.Ascending)
-						_employees.Sort((emp1, emp2)=>emp1.Name.ToLower().CompareTo(emp2.Name.ToLower()));
-					else
-						_employees.Sort((emp1, emp2)=>emp2.Name.ToLower().CompareTo(emp1.Name.ToLower()));
-				}
-				else if (descriptor.Key == "expectedRaise") {
-					if (descriptor.Ascending)
-						_employees.Sort((emp1, emp2)=>emp1.ExpectedRaise.CompareTo(emp2.ExpectedRaise));
-					else
-						_employees.Sort((emp1, emp2)=>emp2.ExpectedRaise.CompareTo(emp1.ExpectedRaise));
-				}
+				SortData(tableView.SortDescriptors);
 			}
 			tableView.ReloadData();
 		}
@@ -383,9 +362,14 @@ namespace RaiseMan
 		[Export("tableView:sortDescriptorsDidChange:")]
 		public void SortDescriptorsChanged(NSTableView tableView, NSSortDescriptor[] oldDescriptors)
 		{
-			NSSortDescriptor[] newDescriptors = tableView.SortDescriptors;
+			SortData(tableView.SortDescriptors);
+			tableView.ReloadData();
+		}
+		#endregion
 
-			NSSortDescriptor descriptor = newDescriptors[0];
+		#region - Helper methods
+		public void SortData(NSSortDescriptor[] descriptors) {
+			NSSortDescriptor descriptor = descriptors[0];
 			if (descriptor.Key == "name") {
 				if (descriptor.Ascending)
 					_employees.Sort((emp1, emp2)=>emp1.Name.ToLower().CompareTo(emp2.Name.ToLower()));
@@ -398,7 +382,17 @@ namespace RaiseMan
 				else
 					_employees.Sort((emp1, emp2)=>emp2.ExpectedRaise.CompareTo(emp1.ExpectedRaise));
 			}
-			tableView.ReloadData();
+		}
+
+		public bool StopEditing()
+		{
+			NSWindow w = tableView.Window;
+			// try to end any editing that is taking place
+			bool editingEnded = w.MakeFirstResponder(w);
+			if (!editingEnded) {
+				Console.WriteLine("Unable to end editing");
+			}
+			return editingEnded;
 		}
 		#endregion
     }
