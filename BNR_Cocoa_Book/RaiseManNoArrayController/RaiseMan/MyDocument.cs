@@ -104,7 +104,6 @@ namespace RaiseMan
 			// Default template code
 //			outError = NSError.FromDomain(NSError.OsStatusErrorDomain, -4);
 //			return null;
-
         }
         
         //
@@ -207,7 +206,7 @@ namespace RaiseMan
 				Console.WriteLine("Removing {0} from {1}", p, Employees);
 
 				// Add the inverse of this operation to the undo stack
-				NSArray args = NSArray.FromObjects(new object[]{p});
+				NSArray args = NSArray.FromObjects(new object[]{p, new NSNumber(index)});
 				undo.RegisterUndoWithTarget(this, new Selector("undoRemove:"), args);
 				if (!undo.IsUndoing) {
 					undo.SetActionname("Remove Person");
@@ -234,12 +233,12 @@ namespace RaiseMan
 			}
 
 			Person p = ((NSArray)o).GetItem<Person>(0);
-
+			int index = Employees.IndexOf(p);
 			Console.WriteLine("Undoing Add person");
 
 			// Add the inverse of this operation to the undo stack
 			NSUndoManager undo = this.UndoManager;
-			NSArray args = NSArray.FromObjects(new object[]{p});
+			NSArray args = NSArray.FromObjects(new object[]{p, new NSNumber(index)});
 			undo.RegisterUndoWithTarget(this, new Selector("undoRemove:"), args);
 			if (!undo.IsUndoing) {
 				undo.SetActionname("Remove Person");
@@ -261,6 +260,7 @@ namespace RaiseMan
 			}
 
 			Person p = ((NSArray)o).GetItem<Person>(0);
+			NSNumber index = ((NSArray)o).GetItem<NSNumber>(1);
 
 			Console.WriteLine("Undoing Remove person");
 
@@ -272,7 +272,39 @@ namespace RaiseMan
 				undo.SetActionname("Add Person");
 			}
 				
-			Employees.Add(p);
+			Employees.Insert(index.Int32Value, p);
+			if (tableView.SortDescriptors.Count() > 0) {
+				NSSortDescriptor[] newDescriptors = tableView.SortDescriptors;
+
+				NSSortDescriptor descriptor = newDescriptors[0];
+				if (descriptor.Key == "name") {
+					if (descriptor.Ascending)
+						_employees.Sort((emp1, emp2)=>emp1.Name.ToLower().CompareTo(emp2.Name.ToLower()));
+					else
+						_employees.Sort((emp1, emp2)=>emp2.Name.ToLower().CompareTo(emp1.Name.ToLower()));
+				}
+				else if (descriptor.Key == "expectedRaise") {
+					if (descriptor.Ascending)
+						_employees.Sort((emp1, emp2)=>emp1.ExpectedRaise.CompareTo(emp2.ExpectedRaise));
+					else
+						_employees.Sort((emp1, emp2)=>emp2.ExpectedRaise.CompareTo(emp1.ExpectedRaise));
+				}
+			}
+			tableView.ReloadData();
+		}
+
+		[Export("changeKeyPath:ofObject:toValue:")]
+		public void ChangeKeyPathOfObjectToValue(NSObject o)
+		{
+			NSString keyPath = ((NSArray)o).GetItem<NSString>(0);
+			NSObject obj = ((NSArray)o).GetItem<NSObject>(1);
+			NSObject newValue = ((NSArray)o).GetItem<NSObject>(2);
+			// setValue:forKeyPath: will cause the key-value observing method
+			// to be called, which takes care of the undo stuff
+			if (newValue.DebugDescription != "<null>")
+				obj.SetValueForKeyPath(newValue, keyPath);
+			else
+				obj.SetValueForKeyPath(new NSString(""), keyPath);
 			tableView.ReloadData();
 		}
 		#endregion
@@ -290,21 +322,6 @@ namespace RaiseMan
 		{
 			person.RemoveObserver(this, new NSString("name"));
 			person.RemoveObserver(this, new NSString("expectedRaise"));
-		}
-
-		[Export("changeKeyPath:ofObject:toValue:")]
-		public void ChangeKeyPathOfObjectToValue(NSObject o)
-		{
-			NSString keyPath = ((NSArray)o).GetItem<NSString>(0);
-			NSObject obj = ((NSArray)o).GetItem<NSObject>(1);
-			NSObject newValue = ((NSArray)o).GetItem<NSObject>(2);
-			// setValue:forKeyPath: will cause the key-value observing method
-			// to be called, which takes care of the undo stuff
-			if (newValue.DebugDescription != "<null>")
-				obj.SetValueForKeyPath(newValue, keyPath);
-			else
-				obj.SetValueForKeyPath(new NSString(""), keyPath);
-			tableView.ReloadData();
 		}
 
 		[Export("observeValueForKeyPath:ofObject:change:context:")]
