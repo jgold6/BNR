@@ -15,6 +15,7 @@ namespace RaiseMan
         {
             // You can put any code here after your app launched.
         }
+
     }
 }
 
