@@ -23,6 +23,9 @@ namespace RaiseMan
 
 		[Action ("deleteSelectedEmployees:")]
 		partial void deleteSelectedEmployees (MonoMac.Foundation.NSObject sender);
+
+		[Action ("removeEmployee:")]
+		partial void removeEmployee (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

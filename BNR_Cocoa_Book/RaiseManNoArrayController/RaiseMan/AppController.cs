@@ -97,7 +97,7 @@ namespace RaiseMan
 		public override bool ApplicationShouldOpenUntitledFile(NSApplication sender)
 		{
 			Console.WriteLine("ApplicationShouldOpenUntitledFile called");
-			return PreferenceController.PreferenceEmptyDoc();
+			return PreferenceController.PreferenceEmptyDoc;
 		}
 
 		// Chapter 14 challenge

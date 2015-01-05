@@ -52,11 +52,12 @@ namespace RaiseMan
 			base.WindowDidLoad();
 			Console.WriteLine("Nib file is loaded");
 
-			colorWell.Color = PreferenceController.PreferenceTableBgColor();
-			checkBox.State = PreferenceController.PreferenceEmptyDoc() ? NSCellStateValue.On : NSCellStateValue.Off;
+			colorWell.Color = PreferenceController.PreferenceTableBgColor;
+			checkBox.State = PreferenceController.PreferenceEmptyDoc ? NSCellStateValue.On : NSCellStateValue.Off;
 
 			// Close color panel when preferences panel closes.
 			Window.WillClose += (object sender, EventArgs e) => {
+
 				Console.WriteLine("Preferences closed");
 				if (NSColorPanel.SharedColorPanelExists) {
 					NSColorPanel.SharedColorPanel.OrderOut(null);
@@ -71,7 +72,7 @@ namespace RaiseMan
 		{
 			NSColor color = colorWell.Color;
 			Console.WriteLine("Color preference changed: {0}", color);
-			PreferenceController.SetPreferenceTablebgColor(color);
+			PreferenceController.PreferenceTableBgColor = color;
 
 			NSNotificationCenter nc = NSNotificationCenter.DefaultCenter;
 			NSDictionary d = NSDictionary.FromObjectAndKey(color, DefaultStrings.RMColor);
@@ -83,14 +84,14 @@ namespace RaiseMan
 		{
 			NSCellStateValue state = checkBox.State;
 			Console.WriteLine("Checkbox changed: {0}", (state == NSCellStateValue.Off ? "off" : "on"));
-			PreferenceController.SetPreferenceEmptyDoc(state == NSCellStateValue.On ? true : false);
+			PreferenceController.PreferenceEmptyDoc = state == NSCellStateValue.On ? true : false;
 		}
 
 		partial void RestoreDefaults (MonoMac.Foundation.NSObject sender)
 		{
-			PreferenceController.SetPreferenceTablebgColor(NSColor.White);
+			PreferenceController.PreferenceTableBgColor = NSColor.White;
 			colorWell.Color = NSColor.White;
-			PreferenceController.SetPreferenceEmptyDoc(true);
+			PreferenceController.PreferenceEmptyDoc = true;
 			checkBox.State = NSCellStateValue.On;
 
 			// Notify open documents about this change of table view color
@@ -102,28 +103,26 @@ namespace RaiseMan
 		#endregion
 
 		#region - Get and set user defaults
-		public static NSColor PreferenceTableBgColor()
-		{
-			NSUserDefaults defaults = NSUserDefaults.StandardUserDefaults;
-			NSData colorAsData = (NSData)defaults.ValueForKey(DefaultStrings.RMTableBgColorKey);
-			return (NSColor)NSKeyedUnarchiver.UnarchiveObject(colorAsData);
+		public static NSColor PreferenceTableBgColor {
+			get {
+				NSUserDefaults defaults = NSUserDefaults.StandardUserDefaults;
+				NSData colorAsData = (NSData)defaults.ValueForKey(DefaultStrings.RMTableBgColorKey);
+				return (NSColor)NSKeyedUnarchiver.UnarchiveObject(colorAsData);
+			}
+			set {
+				NSData colorAsData = NSKeyedArchiver.ArchivedDataWithRootObject(value);
+				NSUserDefaults.StandardUserDefaults.SetValueForKey(colorAsData, DefaultStrings.RMTableBgColorKey);
+			}
 		}
 
-		public static void SetPreferenceTablebgColor(NSColor color)
-		{
-			NSData colorAsData = NSKeyedArchiver.ArchivedDataWithRootObject(color);
-			NSUserDefaults.StandardUserDefaults.SetValueForKey(colorAsData, DefaultStrings.RMTableBgColorKey);
-		}
-
-		public static bool PreferenceEmptyDoc()
-		{
-			NSUserDefaults defaults = NSUserDefaults.StandardUserDefaults;
-			return defaults.BoolForKey(DefaultStrings.RMEmptyDocKey);
-		}
-
-		public static void SetPreferenceEmptyDoc(bool emptyDoc)
-		{
-			NSUserDefaults.StandardUserDefaults.SetBool(emptyDoc, DefaultStrings.RMEmptyDocKey);
+		public static bool PreferenceEmptyDoc {
+			get {
+				NSUserDefaults defaults = NSUserDefaults.StandardUserDefaults;
+				return defaults.BoolForKey(DefaultStrings.RMEmptyDocKey);
+			}
+			set {
+				NSUserDefaults.StandardUserDefaults.SetBool(value, DefaultStrings.RMEmptyDocKey);
+			}
 		}
 		#endregion
     }

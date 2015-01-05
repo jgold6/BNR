@@ -99,5 +99,6 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <BundleResource Include="Resources\txt.icns" />
+    <BundleResource Include="Resources\Einstein.icns" />
   </ItemGroup>
 </Project>

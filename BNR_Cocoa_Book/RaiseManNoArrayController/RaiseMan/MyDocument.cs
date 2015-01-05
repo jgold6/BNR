@@ -86,7 +86,7 @@ namespace RaiseMan
 			tableView.WeakDataSource = this;
 			tableView.WeakDelegate = this;
 
-			tableView.BackgroundColor = PreferenceController.PreferenceTableBgColor();
+			tableView.BackgroundColor = PreferenceController.PreferenceTableBgColor;
         }
 
 		public override void ShouldCloseWindowController(NSWindowController windowController, NSObject delegateObject, Selector shouldCloseSelector, IntPtr contextInfo)
@@ -203,12 +203,6 @@ namespace RaiseMan
 			// Which row(s) are selected?
 			NSIndexSet rows = tableView.SelectedRows;
 
-			// Is the selection empty?
-			if (rows.Count == 0) {
-				AppKitFramework.NSBeep();
-				return;
-			}
-
 			// Get a list of people to be removed
 			List<Person> removedPersons = new List<Person>();
 			NSUndoManager undo = this.UndoManager;
@@ -232,6 +226,41 @@ namespace RaiseMan
 			}
 			tableView.ReloadData();
 			tableView.DeselectAll(this);
+		}
+
+		partial void removeEmployee (MonoMac.Foundation.NSObject sender)
+		{
+			// Which row(s) are selected?
+			NSIndexSet rows = tableView.SelectedRows;
+
+			// Is the selection empty?
+			if (rows.Count == 0) {
+				AppKitFramework.NSBeep();
+				return;
+			}
+			NSAlert alert = NSAlert.WithMessage("Do you really want to delete the selected employees?", "Cancel", "OK", "Keep but no raise", "");
+			alert.InformativeText = String.Format("{0} {1} will be deleted. This can be undone.",rows.Count , rows.Count == 1 ? "employee" : "employees");
+			alert.BeginSheetForResponse(tableView.Window, response => GetResponse(alert, response));
+		}
+
+		void GetResponse(NSAlert alert, int response)
+		{
+			if (response <= 1) {
+				switch (response) {
+					case -1:
+						NSIndexSet rows = tableView.SelectedRows;
+						for (int i = 0; i < rows.Count; i++) {
+							Person p = Employees[(int)rows.ElementAt(i)];
+							p.SetValueForKey(new NSNumber(0.0f), new NSString("expectedRaise"));
+						}
+						break;
+					case 0: // OK
+						deleteSelectedEmployees(this);
+						break;
+					default: // Cancel
+						break;
+				}
+			}
 		}
 		#endregion
 

@@ -67,5 +67,7 @@
 	<string>1</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.business</string>
+	<key>CFBundleIconFile</key>
+	<string>Einstein</string>
 </dict>
 </plist>

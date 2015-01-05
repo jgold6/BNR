@@ -68,7 +68,7 @@
 											<string key="NSFrameSize">{347, 355}</string>
 											<reference key="NSSuperview" ref="227338332"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="622921333"/>
+											<reference key="NSNextKeyView" ref="191647956"/>
 											<string key="NSReuseIdentifierKey">_NS:13</string>
 											<bool key="NSEnabled">YES</bool>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -323,7 +323,7 @@
 							<string key="NSFrame">{{20, 20}, {349, 373}}</string>
 							<reference key="NSSuperview" ref="21739532"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="191647956"/>
+							<reference key="NSNextKeyView" ref="227338332"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSsFlags">133682</int>
 							<reference key="NSVScroller" ref="622921333"/>
@@ -392,7 +392,6 @@
 							<string key="NSFrame">{{367, 13}, {126, 32}}</string>
 							<reference key="NSSuperview" ref="21739532"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="480187008">
@@ -462,11 +461,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">deleteSelectedEmployees:</string>
+						<string key="label">removeEmployee:</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="680666432"/>
 					</object>
-					<int key="connectionID">55</int>
+					<int key="connectionID">56</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -670,7 +669,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">55</int>
+			<int key="maxID">56</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -681,6 +680,7 @@
 						<string key="btnCheckEntries:">id</string>
 						<string key="createEmployee:">id</string>
 						<string key="deleteSelectedEmployees:">id</string>
+						<string key="removeEmployee:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="btnCheckEntries:">
@@ -693,6 +693,10 @@
 						</object>
 						<object class="IBActionInfo" key="deleteSelectedEmployees:">
 							<string key="name">deleteSelectedEmployees:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="removeEmployee:">
+							<string key="name">removeEmployee:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
@@ -718,6 +722,7 @@
 						<string key="btnCheckEntries:">id</string>
 						<string key="createEmployee:">id</string>
 						<string key="deleteSelectedEmployees:">id</string>
+						<string key="removeEmployee:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="btnCheckEntries:">
@@ -730,6 +735,10 @@
 						</object>
 						<object class="IBActionInfo" key="deleteSelectedEmployees:">
 							<string key="name">deleteSelectedEmployees:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="removeEmployee:">
+							<string key="name">removeEmployee:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
