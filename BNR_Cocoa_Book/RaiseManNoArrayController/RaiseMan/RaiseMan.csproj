@@ -86,6 +86,7 @@
     <Compile Include="AppController.designer.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
+    <Compile Include="DefaultStrings.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MyDocument.xib" />

@@ -27,6 +27,9 @@ namespace RaiseMan
 		[Action ("changeNewEmptyDoc:")]
 		partial void ChangeNewEmptyDoc (MonoMac.Foundation.NSObject sender);
 
+		[Action ("restoreDefaults:")]
+		partial void RestoreDefaults (MonoMac.Foundation.NSObject sender);
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (colorWell != null) {

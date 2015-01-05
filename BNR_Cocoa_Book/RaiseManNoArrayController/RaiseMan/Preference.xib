@@ -37,7 +37,7 @@
 			<object class="NSWindowTemplate" id="31185539">
 				<int key="NSWindowStyleMask">23</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{250, 250}, {373, 117}}</string>
+				<string key="NSWindowRect">{{250, 250}, {373, 130}}</string>
 				<int key="NSWTFlags">-461896704</int>
 				<string key="NSWindowTitle">Preferences</string>
 				<string key="NSWindowClass">Preference</string>
@@ -53,7 +53,7 @@
 							<set class="NSMutableSet" key="NSDragTypes">
 								<string>NSColor pasteboard type</string>
 							</set>
-							<string key="NSFrame">{{20, 74}, {44, 23}}</string>
+							<string key="NSFrame">{{20, 87}, {44, 23}}</string>
 							<reference key="NSSuperview" ref="41189773"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="828687890"/>
@@ -69,10 +69,10 @@
 						<object class="NSButton" id="575407211">
 							<reference key="NSNextResponder" ref="41189773"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{50, 49}, {256, 18}}</string>
+							<string key="NSFrame">{{50, 63}, {256, 18}}</string>
 							<reference key="NSSuperview" ref="41189773"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
+							<reference key="NSNextKeyView" ref="597962534"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="650685884">
@@ -105,7 +105,7 @@
 						<object class="NSTextField" id="828687890">
 							<reference key="NSNextResponder" ref="41189773"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{73, 77}, {149, 17}}</string>
+							<string key="NSFrame">{{73, 90}, {149, 17}}</string>
 							<reference key="NSSuperview" ref="41189773"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="575407211"/>
@@ -141,14 +141,39 @@
 							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 							<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
 						</object>
+						<object class="NSButton" id="597962534">
+							<reference key="NSNextResponder" ref="41189773"/>
+							<int key="NSvFlags">268</int>
+							<string key="NSFrame">{{115, 13}, {143, 32}}</string>
+							<reference key="NSSuperview" ref="41189773"/>
+							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
+							<string key="NSReuseIdentifierKey">_NS:9</string>
+							<bool key="NSEnabled">YES</bool>
+							<object class="NSButtonCell" key="NSCell" id="286599255">
+								<int key="NSCellFlags">67108864</int>
+								<int key="NSCellFlags2">134217728</int>
+								<string key="NSContents">Restore Defaults</string>
+								<reference key="NSSupport" ref="331591800"/>
+								<string key="NSCellIdentifier">_NS:9</string>
+								<reference key="NSControlView" ref="597962534"/>
+								<int key="NSButtonFlags">-2038284288</int>
+								<int key="NSButtonFlags2">129</int>
+								<string key="NSAlternateContents"/>
+								<string key="NSKeyEquivalent"/>
+								<int key="NSPeriodicDelay">200</int>
+								<int key="NSPeriodicInterval">25</int>
+							</object>
+							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
+						</object>
 					</array>
-					<string key="NSFrameSize">{373, 117}</string>
+					<string key="NSFrameSize">{373, 130}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="34764991"/>
 					<string key="NSReuseIdentifierKey">_NS:21</string>
 				</object>
-				<string key="NSScreenRect">{{1920, 0}, {1920, 1057}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1920, 1057}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
@@ -195,6 +220,14 @@
 					</object>
 					<int key="connectionID">18</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">restoreDefaults:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="597962534"/>
+					</object>
+					<int key="connectionID">21</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -235,8 +268,9 @@
 						<reference key="object" ref="41189773"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="34764991"/>
-							<reference ref="575407211"/>
 							<reference ref="828687890"/>
+							<reference ref="597962534"/>
+							<reference ref="575407211"/>
 						</array>
 						<reference key="parent" ref="31185539"/>
 					</object>
@@ -271,6 +305,19 @@
 						<reference key="object" ref="235130771"/>
 						<reference key="parent" ref="828687890"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">19</int>
+						<reference key="object" ref="597962534"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="286599255"/>
+						</array>
+						<reference key="parent" ref="41189773"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">20</int>
+						<reference key="object" ref="286599255"/>
+						<reference key="parent" ref="597962534"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -281,9 +328,12 @@
 				<string key="11.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="13.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="7.IBPersistedLastKnownCanvasPosition">{582.5, 236.5}</string>
+				<string key="19.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="20.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7.IBPersistedLastKnownCanvasPosition">{582.5, 243}</string>
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="7.NSWindowTemplate.visibleAtLaunch"/>
+				<reference key="8.IBNSViewMetadataGestureRecognizers" ref="0"/>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="9.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
@@ -291,7 +341,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">18</int>
+			<int key="maxID">21</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -309,6 +359,7 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="changeBackgroundColor:">id</string>
 						<string key="changeNewEmptyDoc:">id</string>
+						<string key="restoreDefaults:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="changeBackgroundColor:">
@@ -317,6 +368,10 @@
 						</object>
 						<object class="IBActionInfo" key="changeNewEmptyDoc:">
 							<string key="name">changeNewEmptyDoc:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="restoreDefaults:">
+							<string key="name">restoreDefaults:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
@@ -344,6 +399,7 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="changeBackgroundColor:">id</string>
 						<string key="changeNewEmptyDoc:">id</string>
+						<string key="restoreDefaults:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="changeBackgroundColor:">
@@ -352,6 +408,10 @@
 						</object>
 						<object class="IBActionInfo" key="changeNewEmptyDoc:">
 							<string key="name">changeNewEmptyDoc:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="restoreDefaults:">
+							<string key="name">restoreDefaults:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

@@ -75,6 +75,8 @@ namespace RaiseMan
 
 			tableView.WeakDataSource = this;
 			tableView.WeakDelegate = this;
+
+			tableView.BackgroundColor = PreferenceController.PreferenceTableBgColor();
         }
 		#endregion
 
