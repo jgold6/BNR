@@ -238,7 +238,7 @@ namespace RaiseMan
 				AppKitFramework.NSBeep();
 				return;
 			}
-			NSAlert alert = NSAlert.WithMessage("Do you really want to delete the selected employees?", "Cancel", "OK", "Keep but no raise", "");
+			NSAlert alert = NSAlert.WithMessage("Do you really want to delete the selected employees?", "Cancel", "OK", "Keep, but no raise", "");
 			alert.InformativeText = String.Format("{0} {1} will be deleted. This can be undone.",rows.Count , rows.Count == 1 ? "employee" : "employees");
 			alert.BeginSheetForResponse(tableView.Window, response => GetResponse(alert, response));
 		}
