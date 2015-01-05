@@ -92,6 +92,12 @@ namespace RaiseMan
 			colorWell.Color = NSColor.White;
 			PreferenceController.SetPreferenceEmptyDoc(true);
 			checkBox.State = NSCellStateValue.On;
+
+			// Notify open documents about this change of table view color
+			NSNotificationCenter nc = NSNotificationCenter.DefaultCenter;
+			NSDictionary d = NSDictionary.FromObjectAndKey(colorWell.Color, DefaultStrings.RMColor);
+			nc.PostNotificationName(DefaultStrings.RMColorChangedNotification.ToString(), this, d);
+			Console.WriteLine("Default Color change notification sent: {0}", colorWell.Color);
 		}
 		#endregion
 
