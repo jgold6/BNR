@@ -61,5 +61,11 @@
 			</dict>
 		</dict>
 	</array>
+	<key>CFBundleIdentifier</key>
+	<string>com.onobytes.raiseman</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.business</string>
 </dict>
 </plist>
