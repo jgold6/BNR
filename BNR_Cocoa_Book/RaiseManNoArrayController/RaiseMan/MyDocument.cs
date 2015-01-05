@@ -55,13 +55,23 @@ namespace RaiseMan
 		// Called when created from unmanaged code
         public MyDocument(IntPtr handle) : base(handle)
         {
+			Initialize();
         }
         
         // Called when created directly from a XIB file
         [Export("initWithCoder:")]
         public MyDocument(NSCoder coder) : base(coder)
         {
+			Initialize();
         }
+
+		// Shared initialization code
+		void Initialize()
+		{
+			NSNotificationCenter nc = NSNotificationCenter.DefaultCenter;
+			nc.AddObserver(this, new Selector("handleColorChange:"), DefaultStrings.RMColorChangedNotification, null);
+			Console.WriteLine("{0}: Registered with notification center", this);
+		}
 		#endregion
 
 		#region - Lifecycle
@@ -78,6 +88,13 @@ namespace RaiseMan
 
 			tableView.BackgroundColor = PreferenceController.PreferenceTableBgColor();
         }
+
+		public override void ShouldCloseWindowController(NSWindowController windowController, NSObject delegateObject, Selector shouldCloseSelector, IntPtr contextInfo)
+		{
+			base.ShouldCloseWindowController(windowController, delegateObject, shouldCloseSelector, contextInfo);
+			NSNotificationCenter.DefaultCenter.RemoveObserver(this);
+			Console.WriteLine("{0}: Unregistered from notification center", this);
+		}
 		#endregion
 
 		#region - save and load support
@@ -415,6 +432,16 @@ namespace RaiseMan
 				Console.WriteLine("Unable to end editing");
 			}
 			return editingEnded;
+		}
+		#endregion
+
+		#region - Notification receiving
+		[Export("handleColorChange:")]
+		public void HandleColorChange(NSNotification note)
+		{
+			Console.WriteLine("{0}: Received color change notification: {1}", this, note);
+			NSColor color = (NSColor)note.UserInfo.ObjectForKey(DefaultStrings.RMColor);
+			tableView.BackgroundColor = color;
 		}
 		#endregion
     }

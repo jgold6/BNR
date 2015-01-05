@@ -7,7 +7,7 @@ using MonoMac.ObjCRuntime;
 namespace RaiseMan
 {
 	[Register("AppController")]
-    public partial class AppController : NSObject
+    public partial class AppController : NSApplicationDelegate
     {
 		#region - Member variables and properties
 		PreferenceController preferenceController;
@@ -93,12 +93,19 @@ namespace RaiseMan
 		}
 		#endregion
 
-		[Export("applicationShouldOpenUntitledFile:")]
-		public bool ShouldOpenUntitledFile(NSApplication sender)
+		#region - delegate methods
+		public override bool ApplicationShouldOpenUntitledFile(NSApplication sender)
 		{
 			Console.WriteLine("ApplicationShouldOpenUntitledFile called");
 			return PreferenceController.PreferenceEmptyDoc();
 		}
+
+		// Chapter 14 challenge
+//		public override void DidResignActive(NSNotification notification)
+//		{
+//			AppKitFramework.NSBeep();
+//		}
+		#endregion
     }
 }
 

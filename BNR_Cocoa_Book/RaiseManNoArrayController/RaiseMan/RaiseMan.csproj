@@ -75,7 +75,6 @@
       <DependentUpon>MyDocument.cs</DependentUpon>
     </Compile>
     <Compile Include="Main.cs" />
-    <Compile Include="AppDelegate.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Preference.cs" />
     <Compile Include="PreferenceController.cs" />
