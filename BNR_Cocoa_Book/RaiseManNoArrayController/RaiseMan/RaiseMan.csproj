@@ -75,9 +75,6 @@
     </Compile>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="MainMenu.xib.designer.cs">
-      <DependentUpon>MainMenu.xib</DependentUpon>
-    </Compile>
     <Compile Include="Person.cs" />
     <Compile Include="Preference.cs" />
     <Compile Include="PreferenceController.cs" />
@@ -85,10 +82,8 @@
       <DependentUpon>Preference.cs</DependentUpon>
     </Compile>
     <Compile Include="AppController.cs" />
-    <Compile Include="About.cs" />
-    <Compile Include="AboutController.cs" />
-    <Compile Include="About.designer.cs">
-      <DependentUpon>About.cs</DependentUpon>
+    <Compile Include="AppController.designer.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

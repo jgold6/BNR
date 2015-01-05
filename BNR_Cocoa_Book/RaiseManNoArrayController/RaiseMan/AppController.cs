@@ -7,10 +7,9 @@ using MonoMac.ObjCRuntime;
 namespace RaiseMan
 {
 	[Register("AppController")]
-    public class AppController : NSObject
+    public partial class AppController : NSObject
     {
 		PreferenceController preferenceController;
-		AboutController aboutController;
 
 		[Action ("showPreferencePanel:")]
 		public void ShowPreferencePanel (MonoMac.Foundation.NSObject sender)
@@ -30,23 +29,27 @@ namespace RaiseMan
 		[Action ("showAboutPanel:")]
 		public void ShowAboutPanel (MonoMac.Foundation.NSObject sender)
 		{
-			// Is aboutPanel null?
-			if (aboutController == null) {
-				aboutController = new AboutController();
-				About aboutWindow = aboutController.Window;
-				aboutWindow.BackgroundColor = NSColor.White;
-				var mainWindowFrame = NSApplication.SharedApplication.MainWindow.Frame;
-				float x = mainWindowFrame.X + mainWindowFrame.Width/2 - aboutWindow.Frame.Width/2;
-				float y = mainWindowFrame.Y + mainWindowFrame.Height/2 - aboutWindow.Frame.Height/2;
-				aboutController.Window.SetFrame(new RectangleF(x, y, aboutWindow.Frame.Width, aboutWindow.Frame.Height), false);
-				aboutWindow.WindowShouldClose += (NSObject s) => {
-					Console.WriteLine("Window should close");
-					NSApplication.SharedApplication.StopModal();
-					return true;
-				};
-			}
-			Console.WriteLine("Showing {0}", aboutController);
-			NSApplication.SharedApplication.RunModalForWindow(aboutController.Window);
+			// The strict chap 12 challenge solution. non-modal, no window controller for the about panel
+			// so multiple about panels can be displayed
+//			NSBundle.LoadNib("About", this);
+//			aboutPanel.MakeKeyAndOrderFront(null);
+
+			// Make about panel modal and position it in the center of the active window
+			NSBundle.LoadNib("About", this);
+			// Change BG color and posiiton
+			aboutPanel.BackgroundColor = NSColor.White;
+			var mainWindowFrame = NSApplication.SharedApplication.MainWindow.Frame;
+			float x = mainWindowFrame.X + mainWindowFrame.Width/2 - aboutPanel.Frame.Width/2;
+			float y = mainWindowFrame.Y + mainWindowFrame.Height/2 - aboutPanel.Frame.Height/2;
+			aboutPanel.SetFrame(new RectangleF(x, y, aboutPanel.Frame.Width, aboutPanel.Frame.Height), true);
+			// Stop modal when about panel closed.
+			aboutPanel.WindowShouldClose += (NSObject s) => {
+				Console.WriteLine("Window should close");
+				NSApplication.SharedApplication.StopModal();
+				return true;
+			};
+			// Show modal about panel
+			NSApplication.SharedApplication.RunModalForWindow(aboutPanel);
 		}
     }
 }

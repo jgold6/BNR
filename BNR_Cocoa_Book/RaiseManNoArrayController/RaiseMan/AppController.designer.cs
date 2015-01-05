@@ -9,11 +9,17 @@ using System.CodeDom.Compiler;
 
 namespace RaiseMan
 {
-	[Register ("AppDelegate")]
-	partial class AppDelegate
+	partial class AppController
 	{
+		[Outlet]
+		MonoMac.AppKit.NSPanel aboutPanel { get; set; }
+		
 		void ReleaseDesignerOutlets ()
 		{
+			if (aboutPanel != null) {
+				aboutPanel.Dispose ();
+				aboutPanel = null;
+			}
 		}
 	}
 }

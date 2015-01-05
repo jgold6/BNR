@@ -5,6 +5,7 @@ using MonoMac.AppKit;
 
 namespace RaiseMan
 {
+	[Register("AppDelegate")]
     public partial class AppDelegate : NSApplicationDelegate
     {
         public AppDelegate()
