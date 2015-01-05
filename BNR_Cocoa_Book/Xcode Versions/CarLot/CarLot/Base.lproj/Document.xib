@@ -153,6 +153,7 @@
                                     <connections>
                                         <binding destination="JEF-bV-wcF" name="content" keyPath="arrangedObjects" id="PUt-XT-vmF"/>
                                         <binding destination="JEF-bV-wcF" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="PUt-XT-vmF" id="jGf-We-6ZF"/>
+                                        <binding destination="JEF-bV-wcF" name="sortDescriptors" keyPath="sortDescriptors" previousBinding="jGf-We-6ZF" id="wy2-lI-nY9"/>
                                     </connections>
                                 </tableView>
                             </subviews>
@@ -267,7 +268,7 @@
                 <outlet property="delegate" destination="-2" id="0bl-1N-x8E"/>
             </connections>
         </window>
-        <arrayController mode="entity" entityName="Car" automaticallyPreparesContent="YES" id="JEF-bV-wcF" userLabel="Cars" customClass="CarArrayController">
+        <arrayController mode="entity" entityName="Car" automaticallyPreparesContent="YES" automaticallyRearrangesObjects="YES" id="JEF-bV-wcF" userLabel="Cars" customClass="CarArrayController">
             <connections>
                 <binding destination="-2" name="managedObjectContext" keyPath="managedObjectContext" id="e3S-5O-yvU"/>
             </connections>
