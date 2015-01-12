@@ -162,10 +162,13 @@ namespace CarLot
 			// Create the object
 			// Should be able to do arrayController.NewObject, but it returns an NSObjectController
 			// not an NSObject and also causes an InvalidCastException
-			//			var p = arrayController.NewObject;
-			// Plus I can't figure out how to get the Person object from that.
+			// BUG: https://bugzilla.xamarin.com/show_bug.cgi?id=25620
+//			Car c = arrayController.NewObject;
+			// Workaround
+			Car c = (Car)Runtime.GetNSObject(Messaging.IntPtr_objc_msgSend(arrayController.Handle, Selector.GetHandle ("newObject")));
+			// Plus I can't figure out how to get the Car object from NSObjectController. Ah, this is due to above bug.
 			// Creating my own Person object instead
-			Car c = new Car();
+//			Car c = new Car();
 
 			// Add it to the content array of arrayController
 			arrayController.AddObject(c);
@@ -225,9 +228,7 @@ namespace CarLot
 			if (newValue.DebugDescription != "<null>")
 				obj.SetValueForKeyPath(newValue, keyPath);
 			else {
-				if (keyPath.ToString() == "makeModel")
-					obj.SetValueForKeyPath(new NSString(""), keyPath);
-				else if (keyPath.ToString() == "photo")
+				if (keyPath.ToString() == "photo")
 					obj.SetValueForKeyPath(new NSImage(), keyPath);
 			}
 		}
