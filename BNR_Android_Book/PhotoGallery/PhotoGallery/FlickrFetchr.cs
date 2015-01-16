@@ -258,22 +258,22 @@ namespace PhotoGallery
 //			Console.WriteLine("[{0}] PreloadImages End Load photos: {1}", TAG, DateTime.Now.ToLongTimeString());
 //			Console.WriteLine("[{0}] PreloadImages Start Delete photos: {1}", TAG, DateTime.Now.ToLongTimeString());
 			// Delete out of range photos
-			for (int i = 0; i < pos1 -10; i++) {
-				string path = GetPathFromUrl(items[i].Url);
-				if (File.Exists(path)) {
-					File.Delete(path);
+//			for (int i = 0; i < pos1 -10; i++) {
+//				string path = GetPathFromUrl(items[i].Url);
+//				if (File.Exists(path)) {
+//					File.Delete(path);
 //					Console.WriteLine("[{0}] File Deleted: Position: {1}", TAG, i);
-				}
-			}
-			if (pos2 + 10 < items.Count) {
-				for (int i = pos2 + 10; i < items.Count; i++) {
-					string path = GetPathFromUrl(items[i].Url);
-					if (File.Exists(path)) {
-						File.Delete(path);
+//				}
+//			}
+//			if (pos2 + 10 < items.Count) {
+//				for (int i = pos2 + 10; i < items.Count; i++) {
+//					string path = GetPathFromUrl(items[i].Url);
+//					if (File.Exists(path)) {
+//						File.Delete(path);
 //						Console.WriteLine("[{0}] File Deleted:  Position: {1}", TAG, i);
-					}
-				}
-			}
+//					}
+//				}
+//			}
 //			Console.WriteLine("[{0}] PreloadImages End Delete photos: {1}", TAG, DateTime.Now.ToLongTimeString());
 			//Console.WriteLine("[{0}] End PreloadImages: {1}", TAG, DateTime.Now.ToLongTimeString());
 		}

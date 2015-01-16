@@ -21,6 +21,9 @@ namespace PhotoGallery
 
 		public static readonly string PHOTO_URL_EXTRA = "photoUrl";
 
+		private static Task idlePreloadTask;
+		private static CancellationTokenSource idlePreloadTokenSource;
+
 		#region = member variables
 		public GridView mGridView;
 		List<GalleryItem> galleryItems;
@@ -77,18 +80,22 @@ namespace PhotoGallery
 
 					var adapter = (ArrayAdapter)mGridView.Adapter;
 					adapter.AddAll(newItems);
-					adapter.NotifyDataSetChanged();
+					//adapter.NotifyDataSetChanged();
 
 					endReached = false;
 				}
 			};
 
 			mGridView.ScrollStateChanged += (object sender, AbsListView.ScrollStateChangedEventArgs e) => {
-				var adapter = (ArrayAdapter)mGridView.Adapter;
 				if (e.ScrollState == ScrollState.Idle) {
-					Task.Run(async () => {
-						await new FlickrFetchr().PreloadImages(mGridView.FirstVisiblePosition, mGridView.LastVisiblePosition, galleryItems);
-					});
+					if (idlePreloadTokenSource != null) {
+						idlePreloadTokenSource.Cancel();
+						Console.WriteLine("[{0}] IdlePreloadTaskState: {1}", TAG, idlePreloadTask.IsCompleted);
+					}
+					idlePreloadTokenSource = new CancellationTokenSource();
+					idlePreloadTask = Task.Run(async () => {
+						await new FlickrFetchr().PreloadImages(mGridView.FirstVisiblePosition, mGridView.LastVisiblePosition, galleryItems).ConfigureAwait(false);
+					}, idlePreloadTokenSource.Token);
 				}
 			};
 
@@ -271,35 +278,31 @@ namespace PhotoGallery
 
 		public override View GetView(int position, View convertView, ViewGroup parent)
 		{
-			ImageView imageView;
-
 			// Don't recycle
-//			View view = context.LayoutInflater.Inflate(Resource.Layout.gallery_item, parent, false);
-//			imageView = view.FindViewById<ImageView>(Resource.Id.gallery_item_imageView);
+//			ImageView view = (ImageView)context.LayoutInflater.Inflate(Resource.Layout.gallery_item, parent, false);
 
 			// Recycle
 			CancellationTokenSource cts;
-			View view = convertView;
+			ImageView view = (ImageView)convertView;
 			if (view == null) {
-				view = context.LayoutInflater.Inflate(Resource.Layout.gallery_item, parent, false);
-				imageView = view.FindViewById<ImageView>(Resource.Id.gallery_item_imageView);
+				view = (ImageView)context.LayoutInflater.Inflate(Resource.Layout.gallery_item, parent, false);
 			}
 			else {
-				imageView = view.FindViewById<ImageView>(Resource.Id.gallery_item_imageView);
-				var wrapper = imageView.Tag.JavaCast<Wrapper<CancellationTokenSource>>();
+				var wrapper = view.Tag.JavaCast<Wrapper<CancellationTokenSource>>();
 				cts = wrapper.Data;
 				cts.Cancel();
-				Console.WriteLine("[{0}] Cancelled Image Load Requested: {1}", PhotoGalleryFragment.TAG, imageView.Handle);
+				view = (ImageView)context.LayoutInflater.Inflate(Resource.Layout.gallery_item, parent, false);
+				Console.WriteLine("[{0}] Cancelled Image Load Requested: {1}", PhotoGalleryFragment.TAG, view.Handle);
 			}
 
-			imageView.SetImageResource(Resource.Drawable.face_icon);
+			view.SetImageResource(Resource.Drawable.face_icon);
 			cts = new CancellationTokenSource();
-			imageView.Tag = new Wrapper<CancellationTokenSource> { Data = cts };
+			view.Tag = new Wrapper<CancellationTokenSource> { Data = cts };
 
 			GalleryItem item = GetItem(position);
 
 			Task.Run(async () => {
-				await LoadImage(imageView, item.Url, position);
+				await LoadImage(view, item.Url, position);
 			}, cts.Token);
 
 			return view;
@@ -310,7 +313,7 @@ namespace PhotoGallery
 			Bitmap image = await new FlickrFetchr().GetImageBitmapAsync(url, position).ConfigureAwait(false);
 			var wrapper = imageView.Tag.JavaCast<Wrapper<CancellationTokenSource>>();
 			CancellationTokenSource cts = wrapper.Data;
-			if (!cts.IsCancellationRequested) {
+			if (!cts.IsCancellationRequested && image != null) {
 				context.RunOnUiThread(() => {
 					imageView.SetImageBitmap(image);
 				});
