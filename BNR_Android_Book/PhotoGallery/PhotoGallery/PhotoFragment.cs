@@ -48,7 +48,7 @@ namespace PhotoGallery
 				Bitmap image = await new FlickrFetchr().GetImageBitmapAsync(photoUrl, 0).ConfigureAwait(false);
 				Activity.RunOnUiThread(() => {
 					mImageView.SetImageBitmap(image);
-					Console.WriteLine("[{0}] File created: {1}", TAG, photoUrl);
+					//Console.WriteLine("[{0}] File created: {1}", TAG, photoUrl);
 					pg.Dismiss();
 				});
 			});
@@ -60,7 +60,7 @@ namespace PhotoGallery
 		{
 			base.OnDestroyView();
 			new FlickrFetchr().DeleteImageFile(photoUrl);
-			Console.WriteLine("[{0}] File deleted: {1}", TAG, photoUrl);
+			//Console.WriteLine("[{0}] File deleted: {1}", TAG, photoUrl);
 			mImageView = null;
 		}
     }

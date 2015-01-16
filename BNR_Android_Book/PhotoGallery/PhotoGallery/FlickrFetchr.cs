@@ -25,7 +25,7 @@ namespace PhotoGallery
 		private static readonly string paramText = "text";
 		private static readonly string paramPage = "page";
 		private static readonly string paramPerPage = "per_page";
-		private static readonly string itemsPerPage = "100";
+		private static readonly string itemsPerPage = "50";
 
 		public static readonly string PREF_SEARCH_QUERY = "searchQuery";
 		public static readonly string PREF_LAST_RESULT_ID = "lastResultId";
@@ -96,7 +96,7 @@ namespace PhotoGallery
 
 		public async Task<List<GalleryItem>> Fetchitems(string pageNum = "1")
 		{
-			Console.WriteLine("[{0}] Start Fetchitems: {1}", TAG, DateTime.Now.ToLongTimeString());
+			//Console.WriteLine("[{0}] Start Fetchitems: {1}", TAG, DateTime.Now.ToLongTimeString());
 
 			var builder = new UriBuilder(baseUrl);
 
@@ -115,7 +115,7 @@ namespace PhotoGallery
 
 		public async Task<List<GalleryItem>> Search(string queryText, string pageNum = "1")
 		{
-			Console.WriteLine("[{0}] Start Search: {1}", TAG, DateTime.Now.ToLongTimeString());
+			//Console.WriteLine("[{0}] Start Search: {1}", TAG, DateTime.Now.ToLongTimeString());
 
 			var builder = new UriBuilder(baseUrl);
 
@@ -144,7 +144,7 @@ namespace PhotoGallery
 				string xmlString = await GetUrlAsync(url).ConfigureAwait(false);
 //				Console.WriteLine("[{0}] DownloadGalleryItems End GetUrlAsync: {1}", TAG, DateTime.Now.ToLongTimeString());
 //				Console.WriteLine("[{0}] Received xml from Url: {1}\n{2}", TAG, url, xmlString);
-				Console.WriteLine("[{0}] Received xml from Url: {1}", TAG, url);
+//				Console.WriteLine("[{0}] Received xml from Url: {1}", TAG, url);
 				//https://api.flickr.com:443/services/rest/?method=flickr.photos.getRecent&api_key=ea248fbeac480b7c14fce5cece516ef0&extras=url_s
 
 				XmlSerializer serializer = new XmlSerializer(typeof(rsp));
@@ -174,7 +174,7 @@ namespace PhotoGallery
 				Console.WriteLine("[{0}] Failed to parse items: {1}", TAG, ex.Message);
 			}
 
-			Console.WriteLine("[{0}] End DownloadGalleryItems: {1}", TAG, DateTime.Now.ToLongTimeString());
+			//Console.WriteLine("[{0}] End DownloadGalleryItems: {1}", TAG, DateTime.Now.ToLongTimeString());
 			return items;
 			// Using httpUtility to make query string... no ? added automatically
 //			try {
@@ -210,7 +210,7 @@ namespace PhotoGallery
 
 		public async Task PreloadImages(int pos1, int pos2, List<GalleryItem> items)
 		{
-			Console.WriteLine("[{0}] Start PreloadImages: {1}", TAG, DateTime.Now.ToLongTimeString());
+			//Console.WriteLine("[{0}] Start PreloadImages: {1}", TAG, DateTime.Now.ToLongTimeString());
 //			Console.WriteLine("[{0}] PreloadImages Start Load photos: {1}", TAG, DateTime.Now.ToLongTimeString());
 			// Preload visible and 10 before and after photos
 //			for  (int i = (pos1 - 10 >= 0 ? pos1 - 10 : 0); i < (pos2 + 10 < items.Count ? pos2 + 10 : items.Count); i++) {
@@ -275,7 +275,7 @@ namespace PhotoGallery
 				}
 			}
 //			Console.WriteLine("[{0}] PreloadImages End Delete photos: {1}", TAG, DateTime.Now.ToLongTimeString());
-			Console.WriteLine("[{0}] End PreloadImages: {1}", TAG, DateTime.Now.ToLongTimeString());
+			//Console.WriteLine("[{0}] End PreloadImages: {1}", TAG, DateTime.Now.ToLongTimeString());
 		}
 
 		string GetPathFromUrl(string url)

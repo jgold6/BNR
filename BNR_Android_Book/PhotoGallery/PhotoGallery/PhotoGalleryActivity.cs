@@ -28,7 +28,7 @@ namespace PhotoGallery
 			PhotoGalleryFragment fragment = (PhotoGalleryFragment)FragmentManager.FindFragmentById(Resource.Id.fragmentContainer);
 			if (Intent.ActionSearch.Equals(intent.Action)) {
 				string query = intent.GetStringExtra(SearchManager.Query);
-				Console.WriteLine("[{0}] Received a new search query: {1}", TAG, query);
+				//Console.WriteLine("[{0}] Received a new search query: {1}", TAG, query);
 
 				PreferenceManager.GetDefaultSharedPreferences(this).Edit().PutString(FlickrFetchr.PREF_SEARCH_QUERY, query).Commit();
 			}

@@ -26,7 +26,7 @@ namespace PhotoGallery
 
 		protected override async void OnHandleIntent(Android.Content.Intent intent)
 		{
-			Console.WriteLine("[{0}] Received an intent: {1}", TAG, intent);
+			//Console.WriteLine("[{0}] Received an intent: {1}", TAG, intent);
 
 			ConnectivityManager cm = (ConnectivityManager)GetSystemService(Context.ConnectivityService);
 			bool isNetworkAvailable = cm.BackgroundDataSetting && cm.ActiveNetworkInfo != null;
@@ -51,7 +51,7 @@ namespace PhotoGallery
 			string resultId = items[0].Id;
 
 			if (!resultId.Equals(lastResultId)) {
-				Console.WriteLine("[{0}] Got a new result: {1}", TAG, resultId);
+				//Console.WriteLine("[{0}] Got a new result: {1}", TAG, resultId);
 
 				PendingIntent pi = PendingIntent.GetActivity(this, 0, new Intent(this, typeof(PhotoGalleryActivity)), 0);
 
@@ -74,7 +74,7 @@ namespace PhotoGallery
 
 			}
 			else {
-				Console.WriteLine("[{0}] Got an old result: {1}", TAG, resultId);
+				//Console.WriteLine("[{0}] Got an old result: {1}", TAG, resultId);
 			}
 
 			prefs.Edit().PutString(FlickrFetchr.PREF_LAST_RESULT_ID, resultId).Commit();

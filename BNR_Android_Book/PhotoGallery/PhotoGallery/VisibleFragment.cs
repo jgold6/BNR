@@ -44,7 +44,7 @@ namespace PhotoGallery
 
 		public override void OnReceive(Context context, Intent intent)
 		{
-			Console.WriteLine("[{0}] Received result: {1}", TAG, ResultCode);
+			//Console.WriteLine("[{0}] Received result: {1}", TAG, ResultCode);
 			if (ResultCode != Result.Ok) {
 				// A foreground activity cancelled the broadcast
 				return;

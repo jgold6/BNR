@@ -15,7 +15,7 @@ namespace PhotoGallery
 
 		public override void OnReceive(Context context, Intent intent)
 		{
-			Console.WriteLine("[{0}] Received broadcast intent: {1}", TAG, intent.Action);
+			//Console.WriteLine("[{0}] Received broadcast intent: {1}", TAG, intent.Action);
 
 			ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(context);
 			bool isOn = prefs.GetBoolean(PollService.PREF_IS_ALARM_ON, false);
