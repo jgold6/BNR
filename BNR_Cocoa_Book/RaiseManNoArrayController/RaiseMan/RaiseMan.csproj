@@ -26,6 +26,7 @@
     <EnableCodeSigning>false</EnableCodeSigning>
     <CreatePackage>false</CreatePackage>
     <PackageSigningKey>Developer ID Installer</PackageSigningKey>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -41,6 +42,7 @@
     <CodeSigningKey>Developer ID Application</CodeSigningKey>
     <EnableCodeSigning>true</EnableCodeSigning>
     <CreatePackage>true</CreatePackage>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -57,6 +59,7 @@
     <CodeSigningKey>3rd Party Mac Developer Application</CodeSigningKey>
     <EnableCodeSigning>true</EnableCodeSigning>
     <EnablePackageSigning>true</EnablePackageSigning>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -68,6 +71,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Resources\fr.lproj\" />
+    <Folder Include="Resources\es.lproj\" />
+    <Folder Include="Resources\Base.lproj\" />
+    <Folder Include="Resources\en.lproj\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MyDocument.cs" />
@@ -88,10 +95,10 @@
     <Compile Include="DefaultStrings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="MyDocument.xib" />
     <InterfaceDefinition Include="MainMenu.xib" />
     <InterfaceDefinition Include="Preference.xib" />
     <InterfaceDefinition Include="About.xib" />
+    <InterfaceDefinition Include="Resources\Base.lproj\MyDocument.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -100,5 +107,11 @@
   <ItemGroup>
     <BundleResource Include="Resources\txt.icns" />
     <BundleResource Include="Resources\Einstein.icns" />
+    <BundleResource Include="Resources\en.lproj\MyDocument.strings" />
+    <BundleResource Include="Resources\es.lproj\MyDocument.strings" />
+    <BundleResource Include="Resources\fr.lproj\MyDocument.strings" />
+    <BundleResource Include="Resources\en.lproj\Localizable.strings" />
+    <BundleResource Include="Resources\es.lproj\Localizable.strings" />
+    <BundleResource Include="Resources\fr.lproj\Localizable.strings" />
   </ItemGroup>
 </Project>

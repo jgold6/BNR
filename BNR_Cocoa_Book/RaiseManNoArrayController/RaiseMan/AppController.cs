@@ -79,10 +79,16 @@ namespace RaiseMan
 			NSBundle.LoadNib("About", this);
 			// Change BG color and posiiton
 			aboutPanel.BackgroundColor = NSColor.White;
-			var mainWindowFrame = NSApplication.SharedApplication.MainWindow.Frame;
-			float x = mainWindowFrame.X + mainWindowFrame.Width/2 - aboutPanel.Frame.Width/2;
-			float y = mainWindowFrame.Y + mainWindowFrame.Height/2 - aboutPanel.Frame.Height/2;
-			aboutPanel.SetFrame(new RectangleF(x, y, aboutPanel.Frame.Width, aboutPanel.Frame.Height), true);
+			if (NSApplication.SharedApplication.MainWindow != null) {
+				var mainWindowFrame = NSApplication.SharedApplication.MainWindow.Frame;
+				float x = mainWindowFrame.X + mainWindowFrame.Width/2 - aboutPanel.Frame.Width/2;
+				float y = mainWindowFrame.Y + mainWindowFrame.Height/2 - aboutPanel.Frame.Height/2;
+				aboutPanel.SetFrame(new RectangleF(x, y, aboutPanel.Frame.Width, aboutPanel.Frame.Height), true);
+			}
+			else {
+				NSScreen screen = NSScreen.MainScreen;
+				aboutPanel.SetFrame(new RectangleF(screen.Frame.Width/2-aboutPanel.Frame.Width/2, screen.Frame.Height - aboutPanel.Frame.Height - 100, aboutPanel.Frame.Width, aboutPanel.Frame.Height), true);
+			}
 			// Stop modal when about panel closed.
 			aboutPanel.WillClose += (object s, EventArgs e) =>  {
 				Console.WriteLine("Window will close");
@@ -90,6 +96,24 @@ namespace RaiseMan
 			};
 			// Show modal about panel
 			NSApplication.SharedApplication.RunModalForWindow(aboutPanel);
+		}
+
+		// Manual implemenation of NSDocumentController's openDocument: method
+		[Action ("showNSOpenPanel:")]
+		public void ShowNSOpenPanel (MonoMac.Foundation.NSObject sender)
+		{
+			NSOpenPanel openPanel = NSOpenPanel.OpenPanel;
+			openPanel.AllowsMultipleSelection = true;
+			openPanel.AllowedFileTypes = new string[]{"rsmn"};
+
+			int result = openPanel.RunModal();
+
+			if (result == 1) {
+				NSUrl[]  theDocs = openPanel.Urls;
+				NSError outError = null;
+				foreach (NSUrl theDoc in theDocs)
+					NSDocumentController.SharedDocumentController.OpenDocument(theDoc, true, out outError);
+			}
 		}
 		#endregion
 

@@ -1619,14 +1619,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">openDocument:</string>
-						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="722745758"/>
-					</object>
-					<int key="connectionID">374</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">raiseBaseline:</string>
 						<reference key="source" ref="1014"/>
 						<reference key="destination" ref="941806246"/>
@@ -2024,6 +2016,14 @@
 						<reference key="destination" ref="238522557"/>
 					</object>
 					<int key="connectionID">543</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">showNSOpenPanel:</string>
+						<reference key="source" ref="209735558"/>
+						<reference key="destination" ref="722745758"/>
+					</object>
+					<int key="connectionID">547</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3183,7 +3183,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">544</int>
+			<int key="maxID">547</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3192,11 +3192,16 @@
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="showAboutPanel:">id</string>
+						<string key="showNSOpenPanel:">id</string>
 						<string key="showPreferencePanel:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="showAboutPanel:">
 							<string key="name">showAboutPanel:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showNSOpenPanel:">
+							<string key="name">showNSOpenPanel:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="showPreferencePanel:">
@@ -3224,11 +3229,16 @@
 					<string key="className">AppController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="showAboutPanel:">id</string>
+						<string key="showNSOpenPanel:">id</string>
 						<string key="showPreferencePanel:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="showAboutPanel:">
 							<string key="name">showAboutPanel:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showNSOpenPanel:">
+							<string key="name">showNSOpenPanel:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="showPreferencePanel:">
@@ -3248,6 +3258,7 @@
 						<string key="btnCheckEntries:">id</string>
 						<string key="createEmployee:">id</string>
 						<string key="deleteSelectedEmployees:">id</string>
+						<string key="removeEmployee:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="btnCheckEntries:">
@@ -3260,6 +3271,10 @@
 						</object>
 						<object class="IBActionInfo" key="deleteSelectedEmployees:">
 							<string key="name">deleteSelectedEmployees:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="removeEmployee:">
+							<string key="name">removeEmployee:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
@@ -3285,6 +3300,7 @@
 						<string key="btnCheckEntries:">id</string>
 						<string key="createEmployee:">id</string>
 						<string key="deleteSelectedEmployees:">id</string>
+						<string key="removeEmployee:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="btnCheckEntries:">
@@ -3297,6 +3313,10 @@
 						</object>
 						<object class="IBActionInfo" key="deleteSelectedEmployees:">
 							<string key="name">deleteSelectedEmployees:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="removeEmployee:">
+							<string key="name">removeEmployee:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

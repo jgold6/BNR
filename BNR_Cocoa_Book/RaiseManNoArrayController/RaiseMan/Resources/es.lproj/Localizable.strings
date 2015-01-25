@@ -1,0 +1,12 @@
+﻿"REMOVE_MSG" = "¿Realmente desea eliminar los empleados seleccionados?";
+"EMPLOYEE" = "empleado";
+"EMPLOYEES" = "empleados";
+"REMOVE_INF" = "serán eliminados. Esto se puede deshacer.";
+"CANCEL" = "Cancelar";
+"REMOVER" = "Quitar";
+"OK" = "OKAY";
+"NO_RAISE" = "Mantenga , pero sin aumento de sueldo";
+"ADD_PERSON" = "Agregar Persona";
+"REMOVE_PERSON" = "Borrar Persona";
+"DATA_CORRUPTED" = "Los datos se corrompe.";
+"EDIT" = "Editar";

@@ -1,0 +1,24 @@
+
+/* Class = "NSWindow"; title = "Window"; ObjectID = "1"; */
+"1.title" = "Ventana";
+
+/* Class = "NSTableColumn"; headerCell.title = "Name"; ObjectID = "12"; */
+"12.headerCell.title" = "Nombre";
+
+/* Class = "NSTableColumn"; headerCell.title = "Raise"; ObjectID = "13"; */
+"13.headerCell.title" = "Aumento";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "14"; */
+"14.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "15"; */
+"15.title" = "Text Cell";
+
+/* Class = "NSButtonCell"; title = "Add Employee"; ObjectID = "25"; */
+"25.title" = "Añadir Empleado";
+
+/* Class = "NSButtonCell"; title = "Remove"; ObjectID = "27"; */
+"27.title" = "Quitar";
+
+/* Class = "NSButtonCell"; title = "Check Entries"; ObjectID = "51"; */
+"51.title" = "Comprobar";

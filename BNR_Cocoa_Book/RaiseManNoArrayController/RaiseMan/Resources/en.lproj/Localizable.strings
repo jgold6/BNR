@@ -1,0 +1,12 @@
+﻿"REMOVE_MSG" = "Do you really want to delete the selected employees?";
+"EMPLOYEE" = "employee";
+"EMPLOYEES" = "employees";
+"REMOVE_INF" = "will be deleted. This can be undone.";
+"CANCEL" = "Cancel";
+"REMOVE" = "Remove";
+"OK" = "OK";
+"NO_RAISE" = "Keep, but no raise";
+"ADD_PERSON" = "Add Person";
+"REMOVE_PERSON" = "Remove Person";
+"DATA_CORRUPTED" = "The data is corrupted.";
+"EDIT" = "Edit";

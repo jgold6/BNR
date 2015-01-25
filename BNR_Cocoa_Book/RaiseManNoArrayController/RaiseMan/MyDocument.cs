@@ -140,10 +140,8 @@ namespace RaiseMan
 			}
 			catch (Exception ex) {
 				Console.WriteLine("Error loading file: Exception: {0}", ex.Message);
-				if (outError != null) {
-					NSDictionary d = NSDictionary.FromObjectAndKey(new NSString("The data is corrupted."), NSError.LocalizedFailureReasonErrorKey);
-					outError = NSError.FromDomain(NSError.OsStatusErrorDomain, -4, d);
-				}
+				NSDictionary d = NSDictionary.FromObjectAndKey(new NSString(NSBundle.MainBundle.LocalizedString("DATA_CORRUPTED", null)), NSError.LocalizedFailureReasonErrorKey);
+				outError = NSError.FromDomain(NSError.OsStatusErrorDomain, -4, d);
 				return false;
 			}
 
@@ -182,7 +180,7 @@ namespace RaiseMan
 			// Undo add
 			NSArray args = NSArray.FromObjects(new object[]{newEmployee});
 			undo.RegisterUndoWithTarget(this, new Selector("undoAdd:"), args);
-			undo.SetActionname("Add Person");
+			undo.SetActionname(NSBundle.MainBundle.LocalizedString("ADD_PERSON", null));
 
 			Employees.Add(newEmployee);
 			StartObservingPerson(newEmployee);
@@ -219,7 +217,7 @@ namespace RaiseMan
 				int index = Employees.IndexOf(p);
 				NSArray args = NSArray.FromObjects(new object[]{p, new NSNumber(index)});
 				undo.RegisterUndoWithTarget(this, new Selector("undoRemove:"), args);
-				undo.SetActionname("Remove Person");
+				undo.SetActionname(NSBundle.MainBundle.LocalizedString("REMOVE_PERSON", null));
 
 				StopObservingPerson(p);
 				Employees.Remove(p);
@@ -238,9 +236,16 @@ namespace RaiseMan
 				AppKitFramework.NSBeep();
 				return;
 			}
-			NSAlert alert = NSAlert.WithMessage("Do you really want to delete the selected employees?", "Cancel", "OK", "Keep, but no raise", "");
-			alert.InformativeText = String.Format("{0} {1} will be deleted. This can be undone.",rows.Count , rows.Count == 1 ? "employee" : "employees");
-			alert.BeginSheetForResponse(tableView.Window, response => GetResponse(alert, response));
+			NSAlert alert = NSAlert.WithMessage(NSBundle.MainBundle.LocalizedString("REMOVE_MSG", null), 
+				NSBundle.MainBundle.LocalizedString("CANCEL", null),
+				NSBundle.MainBundle.LocalizedString("OK", null), 
+				NSBundle.MainBundle.LocalizedString("NO_RAISE", null),
+				"");
+			alert.InformativeText = String.Format("{0} {1} {2}", 
+				rows.Count, 
+				rows.Count == 1 ? NSBundle.MainBundle.LocalizedString("EMPLOYEE", null) : NSBundle.MainBundle.LocalizedString("EMPLOYEES", null), 
+				NSBundle.MainBundle.LocalizedString("REMOVE_INF", null));
+			alert.BeginSheetForResponse(tableView.Window, (response) => GetResponse(alert, response));
 		}
 
 		void GetResponse(NSAlert alert, int response)
@@ -376,7 +381,7 @@ namespace RaiseMan
 			Console.WriteLine("oldValue = {0}", oldValue);
 			NSArray args = NSArray.FromObjects(new object[]{keyPath, obj, oldValue});
 			undo.RegisterUndoWithTarget(this, new Selector("changeKeyPath:ofObject:toValue:"), args);
-			undo.SetActionname("Edit");
+			undo.SetActionname(NSBundle.MainBundle.LocalizedString("EDIT", null));
 		}
 		#endregion
 
