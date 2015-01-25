@@ -4,7 +4,7 @@ using System.Linq;
 using Foundation;
 using AppKit;
 using CoreGraphics;
-
+// Let the fun begin
 namespace DrawingFun
 {
     public partial class StretchView : AppKit.NSView
