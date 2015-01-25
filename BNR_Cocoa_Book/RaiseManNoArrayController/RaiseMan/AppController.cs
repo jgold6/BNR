@@ -11,6 +11,7 @@ namespace RaiseMan
     {
 		#region - Member variables and properties
 		PreferenceController preferenceController;
+		static bool sFirstLaunch;
 		#endregion
 
 		#region Constructors
@@ -42,7 +43,7 @@ namespace RaiseMan
 			NSUserDefaults.StandardUserDefaults.RegisterDefaults(defaultValues);
 			Console.WriteLine("Registered defaults: {0}", defaultValues);
 
-
+			sFirstLaunch = true;
 		}
 		#endregion
 
@@ -130,10 +131,14 @@ namespace RaiseMan
 		{
 			base.AwakeFromNib();
 
-			ChangeMenuItemTitle("RaiseMan", "About RaiseMan", "ABOUT_RAISEMAN");
-			ChangeMenuItemTitle("RaiseMan", "Preferences…", "PREFERENCES");
-			ChangeMenuItemTitle("Edit", "New Employee", "NEW_EMPLOYEE");
-			ChangeMenuItemTitle("Edit", "Remove Employee", "REMOVE_EMPLOYEE");
+			if (sFirstLaunch)
+			{
+				ChangeMenuItemTitle("RaiseMan", "About RaiseMan", "ABOUT_RAISEMAN");
+				ChangeMenuItemTitle("RaiseMan", "Preferences…", "PREFERENCES");
+				ChangeMenuItemTitle("Edit", "New Employee", "NEW_EMPLOYEE");
+				ChangeMenuItemTitle("Edit", "Remove Employee", "REMOVE_EMPLOYEE");
+				sFirstLaunch = false;
+			}
 		}
 
 		// Chapter 14 challenge
