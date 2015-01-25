@@ -1,0 +1,9 @@
+
+/* Class = "NSPanel"; title = "About RaiseMan"; ObjectID = "2"; */
+"2.title" = "Sobre RaiseMan";
+
+/* Class = "NSTextFieldCell"; title = "RaiseMan © Big Nerd Ranch"; ObjectID = "8"; */
+"8.title" = "RaiseMan © Big Nerd Ranch";
+
+/* Class = "NSTextFieldCell"; title = "Xamarin.Mac version in C# by Jon Goldberger"; ObjectID = "10"; */
+"10.title" = "Xamarin.Mac versión en C # por Jon Goldberger";

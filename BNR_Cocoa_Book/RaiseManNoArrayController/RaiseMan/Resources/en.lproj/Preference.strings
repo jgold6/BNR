@@ -1,0 +1,12 @@
+
+/* Class = "Preference"; title = "Preferences"; ObjectID = "7"; */
+"7.title" = "Preferences";
+
+/* Class = "NSButtonCell"; title = "Automatically open untitled document"; ObjectID = "11"; */
+"11.title" = "Automatically open untitled document";
+
+/* Class = "NSTextFieldCell"; title = "Table background color"; ObjectID = "13"; */
+"13.title" = "Table background color";
+
+/* Class = "NSButtonCell"; title = "Restore Defaults"; ObjectID = "20"; */
+"20.title" = "Restore Defaults";

@@ -27,6 +27,7 @@
     <CreatePackage>false</CreatePackage>
     <PackageSigningKey>Developer ID Installer</PackageSigningKey>
     <UseRefCounting>false</UseRefCounting>
+    <CodeSignEntitlements>Entitlements.plist</CodeSignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -43,6 +44,7 @@
     <EnableCodeSigning>true</EnableCodeSigning>
     <CreatePackage>true</CreatePackage>
     <UseRefCounting>false</UseRefCounting>
+    <CodeSignEntitlements>Entitlements.plist</CodeSignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -60,6 +62,7 @@
     <EnableCodeSigning>true</EnableCodeSigning>
     <EnablePackageSigning>true</EnablePackageSigning>
     <UseRefCounting>false</UseRefCounting>
+    <CodeSignEntitlements>Entitlements.plist</CodeSignEntitlements>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -95,13 +98,14 @@
     <Compile Include="DefaultStrings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="MainMenu.xib" />
-    <InterfaceDefinition Include="Preference.xib" />
-    <InterfaceDefinition Include="About.xib" />
     <InterfaceDefinition Include="Resources\Base.lproj\MyDocument.xib" />
+    <InterfaceDefinition Include="Resources\Base.lproj\About.xib" />
+    <InterfaceDefinition Include="Resources\Base.lproj\Preference.xib" />
+    <InterfaceDefinition Include="Resources\MainMenu.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
+    <None Include="Entitlements.plist" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -113,5 +117,11 @@
     <BundleResource Include="Resources\en.lproj\Localizable.strings" />
     <BundleResource Include="Resources\es.lproj\Localizable.strings" />
     <BundleResource Include="Resources\fr.lproj\Localizable.strings" />
+    <BundleResource Include="Resources\en.lproj\About.strings" />
+    <BundleResource Include="Resources\es.lproj\About.strings" />
+    <BundleResource Include="Resources\fr.lproj\About.strings" />
+    <BundleResource Include="Resources\en.lproj\Preference.strings" />
+    <BundleResource Include="Resources\es.lproj\Preference.strings" />
+    <BundleResource Include="Resources\fr.lproj\Preference.strings" />
   </ItemGroup>
 </Project>

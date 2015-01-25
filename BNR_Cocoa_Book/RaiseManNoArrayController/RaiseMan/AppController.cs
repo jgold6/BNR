@@ -41,6 +41,8 @@ namespace RaiseMan
 			// Register the dictionary of defaults
 			NSUserDefaults.StandardUserDefaults.RegisterDefaults(defaultValues);
 			Console.WriteLine("Registered defaults: {0}", defaultValues);
+
+
 		}
 		#endregion
 
@@ -124,11 +126,30 @@ namespace RaiseMan
 			return PreferenceController.PreferenceEmptyDoc;
 		}
 
+		public override void AwakeFromNib()
+		{
+			base.AwakeFromNib();
+
+			ChangeMenuItemTitle("RaiseMan", "About RaiseMan", "ABOUT_RAISEMAN");
+			ChangeMenuItemTitle("RaiseMan", "Preferences…", "PREFERENCES");
+			ChangeMenuItemTitle("Edit", "New Employee", "NEW_EMPLOYEE");
+			ChangeMenuItemTitle("Edit", "Remove Employee", "REMOVE_EMPLOYEE");
+		}
+
 		// Chapter 14 challenge
 //		public override void DidResignActive(NSNotification notification)
 //		{
 //			AppKitFramework.NSBeep();
 //		}
+		#endregion
+
+		#region - Helpers
+		public void ChangeMenuItemTitle(string topMenuName, string itemName, string localizationKey)
+		{
+			NSMenu menu = NSApplication.SharedApplication.MainMenu;
+			NSMenuItem fileMenu = menu.ItemWithTitle(topMenuName).Submenu.ItemWithTitle(itemName);
+			fileMenu.Title = NSBundle.MainBundle.LocalizedString(localizationKey, null);
+		}
 		#endregion
     }
 }

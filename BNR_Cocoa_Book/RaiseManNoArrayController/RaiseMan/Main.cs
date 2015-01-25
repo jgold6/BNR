@@ -11,7 +11,7 @@ namespace RaiseMan
         static void Main(string[] args)
         {
             NSApplication.Init();
-            NSApplication.Main(args);
+			NSApplication.Main(args);
         }
     }
 }

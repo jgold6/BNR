@@ -10,3 +10,8 @@
 "REMOVE_PERSON" = "Borrar Persona";
 "DATA_CORRUPTED" = "Los datos se corrompe.";
 "EDIT" = "Editar";
+
+"NEW_EMPLOYEE" = "Nuevo Empleado";
+"REMOVE_EMPLOYEE" = "Quitar Empleado";
+"ABOUT_RAISEMAN" = "Sobre RaiseMan";
+"PREFERENCES" = "Preferencias";

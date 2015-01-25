@@ -10,3 +10,8 @@
 "REMOVE_PERSON" = "Remove Person";
 "DATA_CORRUPTED" = "The data is corrupted.";
 "EDIT" = "Edit";
+
+"NEW_EMPLOYEE" = "New Employee";
+"REMOVE_EMPLOYEE" = "Remove Employee";
+"ABOUT_RAISEMAN" = "About Raiseman";
+"PREFERENCES" = "Preferences";
