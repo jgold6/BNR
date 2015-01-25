@@ -2,6 +2,7 @@
 
 using Foundation;
 using AppKit;
+using CoreGraphics;
 
 namespace DrawingFun
 {

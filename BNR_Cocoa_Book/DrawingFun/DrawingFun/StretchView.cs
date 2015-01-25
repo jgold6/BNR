@@ -38,6 +38,14 @@ namespace DrawingFun
         #endregion
 
 		#region - Overrides
+		public override bool IsFlipped
+		{
+			get
+			{
+				return true;
+			}
+		}
+
 		public override void AwakeFromNib()
 		{
 			base.AwakeFromNib();
@@ -61,7 +69,6 @@ namespace DrawingFun
 		#endregion
 
 		#region - Methods
-
 		public void CreateRandomPath()
 		{
 			CGPoint p = RandomPoint();
@@ -84,6 +91,7 @@ namespace DrawingFun
 				CGPoint cp2 = new CGPoint(mRandom.Next((int)this.Bounds.Width), mRandom.Next((int)this.Bounds.Height));
 				mPath.CurveTo(point1, cp1, cp2);
 			}
+			mPath.AppendPathWithRect(new CGRect(0, 0, 100, 100));
 		}
 
 		public void CreateRandomOvals()
