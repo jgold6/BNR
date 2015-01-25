@@ -63,6 +63,11 @@ namespace Homepwner
 			this.TableView.ReloadData();
 		}
 
+		public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation)
+		{
+			base.DidRotate(fromInterfaceOrientation);
+		}
+
 		public override int RowsInSection(UITableView tableView, int section)
 		{
 			return BNRItemStore.allItems.Count;
