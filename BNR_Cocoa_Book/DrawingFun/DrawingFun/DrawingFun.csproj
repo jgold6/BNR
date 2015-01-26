@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainWindow.cs" />
@@ -88,6 +89,8 @@
     <Compile Include="StretchView.designer.cs">
       <DependentUpon>StretchView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\MyExtensions.cs" />
+    <Compile Include="StretchImage.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
@@ -98,4 +101,7 @@
     <None Include="Info.plist" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
+  <ItemGroup>
+    <BundleResource Include="Resources\LittleBeach.jpg" />
+  </ItemGroup>
 </Project>

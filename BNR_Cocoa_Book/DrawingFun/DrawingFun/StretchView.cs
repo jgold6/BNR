@@ -9,26 +9,26 @@ namespace DrawingFun
 {
     public partial class StretchView : AppKit.NSView
     {
-		#region - Member Variables
+		#region - Member Variables and Properties
 		Random mRandom;
 		NSBezierPath mPath;
 
-		CGPoint mDownPoint;
-		CGPoint mCurrentPoint;
-
-		NSImage mImage;
+		StretchImage mCurrentImage;
+		List<StretchImage> mImages;
 		nfloat mOpacity;
 
-		public NSImage Image {
+		public StretchImage Image {
 			get {
-				return mImage;
+				return mCurrentImage;
 			}
 			set {
-				mImage = value;
-				CGSize imageSize = mImage.Size;
-				mDownPoint = new CGPoint(0,0);
-				mCurrentPoint.X = mDownPoint.X + imageSize.Width;
-				mCurrentPoint.Y = mDownPoint.Y + imageSize.Height;
+				mCurrentImage = value;
+				CGSize imageSize = mCurrentImage.Size;
+				mCurrentImage.StartPoint = new CGPoint(0,0);
+				CGPoint endPoint = new CGPoint(mCurrentImage.StartPoint.X + imageSize.Width, mCurrentImage.StartPoint.Y + imageSize.Height);
+				mCurrentImage.EndPoint = endPoint;
+				this.SetValueForKey(new NSNumber(1.0f), new NSString("Opacity"));
+				mImages.Add(mCurrentImage);
 				NeedsDisplay = true;
 			}
 		}
@@ -40,6 +40,8 @@ namespace DrawingFun
 			}
 			set {
 				mOpacity = value;
+				if (mCurrentImage != null)
+					mCurrentImage.Opacity = value;
 				NeedsDisplay = true;
 			}
 		}
@@ -64,18 +66,19 @@ namespace DrawingFun
         void Initialize()
         {
 			mRandom = new Random();
+			mImages = new List<StretchImage>();
         }
 
         #endregion
 
 		#region - Overrides
-//		public override bool IsFlipped
-//		{
-//			get
-//			{
-//				return true;
-//			}
-//		}
+		public override bool IsFlipped
+		{
+			get
+			{
+				return true;
+			}
+		}
 
 		public override void AwakeFromNib()
 		{
@@ -87,6 +90,7 @@ namespace DrawingFun
 //			CreateRandomPath();
 //			CreateRandomOvals();
 			CreateRandomCurves();
+			Image = new StretchImage("LittleBeach.jpg");
 		}
 
 		public override void DrawRect(CoreGraphics.CGRect dirtyRect)
@@ -98,10 +102,12 @@ namespace DrawingFun
 			// Draw the path in white
 			NSColor.Red.Set();
 			mPath.Fill();
-			if (mImage != null) {
-				CGRect imageRect = new CGRect(0, 0, mImage.Size.Width, mImage.Size.Height);
-				CGRect drawingRect = CurrentRect();
-				mImage.DrawInRect(drawingRect, imageRect, NSCompositingOperation.SourceOver , mOpacity);
+			if (mImages.Count > 0) {
+				foreach (StretchImage image in mImages) {
+					StretchImage drawImage = image.GetFlippedImage();
+					CGRect imageRect = new CGRect(0, 0, drawImage.Size.Width, drawImage.Size.Height);
+					drawImage.DrawInRect(image.DrawingRect(), imageRect, NSCompositingOperation.SourceOver , image.Opacity);
+				}
 			}
 		}
 
@@ -110,8 +116,8 @@ namespace DrawingFun
 		{
 //			Console.WriteLine("Mouse Down: {0}", theEvent.ClickCount);
 			CGPoint p = theEvent.LocationInWindow;
-			mDownPoint = this.ConvertPointFromView(p, null);
-			mCurrentPoint = mDownPoint;
+			mCurrentImage.StartPoint = this.ConvertPointFromView(p, null);
+			mCurrentImage.EndPoint = mCurrentImage.StartPoint;
 			NeedsDisplay = true;
 		}
 
@@ -119,7 +125,7 @@ namespace DrawingFun
 		{
 			CGPoint p = theEvent.LocationInWindow;
 //			Console.WriteLine("Mouse Dragged: {0}", p.ToString());
-			mCurrentPoint = this.ConvertPointFromView(p, null);
+			mCurrentImage.EndPoint = this.ConvertPointFromView(p, null);
 			Autoscroll(theEvent);
 			NeedsDisplay = true;
 		}
@@ -128,7 +134,7 @@ namespace DrawingFun
 		{
 //			Console.WriteLine("Mouse Up");
 			CGPoint p = theEvent.LocationInWindow;
-			mCurrentPoint = this.ConvertPointFromView(p, null);
+			mCurrentImage.EndPoint = this.ConvertPointFromView(p, null);
 			NeedsDisplay = true;
 		}
 		#endregion // Mouse events
@@ -175,16 +181,6 @@ namespace DrawingFun
 			result.X = r.Location.X + mRandom.Next((int)r.Size.Width);
 			result.Y = r.Location.Y + mRandom.Next((int)r.Size.Height);
 			return result;
-		}
-
-		private CGRect CurrentRect()
-		{
-			nfloat minX = (nfloat)Math.Min(mDownPoint.X, mCurrentPoint.X);
-			nfloat maxX = (nfloat)Math.Max(mDownPoint.X, mCurrentPoint.X);
-			nfloat minY = (nfloat)Math.Min(mDownPoint.Y, mCurrentPoint.Y);
-			nfloat maxY = (nfloat)Math.Max(mDownPoint.Y, mCurrentPoint.Y);
-
-			return new CGRect(minX, minY, maxX-minX, maxY-minY);
 		}
 		#endregion
     }
