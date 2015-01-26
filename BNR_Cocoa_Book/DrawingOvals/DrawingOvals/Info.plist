@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleName</key>
+	<string>DrawingOvals</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.9</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>ovals</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>txt</string>
+			<key>CFBundleTypeName</key>
+			<string>DrawingOvals Document</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>ovals</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>NSDocumentClass</key>
+			<string>MyDocument</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.onobytes.drawingovals-doc</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleIdentifier</key>
+	<string>com.onobytes.drawingovals</string>
+	<key>CFBundleDisplayName</key>
+	<string>DrawingOvals</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1</string>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeDescription</key>
+			<string>DrawingOvals Document</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.onobytes.drawingovals-doc</string>
+			<key>UTTypeIconFile</key>
+			<string>txt</string>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>ovals</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

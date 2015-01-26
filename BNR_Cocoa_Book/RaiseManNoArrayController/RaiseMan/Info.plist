@@ -17,7 +17,7 @@
 			<string>RaiseMan Document</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
-				<string>????</string>
+				<string>rsmn</string>
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>

@@ -160,7 +160,7 @@ CA
 </string>
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="deleteSelectedEmployees:" target="-1" id="540"/>
+                                    <action selector="removeEmployee:" target="-1" id="wm2-Xf-vBk"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Cut" keyEquivalent="x" id="199">
