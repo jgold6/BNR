@@ -14,7 +14,10 @@ namespace DrawingFun
 	{
 		[Outlet]
 		DrawingFun.StretchView stretchView { get; set; }
-		
+
+		[Action ("showOpenPanel:")]
+		partial void ShowOpenPanel (Foundation.NSObject sender);
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (stretchView != null) {

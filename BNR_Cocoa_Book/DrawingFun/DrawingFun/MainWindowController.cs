@@ -24,33 +24,27 @@ namespace DrawingFun
         public override void AwakeFromNib()
         {
             base.AwakeFromNib();
-//			Window.Delegate = new WindowDelegate(stretchView);
         }
 
         public new MainWindow Window
         {
             get { return (MainWindow)base.Window; }
         }
+
+		#region - Actions
+		partial void ShowOpenPanel (Foundation.NSObject sender)
+		{
+			NSOpenPanel panel = NSOpenPanel.OpenPanel;
+			panel.AllowedFileTypes = NSImage.ImageFileTypes;
+			panel.BeginSheet(stretchView.Window, (int result) => {
+				if (result == 1) {
+					NSImage image = new NSImage(panel.Url);
+					stretchView.Image = image;
+				}
+				panel = null;
+			});
+		}
+		#endregion
     }
 
-//	[global::Foundation.Register("WindowDelegate")]
-//	public class WindowDelegate : NSWindowDelegate
-//	{
-//		StretchView stretchView;
-//		bool mFirstLaunch;
-//
-//		public WindowDelegate(StretchView s)
-//		{
-//			stretchView = s;
-//			mFirstLaunch = true;
-//		}
-//
-//		public override void DidResize(NSNotification notification)
-//		{
-//			if (mFirstLaunch) {
-//				stretchView.CreateRandomPath();
-//				mFirstLaunch = false;
-//			}
-//		}
-//	}
 }
