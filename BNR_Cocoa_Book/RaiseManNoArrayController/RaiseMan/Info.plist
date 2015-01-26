@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleDisplayName</key>
-	<string>RaiseMan</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -17,7 +15,7 @@
 			<string>RaiseMan Document</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
-				<string>rsmn</string>
+				<string>????</string>
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
@@ -41,8 +39,6 @@
 	<string>1</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-	<key>LSApplicationCategoryType</key>
-	<string>public.app-category.business</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.9</string>
 	<key>NSPrincipalClass</key>
@@ -71,5 +67,7 @@
 	</array>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
+	<key>CFBundleDisplayName</key>
+	<string>RaiseMan</string>
 </dict>
 </plist>

@@ -105,7 +105,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <BundleResource Include="Resources\txt.icns" />
     <BundleResource Include="Resources\Einstein.icns" />
     <BundleResource Include="Resources\en.lproj\MyDocument.strings" />
     <BundleResource Include="Resources\es.lproj\MyDocument.strings" />
@@ -119,5 +118,6 @@
     <BundleResource Include="Resources\en.lproj\Preference.strings" />
     <BundleResource Include="Resources\es.lproj\Preference.strings" />
     <BundleResource Include="Resources\fr.lproj\Preference.strings" />
+    <BundleResource Include="Resources\txt.icns" />
   </ItemGroup>
 </Project>
