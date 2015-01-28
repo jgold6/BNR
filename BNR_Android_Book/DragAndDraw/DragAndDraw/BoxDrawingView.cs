@@ -68,11 +68,18 @@ namespace DragAndDraw
 
 			// Test Text
 			canvas.Save();
-			canvas.Rotate(315, canvas.Width/2, canvas.Height/2);
-			var textWidth = mTextPaint.MeasureText("How about now?");
+			var textWidth = mTextPaint.MeasureText("Hello");
 			Rect textBounds = new Rect();
-			mTextPaint.GetTextBounds("a", 0, 1, textBounds);
-			canvas.DrawText("How about now?", canvas.Width/2-textWidth/2, canvas.Height/2 - textBounds.Height()/2, mTextPaint);
+			mTextPaint.GetTextBounds("Hello", 0, 1, textBounds);
+			canvas.DrawText("Hello", canvas.Width/2-textWidth/2, canvas.Height/2 - textBounds.Height()/2, mTextPaint);
+
+			textWidth = mTextPaint.MeasureText("World");
+			textBounds = new Rect();
+			mTextPaint.GetTextBounds("World", 0, 1, textBounds);
+			mTextPaint.Color = Color.Green;
+			canvas.DrawText("World", (canvas.Width/2-textWidth/2) +100, (canvas.Height/2 - textBounds.Height()/2) + 100, mTextPaint);
+
+
 			canvas.Restore();
 
 			foreach (Box box in mBoxes) {
