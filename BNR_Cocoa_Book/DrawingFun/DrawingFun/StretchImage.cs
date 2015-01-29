@@ -59,7 +59,7 @@ namespace DrawingFun
 		{
 			NSAffineTransform t = new NSAffineTransform();
 			StretchImage image = (StretchImage)this.Copy();
-			CGSize dimensions = this.Size;
+			CGSize dimensions = image.Size;
 
 			nint scaleX = 1;
 			nint scaleY = 1;
@@ -96,6 +96,16 @@ namespace DrawingFun
 		}
 
 		#endregion
+
+		public override NSObject Copy(NSZone zone)
+		{
+			StretchImage image = (StretchImage)base.Copy(zone);
+			image.StartPoint = this.StartPoint;
+			image.EndPoint = this.EndPoint;
+			image.Opacity = this.Opacity;
+
+			return image;
+		}
     }
 }
 
