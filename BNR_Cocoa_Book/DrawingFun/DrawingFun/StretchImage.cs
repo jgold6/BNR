@@ -58,8 +58,8 @@ namespace DrawingFun
 		public StretchImage GetFlippedImage()
 		{
 			NSAffineTransform t = new NSAffineTransform();
-			CGSize dimensions = this.Size;
 			StretchImage image = (StretchImage)this.Copy();
+			CGSize dimensions = this.Size;
 
 			nint scaleX = 1;
 			nint scaleY = 1;

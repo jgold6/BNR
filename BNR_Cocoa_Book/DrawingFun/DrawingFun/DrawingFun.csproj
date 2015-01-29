@@ -22,12 +22,13 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <UseRefCounting>true</UseRefCounting>
-    <UseSGen>false</UseSGen>
+    <UseSGen>true</UseSGen>
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <EnablePackageSigning>false</EnablePackageSigning>
     <CodeSigningKey>Mac Developer</CodeSigningKey>
     <EnableCodeSigning>false</EnableCodeSigning>
     <CreatePackage>false</CreatePackage>
+    <XamMacArch>x86_64</XamMacArch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>

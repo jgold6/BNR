@@ -36,7 +36,7 @@ namespace DrawingFun
 		{
 			NSOpenPanel panel = NSOpenPanel.OpenPanel;
 			panel.AllowedFileTypes = NSImage.ImageFileTypes;
-			panel.BeginSheet(stretchView.Window, (int result) => {
+			panel.BeginSheet(stretchView.Window, (nint result) => {
 				if (result == 1) {
 					StretchImage image = new StretchImage(panel.Url);
 					stretchView.Image = image;
