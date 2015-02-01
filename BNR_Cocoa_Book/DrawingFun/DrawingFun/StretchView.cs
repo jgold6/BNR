@@ -101,7 +101,7 @@ namespace DrawingFun
 			NSBezierPath.FillRect(bounds);
 			// Draw the path in white
 			NSColor.Red.Set();
-			mPath.Fill();
+			mPath.Stroke();
 			if (mImages.Count > 0) {
 				foreach (StretchImage image in mImages) {
 					StretchImage drawImage = image.GetFlippedImage();
