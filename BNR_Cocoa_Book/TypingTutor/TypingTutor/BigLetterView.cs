@@ -117,6 +117,19 @@ namespace TypingTutor
 			this.Letter = " ";
 		}
 
+		public override CGRect FocusRingMaskBounds
+		{
+			get
+			{
+				return this.Bounds;
+			}
+		}
+
+		public override void DrawFocusRingMask()
+		{
+			NSBezierPath.FillRect(this.Bounds);
+		}
+
 		public override void DrawRect(CoreGraphics.CGRect dirtyRect)
 		{
 			CGRect bounds = this.Bounds;
@@ -124,20 +137,23 @@ namespace TypingTutor
 			mBgColor.Set();
 			NSBezierPath.FillRect(bounds);
 
-			// Am I the window's first responder?
-			if (this.Window.FirstResponder == this) {
-				Console.WriteLine("BigLetterView is first responder");
-				NSColor.KeyboardFocusIndicator.Set();
-				NSBezierPath.DefaultLineWidth = 4.0f;
-				NSBezierPath.StrokeRect(bounds);	
 
-				NSString drawLetter = new NSString(mLetter);
-				NSMutableDictionary attributes = new NSMutableDictionary();
-				attributes.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName("Helvetica", 228.0f));
-				var textSize = drawLetter.StringSize(attributes);
+			// Using the system focus ring instead. Achieved by overriding DrawFocusRingMask and FocusRingMaskBounds
+//			// Am I the window's first responder? 
+//			if (this.Window.FirstResponder == this) {
+//				Console.WriteLine("BigLetterView is first responder");
+//
+//				NSColor.KeyboardFocusIndicator.Set();
+//				NSBezierPath.DefaultLineWidth = 4.0f;
+//				NSBezierPath.StrokeRect(bounds);	
+//			}
 
-				drawLetter.DrawString(new CGPoint(bounds.Width/2-textSize.Width/2, bounds.Height/2-textSize.Height/2), attributes);
-			}
+			NSString drawLetter = new NSString(mLetter);
+			NSMutableDictionary attributes = new NSMutableDictionary();
+			attributes.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName("Helvetica", 228.0f));
+			var textSize = drawLetter.StringSize(attributes);
+
+			drawLetter.DrawString(new CGPoint(bounds.Width/2-textSize.Width/2, bounds.Height/2-textSize.Height/2), attributes);
 		}
 		#endregion
     }
