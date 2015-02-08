@@ -34,6 +34,9 @@ namespace TypingTutor
 				Console.WriteLine("The letter is now {0}", mLetter);
 			}
 		}
+		public bool Bold {get; set;}
+		public bool Italic {get; set;}
+		public bool Shadow {get; set;}
 		#endregion
 
         #region Constructors
@@ -58,6 +61,9 @@ namespace TypingTutor
 			PrepareAttributes();
 			mBgColor = NSColor.Yellow;
 			mLetter = " ";
+			Bold = false;
+			Italic = false;
+			Shadow = false;
         }
 
         #endregion
@@ -175,13 +181,45 @@ namespace TypingTutor
 				panel = null;
 			});
 		}
+
+		partial void boldChecked (Foundation.NSObject sender)
+		{
+			Bold = !Bold;
+			PrepareAttributes();
+			NeedsDisplay = true;
+			Console.WriteLine("Bold: {0}", Bold);
+		}
+
+		partial void italicChecked (Foundation.NSObject sender)
+		{
+			Italic = !Italic;
+			PrepareAttributes();
+			NeedsDisplay = true;
+			Console.WriteLine("Italic: {0}",Italic);
+		}
+
+		partial void shadowChecked (Foundation.NSObject sender)
+		{
+			Shadow = !Shadow;
+			NeedsDisplay = true;
+			Console.WriteLine("Italic: {0}",Italic);
+		}
+
 		#endregion
 
 		#region - Methods
 		void PrepareAttributes()
 		{
 			mAttributes = new NSMutableDictionary();
-			mAttributes.Add(NSAttributedString.FontAttributeName, NSFont.UserFontOfSize(75.0f));
+			NSFontManager fontManager = NSFontManager.SharedFontManager;
+			NSFont font = NSFont.UserFontOfSize(75.0f);
+			if (Bold) {
+				font = fontManager.ConvertFont(font, NSFontTraitMask.Bold);
+			}
+			if (Italic) {
+				font = fontManager.ConvertFont(font, NSFontTraitMask.Italic);
+			}
+			mAttributes.Add(NSAttributedString.FontAttributeName, font);
 			mAttributes.Add(NSAttributedString.ForegroundColorAttributeName, NSColor.Red);
 		}
 
@@ -192,6 +230,13 @@ namespace TypingTutor
 			CGPoint strOrigin = new CGPoint();
 			strOrigin.X = rect.Location.X + (rect.Size.Width - strSize.Width)/2;
 			strOrigin.Y = rect.Location.Y + (rect.Size.Height - strSize.Height)/2;
+			if (Shadow) {
+				NSShadow shadow = new NSShadow();
+				shadow.ShadowBlurRadius = 8.0f;
+				shadow.ShadowOffset = new CGSize(5.0f, 5.0f);
+				shadow.ShadowColor = NSColor.Black;
+				shadow.Set();
+			}
 			drawLetter.DrawString(strOrigin, mAttributes);
 		}
 		#endregion
