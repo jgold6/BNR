@@ -10,6 +10,8 @@ namespace TypingTutor
     public partial class BigLetterView : AppKit.NSView
     {
 		#region - Member variables and Properties
+		private string[] pboardTypes = new string[] {NSPasteboard.NSStringType.ToString()};
+
 		NSMutableDictionary mAttributes;
 
 		NSColor mBgColor;
@@ -31,7 +33,7 @@ namespace TypingTutor
 			set {
 				mLetter = value;
 				NeedsDisplay = true;
-				Console.WriteLine("The letter is now {0}", mLetter);
+				Console.WriteLine("The letter is now {0}", mLetter == "" ? "<empty>": mLetter);
 			}
 		}
 		public bool Bold {get; set;}
@@ -57,10 +59,10 @@ namespace TypingTutor
         // Shared initialization code
         void Initialize()
         {
-			Console.WriteLine("Initializing BigLetterView");
+			Console.WriteLine("Initializing BigLetterView\n {0}", NSPasteboard.NSStringType);
 			PrepareAttributes();
 			mBgColor = NSColor.Yellow;
-			mLetter = " ";
+			mLetter = "";
 			Bold = false;
 			Italic = false;
 			Shadow = false;
@@ -123,7 +125,7 @@ namespace TypingTutor
 		[Export("deleteBackward:")]
 		public void DeleteBackward(NSObject sender)
 		{
-			this.Letter = " ";
+			this.Letter = "";
 		}
 
 		public override CGRect FocusRingMaskBounds
@@ -205,6 +207,26 @@ namespace TypingTutor
 			Console.WriteLine("Italic: {0}",Italic);
 		}
 
+		partial void Cut (Foundation.NSObject sender)
+		{
+			Copy(sender);
+			Letter = "";
+		}
+
+		partial void Copy (Foundation.NSObject sender)
+		{
+			NSPasteboard pb = NSPasteboard.GeneralPasteboard;
+			WriteToPasteBoard(pb);
+		}
+
+		partial void Paste (Foundation.NSObject sender)
+		{
+			NSPasteboard pb = NSPasteboard.GeneralPasteboard;
+			if (!ReadFromPasteboard(pb)) {
+				AppKitFramework.NSBeep();
+			}
+
+		}
 		#endregion
 
 		#region - Methods
@@ -238,6 +260,29 @@ namespace TypingTutor
 				shadow.Set();
 			}
 			drawLetter.DrawString(strOrigin, mAttributes);
+		}
+
+		public void WriteToPasteBoard(NSPasteboard pb)
+		{
+			// Copy data to the pasteboard
+			pb.ClearContents();
+			pb.DeclareTypes(pboardTypes, null);
+			pb.SetStringForType(mLetter, pboardTypes[0]);
+		}
+
+		public bool ReadFromPasteboard(NSPasteboard pb)
+		{
+			string pbString = pb.GetStringForType(pboardTypes[0]);
+
+			if (pbString != null) {
+				// Read the string from the pasteboard
+				// Our view can only handle one letter
+				if (pbString.Length == 1) {
+					Letter = pbString;
+					return true;
+				}
+			}
+			return false;
 		}
 		#endregion
     }

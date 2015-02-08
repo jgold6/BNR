@@ -15,5 +15,12 @@ namespace TypingTutor
 
 		[Action ("shadowChecked:")]
 		partial void shadowChecked (Foundation.NSObject sender);
+
+		[Action ("cut:")]
+		partial void Cut (Foundation.NSObject sender);
+		[Action ("copy:")]
+		partial void Copy (Foundation.NSObject sender);
+		[Action ("paste:")]
+		partial void Paste (Foundation.NSObject sender);
     }
 }
