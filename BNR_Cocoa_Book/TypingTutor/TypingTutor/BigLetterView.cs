@@ -38,7 +38,7 @@ namespace TypingTutor
 		}
 		public bool Bold {get; set;}
 		public bool Italic {get; set;}
-		public bool Shadow {get; set;}
+		public bool LetterShadow {get; set;}
 		#endregion
 
         #region Constructors
@@ -65,7 +65,7 @@ namespace TypingTutor
 			mLetter = "";
 			Bold = false;
 			Italic = false;
-			Shadow = false;
+			LetterShadow = false;
         }
 
         #endregion
@@ -202,7 +202,7 @@ namespace TypingTutor
 
 		partial void shadowChecked (Foundation.NSObject sender)
 		{
-			Shadow = !Shadow;
+			LetterShadow = !LetterShadow;
 			NeedsDisplay = true;
 			Console.WriteLine("Italic: {0}",Italic);
 		}
@@ -252,7 +252,7 @@ namespace TypingTutor
 			CGPoint strOrigin = new CGPoint();
 			strOrigin.X = rect.Location.X + (rect.Size.Width - strSize.Width)/2;
 			strOrigin.Y = rect.Location.Y + (rect.Size.Height - strSize.Height)/2;
-			if (Shadow) {
+			if (LetterShadow) {
 				NSShadow shadow = new NSShadow();
 				shadow.ShadowBlurRadius = 8.0f;
 				shadow.ShadowOffset = new CGSize(5.0f, 5.0f);
