@@ -1,8 +1,8 @@
-﻿using System;
-using System.Drawing;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-using MonoMac.ObjCRuntime;
+using System;
+using CoreGraphics;
+using Foundation;
+using AppKit;
+using ObjCRuntime;
 
 namespace Lottery
 {
@@ -14,7 +14,7 @@ namespace Lottery
         {
         }
 
-        public override void FinishedLaunching(NSObject notification)
+        public override void DidFinishLaunching(NSNotification notification)
         {
             mainWindowController = new MainWindowController();
             mainWindowController.Window.MakeKeyAndOrderFront(this);
