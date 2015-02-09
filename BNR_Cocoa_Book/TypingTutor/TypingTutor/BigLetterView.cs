@@ -10,7 +10,7 @@ namespace TypingTutor
     public partial class BigLetterView : AppKit.NSView
     {
 		#region - Member variables and Properties
-		private string[] pboardTypes = new string[] {NSPasteboard.NSStringType.ToString()};
+		private string[] pboardTypes = new string[] {NSPasteboard.NSStringType.ToString(), NSPasteboard.NSPdfType.ToString()};
 
 		NSMutableDictionary mAttributes;
 
@@ -268,6 +268,9 @@ namespace TypingTutor
 			pb.ClearContents();
 			pb.DeclareTypes(pboardTypes, null);
 			pb.SetStringForType(mLetter, pboardTypes[0]);
+			CGRect r = this.Bounds;
+			NSData data = this.DataWithPdfInsideRect(r);
+			pb.SetDataForType(data, pboardTypes[1]);
 		}
 
 		public bool ReadFromPasteboard(NSPasteboard pb)
