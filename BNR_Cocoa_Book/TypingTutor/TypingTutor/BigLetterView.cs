@@ -224,6 +224,16 @@ namespace TypingTutor
 			return NSDragOperation.Copy;
 		}
 
+		public override NSDragOperation DraggingUpdated(NSDraggingInfo sender)
+		{
+			NSDragOperation op = sender.DraggingSourceOperationMask;
+			Console.WriteLine("Operation Mask: {0}", op);
+			if (sender.DraggingSource == this) {
+				return NSDragOperation.None;
+			}
+			return NSDragOperation.Copy;
+		}
+
 		public override void DraggingExited(NSDraggingInfo sender)
 		{
 			Console.WriteLine("Dragging Exited");
