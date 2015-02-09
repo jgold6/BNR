@@ -2,14 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-using MonoMac.ObjCRuntime;
+using Foundation;
+using AppKit;
+using ObjCRuntime;
 using System.Threading;
 
 namespace RaiseMan
 {
-    public partial class MyDocument : MonoMac.AppKit.NSDocument
+    public partial class MyDocument : AppKit.NSDocument
     {
 		#region - Member variables and properties
 		NSMutableArray _employees;
@@ -25,7 +25,7 @@ namespace RaiseMan
 				if (value == _employees)
 					return;
 				if (_employees != null) {
-					for (int i = 0; i < _employees.Count; i++) {
+					for (nuint i = 0; i < _employees.Count; i++) {
 						Person person = _employees.GetItem<Person>(i);
 						this.StopObservingPerson(person);
 					}
@@ -33,7 +33,7 @@ namespace RaiseMan
 
 				_employees = value;
 
-				for (int i = 0; i < _employees.Count; i++) {
+				for (nuint i = 0; i < _employees.Count; i++) {
 					Person person = _employees.GetItem<Person>(i);
 					this.StartObservingPerson(person);
 				}
@@ -58,10 +58,10 @@ namespace RaiseMan
         }
         
         // Called when created directly from a XIB file
-        [Export("initWithCoder:")]
-        public MyDocument(NSCoder coder) : base(coder)
-        {
-        }
+//        [Export("initWithCoder:")]
+//        public MyDocument(NSCoder coder) : base(coder)
+//        {
+//        }
 		#endregion
 
 		#region - Lifecycle
@@ -128,9 +128,9 @@ namespace RaiseMan
 		#endregion
 
 		#region - Actions
-		partial void btnCheckEntries (MonoMac.Foundation.NSObject sender)
+		partial void btnCheckEntries (Foundation.NSObject sender)
 		{
-			for (int i = 0; i < Employees.Count; i++) {
+			for (nuint i = 0; i < Employees.Count; i++) {
 				Person employee = Employees.GetItem<Person>(i);
 				Console.WriteLine("Employees Person Name: {0}, Expected Raise: {1:P0}, {2}", employee.Name, employee.ExpectedRaise, employee.ExpectedRaise);
 			}
@@ -143,7 +143,7 @@ namespace RaiseMan
 			Console.WriteLine("****************************");
 		}
 
-		partial void btnCreateEmployee (MonoMac.Foundation.NSObject sender)
+		partial void btnCreateEmployee (Foundation.NSObject sender)
 		{
 			NSWindow w = tableView.Window;
 
@@ -170,10 +170,10 @@ namespace RaiseMan
 			// BUG: https://bugzilla.xamarin.com/show_bug.cgi?id=25620
 //			Person p = arrayController.NewObject;
 			// Workaround
-			Person p = (Person)Runtime.GetNSObject (Messaging.IntPtr_objc_msgSend(arrayController.Handle, Selector.GetHandle ("newObject")));
+//			Person p = (Person)Runtime.GetNSObject (Messaging.IntPtr_objc_msgSend(arrayController.Handle, Selector.GetHandle ("newObject")));
 			// Plus I can't figure out how to get the Person object from NSObjectController. Ah, this is due to above bug.
 			// Creating my own Person object instead
-//			Person p = new Person();
+			Person p = new Person();
 
 			// Add it to the content array of arrayController
 			arrayController.AddObject(p);
@@ -186,9 +186,9 @@ namespace RaiseMan
 
 			// Find the object just added
 			int row = -1;
-			for (int i = 0; i < a.Count; i++) {
+			for (nuint i = 0; i < a.Count; i++) {
 				if (p == a.GetItem<Person>(i)) {
-					row = i;
+					row = (int)i;
 					break;
 				}
 			}
@@ -214,7 +214,7 @@ namespace RaiseMan
 			person.RemoveObserver(this, new NSString("expectedRaise"));
 		}
 
-		[Export("changeKeyPath:ofObject:toValue:")]
+		[Export("changeKeyPathofObjecttoValue:")]
 		public void ChangeKeyPathOfObjectToValue(NSObject o)
 		{
 			NSString keyPath = ((NSArray)o).GetItem<NSString>(0);
@@ -247,7 +247,7 @@ namespace RaiseMan
 			}
 			Console.WriteLine("oldValue = {0}", oldValue);
 			NSArray args = NSArray.FromObjects(new object[]{keyPath, obj, oldValue});
-			undo.RegisterUndoWithTarget(this, new Selector("changeKeyPath:ofObject:toValue:"), args);
+			undo.RegisterUndoWithTarget(this, new Selector("changeKeyPathofObjecttoValue:"), args);
 			undo.SetActionname("Edit");
 
 			// Sort if necessary
@@ -278,10 +278,10 @@ namespace RaiseMan
 		}
 
 		[Export("removeObjectFromEmployeesAtIndex:")]
-		public void RemoveObjectFromEmployeesAtIndex(int index)
+		public void RemoveObjectFromEmployeesAtIndex(nint index)
 		{
 			NSUndoManager undo = this.UndoManager;
-			Person p = Employees.GetItem<Person>(index);
+			Person p = Employees.GetItem<Person>((nuint)index);
 			Console.WriteLine("Removing {0} from {1}", p, Employees);
 			// Add the inverse of this operation to the undo stack
 			NSArray args = NSArray.FromObjects(new object[]{p, new NSNumber(index)});

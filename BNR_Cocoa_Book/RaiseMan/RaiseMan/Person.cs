@@ -1,5 +1,5 @@
 ﻿using System;
-using MonoMac.Foundation;
+using Foundation;
 
 namespace RaiseMan
 {
@@ -27,7 +27,7 @@ namespace RaiseMan
 			this.ExpectedRaise = decoder.DecodeFloat("expectedRaise");
 		}
 
-		public override void EncodeTo(NSCoder coder)
+		public void EncodeTo(NSCoder coder)
 		{
 			if (this.Name != null)
 				coder.Encode(new NSString(this.Name), "name");
