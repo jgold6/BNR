@@ -7,12 +7,13 @@ using CoreGraphics;
 
 namespace TypingTutor
 {
-    public partial class BigLetterView : AppKit.NSView
+	public partial class BigLetterView : AppKit.NSView
     {
 		#region - Member variables and Properties
 		private string[] pboardTypes = new string[] {NSPasteboard.NSStringType.ToString(), NSPasteboard.NSPdfType.ToString()};
 
 		NSMutableDictionary mAttributes;
+		NSEvent mMouseDownEvent;
 
 		NSColor mBgColor;
 		public NSColor BgColor {
@@ -39,6 +40,7 @@ namespace TypingTutor
 		public bool Bold {get; set;}
 		public bool Italic {get; set;}
 		public bool LetterShadow {get; set;}
+		public bool Highlighted {get; set;}
 		#endregion
 
         #region Constructors
@@ -66,6 +68,8 @@ namespace TypingTutor
 			Bold = false;
 			Italic = false;
 			LetterShadow = false;
+			Highlighted = false;
+			RegisterForDraggedTypes(new string[]{pboardTypes[0]});
         }
 
         #endregion
@@ -88,6 +92,16 @@ namespace TypingTutor
 		public override bool BecomeFirstResponder()
 		{
 			Console.WriteLine("Becoming First Repsonder");
+
+			if (btnBold != null && btnItalic != null && btnShadow != null) {
+				btnBold.Enabled = true;
+				btnItalic.Enabled = true;
+				btnShadow.Enabled = true;
+				btnBold.State = Bold ? NSCellStateValue.On : NSCellStateValue.Off;
+				btnItalic.State = Italic ? NSCellStateValue.On : NSCellStateValue.Off;
+				btnShadow.State = LetterShadow ? NSCellStateValue.On : NSCellStateValue.Off;
+			}
+
 			NeedsDisplay = true;
 			return true;
 		}
@@ -95,6 +109,14 @@ namespace TypingTutor
 		public override bool ResignFirstResponder()
 		{
 			Console.WriteLine("Resigning First Repsonder");
+			if (btnBold != null && btnItalic != null && btnShadow != null) {
+				btnBold.State = NSCellStateValue.Off;
+				btnItalic.State = NSCellStateValue.Off;
+				btnShadow.State = NSCellStateValue.Off;
+				btnBold.Enabled = false;
+				btnItalic.Enabled = false;
+				btnShadow.Enabled = false;
+			}
 			NeedsDisplay = true;
 			return true;
 		}
@@ -128,6 +150,111 @@ namespace TypingTutor
 			this.Letter = "";
 		}
 
+		public override void MouseDown(NSEvent theEvent)
+		{
+			base.MouseDown(theEvent);
+			mMouseDownEvent = theEvent;
+		}
+
+		public override void MouseDragged(NSEvent theEvent)
+		{
+			base.MouseDragged(theEvent);
+			CGPoint down = mMouseDownEvent.LocationInWindow;
+			CGPoint drag = theEvent.LocationInWindow;
+			double distance = Math.Sqrt( Math.Pow( down.X - drag.X ,2) + Math.Pow(down.Y - drag.Y, 2) );
+			if (distance < 3) {
+				return;
+			}
+
+			// Is the string zero length?
+			if (mLetter.Length == 0) {
+				return;
+			}
+
+			// Get the size of the string
+			CGSize size = mLetter.StringSize(mAttributes);
+
+			// Create the image that will be dragged
+			NSImage anImage = new NSImage(size);
+
+			// Create a rect in which you will draw the letter
+			// in the image
+			CGRect imageBounds = CGRect.Empty;
+			imageBounds.Location = new CGPoint(0.0f, 0.0f);
+			imageBounds.Size = size;
+
+			// Draw the letter on the image
+			anImage.LockFocus();
+			this.DrawStringCenteredInRectangle(mLetter, imageBounds);
+			anImage.UnlockFocus();
+
+			// Get the location of the mouse down event
+			CGPoint p = this.ConvertPointFromView(down, null);
+
+			// Drag from the center of theimage
+			p = new CGPoint(p.X - size.Width/2, p.Y - size.Height/2);
+
+			// Get the pasteboard
+			NSPasteboard pb = NSPasteboard.FromName(NSPasteboard.NSDragPasteboardName);
+
+			// Put the string in the pasteboard
+			WriteToPasteBoard(pb);
+
+			// Start the drag
+			this.DragImage(anImage, p,CGSize.Empty, mMouseDownEvent, pb, this, true);
+		}
+
+		[Export("draggedImage:endedAt:operation:")]
+		public void DraggedImageEndedAtOperation(NSImage image, CGPoint screenPoint, NSDragOperation operation)
+		{
+			if (operation == NSDragOperation.Delete) {
+				Letter = "";
+			}
+		}
+
+		public override NSDragOperation DraggingEntered(NSDraggingInfo sender)
+		{
+			Console.WriteLine("Dragging Entered");
+			if (sender.DraggingSource == this) {
+				return NSDragOperation.None;
+			}
+			Highlighted = true;
+			NeedsDisplay = true;
+
+			return NSDragOperation.Copy;
+		}
+
+		public override void DraggingExited(NSDraggingInfo sender)
+		{
+			Console.WriteLine("Dragging Exited");
+			Highlighted = false;
+			NeedsDisplay = true;
+		}
+
+		public override bool PrepareForDragOperation(NSDraggingInfo sender)
+		{
+			return true;
+		}
+
+		public override bool PerformDragOperation(NSDraggingInfo sender)
+		{
+			NSPasteboard pb = sender.DraggingPasteboard;
+			if (!ReadFromPasteboard(pb)) {
+				Console.WriteLine("Error: could not read from dragging pasteboard");
+				Highlighted = false;
+				NeedsDisplay = true;
+				return false;
+			}
+			return true;
+		}
+
+		public override void ConcludeDragOperation(NSDraggingInfo sender)
+		{
+			Console.WriteLine("Dragging Concluded");
+			Highlighted = false;
+			NeedsDisplay = true;
+		}
+
 		public override CGRect FocusRingMaskBounds
 		{
 			get
@@ -144,10 +271,6 @@ namespace TypingTutor
 		public override void DrawRect(CoreGraphics.CGRect dirtyRect)
 		{
 			CGRect bounds = this.Bounds;
-			// Fill view with green
-			mBgColor.Set();
-			NSBezierPath.FillRect(bounds);
-
 
 			// Using the system focus ring instead. Achieved by overriding DrawFocusRingMask and FocusRingMaskBounds
 //			// Am I the window's first responder? 
@@ -159,8 +282,23 @@ namespace TypingTutor
 //				NSBezierPath.StrokeRect(bounds);	
 //			}
 
+			if (Highlighted) {
+				NSGradient gr = new NSGradient(NSColor.White, mBgColor);
+				gr.DrawInRect(bounds, new CGPoint(0.0f, 0.0f));
+			} else {
+				mBgColor.Set();
+				NSBezierPath.FillRect(bounds);
+			}
+
 			DrawStringCenteredInRectangle(mLetter, bounds);
 		}
+
+		[Export("draggingSourceOperationMaskForLocal:")]
+		public NSDragOperation DraggingSourceOperationMaskForLocal(bool isLocal)
+		{
+			return NSDragOperation.Copy | NSDragOperation.Delete;
+		}
+
 		#endregion
 
 		#region - Actions

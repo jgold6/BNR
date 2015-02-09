@@ -7,6 +7,14 @@ namespace TypingTutor
     [Foundation.Register("BigLetterView")]
     public partial class BigLetterView
     {
+		[Outlet("btnBold")]
+		public AppKit.NSButton btnBold { get; set; }
+		[Outlet("btnItalic")]
+		public AppKit.NSButton btnItalic { get; set; }
+		[Outlet("btnShadow")]
+		public AppKit.NSButton btnShadow { get; set; }
+
+
 		[Action ("boldChecked:")]
 		partial void boldChecked (Foundation.NSObject sender);
 
