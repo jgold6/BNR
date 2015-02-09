@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Drawing;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
+using CoreGraphics;
+using Foundation;
+using AppKit;
 
 namespace CarLot
 {
 	[Register("Car")]
-    public class Car : NSObject
+    public class Car : NSObject, INSCoding
     {
 		#region - Properties
 		[Export("makeModel")]
@@ -58,7 +58,7 @@ namespace CarLot
 		#endregion
 
 		#region - Overrides
-		public override void EncodeTo(NSCoder coder)
+		public void EncodeTo(NSCoder coder)
 		{
 			if (this.MakeModel != null)
 				coder.Encode(new NSString(this.MakeModel), "makeModel");

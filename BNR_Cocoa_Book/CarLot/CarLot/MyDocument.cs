@@ -2,13 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-using MonoMac.ObjCRuntime;
+using Foundation;
+using AppKit;
+using ObjCRuntime;
 
 namespace CarLot
 {
-	public partial class MyDocument : MonoMac.AppKit.NSDocument
+	public partial class MyDocument : AppKit.NSDocument
     {
 		#region - Member variables and properties
 		NSMutableArray _cars;
@@ -24,7 +24,7 @@ namespace CarLot
 				if (value == _cars)
 					return;
 				if (_cars != null) {
-					for (int i = 0; i < _cars.Count; i++) {
+					for (nuint i = 0; i < _cars.Count; i++) {
 						Car car = _cars.GetItem<Car>(i);
 						this.StopObservingCar(car);
 					}
@@ -32,7 +32,7 @@ namespace CarLot
 
 				_cars = value;
 
-				for (int i = 0; i < _cars.Count; i++) {
+				for (nuint i = 0; i < _cars.Count; i++) {
 					Car car = _cars.GetItem<Car>(i);
 					this.StartObservingCar(car);
 				}
@@ -57,10 +57,10 @@ namespace CarLot
         }
         
         // Called when created directly from a XIB file
-        [Export("initWithCoder:")]
-        public MyDocument(NSCoder coder) : base(coder)
-        {
-        }
+//        [Export("initWithCoder:")]
+//        public MyDocument(NSCoder coder) : base(coder)
+//        {
+//        }
 		#endregion
 
 		#region - LifeCycle
@@ -123,9 +123,9 @@ namespace CarLot
 		#endregion
 
 		#region - Actions
-		partial void btnCheckEntries (MonoMac.Foundation.NSObject sender)
+		partial void btnCheckEntries (Foundation.NSObject sender)
 		{
-			for (int i = 0; i < Cars.Count; i++) {
+			for (nuint i = 0; i < Cars.Count; i++) {
 				Car car = Cars.GetItem<Car>(i);
 				Console.WriteLine("Cars MakeModel: {0}, Price: {1:C2}, OnSpecial: {2}, Condition: {3}, Date Purchased {4}, Photo: {5}", car.MakeModel, car.Price, car.OnSpecial, car.Condition, car.DatePurchased.DescriptionWithLocale(NSLocale.CurrentLocale), car.Photo);
 			}
@@ -138,7 +138,7 @@ namespace CarLot
 			Console.WriteLine("****************************");
 		}
 
-		partial void btnCreateCar (MonoMac.Foundation.NSObject sender)
+		partial void btnCreateCar (Foundation.NSObject sender)
 		{
 			NSWindow w = tableView.Window;
 
@@ -164,11 +164,11 @@ namespace CarLot
 			// not an NSObject and also causes an InvalidCastException
 			// BUG: https://bugzilla.xamarin.com/show_bug.cgi?id=25620
 //			Car c = arrayController.NewObject;
-			// Workaround
-			Car c = (Car)Runtime.GetNSObject(Messaging.IntPtr_objc_msgSend(arrayController.Handle, Selector.GetHandle ("newObject")));
+			// Workaround - not available in Unified API... due to protection level.
+//			Car c = (Car)Runtime.GetNSObject(Messaging.IntPtr_objc_msgSend(arrayController.Handle, Selector.GetHandle ("newObject")));
 			// Plus I can't figure out how to get the Car object from NSObjectController. Ah, this is due to above bug.
 			// Creating my own Person object instead
-//			Car c = new Car();
+			Car c = new Car();
 
 			// Add it to the content array of arrayController
 			arrayController.AddObject(c);
@@ -180,10 +180,10 @@ namespace CarLot
 			NSArray a = NSArray.FromNSObjects(arrayController.ArrangedObjects());
 
 			// Find the object just added
-			int row = -1;
-			for (int i = 0; i < a.Count; i++) {
+			nint row = -1;
+			for (nuint i = 0; i < a.Count; i++) {
 				if (c == a.GetItem<Car>(i)) {
-					row = i;
+					row = (nint)i;
 					break;
 				}
 			}
@@ -296,10 +296,10 @@ namespace CarLot
 		}
 
 		[Export("removeObjectFromCarsAtIndex:")]
-		public void RemoveObjectFromCarsAtIndex(int index)
+		public void RemoveObjectFromCarsAtIndex(nint index)
 		{
 			NSUndoManager undo = this.UndoManager;
-			Car c = Cars.GetItem<Car>(index);
+			Car c = Cars.GetItem<Car>((nuint)index);
 			Console.WriteLine("Removing {0} from {1}", c, Cars);
 			// Add the inverse of this operation to the undo stack
 			NSArray args = NSArray.FromObjects(new object[]{c, new NSNumber(index)});
