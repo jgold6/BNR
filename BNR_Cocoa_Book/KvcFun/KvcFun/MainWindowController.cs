@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
+using Foundation;
+using AppKit;
 
 namespace KvcFun
 {
-    public partial class MainWindowController : MonoMac.AppKit.NSWindowController
+    public partial class MainWindowController : AppKit.NSWindowController
     {
 		int _fido;
 
@@ -59,7 +59,7 @@ namespace KvcFun
 
         #endregion
 
-		partial void btnIncFido (MonoMac.Foundation.NSObject sender)
+		partial void btnIncFido (Foundation.NSObject sender)
 		{
 			// Set fido using SetValueForKey - is reflected in the slider and label
 //			this.SetValueForKey(new NSNumber(++_fido), new NSString("fido"));
@@ -69,7 +69,7 @@ namespace KvcFun
 			this.DidChangeValue("fido");
 		}
 
-		partial void btnDecFido (MonoMac.Foundation.NSObject sender)
+		partial void btnDecFido (Foundation.NSObject sender)
 		{
 			// Set fido using SetValueForKey - is reflected in the slider and label
 //			this.SetValueForKey(new NSNumber(--_fido), new NSString("fido"));
