@@ -280,13 +280,13 @@ namespace TypingTutor
 			if (pbString != null) {
 				// Read the string from the pasteboard
 				// Our view can only handle one letter
-				if (pbString.Length == 1) {
-					Letter = pbString;
-					return true;
-				}
+				Letter = pbString.GetFirstLetter();
+				return true;
 			}
 			return false;
 		}
 		#endregion
     }
+
+
 }
