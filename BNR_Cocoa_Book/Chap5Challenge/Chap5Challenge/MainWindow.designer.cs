@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoMac.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace Chap5Challenge
@@ -13,16 +13,16 @@ namespace Chap5Challenge
 	partial class MainWindowController
 	{
 		[Outlet]
-		MonoMac.AppKit.NSButton btnCountChar { get; set; }
+		AppKit.NSButton btnCountChar { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblOutput { get; set; }
+		AppKit.NSTextField lblOutput { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField textField { get; set; }
+		AppKit.NSTextField textField { get; set; }
 
 		[Action ("btnCountCharClicked:")]
-		partial void btnCountCharClicked (MonoMac.Foundation.NSObject sender);
+		partial void btnCountCharClicked (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
+using Foundation;
+using AppKit;
 
 namespace Chap5Challenge
 {
-    public partial class MainWindowController : MonoMac.AppKit.NSWindowController
+    public partial class MainWindowController : AppKit.NSWindowController
     {
         #region Constructors
 
@@ -42,7 +42,7 @@ namespace Chap5Challenge
 
         #endregion
 
-		partial void btnCountCharClicked (MonoMac.Foundation.NSObject sender)
+		partial void btnCountCharClicked (Foundation.NSObject sender)
 		{
 			lblOutput.StringValue = String.Format("'{0}' has {1} characters", textField.StringValue, textField.StringValue.Length);
 			textField.StringValue = "";
