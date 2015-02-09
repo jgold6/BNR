@@ -2,13 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-using System.Drawing;
+using Foundation;
+using AppKit;
+using CoreGraphics;
 
 namespace SpeakLine
 {
-	public partial class MainWindowController : MonoMac.AppKit.NSWindowController
+	public partial class MainWindowController : AppKit.NSWindowController
     {
 		#region - Member Variables
 		NSSpeechSynthesizer mSpeechSynth;
@@ -100,7 +100,7 @@ namespace SpeakLine
         #endregion
 
 		#region - Actions from XIB
-		partial void btnSpeakHandler (MonoMac.Foundation.NSObject sender)
+		partial void btnSpeakHandler (Foundation.NSObject sender)
 		{
 			string value = textField.StringValue;
 			// Is the string 0 length?
@@ -115,12 +115,12 @@ namespace SpeakLine
 			textField.Enabled = false;
 		}
 
-		partial void btnStopHandler (MonoMac.Foundation.NSObject sender)
+		partial void btnStopHandler (Foundation.NSObject sender)
 		{
 			mSpeechSynth.StopSpeaking(NSSpeechBoundary.hWord);
 		}
 
-		partial void btnAddPhraseHandler (MonoMac.Foundation.NSObject sender)
+		partial void btnAddPhraseHandler (Foundation.NSObject sender)
 		{
 			if (textField.StringValue != "") {
 				PhrasesTableViewSource.todoItems.Add(textField.StringValue);
@@ -129,7 +129,7 @@ namespace SpeakLine
 			}
 		}
 
-		partial void btnClearHandler (MonoMac.Foundation.NSObject sender)
+		partial void btnClearHandler (Foundation.NSObject sender)
 		{
 			textField.StringValue = "";
 			phrasesTableView.DeselectAll(btnClear);
@@ -179,7 +179,7 @@ namespace SpeakLine
 		[Export("tableViewSelectionDidChange:")]
 		public void SelectionDidChange(NSNotification notification)
 		{
-			int row = voicesTableView.SelectedRow;
+			nint row = voicesTableView.SelectedRow;
 			if (row == -1)
 				return;
 			string selectedVoice = mVoices[row];
@@ -189,11 +189,11 @@ namespace SpeakLine
 
 		#region - Window WeakDelegate methods
 		[Export("windowWillResize:toSize:")]
-		public System.Drawing.SizeF WillResize(NSWindow sender, System.Drawing.SizeF toFrameSize)
+		public CGSize WillResize(NSWindow sender, CGSize toFrameSize)
 		{
-			float newWidth = toFrameSize.Width < 820 ? 820 : toFrameSize.Width;
-			float newHieght = toFrameSize.Height < 250 ? 250 : toFrameSize.Height;
-			return new SizeF(newWidth, newHieght);
+			nfloat newWidth = toFrameSize.Width < 820 ? 820 : toFrameSize.Width;
+			nfloat newHieght = toFrameSize.Height < 250 ? 250 : toFrameSize.Height;
+			return new CGSize(newWidth, newHieght);
 		}
 		#endregion
     }
@@ -210,14 +210,14 @@ namespace SpeakLine
 			mainWindowController = mwc;
 		}
 
-		public override int GetRowCount(NSTableView tableView)
+		public override nint GetRowCount(NSTableView tableView)
 		{
 			return todoItems.Count;
 		}
 
-		public override NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
+		public override NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, nint row)
 		{
-			return new NSString(todoItems[row]);
+			return new NSString(todoItems[(int)row]);
 		}
 
 		public override void ObjectDidEndEditing(NSObject editor)
@@ -230,9 +230,9 @@ namespace SpeakLine
 		public override void SelectionDidChange(NSNotification notification)
 		{
 			MainWindowController mwc = (MainWindowController)mainWindowController.Target;
-			int selectedRow = mwc.phrasesTableView.SelectedRow;
+			nint selectedRow = mwc.phrasesTableView.SelectedRow;
 			if (selectedRow != -1) {
-				mwc.textField.StringValue = todoItems[selectedRow];
+				mwc.textField.StringValue = todoItems[(int)selectedRow];
 				mwc.btnAddPhrase.Enabled = false;
 			}
 			else {
@@ -258,15 +258,15 @@ namespace SpeakLine
 		public override void TextDidEndEditing(NSNotification notification)
 		{
 			base.TextDidEndEditing(notification);
-			int row = this.SelectedRow;
+			nint row = this.SelectedRow;
 			MainWindowController mwc = (MainWindowController)mainWindowController.Target;
 			NSTextView tv = (NSTextView)notification.Object;
 			if (tv.Value !="") {
-				mwc.PhrasesTableViewSource.todoItems[row] = tv.Value;
+				mwc.PhrasesTableViewSource.todoItems[(int)row] = tv.Value;
 				mwc.btnAddPhrase.Enabled = false;
 			}
 			else {
-				mwc.PhrasesTableViewSource.todoItems.RemoveAt(row);
+				mwc.PhrasesTableViewSource.todoItems.RemoveAt((int)row);
 				mwc.phrasesTableView.DeselectAll(this);
 				mwc.btnAddPhrase.Enabled = true;
 			}

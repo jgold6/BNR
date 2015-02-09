@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoMac.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace SpeakLine
@@ -13,37 +13,37 @@ namespace SpeakLine
 	partial class MainWindowController
 	{
 		[Outlet]
-		public MonoMac.AppKit.NSButton btnAddPhrase { get; set; }
+		public AppKit.NSButton btnAddPhrase { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnClear { get; set; }
+		AppKit.NSButton btnClear { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnSpeak { get; set; }
+		AppKit.NSButton btnSpeak { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnStop { get; set; }
+		AppKit.NSButton btnStop { get; set; }
 
 		[Outlet]
 		public SpeakLine.PhrasesTableView phrasesTableView { get; private set; }
 
 		[Outlet]
-		public MonoMac.AppKit.NSTextField textField { get; private set; }
+		public AppKit.NSTextField textField { get; private set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTableView voicesTableView { get; set; }
+		AppKit.NSTableView voicesTableView { get; set; }
 
 		[Action ("btnAddPhraseHandler:")]
-		partial void btnAddPhraseHandler (MonoMac.Foundation.NSObject sender);
+		partial void btnAddPhraseHandler (Foundation.NSObject sender);
 
 		[Action ("btnClearHandler:")]
-		partial void btnClearHandler (MonoMac.Foundation.NSObject sender);
+		partial void btnClearHandler (Foundation.NSObject sender);
 
 		[Action ("btnSpeakHandler:")]
-		partial void btnSpeakHandler (MonoMac.Foundation.NSObject sender);
+		partial void btnSpeakHandler (Foundation.NSObject sender);
 
 		[Action ("btnStopHandler:")]
-		partial void btnStopHandler (MonoMac.Foundation.NSObject sender);
+		partial void btnStopHandler (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
