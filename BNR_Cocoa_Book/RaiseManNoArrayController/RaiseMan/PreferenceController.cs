@@ -1,13 +1,13 @@
-﻿
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
+using Foundation;
+using AppKit;
 
 namespace RaiseMan
 {
-    public partial class PreferenceController : MonoMac.AppKit.NSWindowController
+    public partial class PreferenceController : AppKit.NSWindowController
     {
 		#region - Member variables and properties
 		//strongly typed window accessor
@@ -87,7 +87,7 @@ namespace RaiseMan
 			PreferenceController.PreferenceEmptyDoc = state == NSCellStateValue.On ? true : false;
 		}
 
-		partial void RestoreDefaults (MonoMac.Foundation.NSObject sender)
+		partial void RestoreDefaults (Foundation.NSObject sender)
 		{
 			PreferenceController.PreferenceTableBgColor = NSColor.White;
 			colorWell.Color = NSColor.White;

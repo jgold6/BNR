@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoMac.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace RaiseMan
@@ -13,19 +13,19 @@ namespace RaiseMan
 	partial class MyDocument
 	{
 		[Outlet]
-		public MonoMac.AppKit.NSTableView tableView { get; set; }
+		public AppKit.NSTableView tableView { get; set; }
 
 		[Action ("btnCheckEntries:")]
-		partial void btnCheckEntries (MonoMac.Foundation.NSObject sender);
+		partial void btnCheckEntries (Foundation.NSObject sender);
 
 		[Action ("createEmployee:")]
-		partial void createEmployee (MonoMac.Foundation.NSObject sender);
+		partial void createEmployee (Foundation.NSObject sender);
 
 		[Action ("deleteSelectedEmployees:")]
-		partial void deleteSelectedEmployees (MonoMac.Foundation.NSObject sender);
+		partial void deleteSelectedEmployees (Foundation.NSObject sender);
 
 		[Action ("removeEmployee:")]
-		partial void removeEmployee (MonoMac.Foundation.NSObject sender);
+		partial void removeEmployee (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

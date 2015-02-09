@@ -1,8 +1,8 @@
 ﻿using System;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-using System.Drawing;
-using MonoMac.ObjCRuntime;
+using Foundation;
+using AppKit;
+using CoreGraphics;
+using ObjCRuntime;
 
 namespace RaiseMan
 {
@@ -49,13 +49,13 @@ namespace RaiseMan
 
 		#region - Actions
 		[Action ("showPreferencePanel:")]
-		public void ShowPreferencePanel (MonoMac.Foundation.NSObject sender)
+		public void ShowPreferencePanel (Foundation.NSObject sender)
 		{
 			// Is preference controller null?
 			if (preferenceController == null) {
 				preferenceController = new PreferenceController();
 				Preference prefWindow = preferenceController.Window;
-				float x, y;
+				nfloat x, y;
 				if (NSApplication.SharedApplication.MainWindow != null) {
 					x = NSApplication.SharedApplication.MainWindow.Frame.X + NSApplication.SharedApplication.MainWindow.Frame.Width + 20;
 					y = NSApplication.SharedApplication.MainWindow.Frame.Y;
@@ -64,14 +64,14 @@ namespace RaiseMan
 					x = 100;
 					y = 500;
 				}
-				prefWindow.SetFrame(new RectangleF(x, y, prefWindow.Frame.Width, prefWindow.Frame.Height), false);
+				prefWindow.SetFrame(new CGRect(x, y, prefWindow.Frame.Width, prefWindow.Frame.Height), false);
 			}
 			Console.WriteLine("Showing {0}", preferenceController);
 			preferenceController.ShowWindow(this);
 		}
 
 		[Action ("showAboutPanel:")]
-		public void ShowAboutPanel (MonoMac.Foundation.NSObject sender)
+		public void ShowAboutPanel (Foundation.NSObject sender)
 		{
 			// The strict chap 12 challenge solution. non-modal, no window controller for the about panel
 			// so multiple about panels can be displayed
@@ -84,13 +84,13 @@ namespace RaiseMan
 			aboutPanel.BackgroundColor = NSColor.White;
 			if (NSApplication.SharedApplication.MainWindow != null) {
 				var mainWindowFrame = NSApplication.SharedApplication.MainWindow.Frame;
-				float x = mainWindowFrame.X + mainWindowFrame.Width/2 - aboutPanel.Frame.Width/2;
-				float y = mainWindowFrame.Y + mainWindowFrame.Height/2 - aboutPanel.Frame.Height/2;
-				aboutPanel.SetFrame(new RectangleF(x, y, aboutPanel.Frame.Width, aboutPanel.Frame.Height), true);
+				nfloat x = mainWindowFrame.X + mainWindowFrame.Width/2 - aboutPanel.Frame.Width/2;
+				nfloat y = mainWindowFrame.Y + mainWindowFrame.Height/2 - aboutPanel.Frame.Height/2;
+				aboutPanel.SetFrame(new CGRect(x, y, aboutPanel.Frame.Width, aboutPanel.Frame.Height), true);
 			}
 			else {
 				NSScreen screen = NSScreen.MainScreen;
-				aboutPanel.SetFrame(new RectangleF(screen.Frame.Width/2-aboutPanel.Frame.Width/2, screen.Frame.Height - aboutPanel.Frame.Height - 100, aboutPanel.Frame.Width, aboutPanel.Frame.Height), true);
+				aboutPanel.SetFrame(new CGRect(screen.Frame.Width/2-aboutPanel.Frame.Width/2, screen.Frame.Height - aboutPanel.Frame.Height - 100, aboutPanel.Frame.Width, aboutPanel.Frame.Height), true);
 			}
 			// Stop modal when about panel closed.
 			aboutPanel.WillClose += (object s, EventArgs e) =>  {
@@ -103,13 +103,13 @@ namespace RaiseMan
 
 		// Manual implemenation of NSDocumentController's openDocument: method
 		[Action ("showNSOpenPanel:")]
-		public void ShowNSOpenPanel (MonoMac.Foundation.NSObject sender)
+		public void ShowNSOpenPanel (Foundation.NSObject sender)
 		{
 			NSOpenPanel openPanel = NSOpenPanel.OpenPanel;
 			openPanel.AllowsMultipleSelection = true;
 			openPanel.AllowedFileTypes = new string[]{"rsmn"};
 
-			int result = openPanel.RunModal();
+			nint result = openPanel.RunModal();
 
 			if (result == 1) {
 				NSUrl[]  theDocs = openPanel.Urls;

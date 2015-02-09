@@ -1,5 +1,5 @@
-﻿using System;
-using MonoMac.Foundation;
+using System;
+using Foundation;
 
 namespace RaiseMan
 {

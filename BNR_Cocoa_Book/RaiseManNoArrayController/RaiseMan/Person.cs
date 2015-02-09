@@ -1,10 +1,10 @@
-﻿using System;
-using MonoMac.Foundation;
+using System;
+using Foundation;
 
 namespace RaiseMan
 {
 	[Register("Person")]
-    public class Person : NSObject
+	public class Person : NSObject, INSCoding
     {
 		[Export("name")]
 		public string Name {get; set;}
@@ -27,7 +27,7 @@ namespace RaiseMan
 			this.ExpectedRaise = decoder.DecodeFloat("expectedRaise");
 		}
 
-		public override void EncodeTo(NSCoder coder)
+		public void EncodeTo(NSCoder coder)
 		{
 			if (this.Name != null)
 				coder.Encode(new NSString(this.Name), "name");

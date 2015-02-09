@@ -1,18 +1,18 @@
-﻿using MonoMac.Foundation;
-using MonoMac.AppKit;
+using Foundation;
+using AppKit;
 
 
 namespace RaiseMan
 {
     
     // Should subclass MonoMac.AppKit.NSWindow
-    [MonoMac.Foundation.Register("Preference")]
+    [Foundation.Register("Preference")]
     public partial class Preference
     {
     }
     
     // Should subclass MonoMac.AppKit.NSWindowController
-    [MonoMac.Foundation.Register("PreferenceController")]
+    [Foundation.Register("PreferenceController")]
     public partial class PreferenceController
     {
 		[Outlet]
@@ -22,13 +22,13 @@ namespace RaiseMan
 		public NSButton checkBox { get; set; }
 
 		[Action ("changeBackgroundColor:")]
-		partial void ChangeBackgroundColor (MonoMac.Foundation.NSObject sender);
+		partial void ChangeBackgroundColor (Foundation.NSObject sender);
 
 		[Action ("changeNewEmptyDoc:")]
-		partial void ChangeNewEmptyDoc (MonoMac.Foundation.NSObject sender);
+		partial void ChangeNewEmptyDoc (Foundation.NSObject sender);
 
 		[Action ("restoreDefaults:")]
-		partial void RestoreDefaults (MonoMac.Foundation.NSObject sender);
+		partial void RestoreDefaults (Foundation.NSObject sender);
 
 		void ReleaseDesignerOutlets ()
 		{

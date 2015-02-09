@@ -1,13 +1,13 @@
-﻿
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
+using Foundation;
+using AppKit;
 
 namespace RaiseMan
 {
-    public partial class Preference : MonoMac.AppKit.NSPanel
+    public partial class Preference : AppKit.NSPanel
     {
         #region Constructors
 

@@ -2,13 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-using MonoMac.ObjCRuntime;
+using Foundation;
+using AppKit;
+using ObjCRuntime;
 
 namespace RaiseMan
 {
-    public partial class MyDocument : MonoMac.AppKit.NSDocument
+    public partial class MyDocument : AppKit.NSDocument
     {
 		#region - Member variables and properties
 		List<Person> _employees;
@@ -58,12 +58,12 @@ namespace RaiseMan
 			Initialize();
         }
         
-        // Called when created directly from a XIB file
-        [Export("initWithCoder:")]
-        public MyDocument(NSCoder coder) : base(coder)
-        {
-			Initialize();
-        }
+//        // Called when created directly from a XIB file
+//        [Export("initWithCoder:")]
+//        public MyDocument(NSCoder coder) : base(
+//        {
+//			Initialize();
+//        }
 
 		// Shared initialization code
 		void Initialize()
@@ -155,7 +155,7 @@ namespace RaiseMan
 		#endregion
 
 		#region - Actions
-		partial void btnCheckEntries (MonoMac.Foundation.NSObject sender)
+		partial void btnCheckEntries (Foundation.NSObject sender)
 		{
 			for (int i = 0; i < Employees.Count; i++) {
 				Person employee = Employees[i];
@@ -163,7 +163,7 @@ namespace RaiseMan
 			}
 		}
 
-		partial void createEmployee (MonoMac.Foundation.NSObject sender)
+		partial void createEmployee (Foundation.NSObject sender)
 		{
 			NSUndoManager undo = this.UndoManager;
 			// Has an edit occurred already in this event?
@@ -194,7 +194,7 @@ namespace RaiseMan
 			tableView.EditColumn(0, row, null, true);
 		}
 
-		partial void deleteSelectedEmployees (MonoMac.Foundation.NSObject sender)
+		partial void deleteSelectedEmployees (Foundation.NSObject sender)
 		{
 			if (!StopEditing())
 				return;
@@ -226,7 +226,7 @@ namespace RaiseMan
 			tableView.DeselectAll(this);
 		}
 
-		partial void removeEmployee (MonoMac.Foundation.NSObject sender)
+		partial void removeEmployee (Foundation.NSObject sender)
 		{
 			// Which row(s) are selected?
 			NSIndexSet rows = tableView.SelectedRows;
@@ -248,7 +248,7 @@ namespace RaiseMan
 			alert.BeginSheetForResponse(tableView.Window, (response) => GetResponse(alert, response));
 		}
 
-		void GetResponse(NSAlert alert, int response)
+		void GetResponse(NSAlert alert, nint response)
 		{
 			if (response <= 1) {
 				switch (response) {
@@ -330,7 +330,7 @@ namespace RaiseMan
 			SortData(tableView.SortDescriptors);
 		}
 
-		[Export("changeKeyPath:ofObject:toValue:")]
+		[Export("changeKeyPathofObjecttoValue:")]
 		public void ChangeKeyPathOfObjectToValue(NSObject o)
 		{
 			NSString keyPath = ((NSArray)o).GetItem<NSString>(0);
@@ -380,7 +380,7 @@ namespace RaiseMan
 			}
 			Console.WriteLine("oldValue = {0}", oldValue);
 			NSArray args = NSArray.FromObjects(new object[]{keyPath, obj, oldValue});
-			undo.RegisterUndoWithTarget(this, new Selector("changeKeyPath:ofObject:toValue:"), args);
+			undo.RegisterUndoWithTarget(this, new Selector("changeKeyPathofObjecttoValue:"), args);
 			undo.SetActionname(NSBundle.MainBundle.LocalizedString("EDIT", null));
 		}
 		#endregion
