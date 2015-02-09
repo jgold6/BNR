@@ -2,13 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
+using Foundation;
+using AppKit;
 using System.Diagnostics;
 
 namespace Random
 {
-    public partial class MainWindowController : MonoMac.AppKit.NSWindowController
+    public partial class MainWindowController : AppKit.NSWindowController
     {
 		static readonly string TAG = "MainWindowController";
 
@@ -47,7 +47,7 @@ namespace Random
 		{
 			base.AwakeFromNib();
 
-			mainView.Layer = new MonoMac.CoreAnimation.CALayer();
+			mainView.Layer = new CoreAnimation.CALayer();
 			mainView.WantsLayer = true;
 			mainView.Layer.BackgroundColor = NSColor.White.CGColor;
 
@@ -58,7 +58,7 @@ namespace Random
 		#endregion
 
 		#region - Actions
-		partial void seed (MonoMac.Foundation.NSObject sender)
+		partial void seed (Foundation.NSObject sender)
 		{
 			NSButton btn = (NSButton)sender;
 			Debug.WriteLine("[{0}] {1} Action clicked.", TAG, btn.Title);
@@ -69,7 +69,7 @@ namespace Random
 			textField.StringValue = "Generator seeded"; 
 		}
 
-		partial void generate (MonoMac.Foundation.NSObject sender)
+		partial void generate (Foundation.NSObject sender)
 		{
 			NSButton btn = (NSButton)sender;
 			Debug.WriteLine("[{0}] {1} Action clicked.", TAG, btn.Title);
@@ -81,7 +81,7 @@ namespace Random
 
 		}
 
-		partial void openModal (MonoMac.Foundation.NSObject sender)
+		partial void openModal (Foundation.NSObject sender)
 		{
 			ControlsController controlsController = new ControlsController();
 			NSApplication.SharedApplication.RunModalForWindow(controlsController.Window);

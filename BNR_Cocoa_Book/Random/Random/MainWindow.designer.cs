@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoMac.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace Random
@@ -13,28 +13,28 @@ namespace Random
 	partial class MainWindowController
 	{
 		[Outlet]
-		MonoMac.AppKit.NSButton btnGenerate { get; set; }
+		AppKit.NSButton btnGenerate { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnOpenModal { get; set; }
+		AppKit.NSButton btnOpenModal { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnSeed { get; set; }
+		AppKit.NSButton btnSeed { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSView mainView { get; set; }
+		AppKit.NSView mainView { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField textField { get; set; }
+		AppKit.NSTextField textField { get; set; }
 
 		[Action ("generate:")]
-		partial void generate (MonoMac.Foundation.NSObject sender);
+		partial void generate (Foundation.NSObject sender);
 
 		[Action ("openModal:")]
-		partial void openModal (MonoMac.Foundation.NSObject sender);
+		partial void openModal (Foundation.NSObject sender);
 
 		[Action ("seed:")]
-		partial void seed (MonoMac.Foundation.NSObject sender);
+		partial void seed (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

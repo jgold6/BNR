@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
+using Foundation;
+using AppKit;
 
 namespace Random
 {
-	public partial class ControlsController : MonoMac.AppKit.NSWindowController
+	public partial class ControlsController : AppKit.NSWindowController
     {
 		static readonly string TAG = "ControlsController";
 
@@ -180,7 +180,7 @@ namespace Random
 		public override void MouseDown(NSEvent theEvent)
 		{
 			base.MouseDown(theEvent);
-			Console.WriteLine("MyImage Clicked: {0}", theEvent.LocationInWindow);
+			Console.WriteLine("MyImage Clicked: {0}", this.ConvertPointFromView(theEvent.LocationInWindow, this.Superview));
 		}
 	}
 }

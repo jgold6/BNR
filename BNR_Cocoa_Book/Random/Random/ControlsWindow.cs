@@ -1,13 +1,13 @@
-﻿
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
+using Foundation;
+using AppKit;
 
 namespace Random
 {
-    public partial class ControlsWindow : MonoMac.AppKit.NSWindow
+    public partial class ControlsWindow : AppKit.NSWindow
     {
         #region Constructors
 

@@ -1,10 +1,10 @@
-﻿// WARNING
+// WARNING
 //
 // This file has been generated automatically by Xamarin Studio to store outlets and
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoMac.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace Random
@@ -13,49 +13,49 @@ namespace Random
 	partial class ControlsController
 	{
 		[Outlet]
-		MonoMac.AppKit.NSProgressIndicator circularProgressIndicator { get; set; }
+		AppKit.NSProgressIndicator circularProgressIndicator { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider circularSlider { get; set; }
+		AppKit.NSSlider circularSlider { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSColorWell colorWell { get; set; }
+		AppKit.NSColorWell colorWell { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSComboBox comboBox { get; set; }
+		AppKit.NSComboBox comboBox { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton disclosureArrow { get; set; }
+		AppKit.NSButton disclosureArrow { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSProgressIndicator horizontalProgressIndicator { get; set; }
+		AppKit.NSProgressIndicator horizontalProgressIndicator { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider horizontalSlider { get; set; }
+		AppKit.NSSlider horizontalSlider { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSImageView imageView { get; set; }
+		AppKit.NSImageView imageView { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSLevelIndicator levelIndicator { get; set; }
+		AppKit.NSLevelIndicator levelIndicator { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSPathControl pathControl { get; set; }
+		AppKit.NSPathControl pathControl { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSPopUpButton popUpButton { get; set; }
+		AppKit.NSPopUpButton popUpButton { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSearchField searchField { get; set; }
+		AppKit.NSSearchField searchField { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSegmentedControl segmentedControl { get; set; }
+		AppKit.NSSegmentedControl segmentedControl { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField textField { get; set; }
+		AppKit.NSTextField textField { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTokenField tokenField { get; set; }
+		AppKit.NSTokenField tokenField { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
