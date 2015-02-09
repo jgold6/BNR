@@ -217,7 +217,7 @@ namespace CarLot
 			car.RemoveObserver(this, new NSString("photo"));
 		}
 
-		[Export("changeKeyPath:ofObject:toValue:")]
+		[Export("changeKeyPathofObjecttoValue:")]
 		public void ChangeKeyPathOfObjectToValue(NSObject o)
 		{
 			NSString keyPath = ((NSArray)o).GetItem<NSString>(0);
@@ -252,7 +252,7 @@ namespace CarLot
 			}
 			Console.WriteLine("oldValue = {0}", oldValue);
 			NSArray args = NSArray.FromObjects(new object[]{keyPath, obj, oldValue});
-			undo.RegisterUndoWithTarget(this, new Selector("changeKeyPath:ofObject:toValue:"), args);
+			undo.RegisterUndoWithTarget(this, new Selector("changeKeyPathofObjecttoValue:"), args);
 			undo.SetActionname("Edit");
 
 			// Sort if necessary
