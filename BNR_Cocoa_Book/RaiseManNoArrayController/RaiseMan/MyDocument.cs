@@ -57,10 +57,11 @@ namespace RaiseMan
         {
 			Initialize();
         }
-        
+          
+		  // Updated Xam.Mac doesn't have an initWithCoder constructor for NSDocument.
 //        // Called when created directly from a XIB file
 //        [Export("initWithCoder:")]
-//        public MyDocument(NSCoder coder) : base(
+//        public MyDocument(NSCoder coder) : base(coder)
 //        {
 //			Initialize();
 //        }
