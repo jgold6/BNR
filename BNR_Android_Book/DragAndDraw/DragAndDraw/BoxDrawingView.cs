@@ -92,6 +92,7 @@ namespace DragAndDraw
 				canvas.DrawRect(left, top, right, bottom, mBoxPaint);
 				canvas.Restore();
 			}
+				
 		}
 
 		public override bool OnTouchEvent(MotionEvent e)
