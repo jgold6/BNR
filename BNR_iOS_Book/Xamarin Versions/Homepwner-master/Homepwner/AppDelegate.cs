@@ -4,6 +4,7 @@ using System.Linq;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using System.IO;
+using System.Threading;
 
 namespace Homepwner
 {
@@ -36,7 +37,13 @@ namespace Homepwner
 
 			// If you have defined a root view controller, set it here:
 			window.RootViewController = navController;
-			
+
+//			System.Globalization.CultureInfo newLang = new System.Globalization.CultureInfo ("ru-RU");
+//			Thread.CurrentThread.CurrentCulture = newLang;
+//			Thread.CurrentThread.CurrentUICulture = newLang;
+
+//			NSUserDefaults.StandardUserDefaults.SetValueForKey(NSArray.FromNSObjects(new NSObject[]{new NSString("es")}), new NSString("AppleLanguages"));
+
 			// make the window visible
 			window.MakeKeyAndVisible();
 			
