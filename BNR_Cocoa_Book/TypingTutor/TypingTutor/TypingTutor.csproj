@@ -24,9 +24,9 @@
     <UseRefCounting>true</UseRefCounting>
     <UseSGen>false</UseSGen>
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
-    <EnablePackageSigning>true</EnablePackageSigning>
+    <EnablePackageSigning>false</EnablePackageSigning>
     <CodeSigningKey>Developer ID Application: Jonathan Goldberger (4FBCAEUDP6)</CodeSigningKey>
-    <EnableCodeSigning>true</EnableCodeSigning>
+    <EnableCodeSigning>false</EnableCodeSigning>
     <CreatePackage>false</CreatePackage>
     <PackageSigningKey>Developer ID Installer: Jonathan Goldberger (4FBCAEUDP6)</PackageSigningKey>
     <XamMacArch>x86_64</XamMacArch>
@@ -44,8 +44,9 @@
     <IncludeMonoRuntime>true</IncludeMonoRuntime>
     <CreatePackage>true</CreatePackage>
     <CodeSigningKey>Developer ID Application</CodeSigningKey>
-    <EnableCodeSigning>true</EnableCodeSigning>
+    <EnableCodeSigning>false</EnableCodeSigning>
     <EnablePackageSigning>false</EnablePackageSigning>
+    <PackageSigningKey>Developer ID Installer</PackageSigningKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -61,8 +62,8 @@
     <PackageSigningKey>Developer ID Installer: Jonathan Goldberger (4FBCAEUDP6)</PackageSigningKey>
     <CreatePackage>true</CreatePackage>
     <CodeSigningKey>Developer ID Application: Jonathan Goldberger (4FBCAEUDP6)</CodeSigningKey>
-    <EnableCodeSigning>true</EnableCodeSigning>
-    <EnablePackageSigning>true</EnablePackageSigning>
+    <EnableCodeSigning>false</EnableCodeSigning>
+    <EnablePackageSigning>false</EnablePackageSigning>
     <XamMacArch>x86_64</XamMacArch>
   </PropertyGroup>
   <ItemGroup>
@@ -92,6 +93,7 @@
       <DependentUpon>BigLetterView.cs</DependentUpon>
     </Compile>
     <Compile Include="MyExtensions.cs" />
+    <Compile Include="TutorController.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />

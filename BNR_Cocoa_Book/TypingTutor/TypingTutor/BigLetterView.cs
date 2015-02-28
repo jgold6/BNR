@@ -435,6 +435,4 @@ namespace TypingTutor
 		}
 		#endregion
     }
-
-
 }
