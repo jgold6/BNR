@@ -5,6 +5,9 @@ using Foundation;
 using AppKit;
 using CoreGraphics;
 // Let the fun begin
+using System.Timers;
+
+
 namespace DrawingFun
 {
     public partial class StretchView : AppKit.NSView
@@ -12,6 +15,7 @@ namespace DrawingFun
 		#region - Member Variables and Properties
 		Random mRandom;
 		NSBezierPath mPath;
+		Timer timer;
 
 		StretchImage mCurrentImage;
 		List<StretchImage> mImages;
@@ -118,15 +122,25 @@ namespace DrawingFun
 			CGPoint p = theEvent.LocationInWindow;
 			mCurrentImage.StartPoint = this.ConvertPointFromView(p, null);
 			mCurrentImage.EndPoint = mCurrentImage.StartPoint;
+			if (timer == null) {
+				timer = new Timer(50);
+				timer.Elapsed += timer_Elapsed;
+				timer.Start();
+			}
 			NeedsDisplay = true;
 		}
-
+		void timer_Elapsed(object sender, ElapsedEventArgs e)
+		{
+			InvokeOnMainThread(() => {
+				Autoscroll(NSApplication.SharedApplication.CurrentEvent);
+			});
+		}
 		public override void MouseDragged(NSEvent theEvent)
 		{
 			CGPoint p = theEvent.LocationInWindow;
 //			Console.WriteLine("Mouse Dragged: {0}", p.ToString());
 			mCurrentImage.EndPoint = this.ConvertPointFromView(p, null);
-			Autoscroll(theEvent);
+//			Autoscroll(theEvent);
 			NeedsDisplay = true;
 		}
 
@@ -135,6 +149,8 @@ namespace DrawingFun
 //			Console.WriteLine("Mouse Up");
 			CGPoint p = theEvent.LocationInWindow;
 			mCurrentImage.EndPoint = this.ConvertPointFromView(p, null);
+			timer.Stop();
+			timer = null;
 			NeedsDisplay = true;
 		}
 		#endregion // Mouse events
