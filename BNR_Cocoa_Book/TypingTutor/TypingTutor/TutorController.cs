@@ -22,6 +22,10 @@ namespace TypingTutor
 		public NSWindow speedSheet { get; set; }
 		[Outlet("slider")]
 		public NSSlider slider { get; set; }
+		[Outlet("colorTextField")]
+		public NSTextField colorTextField { get; set; }
+		[Outlet("colorWell")]
+		public NSColorWell colorWell { get; set; }
 
 		List<string> letters;
 		int lastIndex;
@@ -35,6 +39,8 @@ namespace TypingTutor
 		long timerLimitInMilliseconds = 5000;
 
 		Timer timer;
+
+		public NSColor userSelectedBgColor {get; set;}
 		#endregion
 
 		#region - Constructors
@@ -50,13 +56,14 @@ namespace TypingTutor
 
 		void Initialize()
 		{
-			string alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			string alphabet = "abcdefghijklmnopqrstuvwxyz";//"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 			letters = new List<string>();
 			for (int i = 0; i < alphabet.Length; i++) {
 				letters.Add(alphabet.Substring(i, 1));
 			}
 			rnd = new Random((int)DateTime.Now.Ticks);
 			timeLimit = TimeSpan.TicksPerMillisecond * timerLimitInMilliseconds;
+			userSelectedBgColor = NSColor.Orange;
 		}
 		#endregion
 
@@ -66,8 +73,14 @@ namespace TypingTutor
 			base.AwakeFromNib();
 			progressBar.MaxValue = (double)timeLimit;
 			progressBar.DoubleValue = 0;
-			inLetterView.SetValueForKey(NSColor.Green, new NSString("BgColor"));
 			ShowAnotherLetter();
+			inLetterView.SetValueForKey(userSelectedBgColor, new NSString("BgColor"));
+			colorWell.Activated += (object sender, EventArgs e) => {
+				userSelectedBgColor = colorWell.Color;
+			};
+			colorTextField.EditingEnded += (object sender, EventArgs e) => {
+				userSelectedBgColor = colorWell.Color;
+			};
 		}
 		#endregion
 
@@ -120,6 +133,8 @@ namespace TypingTutor
 			speedSheet.OrderOut(sender);
 		}
 
+
+
 		[Export("control:didFailToFormatString:errorDescription:")]
 		public bool DidFailToFormatString(AppKit.NSControl control, string str, string error)
 		{
@@ -131,13 +146,15 @@ namespace TypingTutor
 		#region - Timer Delegate
 		void timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
-			Console.WriteLine("Elapsed");
 			UpdateElapsedTime();
 			if (inLetterView.Letter == outLetterView.Letter) {
 				ShowAnotherLetter();
 			}
 			if (elapsedTime >= timeLimit) {
 				AppKitFramework.NSBeep();
+				InvokeOnMainThread(() => {
+					inLetterView.SetValueForKey(userSelectedBgColor, new NSString("BgColor"));
+				});
 				ShowAnotherLetter();
 			}
 		}

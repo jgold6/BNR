@@ -1,4 +1,5 @@
 ﻿using Foundation;
+using System;
 
 namespace TypingTutor
 {
@@ -13,6 +14,8 @@ namespace TypingTutor
 		public AppKit.NSButton btnItalic { get; set; }
 		[Outlet("btnShadow")]
 		public AppKit.NSButton btnShadow { get; set; }
+		[Outlet("tutorConroller")]
+		public TutorController tutorController { get; set; }
 
 
 		[Action ("boldChecked:")]

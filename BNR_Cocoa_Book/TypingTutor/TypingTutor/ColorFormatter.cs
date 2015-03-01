@@ -27,9 +27,9 @@ namespace TypingTutor
 
 		void Initialize()
 		{
-			foreach (NSColorList cl in NSColorList.AvailableColorLists) {
-				Console.WriteLine("Color List: {0}", cl.Name);
-			}
+//			foreach (NSColorList cl in NSColorList.AvailableColorLists) {
+//				Console.WriteLine("Color List: {0}", cl.Name);
+//			}
 			// Possible color list names - "Apple", "Crayons", "System" (causes crash), and "Web Safe Colors" (named by hex values);
 			colorList = NSColorList.ColorListNamed("Crayons");
 //			foreach (string c in colorList.AllKeys()) {
@@ -145,7 +145,7 @@ namespace TypingTutor
 			}
 
 			// If no letters were added, it is a delete
-			Console.WriteLine("orig string: {0}, partial string: {1}", origString, partial);
+//			Console.WriteLine("orig string: {0}, partial string: {1}", origString, partial);
 			if (oldColorStringLength == partial.Length) {
 				oldColorStringLength--;
 				selPtr.Location = partial.Length -1;

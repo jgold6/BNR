@@ -39,7 +39,7 @@ namespace TypingTutor
 			set {
 				mLetter = value;
 				NeedsDisplay = true;
-				Console.WriteLine("The letter is now {0}", mLetter == "" ? "<empty>": mLetter);
+//				Console.WriteLine("The letter is now {0}", mLetter == "" ? "<empty>": mLetter);
 			}
 		}
 		public bool Bold {get; set;}
@@ -67,7 +67,7 @@ namespace TypingTutor
         void Initialize()
         {
 			PrepareTextAttributes();
-			mBgColor = NSColor.Yellow;
+			BgColor = NSColor.Yellow;
 			mLetter = "";
 			Bold = false;
 			Italic = false;
@@ -134,6 +134,12 @@ namespace TypingTutor
 		{
 			// Set the letter pressed on key down
 			this.Letter = input.ToString();
+			if (tutorController.outLetterView.Letter == this.Letter) {
+				SetValueForKey(NSColor.Green, new NSString("BgColor"));
+			}
+			else {
+				SetValueForKey(NSColor.Red, new NSString("BgColor"));
+			}
 		}
 
 		[Export("insertTab:")]
@@ -342,7 +348,7 @@ namespace TypingTutor
 			Bold = !Bold;
 			PrepareTextAttributes();
 			NeedsDisplay = true;
-			Console.WriteLine("Bold: {0}", Bold);
+//			Console.WriteLine("Bold: {0}", Bold);
 		}
 
 		partial void italicChecked (Foundation.NSObject sender)
@@ -350,14 +356,14 @@ namespace TypingTutor
 			Italic = !Italic;
 			PrepareTextAttributes();
 			NeedsDisplay = true;
-			Console.WriteLine("Italic: {0}",Italic);
+//			Console.WriteLine("Italic: {0}",Italic);
 		}
 
 		partial void shadowChecked (Foundation.NSObject sender)
 		{
 			LetterShadow = !LetterShadow;
 			NeedsDisplay = true;
-			Console.WriteLine("Italic: {0}",Italic);
+//			Console.WriteLine("Italic: {0}",Italic);
 		}
 
 		partial void Cut (Foundation.NSObject sender)

@@ -15,6 +15,8 @@
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
         <customObject id="1xh-aj-h9l" customClass="TutorController">
             <connections>
+                <outlet property="colorTextField" destination="QqH-Ss-wsT" id="49M-sF-tvk"/>
+                <outlet property="colorWell" destination="mPz-pW-cuN" id="D8Q-Kv-9Wd"/>
                 <outlet property="inLetterView" destination="oXu-xG-5XS" id="Hft-J7-dUW"/>
                 <outlet property="outLetterView" destination="lcF-uc-L9q" id="8eD-oG-ag9"/>
                 <outlet property="progressBar" destination="5uS-Yl-9eQ" id="XrU-tb-ppu"/>
@@ -640,6 +642,7 @@
                             <outlet property="btnItalic" destination="Kei-yt-aZh" id="XEu-xV-AO0"/>
                             <outlet property="btnShadow" destination="maj-hK-RZe" id="zwi-Gy-2a3"/>
                             <outlet property="nextKeyView" destination="lcF-uc-L9q" id="b9U-Di-e2u"/>
+                            <outlet property="tutorConroller" destination="1xh-aj-h9l" id="Vfp-eg-jjJ"/>
                         </connections>
                     </customView>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kei-yt-aZh">
