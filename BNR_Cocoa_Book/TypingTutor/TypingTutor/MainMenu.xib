@@ -27,6 +27,7 @@
                 <outlet property="window" destination="dEr-jb-5hp" id="LLr-74-qM2"/>
             </connections>
         </customObject>
+        <customObject id="MNe-qr-rnG" customClass="ColorFormatter"/>
         <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
             <items>
                 <menuItem title="TypingTutor" id="1Xt-HY-uBw">
@@ -641,18 +642,8 @@
                             <outlet property="nextKeyView" destination="lcF-uc-L9q" id="b9U-Di-e2u"/>
                         </connections>
                     </customView>
-                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w0g-GK-Sfb">
-                        <rect key="frame" x="263" y="58" width="61" height="18"/>
-                        <buttonCell key="cell" type="check" title="Bold" bezelStyle="regularSquare" imagePosition="left" inset="2" id="D4F-Td-h46">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="boldChecked:" target="-1" id="ewX-aE-Qtq"/>
-                        </connections>
-                    </button>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kei-yt-aZh">
-                        <rect key="frame" x="328" y="58" width="61" height="18"/>
+                        <rect key="frame" x="423" y="58" width="61" height="18"/>
                         <buttonCell key="cell" type="check" title="Italic" bezelStyle="regularSquare" imagePosition="left" inset="2" id="7t7-NE-DN3">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -662,7 +653,7 @@
                         </connections>
                     </button>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="maj-hK-RZe">
-                        <rect key="frame" x="393" y="58" width="73" height="18"/>
+                        <rect key="frame" x="488" y="58" width="73" height="18"/>
                         <buttonCell key="cell" type="check" title="Shadow" bezelStyle="regularSquare" imagePosition="left" inset="2" id="70K-PJ-Nck">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -677,7 +668,7 @@
                             <outlet property="btnBold" destination="w0g-GK-Sfb" id="evx-7l-MBy"/>
                             <outlet property="btnItalic" destination="Kei-yt-aZh" id="jr6-ty-wfW"/>
                             <outlet property="btnShadow" destination="maj-hK-RZe" id="a1w-4y-GvR"/>
-                            <outlet property="nextKeyView" destination="oXu-xG-5XS" id="BMp-xU-bDH"/>
+                            <outlet property="nextKeyView" destination="QqH-Ss-wsT" id="WpB-Nf-cS0"/>
                         </connections>
                     </customView>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mob-MO-53k">
@@ -707,6 +698,37 @@
                         </buttonCell>
                         <connections>
                             <action selector="stopGo:" target="1xh-aj-h9l" id="2Qn-qV-3yk"/>
+                        </connections>
+                    </button>
+                    <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mPz-pW-cuN">
+                        <rect key="frame" x="150" y="57" width="44" height="23"/>
+                        <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <connections>
+                            <binding destination="1xh-aj-h9l" name="value" keyPath="inLetterView.bgColor" id="0eg-Ff-DoC"/>
+                        </connections>
+                    </colorWell>
+                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QqH-Ss-wsT">
+                        <rect key="frame" x="207" y="57" width="138" height="22"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="9IV-7Y-gyp">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <binding destination="1xh-aj-h9l" name="value" keyPath="inLetterView.bgColor" id="E6Q-vZ-zKy"/>
+                            <outlet property="delegate" destination="1xh-aj-h9l" id="Jmr-Xz-QAJ"/>
+                            <outlet property="formatter" destination="MNe-qr-rnG" id="ghr-cy-ygt"/>
+                            <outlet property="nextKeyView" destination="oXu-xG-5XS" id="wP2-wO-SDu"/>
+                        </connections>
+                    </textField>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w0g-GK-Sfb">
+                        <rect key="frame" x="358" y="58" width="61" height="18"/>
+                        <buttonCell key="cell" type="check" title="Bold" bezelStyle="regularSquare" imagePosition="left" inset="2" id="D4F-Td-h46">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="boldChecked:" target="-1" id="ewX-aE-Qtq"/>
                         </connections>
                     </button>
                 </subviews>
@@ -767,5 +789,6 @@
             </view>
             <point key="canvasLocation" x="546" y="638"/>
         </window>
+        <userDefaultsController representsSharedInstance="YES" id="h8b-gG-tKf"/>
     </objects>
 </document>

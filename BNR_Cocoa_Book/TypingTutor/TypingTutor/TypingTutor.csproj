@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="MyExtensions.cs" />
     <Compile Include="TutorController.cs" />
+    <Compile Include="ColorFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainMenu.xib" />

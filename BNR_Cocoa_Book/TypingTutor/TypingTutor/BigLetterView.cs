@@ -10,12 +10,16 @@ namespace TypingTutor
 	public partial class BigLetterView : AppKit.NSView
     {
 		#region - Member variables and Properties
+		// Allowed pasteboard types: String and PDF images
 		private string[] pboardTypes = new string[] {NSPasteboard.NSStringType.ToString(), NSPasteboard.NSPdfType.ToString()};
 
-		NSMutableDictionary mAttributes;
+		// Attributes for the text
+		NSMutableDictionary mTextAttributes;
 		NSEvent mMouseDownEvent;
 
+		// Bound to the colorwell and the textfield for the color (using ColorFormatter for text to color and color to text conversion)
 		NSColor mBgColor;
+		[Export("bgColor")]
 		public NSColor BgColor {
 			get {
 				return mBgColor;
@@ -26,6 +30,7 @@ namespace TypingTutor
 			}
 		}
 
+		// The leter displayed in the view
 		string mLetter;
 		public string Letter {
 			get {
@@ -61,14 +66,14 @@ namespace TypingTutor
         // Shared initialization code
         void Initialize()
         {
-			Console.WriteLine("Initializing BigLetterView\n {0}", NSPasteboard.NSStringType);
-			PrepareAttributes();
+			PrepareTextAttributes();
 			mBgColor = NSColor.Yellow;
 			mLetter = "";
 			Bold = false;
 			Italic = false;
 			LetterShadow = false;
 			Highlighted = false;
+			// Allow string pasteboard types to be dragged into this view
 			RegisterForDraggedTypes(new string[]{pboardTypes[0]});
         }
 
@@ -85,14 +90,12 @@ namespace TypingTutor
 
 		public override bool AcceptsFirstResponder()
 		{
-			Console.WriteLine("Accepting First Repsonder");
 			return true;
 		}
 
 		public override bool BecomeFirstResponder()
 		{
-			Console.WriteLine("Becoming First Repsonder");
-
+			// Enable the bold, italic and shadow buttons and set them according to whether bold, italic, and shadow are set for the view
 			if (btnBold != null && btnItalic != null && btnShadow != null) {
 				btnBold.Enabled = true;
 				btnItalic.Enabled = true;
@@ -108,7 +111,7 @@ namespace TypingTutor
 
 		public override bool ResignFirstResponder()
 		{
-			Console.WriteLine("Resigning First Repsonder");
+			// Enable the bold, italic and shadow buttons and set them according to whether bold, italic, and shadow are set for the view
 			if (btnBold != null && btnItalic != null && btnShadow != null) {
 				btnBold.State = NSCellStateValue.Off;
 				btnItalic.State = NSCellStateValue.Off;
@@ -129,24 +132,28 @@ namespace TypingTutor
 		[Export("insertText:")]
 		public void InsertText(NSString input)
 		{
+			// Set the letter pressed on key down
 			this.Letter = input.ToString();
 		}
 
 		[Export("insertTab:")]
 		public void InsertTab(NSObject sender)
 		{
+			// Tab through first responder views
 			this.Window.SelectKeyViewFollowingView(this);
 		}
 
 		[Export("insertBacktab:")]
 		public void InsertBacktab(NSObject sender)
 		{
+			// Tab backwards through first responder views
 			this.Window.SelectKeyViewPrecedingView(this);
 		}
 
 		[Export("deleteBackward:")]
 		public void DeleteBackward(NSObject sender)
 		{
+			// Delete the letter
 			this.Letter = "";
 		}
 
@@ -161,18 +168,20 @@ namespace TypingTutor
 			base.MouseDragged(theEvent);
 			CGPoint down = mMouseDownEvent.LocationInWindow;
 			CGPoint drag = theEvent.LocationInWindow;
+			// Calculate the distance between this dragging position and the mouse down position
 			double distance = Math.Sqrt( Math.Pow( down.X - drag.X ,2) + Math.Pow(down.Y - drag.Y, 2) );
+			// Don't do too often
 			if (distance < 3) {
 				return;
 			}
 
-			// Is the string zero length?
+			// And not if there is no string to drag
 			if (mLetter.Length == 0) {
 				return;
 			}
 
 			// Get the size of the string
-			CGSize size = mLetter.StringSize(mAttributes);
+			CGSize size = mLetter.StringSize(mTextAttributes);
 
 			// Create the image that will be dragged
 			NSImage anImage = new NSImage(size);
@@ -185,7 +194,7 @@ namespace TypingTutor
 
 			// Draw the letter on the image
 			anImage.LockFocus();
-			this.DrawStringCenteredInRectangle(mLetter, imageBounds);
+			DrawStringCenteredInRectangle(mLetter, imageBounds);
 			anImage.UnlockFocus();
 
 			// Get the location of the mouse down event
@@ -197,10 +206,10 @@ namespace TypingTutor
 			// Get the pasteboard
 			NSPasteboard pb = NSPasteboard.FromName(NSPasteboard.NSDragPasteboardName);
 
-			// Put the string in the pasteboard
+			// Put the string and the pdf image in the pasteboard
 			WriteToPasteBoard(pb);
 
-			// Start the drag
+			// Start the drag - deprecated, should use BeginDraggingSession, but need to wait for new Xam.Mac. Bug filed. #26941
 			this.DragImage(anImage, p,CGSize.Empty, mMouseDownEvent, pb, this, true);
 		}
 
@@ -214,7 +223,6 @@ namespace TypingTutor
 
 		public override NSDragOperation DraggingEntered(NSDraggingInfo sender)
 		{
-			Console.WriteLine("Dragging Entered");
 			if (sender.DraggingSource == this) {
 				return NSDragOperation.None;
 			}
@@ -227,7 +235,6 @@ namespace TypingTutor
 		public override NSDragOperation DraggingUpdated(NSDraggingInfo sender)
 		{
 			NSDragOperation op = sender.DraggingSourceOperationMask;
-			Console.WriteLine("Operation Mask: {0}", op);
 			if (sender.DraggingSource == this) {
 				return NSDragOperation.None;
 			}
@@ -236,7 +243,6 @@ namespace TypingTutor
 
 		public override void DraggingExited(NSDraggingInfo sender)
 		{
-			Console.WriteLine("Dragging Exited");
 			Highlighted = false;
 			NeedsDisplay = true;
 		}
@@ -260,11 +266,11 @@ namespace TypingTutor
 
 		public override void ConcludeDragOperation(NSDraggingInfo sender)
 		{
-			Console.WriteLine("Dragging Concluded");
 			Highlighted = false;
 			NeedsDisplay = true;
 		}
 
+		// To get standard focus ring
 		public override CGRect FocusRingMaskBounds
 		{
 			get
@@ -272,12 +278,13 @@ namespace TypingTutor
 				return this.Bounds;
 			}
 		}
-
+		// To get standard focus ring
 		public override void DrawFocusRingMask()
 		{
 			NSBezierPath.FillRect(this.Bounds);
 		}
 
+		// Draw the view
 		public override void DrawRect(CoreGraphics.CGRect dirtyRect)
 		{
 			CGRect bounds = this.Bounds;
@@ -285,8 +292,6 @@ namespace TypingTutor
 			// Using the system focus ring instead. Achieved by overriding DrawFocusRingMask and FocusRingMaskBounds
 //			// Am I the window's first responder? 
 //			if (this.Window.FirstResponder == this) {
-//				Console.WriteLine("BigLetterView is first responder");
-//
 //				NSColor.KeyboardFocusIndicator.Set();
 //				NSBezierPath.DefaultLineWidth = 4.0f;
 //				NSBezierPath.StrokeRect(bounds);	
@@ -335,7 +340,7 @@ namespace TypingTutor
 		partial void boldChecked (Foundation.NSObject sender)
 		{
 			Bold = !Bold;
-			PrepareAttributes();
+			PrepareTextAttributes();
 			NeedsDisplay = true;
 			Console.WriteLine("Bold: {0}", Bold);
 		}
@@ -343,7 +348,7 @@ namespace TypingTutor
 		partial void italicChecked (Foundation.NSObject sender)
 		{
 			Italic = !Italic;
-			PrepareAttributes();
+			PrepareTextAttributes();
 			NeedsDisplay = true;
 			Console.WriteLine("Italic: {0}",Italic);
 		}
@@ -378,9 +383,9 @@ namespace TypingTutor
 		#endregion
 
 		#region - Methods
-		void PrepareAttributes()
+		void PrepareTextAttributes()
 		{
-			mAttributes = new NSMutableDictionary();
+			mTextAttributes = new NSMutableDictionary();
 			NSFontManager fontManager = NSFontManager.SharedFontManager;
 			NSFont font = NSFont.UserFontOfSize(75.0f);
 			if (Bold) {
@@ -389,14 +394,14 @@ namespace TypingTutor
 			if (Italic) {
 				font = fontManager.ConvertFont(font, NSFontTraitMask.Italic);
 			}
-			mAttributes.Add(NSAttributedString.FontAttributeName, font);
-			mAttributes.Add(NSAttributedString.ForegroundColorAttributeName, NSColor.Red);
+			mTextAttributes.Add(NSAttributedString.FontAttributeName, font);
+			mTextAttributes.Add(NSAttributedString.ForegroundColorAttributeName, NSColor.Black);
 		}
 
 		void DrawStringCenteredInRectangle(string str, CGRect rect)
 		{
 			NSString drawLetter = new NSString(str);
-			CGSize strSize = drawLetter.StringSize(mAttributes);
+			CGSize strSize = drawLetter.StringSize(mTextAttributes);
 			CGPoint strOrigin = new CGPoint();
 			strOrigin.X = rect.Location.X + (rect.Size.Width - strSize.Width)/2;
 			strOrigin.Y = rect.Location.Y + (rect.Size.Height - strSize.Height)/2;
@@ -404,10 +409,10 @@ namespace TypingTutor
 				NSShadow shadow = new NSShadow();
 				shadow.ShadowBlurRadius = 8.0f;
 				shadow.ShadowOffset = new CGSize(5.0f, 5.0f);
-				shadow.ShadowColor = NSColor.Black;
+				shadow.ShadowColor = NSColor.Gray;
 				shadow.Set();
 			}
-			drawLetter.DrawString(strOrigin, mAttributes);
+			drawLetter.DrawString(strOrigin, mTextAttributes);
 		}
 
 		public void WriteToPasteBoard(NSPasteboard pb)
