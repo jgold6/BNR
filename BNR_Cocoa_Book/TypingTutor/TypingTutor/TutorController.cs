@@ -17,6 +17,10 @@ namespace TypingTutor
 		public BigLetterView outLetterView { get; set; }
 		[Outlet("progressBar")]
 		public NSProgressIndicator progressBar { get; set; }
+		[Outlet("speedSheet")]
+		public NSWindow speedSheet { get; set; }
+		[Outlet("slider")]
+		public NSSlider slider { get; set; }
 
 		List<string> letters;
 		int lastIndex;
@@ -45,6 +49,33 @@ namespace TypingTutor
 				timer.Stop();
 				timer = null;
 			}
+		}
+
+		[Action ("showSpeedSheet:")]
+		void ShowSpeedSheet (Foundation.NSObject sender)
+		{
+			slider.IntValue = (int)timerIntervalInMilliseconds/1000;
+			NSString test = new NSString("test");
+			NSApplication.SharedApplication.BeginSheet(speedSheet, inLetterView.Window, this, new ObjCRuntime.Selector("didEnd:returnCode:test:"), test.Handle);
+
+		}
+
+		[Export("didEnd:returnCode:test:")]
+		public void DidEnd(NSWindow sheet, int returnCode, IntPtr test)
+		{
+			var retest = NSString.FromHandle(test);
+			Console.WriteLine("Did it work?: {0}", retest);
+		}
+
+		[Action ("endSpeedSheet:")]
+		void EndSpeedSheet (Foundation.NSObject sender)
+		{
+			timerIntervalInMilliseconds = slider.IntValue *1000;
+			timeLimit = TimeSpan.TicksPerMillisecond * timerIntervalInMilliseconds;
+			progressBar.MaxValue = (double)timeLimit;
+			//progressBar.DoubleValue = 0;
+			NSApplication.SharedApplication.EndSheet(speedSheet);
+			speedSheet.OrderOut(sender);
 		}
 
 		void timer_Elapsed(object sender, ElapsedEventArgs e)

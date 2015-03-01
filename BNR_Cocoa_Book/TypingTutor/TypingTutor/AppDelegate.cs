@@ -7,7 +7,7 @@ namespace TypingTutor
 {
     public partial class AppDelegate : NSApplicationDelegate
     {
-        MainWindowController mainWindowController;
+        
 
         public AppDelegate()
         {
@@ -15,9 +15,8 @@ namespace TypingTutor
 
         public override void DidFinishLaunching(NSNotification notification)
         {
-            mainWindowController = new MainWindowController();
-            mainWindowController.Window.MakeKeyAndOrderFront(this);
-        }
-    }
+            
+		}
+	}
 }
 
