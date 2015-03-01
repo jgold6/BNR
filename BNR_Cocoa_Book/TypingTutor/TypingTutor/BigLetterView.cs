@@ -140,6 +140,10 @@ namespace TypingTutor
 			else {
 				SetValueForKey(NSColor.Red, new NSString("BgColor"));
 			}
+			if (tutorController.Timer != null) {
+				tutorController.colorTextField.Enabled = false;
+				tutorController.colorWell.Enabled = false;
+			}
 		}
 
 		[Export("insertTab:")]

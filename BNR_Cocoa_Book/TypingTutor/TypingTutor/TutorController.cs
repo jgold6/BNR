@@ -38,7 +38,7 @@ namespace TypingTutor
 
 		long timerLimitInMilliseconds = 5000;
 
-		Timer timer;
+		public Timer Timer {get; set;}
 
 		public NSColor userSelectedBgColor {get; set;}
 		#endregion
@@ -90,15 +90,19 @@ namespace TypingTutor
 		void StopGo (Foundation.NSObject sender)
 		{
 			ResetElapsedTime();
-			if (timer == null) {
-				timer = new Timer(100);
-				timer.Elapsed += timer_Elapsed;
-				timer.Start();
+			if (Timer == null) {
+				Timer = new Timer(100);
+				Timer.Elapsed += timer_Elapsed;
+				Timer.Start();
+				colorTextField.Enabled = false;
+				colorWell.Enabled = false;
 			}
 			else {
-				timer.Stop();
-				timer.Elapsed -= timer_Elapsed;
-				timer = null;
+				Timer.Stop();
+				Timer.Elapsed -= timer_Elapsed;
+				Timer = null;
+				colorTextField.Enabled = true;
+				colorWell.Enabled = true;
 			}
 		}
 
@@ -154,6 +158,8 @@ namespace TypingTutor
 				AppKitFramework.NSBeep();
 				InvokeOnMainThread(() => {
 					inLetterView.SetValueForKey(userSelectedBgColor, new NSString("BgColor"));
+					colorTextField.Enabled = false;
+					colorWell.Enabled = false;
 				});
 				ShowAnotherLetter();
 			}
