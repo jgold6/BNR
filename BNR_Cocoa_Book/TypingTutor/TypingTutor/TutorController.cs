@@ -89,7 +89,7 @@ namespace TypingTutor
 			sentences = File.ReadLines("quotes.txt").ToList();
 
 			timeLimit = TimeSpan.TicksPerMillisecond * timerLimitInMilliseconds;
-			userSelectedBgColor = NSColor.Orange;
+			userSelectedBgColor = NSColor.Yellow;
 		}
 		#endregion
 
@@ -111,6 +111,7 @@ namespace TypingTutor
 			}
 
 			inLetterView.SetValueForKey(userSelectedBgColor, new NSString("BgColor"));
+			outLetterView.SetValueForKey(userSelectedBgColor, new NSString("BgColor"));
 			CorrectLetters = 0;
 			IncorrectLetters = 0;
 			lblCorrect.StringValue = CorrectLetters.ToString();
@@ -123,12 +124,14 @@ namespace TypingTutor
 		public void EditingEnded(Foundation.NSNotification notification)
 		{
 			userSelectedBgColor = colorWell.Color;
+			outLetterView.BgColor = colorWell.Color;
 		}
 		// Color Well control
 		[Action ("colorWellValueChanged:")]
 		void ColorWellValueChanged (Foundation.NSObject sender)
 		{
 			userSelectedBgColor = colorWell.Color;
+			outLetterView.BgColor = colorWell.Color;
 		}
 
 		// Segmented control
