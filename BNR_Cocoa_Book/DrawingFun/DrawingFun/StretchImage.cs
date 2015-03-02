@@ -2,6 +2,7 @@
 using AppKit;
 using Foundation;
 using CoreGraphics;
+using ObjCRuntime;
 
 
 namespace DrawingFun
@@ -97,13 +98,14 @@ namespace DrawingFun
 
 		#endregion
 
+
 		public override NSObject Copy(NSZone zone)
 		{
 			StretchImage image = (StretchImage)base.Copy(zone);
 			image.StartPoint = this.StartPoint;
 			image.EndPoint = this.EndPoint;
 			image.Opacity = this.Opacity;
-
+			image.PerformSelector(new Selector("retain"));
 			return image;
 		}
     }
