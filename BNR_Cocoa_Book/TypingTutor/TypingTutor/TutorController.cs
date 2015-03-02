@@ -3,6 +3,8 @@ using Foundation;
 using System.Collections.Generic;
 using System.Timers;
 using AppKit;
+using System.IO;
+using System.Linq;
 
 namespace TypingTutor
 {
@@ -26,9 +28,23 @@ namespace TypingTutor
 		public NSTextField colorTextField { get; set; }
 		[Outlet("colorWell")]
 		public NSColorWell colorWell { get; set; }
+		[Outlet("lblCorrect")]
+		public NSTextField lblCorrect { get; set; }
+		[Outlet("lblIncorrect")]
+		public NSTextField lblIncorrect { get; set; }
+		[Outlet("segControl")]
+		public NSSegmentedControl segControl { get; set; }
+
+		// Flag to choose Sentences or Random Letters - initialized to false in Initialize();
+		public bool Sentences;
 
 		List<string> letters;
-		int lastIndex;
+		int lastLetterIndex;
+
+		List<string> sentences;
+		string currentSentence;
+		int currentSentenceIndex;
+		public bool keyPressedFlag {get; set;}
 
 		long startTime;
 
@@ -36,11 +52,14 @@ namespace TypingTutor
 
 		long timeLimit {get;set;}
 
-		long timerLimitInMilliseconds = 5000;
+		long timerLimitInMilliseconds = 3000;
 
 		public Timer Timer {get; set;}
 
 		public NSColor userSelectedBgColor {get; set;}
+
+		public nint CorrectLetters {get; set;}
+		public nint IncorrectLetters {get; set;}
 		#endregion
 
 		#region - Constructors
@@ -56,12 +75,19 @@ namespace TypingTutor
 
 		void Initialize()
 		{
+			rnd = new Random((int)DateTime.Now.Ticks);
+			Sentences = false;
+			// Random letters
 			string alphabet = "abcdefghijklmnopqrstuvwxyz";//"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 			letters = new List<string>();
 			for (int i = 0; i < alphabet.Length; i++) {
 				letters.Add(alphabet.Substring(i, 1));
 			}
-			rnd = new Random((int)DateTime.Now.Ticks);
+
+			// Sentences
+			sentences = new List<string>();
+			sentences = File.ReadLines("quotes.txt").ToList();
+
 			timeLimit = TimeSpan.TicksPerMillisecond * timerLimitInMilliseconds;
 			userSelectedBgColor = NSColor.Orange;
 		}
@@ -73,18 +99,54 @@ namespace TypingTutor
 			base.AwakeFromNib();
 			progressBar.MaxValue = (double)timeLimit;
 			progressBar.DoubleValue = 0;
-			ShowAnotherLetter();
+
+			if (Sentences) {
+				// Sentences
+				NextSentence();
+				ShowNextLetter();
+			}
+			else {
+				// Random Letters;
+				ShowAnotherLetter();
+			}
+
 			inLetterView.SetValueForKey(userSelectedBgColor, new NSString("BgColor"));
-			colorWell.Activated += (object sender, EventArgs e) => {
-				userSelectedBgColor = colorWell.Color;
-			};
-			colorTextField.EditingEnded += (object sender, EventArgs e) => {
-				userSelectedBgColor = colorWell.Color;
-			};
+			CorrectLetters = 0;
+			IncorrectLetters = 0;
+			lblCorrect.StringValue = CorrectLetters.ToString();
+			lblIncorrect.StringValue = IncorrectLetters.ToString();
 		}
 		#endregion
 
 		#region - Actions
+		[Export("controlTextDidEndEditing:")]
+		public void EditingEnded(Foundation.NSNotification notification)
+		{
+			userSelectedBgColor = colorWell.Color;
+		}
+		// Color Well control
+		[Action ("colorWellValueChanged:")]
+		void ColorWellValueChanged (Foundation.NSObject sender)
+		{
+			userSelectedBgColor = colorWell.Color;
+		}
+
+		// Segmented control
+		[Action ("valueChanged:")]
+		void ValueChanged (Foundation.NSObject sender)
+		{
+			Sentences = segControl.SelectedSegment == 1;
+			if (Sentences) {
+				// Sentences
+				NextSentence();
+				ShowNextLetter();
+			}
+			else {
+				// Random Letters;
+				ShowAnotherLetter();
+			}
+		}
+
 		// Start and stop the timer
 		[Action ("stopGo:")]
 		void StopGo (Foundation.NSObject sender)
@@ -96,6 +158,11 @@ namespace TypingTutor
 				Timer.Start();
 				colorTextField.Enabled = false;
 				colorWell.Enabled = false;
+				segControl.Enabled = false;
+				CorrectLetters = 0;
+				IncorrectLetters = 0;
+				lblCorrect.StringValue = CorrectLetters.ToString();
+				lblIncorrect.StringValue = IncorrectLetters.ToString();
 			}
 			else {
 				Timer.Stop();
@@ -103,6 +170,7 @@ namespace TypingTutor
 				Timer = null;
 				colorTextField.Enabled = true;
 				colorWell.Enabled = true;
+				segControl.Enabled = true;
 			}
 		}
 
@@ -151,8 +219,15 @@ namespace TypingTutor
 		void timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
 			UpdateElapsedTime();
-			if (inLetterView.Letter == outLetterView.Letter) {
-				ShowAnotherLetter();
+			if (inLetterView.Letter == outLetterView.Letter && keyPressedFlag) {
+				if (Sentences) {
+					// Sentences
+					ShowNextLetter();
+				}
+				else {
+				// Random Letters
+					ShowAnotherLetter();
+				}
 			}
 			if (elapsedTime >= timeLimit) {
 				AppKitFramework.NSBeep();
@@ -161,7 +236,15 @@ namespace TypingTutor
 					colorTextField.Enabled = false;
 					colorWell.Enabled = false;
 				});
-				ShowAnotherLetter();
+
+				if (Sentences) {
+					// Sentences
+					ShowNextLetter();
+				}
+				else {
+					// Random Letters
+					ShowAnotherLetter();
+				}
 			}
 		}
 		#endregion
@@ -181,16 +264,39 @@ namespace TypingTutor
 			});
 		}
 
+		// Random Letters
 		void ShowAnotherLetter()
 		{
-			int x = lastIndex;
-			while (x == lastIndex) {
+			int x = lastLetterIndex;
+			while (x == lastLetterIndex) {
 				x = rnd.Next(letters.Count);
 			}
-			lastIndex = x;
+			lastLetterIndex = x;
 			InvokeOnMainThread(() => {
 				outLetterView.Letter = letters[x];
 			});
+
+			ResetElapsedTime();
+		}
+
+		// Sentences
+		void NextSentence()
+		{
+			currentSentence = sentences[rnd.Next(sentences.Count)];
+			currentSentenceIndex = 0;
+		}
+		void ShowNextLetter()
+		{
+			if (currentSentenceIndex < currentSentence.Length) {
+				keyPressedFlag = false;
+			}
+			else {
+				NextSentence();
+			}
+			InvokeOnMainThread(() => {
+				outLetterView.Letter = currentSentence.Substring(currentSentenceIndex, 1);
+			});
+			currentSentenceIndex++;
 
 			ResetElapsedTime();
 		}

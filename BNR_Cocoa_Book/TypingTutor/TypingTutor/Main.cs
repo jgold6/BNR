@@ -8,8 +8,22 @@ namespace TypingTutor
     {
         static void Main(string[] args)
         {
-            NSApplication.Init();
-            NSApplication.Main(args);
+			try
+			{
+				NSApplication.Init();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("[NSApplication.Init] Exception: {0}", ex.Message);
+			}
+			try
+			{
+				NSApplication.Main(args);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("[NSApplication.Main] Exception: {0}", ex.Message);
+			}
         }
     }
 }

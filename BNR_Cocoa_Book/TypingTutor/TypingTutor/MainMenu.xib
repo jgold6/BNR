@@ -18,8 +18,11 @@
                 <outlet property="colorTextField" destination="QqH-Ss-wsT" id="49M-sF-tvk"/>
                 <outlet property="colorWell" destination="mPz-pW-cuN" id="D8Q-Kv-9Wd"/>
                 <outlet property="inLetterView" destination="oXu-xG-5XS" id="Hft-J7-dUW"/>
+                <outlet property="lblCorrect" destination="Afg-OF-gpM" id="LJK-fQ-9Yi"/>
+                <outlet property="lblIncorrect" destination="JJu-LI-C1J" id="8X4-DX-wKo"/>
                 <outlet property="outLetterView" destination="lcF-uc-L9q" id="8eD-oG-ag9"/>
                 <outlet property="progressBar" destination="5uS-Yl-9eQ" id="XrU-tb-ppu"/>
+                <outlet property="segControl" destination="aRf-IL-gas" id="RJP-Fe-EzG"/>
                 <outlet property="slider" destination="Qtc-qQ-E09" id="l2e-mo-wad"/>
                 <outlet property="speedSheet" destination="gCE-C5-pFb" id="Wna-mT-Fv6"/>
             </connections>
@@ -629,14 +632,14 @@
         <window title="TypingTutor" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" animationBehavior="default" id="dEr-jb-5hp" customClass="MainWindow">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="131" y="74" width="579" height="400"/>
+            <rect key="contentRect" x="131" y="74" width="579" height="451"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
             <view key="contentView" id="GPO-Vo-m2h">
-                <rect key="frame" x="0.0" y="0.0" width="579" height="400"/>
+                <rect key="frame" x="0.0" y="0.0" width="579" height="451"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <customView focusRingType="exterior" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oXu-xG-5XS" customClass="BigLetterView">
-                        <rect key="frame" x="20" y="100" width="260" height="260"/>
+                        <rect key="frame" x="20" y="151" width="260" height="260"/>
                         <connections>
                             <outlet property="btnBold" destination="w0g-GK-Sfb" id="0Xq-oA-Tk1"/>
                             <outlet property="btnItalic" destination="Kei-yt-aZh" id="XEu-xV-AO0"/>
@@ -646,7 +649,7 @@
                         </connections>
                     </customView>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kei-yt-aZh">
-                        <rect key="frame" x="423" y="58" width="61" height="18"/>
+                        <rect key="frame" x="423" y="22" width="61" height="18"/>
                         <buttonCell key="cell" type="check" title="Italic" bezelStyle="regularSquare" imagePosition="left" inset="2" id="7t7-NE-DN3">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -656,7 +659,7 @@
                         </connections>
                     </button>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="maj-hK-RZe">
-                        <rect key="frame" x="488" y="58" width="73" height="18"/>
+                        <rect key="frame" x="488" y="22" width="73" height="18"/>
                         <buttonCell key="cell" type="check" title="Shadow" bezelStyle="regularSquare" imagePosition="left" inset="2" id="70K-PJ-Nck">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -666,7 +669,7 @@
                         </connections>
                     </button>
                     <customView focusRingType="exterior" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lcF-uc-L9q" customClass="BigLetterView">
-                        <rect key="frame" x="299" y="100" width="260" height="260"/>
+                        <rect key="frame" x="299" y="151" width="260" height="260"/>
                         <connections>
                             <outlet property="btnBold" destination="w0g-GK-Sfb" id="evx-7l-MBy"/>
                             <outlet property="btnItalic" destination="Kei-yt-aZh" id="jr6-ty-wfW"/>
@@ -675,7 +678,7 @@
                         </connections>
                     </customView>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mob-MO-53k">
-                        <rect key="frame" x="18" y="368" width="64" height="17"/>
+                        <rect key="frame" x="18" y="419" width="64" height="17"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Type here" id="HHH-75-bfN">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -683,7 +686,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2GO-nK-hhD">
-                        <rect key="frame" x="297" y="368" width="69" height="17"/>
+                        <rect key="frame" x="297" y="419" width="69" height="17"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Match this" id="bx4-wf-xvq">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -691,10 +694,10 @@
                         </textFieldCell>
                     </textField>
                     <progressIndicator canDrawConcurrently="YES" fixedFrame="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="5uS-Yl-9eQ">
-                        <rect key="frame" x="20" y="19" width="539" height="20"/>
+                        <rect key="frame" x="20" y="70" width="539" height="20"/>
                     </progressIndicator>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3zU-Mu-hFA">
-                        <rect key="frame" x="20" y="55" width="116" height="25"/>
+                        <rect key="frame" x="20" y="18" width="116" height="25"/>
                         <buttonCell key="cell" type="roundTextured" title="Go" alternateTitle="Stop" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sgf-yw-ZSl">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -704,14 +707,15 @@
                         </connections>
                     </button>
                     <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mPz-pW-cuN">
-                        <rect key="frame" x="150" y="57" width="44" height="23"/>
+                        <rect key="frame" x="144" y="19" width="44" height="23"/>
                         <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <connections>
+                            <action selector="colorWellValueChanged:" target="1xh-aj-h9l" id="DO3-Kc-Lp9"/>
                             <binding destination="1xh-aj-h9l" name="value" keyPath="inLetterView.bgColor" id="0eg-Ff-DoC"/>
                         </connections>
                     </colorWell>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QqH-Ss-wsT">
-                        <rect key="frame" x="207" y="57" width="138" height="22"/>
+                        <rect key="frame" x="196" y="20" width="138" height="22"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="9IV-7Y-gyp">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -725,7 +729,7 @@
                         </connections>
                     </textField>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w0g-GK-Sfb">
-                        <rect key="frame" x="358" y="58" width="61" height="18"/>
+                        <rect key="frame" x="358" y="22" width="61" height="18"/>
                         <buttonCell key="cell" type="check" title="Bold" bezelStyle="regularSquare" imagePosition="left" inset="2" id="D4F-Td-h46">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -734,12 +738,57 @@
                             <action selector="boldChecked:" target="-1" id="ewX-aE-Qtq"/>
                         </connections>
                     </button>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VoV-Ag-cGb">
+                        <rect key="frame" x="20" y="126" width="54" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Correct:" id="xxU-0H-oAy">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" red="0.50196081399917603" green="0.50196081399917603" blue="0.50196081399917603" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Afg-OF-gpM">
+                        <rect key="frame" x="78" y="126" width="38" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="oIq-Oo-fDU">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" red="0.0" green="0.50196081399917603" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wvh-Ku-uGK">
+                        <rect key="frame" x="131" y="126" width="63" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Incorrect:" id="N0c-r4-QFV">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" red="0.50196081399917603" green="0.50196081399917603" blue="0.50196081399917603" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JJu-LI-C1J">
+                        <rect key="frame" x="198" y="126" width="38" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="ctj-xm-w1a">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aRf-IL-gas">
+                        <rect key="frame" x="297" y="122" width="264" height="24"/>
+                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="P0L-3H-De6">
+                            <font key="font" metaFont="system"/>
+                            <segments>
+                                <segment label="Random Letters" toolTip="Chooses whether to show random letters or sentences" width="129" selected="YES"/>
+                                <segment label="Sentences" width="128" tag="1"/>
+                            </segments>
+                        </segmentedCell>
+                        <connections>
+                            <action selector="valueChanged:" target="1xh-aj-h9l" id="qfn-Uh-YMf"/>
+                        </connections>
+                    </segmentedControl>
                 </subviews>
             </view>
             <connections>
                 <outlet property="initialFirstResponder" destination="oXu-xG-5XS" id="62s-K4-kYJ"/>
             </connections>
-            <point key="canvasLocation" x="543.5" y="278"/>
+            <point key="canvasLocation" x="543.5" y="303.5"/>
         </window>
         <window title="Speed Sheet" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="gCE-C5-pFb">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
