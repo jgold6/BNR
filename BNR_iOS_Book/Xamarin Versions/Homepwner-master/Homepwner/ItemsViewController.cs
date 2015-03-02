@@ -101,6 +101,17 @@ namespace Homepwner
 			cell.serialNumberLabel.Text = p.serialNumber;
 			string currencySymbol = NSLocale.CurrentLocale.CurrencySymbol;
 			cell.valueLabel.Text = String.Format("{0}{1}", currencySymbol ,p.valueInDollars);
+			if (p.valueInDollars < 0) 
+			{
+				cell.valueLabel.TextColor = UIColor.Red;
+			}
+			else 
+			{
+				cell.valueLabel.TextColor = UIColor.Black;
+			}
+			cell.stepper.MaximumValue = p.valueInDollars + 500;
+			cell.stepper.MinimumValue = p.valueInDollars - 500;
+			cell.stepper.Value = p.valueInDollars;
 
 			string thumbKey = p.imageKey + ".thumbnail"; // Changed from archiving method of saving for SQL method
 
@@ -248,7 +259,13 @@ namespace Homepwner
 			}
 		}
 
-
+		public void nudgeItemValue(NSIndexPath indexPath, double stepperValue)
+		{
+			BNRItem i = BNRItemStore.allItems[indexPath.Row];
+			i.valueInDollars = (int)stepperValue;
+			BNRItemStore.updateDBItem(i);
+			TableView.ReloadData();
+		}
 
 		public override bool ShouldAutorotate()
 		{

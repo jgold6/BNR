@@ -29,7 +29,7 @@ namespace Homepwner
 			// Get the name of this method, "showImage"
 			string selector = MethodBase.GetCurrentMethod().Name;
 			// selector is now "showImage:atIndexPath:"
-			selector = selector + "AtIndexPath";
+			selector = selector + ":AtIndexPath:";
 
 			NSIndexPath indexPath = tableView.IndexPathForCell(this);
 
@@ -41,6 +41,13 @@ namespace Homepwner
 				}
 			}
 
+		}
+
+		partial void NudgeValue (MonoTouch.Foundation.NSObject sender)
+		{
+			UIStepper stepper = (UIStepper)sender;
+			NSIndexPath indexPath = tableView.IndexPathForCell(this);
+			controller.nudgeItemValue(indexPath, stepper.Value);
 		}
 	}
 }

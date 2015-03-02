@@ -24,8 +24,14 @@ namespace Homepwner
 		[Outlet]
 		public MonoTouch.UIKit.UILabel valueLabel { get; private set; }
 
+		[Outlet]
+		public MonoTouch.UIKit.UIStepper stepper { get; private set; }
+
 		[Action ("showImage:")]
 		partial void showImage (MonoTouch.Foundation.NSObject sender);
+
+		[Action ("nudgeValue:")]
+		partial void NudgeValue (MonoTouch.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
