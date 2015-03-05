@@ -116,6 +116,32 @@ namespace TypingTutor
 			IncorrectLetters = 0;
 			lblCorrect.StringValue = CorrectLetters.ToString();
 			lblIncorrect.StringValue = IncorrectLetters.ToString();
+
+//			colorTextField.EditingEnded += (object sender, EventArgs e) => {
+//				userSelectedBgColor = colorWell.Color;
+//				outLetterView.BgColor = colorWell.Color;
+//			};
+
+			// ColorWell has issues too, but harder to reproduce. Crash log in notepad, Xamarin folder -> Scratchpad
+//			colorWell.Activated += (object sender, EventArgs e) => {
+//				userSelectedBgColor = colorWell.Color;
+//				outLetterView.BgColor = colorWell.Color;
+//			};
+
+			// Native crash - file bug report. go back and forth to repro, especially while running the typing tutor, or going back to "Random Letters
+			// after stopping. rfe
+//			segControl.Activated += (object sender, EventArgs e) => {
+//				Sentences = segControl.SelectedSegment == 1;
+//				if (Sentences) {
+//					// Sentences
+//					NextSentence();
+//					ShowNextLetter();
+//				}
+//				else {
+//					// Random Letters;
+//					ShowAnotherLetter();
+//				}
+//			};
 		}
 		#endregion
 
@@ -159,9 +185,9 @@ namespace TypingTutor
 				Timer = new Timer(100);
 				Timer.Elapsed += timer_Elapsed;
 				Timer.Start();
-				colorTextField.Enabled = false;
-				colorWell.Enabled = false;
-				segControl.Enabled = false;
+//				colorTextField.Enabled = false;
+//				colorWell.Enabled = false;
+//				segControl.Enabled = false;
 				CorrectLetters = 0;
 				IncorrectLetters = 0;
 				lblCorrect.StringValue = CorrectLetters.ToString();
@@ -171,9 +197,9 @@ namespace TypingTutor
 				Timer.Stop();
 				Timer.Elapsed -= timer_Elapsed;
 				Timer = null;
-				colorTextField.Enabled = true;
-				colorWell.Enabled = true;
-				segControl.Enabled = true;
+//				colorTextField.Enabled = true;
+//				colorWell.Enabled = true;
+//				segControl.Enabled = true;
 			}
 		}
 
@@ -236,8 +262,8 @@ namespace TypingTutor
 				AppKitFramework.NSBeep();
 				InvokeOnMainThread(() => {
 					inLetterView.SetValueForKey(userSelectedBgColor, new NSString("BgColor"));
-					colorTextField.Enabled = false;
-					colorWell.Enabled = false;
+//					colorTextField.Enabled = false;
+//					colorWell.Enabled = false;
 				});
 
 				if (Sentences) {

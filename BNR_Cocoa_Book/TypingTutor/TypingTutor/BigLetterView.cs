@@ -134,7 +134,7 @@ namespace TypingTutor
 		{
 			// Set the letter pressed on key down
 			this.Letter = input.ToString();
-			if (tutorController.Timer != null) {
+			if (tutorController != null && tutorController.Timer != null) {
 				if (tutorController.outLetterView.Letter == this.Letter) {
 					SetValueForKey(NSColor.Green, new NSString("BgColor"));
 					tutorController.CorrectLetters++;
@@ -145,8 +145,8 @@ namespace TypingTutor
 					tutorController.IncorrectLetters++;
 					tutorController.lblIncorrect.StringValue = tutorController.IncorrectLetters.ToString();
 				}
-				tutorController.colorTextField.Enabled = false;
-				tutorController.colorWell.Enabled = false;
+//				tutorController.colorTextField.Enabled = false;
+//				tutorController.colorWell.Enabled = false;
 				tutorController.keyPressedFlag = true;
 			}
 		}

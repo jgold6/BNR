@@ -710,7 +710,7 @@
                         <rect key="frame" x="144" y="19" width="44" height="23"/>
                         <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <connections>
-                            <action selector="colorWellValueChanged:" target="1xh-aj-h9l" id="DO3-Kc-Lp9"/>
+                            <action selector="colorWellValueChanged:" target="1xh-aj-h9l" id="57r-w9-p8w"/>
                             <binding destination="1xh-aj-h9l" name="value" keyPath="inLetterView.bgColor" id="0eg-Ff-DoC"/>
                         </connections>
                     </colorWell>
@@ -780,7 +780,7 @@
                             </segments>
                         </segmentedCell>
                         <connections>
-                            <action selector="valueChanged:" target="1xh-aj-h9l" id="qfn-Uh-YMf"/>
+                            <action selector="valueChanged:" target="1xh-aj-h9l" id="dPV-A5-V9B"/>
                         </connections>
                     </segmentedControl>
                 </subviews>

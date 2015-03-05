@@ -14,7 +14,7 @@ namespace TypingTutor
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine("[NSApplication.Init] Exception: {0}", ex.Message);
+				Console.WriteLine("[NSApplication.Init] Exception: {0}\n{1}", ex.Message, ex.StackTrace);
 			}
 			try
 			{
@@ -22,7 +22,7 @@ namespace TypingTutor
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine("[NSApplication.Main] Exception: {0}", ex.Message);
+				Console.WriteLine("[NSApplication.Main] Exception: {0}\n{1}", ex.Message, ex.StackTrace);
 			}
         }
     }
