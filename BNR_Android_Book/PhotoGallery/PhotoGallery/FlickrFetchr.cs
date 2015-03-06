@@ -7,6 +7,7 @@ using System.IO;
 using System.Collections.Generic;
 using Android.Graphics;
 using Android.Widget;
+using System.Threading;
 
 namespace PhotoGallery
 {
@@ -62,7 +63,7 @@ namespace PhotoGallery
 			return result;
 		}
 
-		public async Task<Bitmap> GetImageBitmapAsync(string url, int position)
+		public async Task<Bitmap> GetImageBitmapAsync(string url, int position, CancellationToken token)
 		{
 //			Console.WriteLine("[{0}] Start GetImageBitmapAsync: {1}", TAG, DateTime.Now.ToLongTimeString());
 			Bitmap bitmap = null;
@@ -71,8 +72,14 @@ namespace PhotoGallery
 			if (File.Exists(path)) {
 				try {
 					byte[] bitmapBytes = File.ReadAllBytes(path);
+					token.ThrowIfCancellationRequested();
 					bitmap = await BitmapFactory.DecodeByteArrayAsync(bitmapBytes, 0, bitmapBytes.Length).ConfigureAwait(false);
+					token.ThrowIfCancellationRequested();
 //					Console.WriteLine("[{0}] Bitmap created from cache: Position: {1}", TAG, position);
+				}
+				catch (System.OperationCanceledException ex)
+				{
+					throw new OperationCanceledException(ex.Message);
 				}
 				catch (Exception ex) {
 					Console.WriteLine("[{0}] Bitmap creation from cache failed: {1}, Position: {2}", TAG, ex.Message, position);
@@ -82,9 +89,16 @@ namespace PhotoGallery
 			else {
 				try {
 					byte[] bitmapBytes = await GetUrlBytesAsync(url).ConfigureAwait(false);
+					token.ThrowIfCancellationRequested();
 					bitmap = await BitmapFactory.DecodeByteArrayAsync(bitmapBytes, 0, bitmapBytes.Length).ConfigureAwait(false);
+					token.ThrowIfCancellationRequested();
 					File.WriteAllBytes(path, bitmapBytes);
+					token.ThrowIfCancellationRequested();
 //					Console.WriteLine("[{0}] Bitmap created from url: Position: {1}", TAG, position);
+				}
+				catch (System.OperationCanceledException ex)
+				{
+					throw new OperationCanceledException(ex.Message);
 				}
 				catch (Exception ex) {
 					Console.WriteLine("[{0}] Bitmap creation from url failed: {1}}, Position: {2}", TAG, ex.Message, position);
@@ -258,31 +272,34 @@ namespace PhotoGallery
 //			Console.WriteLine("[{0}] PreloadImages End Load photos: {1}", TAG, DateTime.Now.ToLongTimeString());
 //			Console.WriteLine("[{0}] PreloadImages Start Delete photos: {1}", TAG, DateTime.Now.ToLongTimeString());
 			// Delete out of range photos
-//			for (int i = 0; i < pos1 -10; i++) {
-//				string path = GetPathFromUrl(items[i].Url);
-//				if (File.Exists(path)) {
-//					File.Delete(path);
+			for (int i = 0; i < pos1 -10; i++) {
+				string path = GetPathFromUrl(items[i].Url);
+				if (File.Exists(path)) {
+					File.Delete(path);
 //					Console.WriteLine("[{0}] File Deleted: Position: {1}", TAG, i);
-//				}
-//			}
-//			if (pos2 + 10 < items.Count) {
-//				for (int i = pos2 + 10; i < items.Count; i++) {
-//					string path = GetPathFromUrl(items[i].Url);
-//					if (File.Exists(path)) {
-//						File.Delete(path);
+				}
+			}
+			if (pos2 + 10 < items.Count) {
+				for (int i = pos2 + 10; i < items.Count; i++) {
+					string path = GetPathFromUrl(items[i].Url);
+					if (File.Exists(path)) {
+						File.Delete(path);
 //						Console.WriteLine("[{0}] File Deleted:  Position: {1}", TAG, i);
-//					}
-//				}
-//			}
+					}
+				}
+			}
 //			Console.WriteLine("[{0}] PreloadImages End Delete photos: {1}", TAG, DateTime.Now.ToLongTimeString());
 			//Console.WriteLine("[{0}] End PreloadImages: {1}", TAG, DateTime.Now.ToLongTimeString());
 		}
 
 		string GetPathFromUrl(string url)
 		{
-			string[] split = url.Split(new char[]{'/'});
-			string filename = split[split.Length-1];
+//			string[] split = url.Split(new char[]{'/'});
+//			string filename = split[split.Length-1];
+			string filename = url.Replace("/", "_");
+			filename = filename.Replace("https:__", "");
 			string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), filename + ".bytes");
+//			Console.WriteLine("[{0}] ***Path: {1}", TAG, path);
 			return path;
 		}
 

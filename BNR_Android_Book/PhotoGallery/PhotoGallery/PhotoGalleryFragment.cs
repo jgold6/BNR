@@ -90,7 +90,7 @@ namespace PhotoGallery
 				if (e.ScrollState == ScrollState.Idle) {
 					if (idlePreloadTokenSource != null) {
 						idlePreloadTokenSource.Cancel();
-						Console.WriteLine("[{0}] IdlePreloadTaskState: {1}", TAG, idlePreloadTask.IsCompleted);
+//						Console.WriteLine("[{0}] IdlePreloadTaskState: {1}", TAG, idlePreloadTask.IsCompleted);
 					}
 					idlePreloadTokenSource = new CancellationTokenSource();
 					idlePreloadTask = Task.Run(async () => {
@@ -291,7 +291,6 @@ namespace PhotoGallery
 				var wrapper = view.Tag.JavaCast<Wrapper<CancellationTokenSource>>();
 				cts = wrapper.Data;
 				cts.Cancel();
-				view = (ImageView)context.LayoutInflater.Inflate(Resource.Layout.gallery_item, parent, false);
 				Console.WriteLine("[{0}] Cancelled Image Load Requested: {1}", PhotoGalleryFragment.TAG, view.Handle);
 			}
 
@@ -300,27 +299,35 @@ namespace PhotoGallery
 			view.Tag = new Wrapper<CancellationTokenSource> { Data = cts };
 
 			GalleryItem item = GetItem(position);
-
 			Task.Run(async () => {
-				await LoadImage(view, item.Url, position);
-			}, cts.Token);
+				try {
+					await LoadImage(view, item.Url, position, cts.Token);
+				}
+				catch (System.OperationCanceledException ex)
+				{
+					Console.WriteLine("{0}*************** Image download cancelled: {1}, {2}", PhotoGalleryFragment.TAG, ex.Message, view.Handle);
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine("{0} Image download failed: {1}", PhotoGalleryFragment.TAG, ex.Message);
+				}
+			});
+
 
 			return view;
 		}
 
-		public async Task LoadImage(ImageView imageView, string url, int position) {
-			Console.WriteLine("[{0}] Image Load started: {1}", PhotoGalleryFragment.TAG, imageView.Handle);
-			Bitmap image = await new FlickrFetchr().GetImageBitmapAsync(url, position).ConfigureAwait(false);
-			var wrapper = imageView.Tag.JavaCast<Wrapper<CancellationTokenSource>>();
-			CancellationTokenSource cts = wrapper.Data;
-			if (!cts.IsCancellationRequested && image != null) {
+		public async Task LoadImage(ImageView imageView, string url, int position, CancellationToken token) {
+//			Console.WriteLine("[{0}] Image Load started: {1}", PhotoGalleryFragment.TAG, imageView.Handle);
+			Bitmap image = await new FlickrFetchr().GetImageBitmapAsync(url, position, token);
+			if (image != null) {
 				context.RunOnUiThread(() => {
 					imageView.SetImageBitmap(image);
 				});
-				Console.WriteLine("[{0}] Image Load Finished: {1}", PhotoGalleryFragment.TAG, imageView.Handle);
+//				Console.WriteLine("[{0}] Image Load Finished: {1}", PhotoGalleryFragment.TAG, imageView.Handle);
 			}
 			else {
-				Console.WriteLine("[{0}] Image Load Cancelled: {1}", PhotoGalleryFragment.TAG, imageView.Handle);
+				Console.WriteLine("[{0}] Image null: {1}", PhotoGalleryFragment.TAG, imageView.Handle);
 			}
 		}
 	}

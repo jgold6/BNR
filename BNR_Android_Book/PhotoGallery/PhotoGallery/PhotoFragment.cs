@@ -10,6 +10,7 @@ using Android.Util;
 using Android.Preferences;
 using Android.OS;
 using Android.Content;
+using System.Threading;
 
 namespace PhotoGallery
 {
@@ -45,7 +46,7 @@ namespace PhotoGallery
 			pg.Show();
 
 			Task.Run(async () => {
-				Bitmap image = await new FlickrFetchr().GetImageBitmapAsync(photoUrl, 0).ConfigureAwait(false);
+				Bitmap image = await new FlickrFetchr().GetImageBitmapAsync(photoUrl, 0, new CancellationTokenSource().Token).ConfigureAwait(false);
 				Activity.RunOnUiThread(() => {
 					mImageView.SetImageBitmap(image);
 					//Console.WriteLine("[{0}] File created: {1}", TAG, photoUrl);
