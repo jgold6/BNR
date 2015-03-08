@@ -20,6 +20,7 @@ namespace PhotoGallery
 		public static readonly string TAG = "PhotoGalleryFragment";
 
 		public static readonly string PHOTO_URL_EXTRA = "photoUrl";
+		public static readonly string PHOTO_FILENAME_EXTRA = "photoFilename";
 
 		private static Task idlePreloadTask;
 		private static CancellationTokenSource idlePreloadTokenSource;
@@ -290,8 +291,10 @@ namespace PhotoGallery
 			else {
 				var wrapper = view.Tag.JavaCast<Wrapper<CancellationTokenSource>>();
 				cts = wrapper.Data;
-				cts.Cancel();
-				Console.WriteLine("[{0}] Cancelled Image Load Requested: {1}", PhotoGalleryFragment.TAG, view.Handle);
+				if (!cts.IsCancellationRequested) {
+					cts.Cancel();
+					//Console.WriteLine("[{0}] Cancelled Image Load Requested: {1}", PhotoGalleryFragment.TAG, view.Handle);
+				}
 			}
 
 			view.SetImageResource(Resource.Drawable.face_icon);
@@ -301,11 +304,11 @@ namespace PhotoGallery
 			GalleryItem item = GetItem(position);
 			Task.Run(async () => {
 				try {
-					await LoadImage(view, item.Url, position, cts.Token);
+					await LoadImage(view, item.Url, position, cts.Token, item.Filename);
 				}
 				catch (System.OperationCanceledException ex)
 				{
-					Console.WriteLine("{0}*************** Image download cancelled: {1}, {2}", PhotoGalleryFragment.TAG, ex.Message, view.Handle);
+					//Console.WriteLine("{0}*************** Image download cancelled: {1}, {2}", PhotoGalleryFragment.TAG, ex.Message, view.Handle);
 				}
 				catch (Exception ex)
 				{
@@ -317,9 +320,9 @@ namespace PhotoGallery
 			return view;
 		}
 
-		public async Task LoadImage(ImageView imageView, string url, int position, CancellationToken token) {
+		public async Task LoadImage(ImageView imageView, string url, int position, CancellationToken token, string filename) {
 //			Console.WriteLine("[{0}] Image Load started: {1}", PhotoGalleryFragment.TAG, imageView.Handle);
-			Bitmap image = await new FlickrFetchr().GetImageBitmapAsync(url, position, token);
+			Bitmap image = await new FlickrFetchr().GetImageBitmapAsync(url, position, token, filename);
 			if (image != null) {
 				context.RunOnUiThread(() => {
 					imageView.SetImageBitmap(image);

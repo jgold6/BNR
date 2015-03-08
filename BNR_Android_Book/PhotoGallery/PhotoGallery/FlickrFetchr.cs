@@ -63,11 +63,11 @@ namespace PhotoGallery
 			return result;
 		}
 
-		public async Task<Bitmap> GetImageBitmapAsync(string url, int position, CancellationToken token)
+		public async Task<Bitmap> GetImageBitmapAsync(string url, int position, CancellationToken token, string filename)
 		{
 //			Console.WriteLine("[{0}] Start GetImageBitmapAsync: {1}", TAG, DateTime.Now.ToLongTimeString());
 			Bitmap bitmap = null;
-			string path = GetPathFromUrl(url);
+			string path = GetPathFromFilename(filename);
 			// Check for cached images on filesystem. Filename will be the last part of the url+.bytes.
 			if (File.Exists(path)) {
 				try {
@@ -174,7 +174,8 @@ namespace PhotoGallery
 							Caption = photo.title,
 							Id = photo.id.ToString(),
 							Url = photo.url_s,
-							Owner = photo.owner
+							Owner = photo.owner,
+							Filename = GetFilenameFromUrl(photo.url_s)
 						};
 						items.Add(item);
 					}
@@ -243,7 +244,7 @@ namespace PhotoGallery
 
 			// Preload 10 before displayed photos
 			for  (int i = (pos1 - 10 >= 0 ? pos1 - 10 : 0); i < pos1; i++) {
-				string path = GetPathFromUrl(items[i].Url);
+				string path = GetPathFromFilename(items[i].Filename);
 				if (!File.Exists(path)) {
 					try {
 						byte[] bitmapBytes = await GetUrlBytesAsync(items[i].Url).ConfigureAwait(false);
@@ -257,7 +258,7 @@ namespace PhotoGallery
 			}
 			// Preload 10 past displayed photos
 			for  (int i = pos2; i < (pos2 + 10 < items.Count ? pos2 + 10 : items.Count); i++) {
-				string path = GetPathFromUrl(items[i].Url);
+				string path = GetPathFromFilename(items[i].Filename);
 				if (!File.Exists(path)) {
 					try {
 						byte[] bitmapBytes = await GetUrlBytesAsync(items[i].Url).ConfigureAwait(false);
@@ -273,18 +274,18 @@ namespace PhotoGallery
 //			Console.WriteLine("[{0}] PreloadImages Start Delete photos: {1}", TAG, DateTime.Now.ToLongTimeString());
 			// Delete out of range photos
 			for (int i = 0; i < pos1 -10; i++) {
-				string path = GetPathFromUrl(items[i].Url);
+				string path = GetPathFromFilename(items[i].Filename);
 				if (File.Exists(path)) {
 					File.Delete(path);
-//					Console.WriteLine("[{0}] File Deleted: Position: {1}", TAG, i);
+					//Console.WriteLine("[{0}] File Deleted: Position: {1} Path: {2}", TAG, i, path);
 				}
 			}
 			if (pos2 + 10 < items.Count) {
 				for (int i = pos2 + 10; i < items.Count; i++) {
-					string path = GetPathFromUrl(items[i].Url);
+					string path = GetPathFromFilename(items[i].Filename);
 					if (File.Exists(path)) {
 						File.Delete(path);
-//						Console.WriteLine("[{0}] File Deleted:  Position: {1}", TAG, i);
+						//Console.WriteLine("[{0}] File Deleted: Position: {1} Path: {2}", TAG, i, path);
 					}
 				}
 			}
@@ -292,22 +293,33 @@ namespace PhotoGallery
 			//Console.WriteLine("[{0}] End PreloadImages: {1}", TAG, DateTime.Now.ToLongTimeString());
 		}
 
-		string GetPathFromUrl(string url)
+		public string GetPathFromFilename(string filename)
 		{
 //			string[] split = url.Split(new char[]{'/'});
 //			string filename = split[split.Length-1];
-			string filename = url.Replace("/", "_");
-			filename = filename.Replace("https:__", "");
+//			string filename = url.Replace("/", "_");
+//			filename = filename.Replace("https:__", "");
 			string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), filename + ".bytes");
 //			Console.WriteLine("[{0}] ***Path: {1}", TAG, path);
 			return path;
 		}
 
-		public void DeleteImageFile(string Url)
+		public string GetFilenameFromUrl(string url)
 		{
-			string path = GetPathFromUrl(Url);
-			if (File.Exists(path))
+			string[] split = url.Split(new char[]{'/'});
+			string filename = split[split.Length-1];
+			filename = Guid.NewGuid() + "-" + filename;
+			//Console.WriteLine("[{0}] ***Filename: {1}", TAG, filename);
+			return filename;
+		}
+
+		public void DeleteImageFile(string filename)
+		{
+			string path = GetPathFromFilename(filename);
+			if (File.Exists(path)) {
 				File.Delete(path);
+				Console.WriteLine("[{0}] File Deleted: {1}", TAG, path);
+			}
 		}
     }
 }

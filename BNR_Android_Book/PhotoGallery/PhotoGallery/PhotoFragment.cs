@@ -20,6 +20,7 @@ namespace PhotoGallery
 
 		ImageView mImageView;
 		string photoUrl;
+		string photoFilename;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -38,6 +39,7 @@ namespace PhotoGallery
 			photoUrl = Activity.Intent.GetStringExtra(PhotoGalleryFragment.PHOTO_URL_EXTRA);
 
 			photoUrl = photoUrl.Substring(0, photoUrl.Length-6) + ".jpg";
+			photoFilename = new FlickrFetchr().GetFilenameFromUrl(photoUrl);
 
 			ProgressDialog pg = new ProgressDialog(Activity);
 			pg.SetMessage(Resources.GetString(Resource.String.loading_photo_message));
@@ -46,7 +48,7 @@ namespace PhotoGallery
 			pg.Show();
 
 			Task.Run(async () => {
-				Bitmap image = await new FlickrFetchr().GetImageBitmapAsync(photoUrl, 0, new CancellationTokenSource().Token).ConfigureAwait(false);
+				Bitmap image = await new FlickrFetchr().GetImageBitmapAsync(photoUrl, 0, new CancellationTokenSource().Token, photoFilename).ConfigureAwait(false);
 				Activity.RunOnUiThread(() => {
 					mImageView.SetImageBitmap(image);
 					//Console.WriteLine("[{0}] File created: {1}", TAG, photoUrl);
@@ -60,7 +62,7 @@ namespace PhotoGallery
 		public override void OnDestroyView()
 		{
 			base.OnDestroyView();
-			new FlickrFetchr().DeleteImageFile(photoUrl);
+			new FlickrFetchr().DeleteImageFile(photoFilename);
 			//Console.WriteLine("[{0}] File deleted: {1}", TAG, photoUrl);
 			mImageView = null;
 		}
