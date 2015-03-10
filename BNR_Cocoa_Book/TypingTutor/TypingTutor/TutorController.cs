@@ -9,7 +9,7 @@ using System.Linq;
 namespace TypingTutor
 {
 	[Register("TutorController")]
-	public class TutorController : NSObject, INSTextFieldDelegate
+	public class TutorController : NSObject
     {
 		#region - Member variables and outlets
 		Random rnd;
@@ -117,64 +117,64 @@ namespace TypingTutor
 			lblCorrect.StringValue = CorrectLetters.ToString();
 			lblIncorrect.StringValue = IncorrectLetters.ToString();
 
-//			colorTextField.EditingEnded += (object sender, EventArgs e) => {
-//				userSelectedBgColor = colorWell.Color;
-//				outLetterView.BgColor = colorWell.Color;
-//			};
+			colorTextField.EditingEnded += (object sender, EventArgs e) => {
+				userSelectedBgColor = colorWell.Color;
+				outLetterView.BgColor = colorWell.Color;
+			};
 
 			// ColorWell has issues too, but harder to reproduce. Crash log in notepad, Xamarin folder -> Scratchpad
-//			colorWell.Activated += (object sender, EventArgs e) => {
-//				userSelectedBgColor = colorWell.Color;
-//				outLetterView.BgColor = colorWell.Color;
-//			};
+			colorWell.Activated += (object sender, EventArgs e) => {
+				userSelectedBgColor = colorWell.Color;
+				outLetterView.BgColor = colorWell.Color;
+			};
 
 			// Native crash - file bug report. go back and forth to repro, especially while running the typing tutor, or going back to "Random Letters
 			// after stopping. rfe
-//			segControl.Activated += (object sender, EventArgs e) => {
-//				Sentences = segControl.SelectedSegment == 1;
-//				if (Sentences) {
-//					// Sentences
-//					NextSentence();
-//					ShowNextLetter();
-//				}
-//				else {
-//					// Random Letters;
-//					ShowAnotherLetter();
-//				}
-//			};
+			segControl.Activated += (object sender, EventArgs e) => {
+				Sentences = segControl.SelectedSegment == 1;
+				if (Sentences) {
+					// Sentences
+					NextSentence();
+					ShowNextLetter();
+				}
+				else {
+					// Random Letters;
+					ShowAnotherLetter();
+				}
+			};
 		}
 		#endregion
 
 		#region - Actions
-		[Export("controlTextDidEndEditing:")]
-		public void EditingEnded(Foundation.NSNotification notification)
-		{
-			userSelectedBgColor = colorWell.Color;
-			outLetterView.BgColor = colorWell.Color;
-		}
+//		[Export("controlTextDidEndEditing:")]
+//		public void EditingEnded(Foundation.NSNotification notification)
+//		{
+//			userSelectedBgColor = colorWell.Color;
+//			outLetterView.BgColor = colorWell.Color;
+//		}
 		// Color Well control
-		[Action ("colorWellValueChanged:")]
-		void ColorWellValueChanged (Foundation.NSObject sender)
-		{
-			userSelectedBgColor = colorWell.Color;
-			outLetterView.BgColor = colorWell.Color;
-		}
+//		[Action ("colorWellValueChanged:")]
+//		void ColorWellValueChanged (Foundation.NSObject sender)
+//		{
+//			userSelectedBgColor = colorWell.Color;
+//			outLetterView.BgColor = colorWell.Color;
+//		}
 
 		// Segmented control
-		[Action ("valueChanged:")]
-		void ValueChanged (Foundation.NSObject sender)
-		{
-			Sentences = segControl.SelectedSegment == 1;
-			if (Sentences) {
-				// Sentences
-				NextSentence();
-				ShowNextLetter();
-			}
-			else {
-				// Random Letters;
-				ShowAnotherLetter();
-			}
-		}
+//		[Action ("valueChanged:")]
+//		void ValueChanged (Foundation.NSObject sender)
+//		{
+//			Sentences = segControl.SelectedSegment == 1;
+//			if (Sentences) {
+//				// Sentences
+//				NextSentence();
+//				ShowNextLetter();
+//			}
+//			else {
+//				// Random Letters;
+//				ShowAnotherLetter();
+//			}
+//		}
 
 		// Start and stop the timer
 		[Action ("stopGo:")]
