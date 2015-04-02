@@ -2,7 +2,6 @@
 using Android.Content;
 using System.Collections.Generic;
 using System.Linq;
-using System.Diagnostics;
 
 namespace CriminalIntent
 {
@@ -32,11 +31,11 @@ namespace CriminalIntent
 			// Load Crimes
 			try {
 				Crimes = mSerializer.LoadCrimes();
-				Debug.WriteLine(String.Format("Crimes loaded from file: {0}, Type: {1}", Crimes.Count, Crimes), TAG);
+//				Debug.WriteLine(String.Format("Crimes loaded from file: {0}, Type: {1}", Crimes.Count, Crimes), TAG);
 			}
 			catch (Exception ex) {
 				Crimes = new List<Crime>();
-				Debug.WriteLine(String.Format("Error loading crimes: {0}", ex.Message), TAG);
+//				Debug.WriteLine(String.Format("Error loading crimes: {0}", ex.Message), TAG);
 			}
 
 			// Populate crimes list
@@ -82,11 +81,11 @@ namespace CriminalIntent
 		{
 			try {
 				mSerializer.SaveCrimes(Crimes);
-				Debug.WriteLine(String.Format("Crimes saved to file: {0}, Type: {1}", Crimes.Count, Crimes), TAG);
+//				Debug.WriteLine(String.Format("Crimes saved to file: {0}, Type: {1}", Crimes.Count, Crimes), TAG);
 				return true;
 			}
 			catch (Exception ex) {
-				Debug.WriteLine(String.Format("Error saving crimes: {0}", ex.Message), TAG);
+//				Debug.WriteLine(String.Format("Error saving crimes: {0}", ex.Message), TAG);
 				return false;
 			}
 		}

@@ -52,6 +52,28 @@ namespace CriminalIntent
 				}
 			}
 		}
+
+		protected override void OnResume()
+		{
+			base.OnResume();
+
+			mViewPager.PageSelected += MViewPager_PageSelected;
+		}
+
+		void MViewPager_PageSelected (object sender, ViewPager.PageSelectedEventArgs e)
+		{
+			var crime = mCrimes[e.Position];
+			if (crime.Title != null)
+				Title = crime.Title;
+		}
+
+		protected override void OnPause()
+		{
+			base.OnPause();
+			mViewPager.PageSelected -= MViewPager_PageSelected;
+		}
+
+
 		#endregion
 
 		#region - Interface implementations

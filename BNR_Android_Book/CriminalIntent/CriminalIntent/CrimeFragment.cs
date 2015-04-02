@@ -90,7 +90,7 @@ namespace CriminalIntent
 			string crimeId = Arguments.GetString(EXTRA_CRIME_ID);
 			mCrime = CrimeLab.GetInstance(Activity).GetCrime(crimeId);
 			if (mCrime.Photo != null && !File.Exists(mCrime.Photo.Filename)) {
-				System.Diagnostics.Debug.WriteLine(String.Format("Crime '{0}' removed missing file link: {1}", mCrime.Title, mCrime.Photo.Filename), TAG);
+//				System.Diagnostics.Debug.WriteLine(String.Format("Crime '{0}' removed missing file link: {1}", mCrime.Title, mCrime.Photo.Filename), TAG);
 				mCrime.Photo = null;
 			}
 
@@ -378,13 +378,13 @@ namespace CriminalIntent
 					// Delete existing photo, if present
 					if (mCrime.Photo != null && File.Exists(mCrime.Photo.Filename)) {
 						File.Delete(mCrime.Photo.Filename);
-						System.Diagnostics.Debug.WriteLine(String.Format("Crime '{0}' deleted photo at: {1}", mCrime.Title, mCrime.Photo.Filename), TAG);
+//						System.Diagnostics.Debug.WriteLine(String.Format("Crime '{0}' deleted photo at: {1}", mCrime.Title, mCrime.Photo.Filename), TAG);
 					}
 
 					mCrime.Photo = new Photo(PhotoApp._file.Path);
 					ShowPhoto();
 					mCallBacks.OnCrimeUpdated();
-					System.Diagnostics.Debug.WriteLine(String.Format("Crime '{0}' has a photo at: {1}", mCrime.Title, mCrime.Photo.Filename), TAG);
+//					System.Diagnostics.Debug.WriteLine(String.Format("Crime '{0}' has a photo at: {1}", mCrime.Title, mCrime.Photo.Filename), TAG);
 				}
 
 				// From BNR book - trying Xamarin Method from guide
@@ -493,8 +493,12 @@ namespace CriminalIntent
 				mPhotoView.SetImageDrawable(b);
 				mPhotoView.Rotation = mCrime.Photo.GetRotation();
 
-				System.Diagnostics.Debug.WriteLine(String.Format("Photo path: {0}", mCrime.Photo.Filename), TAG);
+//				System.Diagnostics.Debug.WriteLine(String.Format("Photo path: {0}", mCrime.Photo.Filename), TAG);
 			}
+			if (b != null) {
+				b.Dispose();
+			}
+			GC.Collect();
 		}
 
 		private string GetCrimeReport()

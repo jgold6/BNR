@@ -190,7 +190,7 @@ namespace CriminalIntent
 
 		public void OnItemCheckedStateChanged(ActionMode mode, int position, long id, bool chkd)
 		{
-			System.Diagnostics.Debug.WriteLine(String.Format("OnItemCheckedStateChanged {0}, {1}, {2}. {3}", mode, position, id, chkd), TAG);
+//			System.Diagnostics.Debug.WriteLine(String.Format("OnItemCheckedStateChanged {0}, {1}, {2}. {3}", mode, position, id, chkd), TAG);
 
 			// Add or remove item from activatedItems list
 			if (chkd) {

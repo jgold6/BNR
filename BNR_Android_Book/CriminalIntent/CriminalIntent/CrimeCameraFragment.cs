@@ -3,7 +3,6 @@ using Android.App;
 using Android.Hardware;
 using Android.Views;
 using Android.Widget;
-using System.Diagnostics;
 using System.Drawing;
 using System.Collections.Generic;
 using Java.Util;

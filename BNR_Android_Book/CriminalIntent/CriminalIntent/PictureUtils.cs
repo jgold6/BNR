@@ -39,7 +39,10 @@ namespace CriminalIntent
 			options.InSampleSize = (int)inSampleSize;
 
 			Bitmap bitmap = BitmapFactory.DecodeFile(path, options);
-			return new BitmapDrawable(a.Resources, bitmap);
+			var bDrawable= new BitmapDrawable(a.Resources, bitmap);
+			bitmap = null;
+
+			return bDrawable;
 		}
 
 		public static void CleanImageView(ImageView imageView)

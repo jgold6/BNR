@@ -3,7 +3,6 @@ using Android.Content;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
-using System.Diagnostics;
 
 namespace CriminalIntent
 {
@@ -36,7 +35,7 @@ namespace CriminalIntent
 //			}
 
 			File.WriteAllText(filePath, json);
-			Debug.WriteLine(String.Format("JSON Save: {0}", json), TAG);
+//			Debug.WriteLine(String.Format("JSON Save: {0}", json), TAG);
 		}
 
 		public List<Crime> LoadCrimes()
@@ -57,7 +56,7 @@ namespace CriminalIntent
 			string json = File.ReadAllText(filePath);
 
 			crimes = JsonConvert.DeserializeObject<List<Crime>>(json);
-			Debug.WriteLine(String.Format("JSON Load: {0}", json), TAG);
+//			Debug.WriteLine(String.Format("JSON Load: {0}", json), TAG);
 			return crimes;
 		}
     }
