@@ -84,7 +84,7 @@ namespace TypingTutor
 				return null;
 			}
 			NSMutableDictionary attDict = (NSMutableDictionary)attributes.MutableCopy();
-			attDict.LowlevelSetObject(value, NSStringAttributeKey.ForegroundColor.Handle);
+			attDict.LowlevelSetObject(value, NSAttributedString.ForegroundColorAttributeName.Handle);
 			NSAttributedString atString = new NSAttributedString(match, attDict);
 			return atString;
 		}

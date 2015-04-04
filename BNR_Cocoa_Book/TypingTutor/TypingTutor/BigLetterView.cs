@@ -409,8 +409,8 @@ namespace TypingTutor
 			if (Italic) {
 				font = fontManager.ConvertFont(font, NSFontTraitMask.Italic);
 			}
-			mTextAttributes.Add(NSStringAttributeKey.Font, font);
-			mTextAttributes.Add(NSStringAttributeKey.ForegroundColor, NSColor.Black);
+			mTextAttributes.Add(NSAttributedString.FontAttributeName, font);
+			mTextAttributes.Add(NSAttributedString.ForegroundColorAttributeName, NSColor.Black);
 		}
 
 		void DrawStringCenteredInRectangle(string str, CGRect rect)
