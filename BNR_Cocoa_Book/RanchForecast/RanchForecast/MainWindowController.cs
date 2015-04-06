@@ -13,6 +13,7 @@ namespace RanchForecast
     {
 		ScheduleFetcher scheduleFetcher;
 		NSPanel webPanel;
+		WebView webView;
 
         public MainWindowController(IntPtr handle) : base(handle)
         {
@@ -43,8 +44,10 @@ namespace RanchForecast
 
 			webPanel = new NSPanel();
 			webPanel.SetContentSize(new CGSize(Window.ContentView.Frame.Size.Width, 500.0f));
-			WebView webView = new WebView(new CGRect(0.0f, 0.0f, Window.ContentView.Frame.Size.Width, 500.0f), "", "");
+			webView = new WebView(new CGRect(0.0f, 0.0f, Window.ContentView.Frame.Size.Width, 500.0f), "", "");
 			webPanel.ContentView.AddSubview(webView);
+			webView.ResourceLoadDelegate = new MyWebResourceLoadDelegate();
+			webView.FrameLoadDelegate = new MyWebFrameLoadDelegate();
 
 			NSButton closebutton = new NSButton(new CGRect(webPanel.Frame.Width/2 - 62.0f, 0.0f, 100.0f, 25.0f));
 			closebutton.Title = "Close";
@@ -53,6 +56,7 @@ namespace RanchForecast
 			closebutton.Action= new Selector("closePanel");
 			webPanel.DefaultButtonCell = closebutton.Cell;
 			webPanel.ContentView.AddSubview(closebutton);
+
 			webView.MainFrameUrl = c.Href;
 			Window.BeginSheet(webPanel, (i) => {
 
@@ -65,6 +69,8 @@ namespace RanchForecast
 		public void ClosePanel () 
 		{
 			Window.EndSheet(webPanel);
+			webView.Dispose();
+			webView = null;
 			webPanel.Dispose();
 			webPanel = null;
 		}
@@ -94,4 +100,36 @@ namespace RanchForecast
 			}
 		}
     }
+
+	public class MyWebFrameLoadDelegate : WebFrameLoadDelegate
+	{
+		public override void StartedProvisionalLoad(WebView sender, WebFrame forFrame)
+		{
+			Console.WriteLine("Load Started: {0}");
+
+		}
+
+		public override void FinishedLoad(WebView sender, WebFrame forFrame)
+		{
+			Console.WriteLine("Load Finished");
+		}
+
+		public override void FailedLoadWithError(WebView sender, NSError error, WebFrame forFrame)
+		{
+			Console.WriteLine("Load Failed: {0}", error.Description);
+		}
+	}
+
+	public class MyWebResourceLoadDelegate : WebResourceLoadDelegate
+	{
+		public override void OnReceivedContentLength(WebView sender, NSObject identifier, nint length, WebDataSource dataSource)
+		{
+			Console.WriteLine("OnReceivedContentLength: {0}", length);
+		}
+
+		public override void OnReceivedResponse(WebView sender, NSObject identifier, NSUrlResponse responseReceived, WebDataSource dataSource)
+		{
+			Console.WriteLine("OnReceivedResponse: {0}", responseReceived.ExpectedContentLength);
+		}
+	}
 }
