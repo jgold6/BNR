@@ -155,6 +155,23 @@ namespace RaiseMan
         }
 		#endregion
 
+		#region - Printing Support
+		[Action("printDocument:")]
+		public override void PrintDocument(NSObject sender)
+		{
+			base.PrintDocument(sender);
+		}
+
+		public override NSPrintOperation PrintOperation(NSDictionary printSettings, out NSError outError)
+		{
+			outError = new NSError();
+			PeopleView view = new PeopleView(NSArray.FromObjects(Employees.ToArray()));
+			NSPrintInfo printInfo = this.PrintInfo;
+			NSPrintOperation printOp = NSPrintOperation.FromView(view, printInfo);
+			return printOp;
+		}
+		#endregion
+
 		#region - Actions
 		partial void btnCheckEntries (Foundation.NSObject sender)
 		{

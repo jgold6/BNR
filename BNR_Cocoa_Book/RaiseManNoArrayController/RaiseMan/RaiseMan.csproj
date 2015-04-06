@@ -95,6 +95,7 @@
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
     <Compile Include="DefaultStrings.cs" />
+    <Compile Include="PeopleView.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\Base.lproj\MyDocument.xib" />
