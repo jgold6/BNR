@@ -265,7 +265,7 @@ CA
                             <menuItem title="Substitutions" id="348">
                                 <menu key="submenu" title="Substitutions" id="349">
                                     <items>
-                                        <menuItem title="Show Substitutions" id="457">
+                                        <menuItem title="Show Substitutions" state="on" id="457">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="orderFrontSubstitutionsPanel:" target="-1" id="458"/>

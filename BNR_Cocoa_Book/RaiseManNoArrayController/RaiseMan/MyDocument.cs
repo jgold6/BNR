@@ -156,11 +156,16 @@ namespace RaiseMan
 		#endregion
 
 		#region - Printing Support
-		[Action("printDocument:")]
-		public override void PrintDocument(NSObject sender)
-		{
-			base.PrintDocument(sender);
-		}
+		// NOTE: I needed to add this method and export it as an action in order to hook up the
+		// Print... menu to the FirstResponder printDocument: method which has to be called bu the OS
+		// and will trigger the call to PrintOperation(NSDictionary printSettings, out NSError outError)
+		// However, once I added this method and made the connection, I no longer need this here, 
+		// so it was just needed to be able to set the target/ action pair for the Print... menu. 
+//		[Action("printDocument:")]
+//		public override void PrintDocument(NSObject sender)
+//		{
+//			//base.PrintDocument(sender);
+//		}
 
 		public override NSPrintOperation PrintOperation(NSDictionary printSettings, out NSError outError)
 		{
