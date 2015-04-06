@@ -16,24 +16,16 @@ namespace RanchForecast
 
         public MainWindowController(IntPtr handle) : base(handle)
         {
-			Initialize();
         }
 
         [Export("initWithCoder:")]
         public MainWindowController(NSCoder coder) : base(coder)
         {
-			Initialize();
         }
 
         public MainWindowController() : base("MainWindow")
         {
-			Initialize();
         }
-
-		void Initialize()
-		{
-			
-		}
 
         public override async void AwakeFromNib()
         {
