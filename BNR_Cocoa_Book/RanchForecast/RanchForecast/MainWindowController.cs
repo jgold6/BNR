@@ -141,7 +141,7 @@ namespace RanchForecast
 				DateTime date = DateTime.Parse(cl.ValueForKey(new NSString(tableColumn.Identifier)).ToString()).ToUniversalTime();
 				// Manually make NSString with desired date format to pass to cell
 //				return new NSString(date.ToLongDateString());
-				// Convert DateTime to NSDate to pass to cell adn use Date Formatter for cell.
+				// Convert DateTime to NSDate to pass to cell and use Date Formatter for cell.
 				date = DateTime.SpecifyKind(date, DateTimeKind.Local);
 				return (NSDate)date;
 			}

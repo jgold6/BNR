@@ -134,9 +134,9 @@
 															<dictionary class="NSMutableDictionary" key="NS.attributes">
 																<integer value="2" key="dateStyle"/>
 																<integer value="1040" key="formatterBehavior"/>
-																<integer value="0" key="timeStyle"/>
+																<integer value="1" key="timeStyle"/>
 															</dictionary>
-															<string key="NS.format">MMM d, y</string>
+															<string key="NS.format">MMM d, y, h:mm a</string>
 															<bool key="NS.natural">NO</bool>
 														</object>
 														<reference key="NSControlView" ref="522317680"/>
