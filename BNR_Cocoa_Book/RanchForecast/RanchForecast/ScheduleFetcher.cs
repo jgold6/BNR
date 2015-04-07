@@ -37,14 +37,15 @@ namespace RanchForecast
 				Console.WriteLine("Error getting XML: {0}\n{1}", ex.Message, ex.StackTrace);
 				return null;
 			}
-			//Create namespace manager
+			//Create namespace manager - MSDN said this needed to be done. Seems to work without it. 
+			// Perhaps needed when you don't know what you are getting.
 //			XmlNamespaceManager nsmgr = new XmlNamespaceManager(xmlDoc.NameTable);
 //			nsmgr.AddNamespace("rest","http://schemas.microsoft.com/search/local/ws/rest/v1");
 
 			XmlNode regionNode = xmlDoc.SelectSingleNode("/summary/region");
 			XmlNodeList classNodes = regionNode.SelectNodes("class"); 
 
-			Console.WriteLine("Show all formatted class names"); 
+//			Console.WriteLine("Show all formatted class names"); 
 			foreach (XmlNode scheduledClass in classNodes)
 			{
 				
@@ -55,7 +56,7 @@ namespace RanchForecast
 				sc.Begin = scheduledClass.SelectSingleNode("begin").InnerText;
 //				sc.Begin = DateTime.Parse(scheduledClass.SelectSingleNode("begin").InnerText).ToUniversalTime();
 
-				Console.WriteLine(sc);
+//				Console.WriteLine(sc);
 				ScheduledClasses.Add(sc);
 			}
 			return ScheduledClasses;

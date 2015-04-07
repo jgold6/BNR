@@ -13,8 +13,11 @@ namespace RanchForecast
 	public partial class MainWindowController : NSWindowController, INSTableViewSource
     {
 		ScheduleFetcher scheduleFetcher;
-		NSPanel webPanel;
+//		NSPanel webPanel;
+		NSWindow webPanel;
 		WebView webView;
+		NSProgressIndicator progressBar;
+		double progress = 1;
 
         public MainWindowController(IntPtr handle) : base(handle)
         {
@@ -51,18 +54,28 @@ namespace RanchForecast
 		[Action("tableViewDoubleClick:")]
 		public void TableViewDoubleClick(NSObject sender)
 		{
-			NSTableView tv = (NSTableView)sender;
-			Console.WriteLine("TableView: {0}", tv);
+//			NSTableView tv = (NSTableView)sender;
+//			Console.WriteLine("TableView: {0}", tv);
 			ScheduledClass c = scheduleFetcher.ScheduledClasses[(int)tableView.ClickedRow];
 
-			webPanel = new NSPanel();
+//			webPanel = new NSPanel();
+			webPanel = new NSWindow();
 			webPanel.SetContentSize(new CGSize(Window.ContentView.Frame.Size.Width, 500.0f));
-			webView = new WebView(new CGRect(0.0f, 0.0f, Window.ContentView.Frame.Size.Width, 450.0f), "", "");
+			webView = new WebView(new CGRect(0.0f, 50.0f, Window.ContentView.Frame.Size.Width, 450.0f), "", "");
 			webPanel.ContentView.AddSubview(webView);
-			webView.ResourceLoadDelegate = new MyWebResourceLoadDelegate();
-			webView.FrameLoadDelegate = new MyWebFrameLoadDelegate();
 
-			NSButton closebutton = new NSButton(new CGRect(webPanel.Frame.Width/2 - 62.0f, 0.0f, 100.0f, 25.0f));
+			webView.WeakResourceLoadDelegate = this;
+			webView.WeakFrameLoadDelegate = this;
+
+			progressBar = new NSProgressIndicator(new CGRect(25.0f, 12.0f, 25.0f, 25.0f));
+			progressBar.Style = NSProgressIndicatorStyle.Spinning;
+			progressBar.IsDisplayedWhenStopped = false;
+//			progressBar.MinValue = 0;
+//			progressBar.MaxValue = 100;
+//			progressBar.CanDrawConcurrently = true;
+			webPanel.ContentView.AddSubview(progressBar);
+
+			NSButton closebutton = new NSButton(new CGRect(webPanel.Frame.Width/2 - 62.0f, 12.0f, 100.0f, 25.0f));
 			closebutton.Title = "Close";
 			closebutton.BezelStyle = NSBezelStyle.Rounded;
 			closebutton.Target = this;
@@ -71,9 +84,10 @@ namespace RanchForecast
 			webPanel.ContentView.AddSubview(closebutton);
 
 			webView.MainFrameUrl = c.Href;
-			Window.BeginSheet(webPanel, (i) => {
-
-			});
+//			Window.BeginSheet(webPanel, (nint) => {
+//
+//			});
+			NSApplication.SharedApplication.BeginSheet(webPanel, Window);
 
 			//NSWorkspace.SharedWorkspace.OpenUrl(new NSUrl(c.Href));
 		}
@@ -109,9 +123,11 @@ namespace RanchForecast
 		[Action("closePanel:")]
 		public void ClosePanel (NSObject sender) 
 		{
-			NSButton button = (NSButton)sender;
-			Console.WriteLine("Button: {0}", button);
-			Window.EndSheet(webPanel);
+//			NSButton button = (NSButton)sender;
+//			Console.WriteLine("Button: {0}", button);
+//			Window.EndSheet(webPanel);
+			NSApplication.SharedApplication.EndSheet(webPanel);
+			webPanel.OrderOut(sender);
 			webView.Dispose();
 			webView = null;
 			webPanel.Dispose();
@@ -146,37 +162,43 @@ namespace RanchForecast
 				return (NSDate)date;
 			}
 		}
+
+
+		[Export("webView:didStartProvisionalLoadForFrame:")]
+		public void StartedProvisionalLoad(WebView sender, WebFrame forFrame)
+		{
+			Console.WriteLine("Load Started:");
+			InvokeOnMainThread(() => {
+				progressBar.StartAnimation(sender);
+			});
+		}
+
+		[Export("webView:didFinishLoadForFrame:")]
+		public void FinishedLoad(WebView sender, WebFrame forFrame)
+		{
+			Console.WriteLine("Load Finished");
+			InvokeOnMainThread(() => {
+				progressBar.StopAnimation(sender);
+			});
+
+		}
+
+		[Export("webView:didFailLoadWithError:forFrame:")]
+		public void FailedLoadWithError(WebView sender, NSError error, WebFrame forFrame)
+		{
+			Console.WriteLine("Load Failed: {0}", error.Description);
+		}
+
+		[Export("webView:resource:didReceiveContentLength:fromDataSource:")]
+		public void OnReceivedContentLength(WebView sender, NSObject identifier, nint length, WebDataSource dataSource)
+		{
+			Console.WriteLine("OnReceivedContentLength: {0}", length);
+		}
+
+		[Export("webView:resource:didReceiveResponse:fromDataSource:")]
+		public void OnReceivedResponse(WebView sender, NSObject identifier, NSUrlResponse responseReceived, WebDataSource dataSource)
+		{
+			Console.WriteLine("OnReceivedResponse: {0}", responseReceived.ExpectedContentLength);
+		}
     }
-
-	public class MyWebFrameLoadDelegate : WebFrameLoadDelegate
-	{
-		public override void StartedProvisionalLoad(WebView sender, WebFrame forFrame)
-		{
-			//Console.WriteLine("Load Started: {0}");
-
-		}
-
-		public override void FinishedLoad(WebView sender, WebFrame forFrame)
-		{
-			//Console.WriteLine("Load Finished");
-		}
-
-		public override void FailedLoadWithError(WebView sender, NSError error, WebFrame forFrame)
-		{
-			//Console.WriteLine("Load Failed: {0}", error.Description);
-		}
-	}
-
-	public class MyWebResourceLoadDelegate : WebResourceLoadDelegate
-	{
-		public override void OnReceivedContentLength(WebView sender, NSObject identifier, nint length, WebDataSource dataSource)
-		{
-			//Console.WriteLine("OnReceivedContentLength: {0}", length);
-		}
-
-		public override void OnReceivedResponse(WebView sender, NSObject identifier, NSUrlResponse responseReceived, WebDataSource dataSource)
-		{
-			//Console.WriteLine("OnReceivedResponse: {0}", responseReceived.ExpectedContentLength);
-		}
-	}
 }
