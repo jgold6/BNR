@@ -18,6 +18,7 @@ namespace RanchForecast
 		{
         }
 
+		//Chapter 29 skipped as I was already asynchronous
 		public async Task<List<ScheduledClass>> FetchClassesAsync()
 		{
 			XmlDocument xmlDoc;
