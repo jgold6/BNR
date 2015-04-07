@@ -17,7 +17,7 @@ namespace RanchForecast
 		NSWindow webPanel;
 		WebView webView;
 		NSProgressIndicator progressBar;
-		double progress = 1;
+		double progress = 0;
 
         public MainWindowController(IntPtr handle) : base(handle)
         {
@@ -67,15 +67,15 @@ namespace RanchForecast
 			webView.WeakResourceLoadDelegate = this;
 			webView.WeakFrameLoadDelegate = this;
 
-			progressBar = new NSProgressIndicator(new CGRect(25.0f, 12.0f, 25.0f, 25.0f));
-			progressBar.Style = NSProgressIndicatorStyle.Spinning;
-			progressBar.IsDisplayedWhenStopped = false;
-//			progressBar.MinValue = 0;
-//			progressBar.MaxValue = 100;
-//			progressBar.CanDrawConcurrently = true;
+			progressBar = new NSProgressIndicator(new CGRect(25.0f, 12.0f, Window.ContentView.Frame.Size.Width-175.0f, 25.0f));
+			progressBar.Style = NSProgressIndicatorStyle.Bar;
+			progressBar.Indeterminate = false;
 			webPanel.ContentView.AddSubview(progressBar);
+			progressBar.MinValue = 0;
+			progressBar.MaxValue = 100;
+			progressBar.DoubleValue = progress;
 
-			NSButton closebutton = new NSButton(new CGRect(webPanel.Frame.Width/2 - 62.0f, 12.0f, 100.0f, 25.0f));
+			NSButton closebutton = new NSButton(new CGRect(webPanel.Frame.Width - 125.0f, 12.0f, 100.0f, 25.0f));
 			closebutton.Title = "Close";
 			closebutton.BezelStyle = NSBezelStyle.Rounded;
 			closebutton.Target = this;
@@ -169,7 +169,8 @@ namespace RanchForecast
 		{
 			Console.WriteLine("Load Started:");
 			InvokeOnMainThread(() => {
-				progressBar.StartAnimation(sender);
+				progress = 0;
+				progressBar.DoubleValue = progress;
 			});
 		}
 
@@ -178,7 +179,8 @@ namespace RanchForecast
 		{
 			Console.WriteLine("Load Finished");
 			InvokeOnMainThread(() => {
-				progressBar.StopAnimation(sender);
+				progress = 100;
+				progressBar.DoubleValue = progress;
 			});
 
 		}
@@ -193,6 +195,9 @@ namespace RanchForecast
 		public void OnReceivedContentLength(WebView sender, NSObject identifier, nint length, WebDataSource dataSource)
 		{
 			Console.WriteLine("OnReceivedContentLength: {0}", length);
+			InvokeOnMainThread(() => {
+				progressBar.IncrementBy(2.5);
+			});
 		}
 
 		[Export("webView:resource:didReceiveResponse:fromDataSource:")]
