@@ -34,10 +34,43 @@ namespace RanchForecast
 			scheduleFetcher = new ScheduleFetcher();
 			await scheduleFetcher.FetchClassesAsync();
 			tableView.ReloadData();
-			tableView.DoubleClick += TableView_DoubleClick;
+			// Crypto error inducing? Check in XM 1.13
+//			tableView.DoubleClick += TableView_DoubleClick;
+			// Try this instead.
+			// And again avoiding event handlers avoids the crypto native crash. 
+			tableView.Target = this;
+			tableView.DoubleAction = new Selector("tableViewDoubleClick");
         }
 
-        void TableView_DoubleClick (object sender, EventArgs e)
+		[Action("tableViewDoubleClick")]
+		public void TableViewDoubleClick()
+		{
+			ScheduledClass c = scheduleFetcher.ScheduledClasses[(int)tableView.ClickedRow];
+
+			webPanel = new NSPanel();
+			webPanel.SetContentSize(new CGSize(Window.ContentView.Frame.Size.Width, 500.0f));
+			webView = new WebView(new CGRect(0.0f, 0.0f, Window.ContentView.Frame.Size.Width, 500.0f), "", "");
+			webPanel.ContentView.AddSubview(webView);
+			webView.ResourceLoadDelegate = new MyWebResourceLoadDelegate();
+			webView.FrameLoadDelegate = new MyWebFrameLoadDelegate();
+
+			NSButton closebutton = new NSButton(new CGRect(webPanel.Frame.Width/2 - 62.0f, 0.0f, 100.0f, 25.0f));
+			closebutton.Title = "Close";
+			closebutton.BezelStyle = NSBezelStyle.Rounded;
+			closebutton.Target = this;
+			closebutton.Action = new Selector("closePanel");
+			webPanel.DefaultButtonCell = closebutton.Cell;
+			webPanel.ContentView.AddSubview(closebutton);
+
+			webView.MainFrameUrl = c.Href;
+			Window.BeginSheet(webPanel, (i) => {
+
+			});
+
+			//NSWorkspace.SharedWorkspace.OpenUrl(new NSUrl(c.Href));
+		}
+
+        public void TableView_DoubleClick (object sender, EventArgs e)
         {
 			NSTableView tv = sender as NSTableView;
 			ScheduledClass c = scheduleFetcher.ScheduledClasses[(int)tv.ClickedRow];
@@ -53,7 +86,7 @@ namespace RanchForecast
 			closebutton.Title = "Close";
 			closebutton.BezelStyle = NSBezelStyle.Rounded;
 			closebutton.Target = this;
-			closebutton.Action= new Selector("closePanel");
+			closebutton.Action = new Selector("closePanel");
 			webPanel.DefaultButtonCell = closebutton.Cell;
 			webPanel.ContentView.AddSubview(closebutton);
 
