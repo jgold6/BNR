@@ -91,10 +91,12 @@ namespace Homepwner
 //			cell.DetailTextLabel.Text = String.Format("SN: {0}, Added: {1}", p.serialNumber, p.dateCreated);
 //			cell.BackgroundColor = UIColor.FromRGBA(1.0f, 1.0f, 1.0f, 0.5f);
 
-			HomepwnerItemCell cell = TableView.DequeueReusableCell("HomepwnerItemCell") as HomepwnerItemCell;
+			HomepwnerItemCell cell = tableView.DequeueReusableCell("HomepwnerItemCell") as HomepwnerItemCell;
 
-			cell.controller = this;
-			cell.tableView = this.TableView;
+			if (cell.nudgeValueCallback == null) {
+				cell.nudgeValueCallback = nudgeItemValue;
+				cell.showImageCallback = showImageAtIndexPath;
+			}
 
 			// Configure the cell
 			cell.nameLabel.Text = p.itemName;
@@ -228,8 +230,9 @@ namespace Homepwner
 			Console.WriteLine("allItems: {0}, tableViewRows: {1}", BNRItemStore.allItems.Count, TableView.NumberOfRowsInSection(0));
 		}
 
-		public void showImageAtIndexPath(NSObject sender, NSIndexPath indexPath)
+		public void showImageAtIndexPath(NSObject sender, HomepwnerItemCell cell)
 		{
+			NSIndexPath indexPath = TableView.IndexPathForCell(cell);
 			Console.WriteLine("Going to show the image for {0}", indexPath);
 
 			// Get the item for the index path
@@ -242,18 +245,19 @@ namespace Homepwner
 
 			UIImage img = BNRImageStore.imageForKey(imageKey);
 
+			// Create a new ImageViewController and set its image
+			ImageViewController ivc = new ImageViewController();
+			ivc.Image = img;
+			ivc.PopoverSize = new CGSize(600, 600);
+
 			if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad) {
 				// Make a rectangle that the frame of the button relative to our table view
 				UIButton btn = sender as UIButton;
 				CGRect rect = View.ConvertRectFromView(btn.Bounds, btn);
 
-				// Create a new ImageViewController and set its image
-				ImageViewController ivc = new ImageViewController();
-				ivc.image = img;
-
 				// Present a 600 x 600 popover from the rect
 				imagePopover = new UIPopoverController(ivc);
-				imagePopover.PopoverContentSize = new CGSize(600, 600);
+				imagePopover.PopoverContentSize = ivc.PopoverSize;
 
 				imagePopover.DidDismiss += (object pSender, EventArgs e) => {
 					imagePopover.Dismiss(true);
@@ -264,14 +268,13 @@ namespace Homepwner
 
 			}
 			else {
-				ImageViewController ivc = new ImageViewController();
-				ivc.image = img;
 				this.NavigationController.PushViewController(ivc, true);
 			}
 		}
 
-		public void nudgeItemValue(NSIndexPath indexPath, double stepperValue)
+		public void nudgeItemValue(HomepwnerItemCell cell, double stepperValue)
 		{
+			NSIndexPath indexPath = TableView.IndexPathForCell(cell);
 			BNRItem i = BNRItemStore.allItems[indexPath.Row];
 			i.valueInDollars = (int)stepperValue;
 			BNRItemStore.updateDBItem(i);

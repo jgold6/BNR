@@ -7,13 +7,16 @@ using ObjCRuntime;
 
 namespace Homepwner
 {
+	public delegate void ShowImageCallback (NSObject sender, HomepwnerItemCell cell);
+	public delegate void NudgeValueCallback (HomepwnerItemCell cell, double stepperValue);
+
 	public partial class HomepwnerItemCell : UITableViewCell
 	{
 		public static readonly UINib Nib = UINib.FromName("HomepwnerItemCell", NSBundle.MainBundle);
 		public static readonly NSString Key = new NSString("HomepwnerItemCell");
 
-		public ItemsViewController controller {get; set;}
-		public UITableView tableView {get; set;}
+		public ShowImageCallback showImageCallback {get; set;}
+		public NudgeValueCallback nudgeValueCallback {get; set;}
 
 		public HomepwnerItemCell(IntPtr handle) : base(handle)
 		{
@@ -24,21 +27,15 @@ namespace Homepwner
 			return (HomepwnerItemCell)Nib.Instantiate(null, null)[0];
 		}
 
-		partial void showImage(NSObject sender)
+		partial void ShowImage(NSObject sender)
 		{
-			NSIndexPath indexPath = tableView.IndexPathForCell(this);
-
-			if (indexPath != null) {
-				controller.showImageAtIndexPath(sender, indexPath);
-			}
-
+			showImageCallback(sender, this);
 		}
 
 		partial void NudgeValue (Foundation.NSObject sender)
 		{
 			UIStepper stepper = (UIStepper)sender;
-			NSIndexPath indexPath = tableView.IndexPathForCell(this);
-			controller.nudgeItemValue(indexPath, stepper.Value);
+			nudgeValueCallback(this, stepper.Value);
 		}
 	}
 }

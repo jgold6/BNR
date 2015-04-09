@@ -28,7 +28,7 @@ namespace Homepwner
 		public UIKit.UIStepper stepper { get; private set; }
 
 		[Action ("showImage:")]
-		partial void showImage (Foundation.NSObject sender);
+		partial void ShowImage (Foundation.NSObject sender);
 
 		[Action ("nudgeValue:")]
 		partial void NudgeValue (Foundation.NSObject sender);
