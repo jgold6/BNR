@@ -232,17 +232,17 @@ namespace Homepwner
 		{
 			Console.WriteLine("Going to show the image for {0}", indexPath);
 
+			// Get the item for the index path
+			BNRItem i = BNRItemStore.allItems[indexPath.Row];
+
+			string imageKey = i.imageKey;
+			// If there is no image, we don't need to do anything
+			if (imageKey == null || imageKey == "")
+				return;
+
+			UIImage img = BNRImageStore.imageForKey(imageKey);
+
 			if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad) {
-				// Get the item for the index path
-				BNRItem i = BNRItemStore.allItems[indexPath.Row];
-
-				string imageKey = i.imageKey;
-				// If there is no image, we don't need to do anything
-				if (imageKey == null || imageKey == "")
-					return;
-
-				UIImage img = BNRImageStore.imageForKey(imageKey);
-
 				// Make a rectangle that the frame of the button relative to our table view
 				UIButton btn = sender as UIButton;
 				CGRect rect = View.ConvertRectFromView(btn.Bounds, btn);
@@ -262,6 +262,11 @@ namespace Homepwner
 
 				imagePopover.PresentFromRect(rect, View, UIPopoverArrowDirection.Any, true);
 
+			}
+			else {
+				ImageViewController ivc = new ImageViewController();
+				ivc.image = img;
+				this.NavigationController.PushViewController(ivc, true);
 			}
 		}
 
