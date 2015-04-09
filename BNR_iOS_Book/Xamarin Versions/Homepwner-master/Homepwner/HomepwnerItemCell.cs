@@ -1,9 +1,9 @@
 using System;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using System.Reflection;
-using MonoTouch.ObjCRuntime;
+using ObjCRuntime;
 
 namespace Homepwner
 {
@@ -26,24 +26,15 @@ namespace Homepwner
 
 		partial void showImage(NSObject sender)
 		{
-			// Get the name of this method, "showImage"
-			string selector = MethodBase.GetCurrentMethod().Name;
-			// selector is now "showImage:atIndexPath:"
-			selector = selector + ":AtIndexPath:";
-
 			NSIndexPath indexPath = tableView.IndexPathForCell(this);
 
-			// in Obj-C used perform selector but here can only pass one argument, so just making a function to call on controller
-			var type = controller.GetType();
 			if (indexPath != null) {
-				if (type.GetMethod(selector) != null) {
-					controller.showImageAtIndexPath(sender, indexPath);
-				}
+				controller.showImageAtIndexPath(sender, indexPath);
 			}
 
 		}
 
-		partial void NudgeValue (MonoTouch.Foundation.NSObject sender)
+		partial void NudgeValue (Foundation.NSObject sender)
 		{
 			UIStepper stepper = (UIStepper)sender;
 			NSIndexPath indexPath = tableView.IndexPathForCell(this);

@@ -1,8 +1,8 @@
 using System;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.ObjCRuntime;
+using CoreGraphics;
+using Foundation;
+using UIKit;
+using ObjCRuntime;
 
 namespace Homepwner
 {
@@ -68,7 +68,7 @@ namespace Homepwner
 			base.DidRotate(fromInterfaceOrientation);
 		}
 
-		public override int RowsInSection(UITableView tableView, int section)
+		public override nint RowsInSection(UITableView tableView, nint section)
 		{
 			return BNRItemStore.allItems.Count;
 		}
@@ -127,7 +127,7 @@ namespace Homepwner
 			return cell;
 		}
 
-		public override float GetHeightForHeader(UITableView tableView, int section)
+		public override nfloat GetHeightForHeader(UITableView tableView, nint section)
 		{
 			if (headerCell == null)
 			{
@@ -139,7 +139,7 @@ namespace Homepwner
 			return headerCell.Bounds.Size.Height;
 		}
 
-		public override UIView GetViewForHeader (UITableView tableView, int section)
+		public override UIView GetViewForHeader (UITableView tableView, nint section)
 		{
 			return headerCell;
 		}
@@ -245,7 +245,7 @@ namespace Homepwner
 
 				// Make a rectangle that the frame of the button relative to our table view
 				UIButton btn = sender as UIButton;
-				RectangleF rect = View.ConvertRectFromView(btn.Bounds, btn);
+				CGRect rect = View.ConvertRectFromView(btn.Bounds, btn);
 
 				// Create a new ImageViewController and set its image
 				ImageViewController ivc = new ImageViewController();
@@ -253,7 +253,7 @@ namespace Homepwner
 
 				// Present a 600 x 600 popover from the rect
 				imagePopover = new UIPopoverController(ivc);
-				imagePopover.PopoverContentSize = new SizeF(600, 600);
+				imagePopover.PopoverContentSize = new CGSize(600, 600);
 
 				imagePopover.DidDismiss += (object pSender, EventArgs e) => {
 					imagePopover.Dismiss(true);

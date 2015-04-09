@@ -1,7 +1,7 @@
 using System;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 
 namespace Homepwner
 {
@@ -32,16 +32,16 @@ namespace Homepwner
 		{
 			base.ViewWillAppear(animated);
 
-			SizeF sz = image.Size;
+			CGSize sz = image.Size;
 			scrollView.ContentSize = sz;
 			scrollView.MinimumZoomScale = 0.25f;
 			scrollView.MaximumZoomScale = 5f;
 
 			scrollView.ViewForZoomingInScrollView += (UIScrollView sv) => {return imageView;};
 
-			scrollView.ScrollRectToVisible(new RectangleF(image.Size.Width/2 - 300, image.Size.Height/2 - 300, 600,  600), true);
+			scrollView.ScrollRectToVisible(new CGRect(image.Size.Width/2 - 300, image.Size.Height/2 - 300, 600,  600), true);
 
-			imageView.Frame = new RectangleF(0, 0, sz.Width, sz.Height);
+			imageView.Frame = new CGRect(0, 0, sz.Width, sz.Height);
 			imageView.Image = image;
 		}
 	}

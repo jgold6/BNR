@@ -1,9 +1,9 @@
 using System;
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
-using MonoTouch.ObjCRuntime;
+using UIKit;
+using Foundation;
+using ObjCRuntime;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 
 namespace Homepwner
 {
@@ -58,17 +58,17 @@ namespace Homepwner
 					NSIndexPath ip = NSIndexPath.FromRowSection(BNRItemStore.allAssetTypes.Count-1, 0);
 					this.RowSelected(TableView, ip);
 				} else {
-					this.NavigationController.PopViewControllerAnimated(true);
+					this.NavigationController.PopViewController(true);
 				}
 			};
 		}
 
-		public override int NumberOfSections(UITableView tableView)
+		public override nint NumberOfSections(UITableView tableView)
 		{
 			return 2;
 		}
 
-		public override int RowsInSection(UITableView tableView, int section)
+		public override nint RowsInSection(UITableView tableView, nint section)
 		{
 			int rows;
 			if (section == 0)
@@ -88,12 +88,12 @@ namespace Homepwner
 		//				return String.Format("{0} items", item.assetType);
 		//		}
 
-		public override float GetHeightForHeader(UITableView tableView, int section)
+		public override nfloat GetHeightForHeader(UITableView tableView, nint section)
 		{
 			return 28.0f;
 		}
 
-		public override UIView GetViewForHeader(UITableView tableView, int section)
+		public override UIView GetViewForHeader(UITableView tableView, nint section)
 		{
 			headerCell = new HeaderCell();
 			var views = NSBundle.MainBundle.LoadNib("HeaderCell", headerCell, null);
@@ -166,7 +166,7 @@ namespace Homepwner
 //					popoverController.Dismiss(true); // Bronze
 //					popoverController = null; // Bronze
 //				} else { // Bronze
-					this.NavigationController.PopViewControllerAnimated(true);
+					this.NavigationController.PopViewController(true);
 //				} // Bronze
 			}
 		}

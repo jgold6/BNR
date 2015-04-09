@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
-using System.Drawing;
+using Foundation;
+using UIKit;
+using CoreGraphics;
+using CoreGraphics;
 using SQLite;
 
 namespace Homepwner
@@ -63,13 +63,13 @@ namespace Homepwner
 
 		public UIImage getThumbnailFromImage(UIImage image)  // Return void for Archiving method of saving
 		{
-			SizeF origImageSize = image.Size;
+			CGSize origImageSize = image.Size;
 
 			// The Rectangle of the thumbnail
-			RectangleF newRect = new RectangleF(0, 0, 40, 40);
+			CGRect newRect = new CGRect(0, 0, 40, 40);
 
 			// Figure out a scaling ration to make sure we maintain the same aspect ratio
-			float ratio = Math.Max(newRect.Size.Width / origImageSize.Width, newRect.Size.Height / origImageSize.Height);
+			nfloat ratio = (nfloat)Math.Max(newRect.Size.Width / origImageSize.Width, newRect.Size.Height / origImageSize.Height);
 
 			// Create a transparent bitmap context with a scaling factor equal to that of the screen
 			UIGraphics.BeginImageContextWithOptions(newRect.Size, false, 0.0f);
@@ -80,7 +80,7 @@ namespace Homepwner
 			path.AddClip();
 
 			// Center the image in the thumbnail rectangle
-			RectangleF projectRect = new RectangleF();
+			CGRect projectRect = new CGRect();
 			projectRect.Width = ratio * origImageSize.Width;
 			projectRect.Height = ratio * origImageSize.Height;
 			projectRect.X = (newRect.Size.Width - projectRect.Size.Width) / 2.0f;

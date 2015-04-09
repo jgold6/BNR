@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
-using System.Drawing;
+using Foundation;
+using UIKit;
+using CoreGraphics;
+using CoreGraphics;
 using SQLite;
 
 namespace Homepwner

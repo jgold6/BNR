@@ -1,8 +1,8 @@
 using System;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.ObjCRuntime;
+using CoreGraphics;
+using Foundation;
+using UIKit;
+using ObjCRuntime;
 
 namespace Homepwner
 {
@@ -109,7 +109,7 @@ namespace Homepwner
 				NSBundle.MainBundle.LocalizedString("This is correcting an error.", "Correct Error"),
 				null);
 			av.Clicked += (object sender, UIButtonEventArgs e) => {
-				dp.Date = item.dateCreated;
+				dp.Date = (NSDate)item.dateCreated;
 
 				dpvc.EdgesForExtendedLayout = UIRectEdge.None;
 
@@ -121,18 +121,18 @@ namespace Homepwner
 				dpvc.NavigationItem.SetRightBarButtonItem(doneItem, true);
 				doneItem.Clicked += (sender2, e2) => {
 					this.NavigationController.DismissViewController(true, null);
-					DateTime newDate = dp.Date;
+					DateTime newDate = (DateTime)dp.Date;
 					dateLabel.Text = newDate.ToLocalTime().ToShortDateString();
 				};
 				this.PresentViewController(navController, true, null);
 				if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad) {
 					//navController.View.Bounds = new RectangleF(50.0f, 50.0f, 240.0f, 160.0f);
 					//navController.View.Superview.Bounds = new RectangleF(0.0f, 0.0f, 480.0f, 260.0f);
-					dp.Bounds = new RectangleF(-100.0f, 0.0f, 0.0f, 0.0f);
+					dp.Bounds = new CGRect(-100.0f, 0.0f, 0.0f, 0.0f);
 				}
 			};
 			dp.ValueChanged += (object sender, EventArgs e) => {
-				DateTime newDate = dp.Date;
+				DateTime newDate = (DateTime)dp.Date;
 				Console.WriteLine("test dp: " +  newDate.ToLocalTime());
 				item.dateCreated = newDate.ToLocalTime();
 			};
@@ -220,12 +220,12 @@ namespace Homepwner
 				UIControlState.Normal);
 		}
 
-		partial void backgroundTapped (MonoTouch.Foundation.NSObject sender)
+		partial void backgroundTapped (Foundation.NSObject sender)
 		{
 			this.View.EndEditing(true);
 		}
 
-		partial void assetTypeTapped (MonoTouch.Foundation.NSObject sender)
+		partial void assetTypeTapped (Foundation.NSObject sender)
 		{
 			this.View.EndEditing(true);
 			AssetTypePicker atp = new AssetTypePicker();
@@ -314,7 +314,7 @@ namespace Homepwner
 			}
 		}
 
-		partial void deletePicture (MonoTouch.Foundation.NSObject sender)
+		partial void deletePicture (Foundation.NSObject sender)
 		{
 			if (item.imageKey != null) {
 				string key = item.imageKey;

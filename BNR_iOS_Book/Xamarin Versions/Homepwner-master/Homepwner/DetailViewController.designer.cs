@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace Homepwner
@@ -13,37 +13,37 @@ namespace Homepwner
 	partial class DetailViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIButton assetTypeBtn { get; set; }
+		UIKit.UIButton assetTypeBtn { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton changeDate { get; set; }
+		UIKit.UIButton changeDate { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel dateLabel { get; set; }
+		UIKit.UILabel dateLabel { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView imageView { get; set; }
+		UIKit.UIImageView imageView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextField nameField { get; set; }
+		UIKit.UITextField nameField { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextField serialNumberField { get; set; }
+		UIKit.UITextField serialNumberField { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIBarButtonItem takePicture { get; set; }
+		UIKit.UIBarButtonItem takePicture { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextField valueField { get; set; }
+		UIKit.UITextField valueField { get; set; }
 
 		[Action ("assetTypeTapped:")]
-		partial void assetTypeTapped (MonoTouch.Foundation.NSObject sender);
+		partial void assetTypeTapped (Foundation.NSObject sender);
 
 		[Action ("backgroundTapped:")]
-		partial void backgroundTapped (MonoTouch.Foundation.NSObject sender);
+		partial void backgroundTapped (Foundation.NSObject sender);
 
 		[Action ("deletePicture:")]
-		partial void deletePicture (MonoTouch.Foundation.NSObject sender);
+		partial void deletePicture (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

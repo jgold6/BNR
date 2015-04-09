@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace Homepwner
@@ -13,25 +13,25 @@ namespace Homepwner
 	partial class HomepwnerItemCell
 	{
 		[Outlet]
-		public MonoTouch.UIKit.UILabel nameLabel { get; private set; }
+		public UIKit.UILabel nameLabel { get; private set; }
 
 		[Outlet]
-		public MonoTouch.UIKit.UILabel serialNumberLabel { get; private set; }
+		public UIKit.UILabel serialNumberLabel { get; private set; }
 
 		[Outlet]
-		public MonoTouch.UIKit.UIImageView thumbnailView { get; private set; }
+		public UIKit.UIImageView thumbnailView { get; private set; }
 
 		[Outlet]
-		public MonoTouch.UIKit.UILabel valueLabel { get; private set; }
+		public UIKit.UILabel valueLabel { get; private set; }
 
 		[Outlet]
-		public MonoTouch.UIKit.UIStepper stepper { get; private set; }
+		public UIKit.UIStepper stepper { get; private set; }
 
 		[Action ("showImage:")]
-		partial void showImage (MonoTouch.Foundation.NSObject sender);
+		partial void showImage (Foundation.NSObject sender);
 
 		[Action ("nudgeValue:")]
-		partial void NudgeValue (MonoTouch.Foundation.NSObject sender);
+		partial void NudgeValue (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

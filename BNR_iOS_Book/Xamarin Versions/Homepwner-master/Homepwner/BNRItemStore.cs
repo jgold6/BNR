@@ -1,6 +1,6 @@
 using System;
-using System.Drawing;
-using MonoTouch.Foundation;
+using CoreGraphics;
+using Foundation;
 using System.Collections.Generic;
 using System.IO;
 using SQLite;
