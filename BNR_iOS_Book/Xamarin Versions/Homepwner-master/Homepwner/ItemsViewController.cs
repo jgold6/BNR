@@ -153,9 +153,12 @@ namespace Homepwner
 
 		public override void DidEndEditing(UITableView tableView, NSIndexPath indexPath)
 		{
-			base.DidEndEditing(tableView, indexPath);
-			UITableViewCell cell = tableView.CellAt(indexPath);
-			cell.BackgroundColor = UIColor.White;
+			if (indexPath != null) {
+				base.DidEndEditing(tableView, indexPath);
+				UITableViewCell cell = tableView.CellAt(indexPath);
+				if (cell != null)
+					cell.BackgroundColor = UIColor.White;
+			}
 		}
 
 		public override void MoveRow(UITableView tableView, NSIndexPath fromIndexPath, NSIndexPath toIndexPath)
@@ -169,6 +172,9 @@ namespace Homepwner
 		{
 			//base.CommitEditingStyle(tableView, editingStyle, indexPath);
 			if (editingStyle == UITableViewCellEditingStyle.Delete) {
+				UITableViewCell cell = tableView.CellAt(indexPath);
+				if (cell != null)
+					cell.BackgroundColor = UIColor.White;
 				BNRItem itemToRemove = BNRItemStore.allItems[indexPath.Row];
 				BNRItemStore.RemoveItem(itemToRemove);
 				NSIndexPath[] indexPaths = new NSIndexPath[] {indexPath};
