@@ -109,6 +109,8 @@ namespace Homepwner
 				NSBundle.MainBundle.LocalizedString("This is correcting an error.", "Correct Error"),
 				null);
 			av.Clicked += (object sender, UIButtonEventArgs e) => {
+				if (item.dateCreated.Kind == DateTimeKind.Unspecified)
+					item.dateCreated = DateTime.SpecifyKind (item.dateCreated, DateTimeKind.Local);
 				dp.Date = (NSDate)item.dateCreated;
 
 				dpvc.EdgesForExtendedLayout = UIRectEdge.None;
