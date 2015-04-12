@@ -28,6 +28,8 @@
 "Cancel" = "Cancel";
 /* Done */
 "Done" = "Done";
+/* OK */
+"OK" = "OK";
 /* Create Asset Type */
 "Create an Asset Type" = "Create an Asset Type";
 /* Please Enter */

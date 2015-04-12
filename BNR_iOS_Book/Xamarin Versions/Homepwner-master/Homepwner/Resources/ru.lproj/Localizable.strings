@@ -28,6 +28,8 @@
 "Cancel" = "Отмена";
 /* Done */
 "Done" = "Выполнено";
+/* OK */
+"OK" = "OK";
 /* Create Asset Type */
 "Create an Asset Type" = "Создать Тип Актива";
 /* Please Enter */

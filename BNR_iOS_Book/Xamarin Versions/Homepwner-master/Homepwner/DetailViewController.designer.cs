@@ -16,10 +16,7 @@ namespace Homepwner
 		UIKit.UIButton assetTypeBtn { get; set; }
 
 		[Outlet]
-		UIKit.UIButton changeDate { get; set; }
-
-		[Outlet]
-		UIKit.UILabel dateLabel { get; set; }
+		UIKit.UITextField dateField { get; set; }
 
 		[Outlet]
 		UIKit.UIImageView imageView { get; set; }
@@ -52,14 +49,9 @@ namespace Homepwner
 				assetTypeBtn = null;
 			}
 
-			if (changeDate != null) {
-				changeDate.Dispose ();
-				changeDate = null;
-			}
-
-			if (dateLabel != null) {
-				dateLabel.Dispose ();
-				dateLabel = null;
+			if (dateField != null) {
+				dateField.Dispose ();
+				dateField = null;
 			}
 
 			if (imageView != null) {

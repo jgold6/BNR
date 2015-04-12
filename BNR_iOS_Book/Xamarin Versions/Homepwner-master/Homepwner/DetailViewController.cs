@@ -12,10 +12,9 @@ namespace Homepwner
 		UIPopoverController imagePickerPopover;
 //		UIPopoverController assetTypePopover; // Bronze, asset type picker popover on iPad
 
+		UIAlertController ac;
 		UIAlertView av;
-		UIView dpSuperView;
 		UIDatePicker dp;
-		UIViewController dpvc;
 
 		BNRItem item;
 
@@ -89,55 +88,62 @@ namespace Homepwner
 			}
 			this.View.BackgroundColor = clr;
 
-			changeDate.TouchUpInside += (sender, e)  => {
-				av.Show();
-			};
-
-			dpSuperView = new UIView(this.View.Frame);
-			dpSuperView.BackgroundColor = UIColor.White;
 			dp = new UIDatePicker();
 			dp.Mode = UIDatePickerMode.Date;
-			dpSuperView.Add(dp);
-			dpvc = new UIViewController();
-			dpvc.View = dpSuperView;
-			dpvc.EdgesForExtendedLayout = UIRectEdge.None;
+			if (item.dateCreated.Kind == DateTimeKind.Unspecified) {
+				item.dateCreated = DateTime.SpecifyKind (item.dateCreated, DateTimeKind.Local);
+			}
+			dp.Date = (NSDate)item.dateCreated;
 
-			av = new UIAlertView(
-				NSBundle.MainBundle.LocalizedString("Do you really want to change the date?", "Confirm Date Change"),
-				NSBundle.MainBundle.LocalizedString("Modifying the date of an acquired item can result in charges of insurance fraud.", "Change Warning"),
-				null, 
-				NSBundle.MainBundle.LocalizedString("This is correcting an error.", "Correct Error"),
-				null);
-			av.Clicked += (object sender, UIButtonEventArgs e) => {
-				if (item.dateCreated.Kind == DateTimeKind.Unspecified)
-					item.dateCreated = DateTime.SpecifyKind (item.dateCreated, DateTimeKind.Local);
-				dp.Date = (NSDate)item.dateCreated;
+			if (UIDevice.CurrentDevice.CheckSystemVersion(8,0)) {
+				ac = UIAlertController.Create(
+					NSBundle.MainBundle.LocalizedString("Do you really want to change the date?", "Confirm Date Change"), 
+					NSBundle.MainBundle.LocalizedString("Modifying the date of an acquired item can result in charges of insurance fraud.", "Change Warning"),
+					UIAlertControllerStyle.Alert);
 
-				dpvc.EdgesForExtendedLayout = UIRectEdge.None;
-
-				UINavigationController navController = new UINavigationController(dpvc);
-				navController.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
-				navController.ModalTransitionStyle = UIModalTransitionStyle.FlipHorizontal;
-
-				UIBarButtonItem doneItem = new UIBarButtonItem(UIBarButtonSystemItem.Done);
-				dpvc.NavigationItem.SetRightBarButtonItem(doneItem, true);
-				doneItem.Clicked += (sender2, e2) => {
-					this.NavigationController.DismissViewController(true, null);
-					DateTime newDate = (DateTime)dp.Date;
-					dateLabel.Text = newDate.ToLocalTime().ToShortDateString();
+				ac.AddAction(UIAlertAction.Create(NSBundle.MainBundle.LocalizedString("Cancel", "Cancel"), UIAlertActionStyle.Cancel, (alertAction) => {
+					if (dateField.IsFirstResponder)
+						dateField.ResignFirstResponder();
+				}));
+				ac.AddAction(UIAlertAction.Create(NSBundle.MainBundle.LocalizedString("OK", "OK"), UIAlertActionStyle.Default, (alertAction) => {
+					dateField.BecomeFirstResponder();
+				}));
+			}
+			else { 	
+				av = new UIAlertView(
+					NSBundle.MainBundle.LocalizedString("Do you really want to change the date?", "Confirm Date Change"),
+					NSBundle.MainBundle.LocalizedString("Modifying the date of an acquired item can result in charges of insurance fraud.", "Change Warning"),
+					null, 
+					NSBundle.MainBundle.LocalizedString("Cancel", "Cancel"),
+					new string[]{NSBundle.MainBundle.LocalizedString("OK", "OK")});
+				av.Clicked += (object sender, UIButtonEventArgs e) => {
+					Console.WriteLine("Av Clicked");
+					av.DismissWithClickedButtonIndex(e.ButtonIndex, true);
+					if (e.ButtonIndex == 0) {
+						if (dateField.IsFirstResponder)
+							dateField.ResignFirstResponder();
+					}
+					else {
+						dateField.BecomeFirstResponder();
+					}
 				};
-				this.PresentViewController(navController, true, null);
-				if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad) {
-					//navController.View.Bounds = new RectangleF(50.0f, 50.0f, 240.0f, 160.0f);
-					//navController.View.Superview.Bounds = new RectangleF(0.0f, 0.0f, 480.0f, 260.0f);
-					dp.Bounds = new CGRect(-100.0f, 0.0f, 0.0f, 0.0f);
-				}
+			}
+
+			dateField.InputView = dp;
+			dateField.TouchDown += (sender, e)  => {
+				if (UIDevice.CurrentDevice.CheckSystemVersion(8,0))
+					PresentModalViewController(ac, true);
+				else
+					av.Show();
 			};
+
 			dp.ValueChanged += (object sender, EventArgs e) => {
 				DateTime newDate = (DateTime)dp.Date;
 				Console.WriteLine("test dp: " +  newDate.ToLocalTime());
 				item.dateCreated = newDate.ToLocalTime();
+				dateField.Text = item.dateCreated.ToShortDateString();
 			};
+
 			nameField.EditingChanged += (object sender, EventArgs e) => {
 				this.NavigationItem.Title = nameField.Text;
 			};
@@ -203,7 +209,7 @@ namespace Homepwner
 			serialNumberField.Text = item.serialNumber;
 			valueField.Text = item.valueInDollars.ToString();
 			valueField.KeyboardType = UIKeyboardType.NumberPad;
-			dateLabel.Text = item.dateCreated.ToShortDateString();
+			dateField.Text = item.dateCreated.ToShortDateString();
 
 			string imageKey = item.imageKey;
 
@@ -257,6 +263,8 @@ namespace Homepwner
 
 			// Clear first responder
 			this.View.EndEditing(true);
+			if (dateField.IsFirstResponder)
+				dateField.ResignFirstResponder();
 
 			// "Save" changes to item
 			item.itemName = nameField.Text;
