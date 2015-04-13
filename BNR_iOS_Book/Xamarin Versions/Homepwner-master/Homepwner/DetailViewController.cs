@@ -56,6 +56,7 @@ namespace Homepwner
 
 					var vcs = this.PresentingViewController.ChildViewControllers;
 					var ivc = vcs[0] as ItemsViewController;
+					ivc.TableView.ReloadData();
 					Console.WriteLine("allItems: {0}, tableViewRows: {1}", BNRItemStore.allItems.Count, ivc.TableView.NumberOfRowsInSection(0));
 				};
 			}
@@ -74,12 +75,15 @@ namespace Homepwner
 			base.ViewDidLoad();
 
 			// Perform any additional setup after loading the view, typically from a nib.
-			UIImage image = UIImage.FromBundle("tvBgImage.png");
-			UIImageView iv = new UIImageView(image);
-			iv.AutoresizingMask = (UIViewAutoresizing.All);
-			View.Add(iv);
-			View.SendSubviewToBack(iv);
-
+//			UIImage image = UIImage.FromBundle("tvBgImage.png");
+//			UIImageView iv = new UIImageView(image);
+//
+//
+//			iv.AddConstraints(new NSLayoutConstraint[]{});
+//			iv.ContentMode = UIViewContentMode.ScaleToFill;
+//			View.Add(iv);
+//			View.SendSubviewToBack(iv);
+//
 			UIColor clr = null;
 			if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad) {
 				clr = UIColor.FromRGBA(0.875f, 0.88f, 9.1f, 1f);
