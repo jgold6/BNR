@@ -60,8 +60,10 @@ namespace RanchForecast
 
 //			webPanel = new NSPanel();
 			webPanel = new NSWindow();
+			webPanel.StyleMask = NSWindowStyle.Resizable | webPanel.StyleMask;
 			webPanel.SetContentSize(new CGSize(Window.ContentView.Frame.Size.Width, 500.0f));
 			webView = new WebView(new CGRect(0.0f, 50.0f, Window.ContentView.Frame.Size.Width, 450.0f), "", "");
+			webView.AutoresizingMask = NSViewResizingMask.HeightSizable | NSViewResizingMask.WidthSizable;
 			webPanel.ContentView.AddSubview(webView);
 
 			webView.WeakResourceLoadDelegate = this;
@@ -70,6 +72,7 @@ namespace RanchForecast
 			progressBar = new NSProgressIndicator(new CGRect(25.0f, 12.0f, Window.ContentView.Frame.Size.Width-175.0f, 25.0f));
 			progressBar.Style = NSProgressIndicatorStyle.Bar;
 			progressBar.Indeterminate = false;
+			progressBar.AutoresizingMask = NSViewResizingMask.WidthSizable;
 			webPanel.ContentView.AddSubview(progressBar);
 			progressBar.MinValue = 0;
 			progressBar.MaxValue = 100;
@@ -80,6 +83,7 @@ namespace RanchForecast
 			closebutton.BezelStyle = NSBezelStyle.Rounded;
 			closebutton.Target = this;
 			closebutton.Action = new Selector("closePanel:");
+			closebutton.AutoresizingMask = NSViewResizingMask.MinXMargin;
 			webPanel.DefaultButtonCell = closebutton.Cell;
 			webPanel.ContentView.AddSubview(closebutton);
 
