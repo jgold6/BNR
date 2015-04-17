@@ -14,9 +14,6 @@ namespace Departments
 	{
 		NSMutableArray viewControllers;
 		#region - Member variables and properties
-		NSView oldView;
-		NSView newView;
-
 		// If this returns the name of a NIB file instead of null, a NSDocumentController
 		// is automatically created for you.
 		public override string WindowNibName
@@ -66,10 +63,13 @@ namespace Departments
 					return;
 				}
 				// get the new View
-				newView = vc.View;
+				NSView newView = vc.View;
 
 				// Get the old View
-				oldView = (NSView)box.ContentView;
+				NSView oldView = (NSView)box.ContentView;
+
+				if (oldView == newView)
+					return;
 
 				// Compute the new window frame
 				CGSize currentSize = oldView.Frame.Size;
@@ -84,43 +84,35 @@ namespace Departments
 
 
 				NSDictionary windowResize = NSDictionary.FromObjectsAndKeys( new NSObject[]{w, NSValue.FromCGRect(windowframe)}, new NSObject[]{NSViewAnimation.TargetKey, NSViewAnimation.EndFrameKey});
-				NSDictionary fadeOut = NSDictionary.FromObjectsAndKeys( new NSObject[]{oldView, NSViewAnimation.FadeOutEffect}, new NSObject[]{NSViewAnimation.TargetKey, NSViewAnimation.EffectKey});
+				NSDictionary oldViewFadeOut = NSDictionary.FromObjectsAndKeys( new NSObject[]{oldView, NSViewAnimation.FadeOutEffect}, new NSObject[]{NSViewAnimation.TargetKey, NSViewAnimation.EffectKey});
+				NSDictionary newViewFadeOut = NSDictionary.FromObjectsAndKeys( new NSObject[]{newView, NSViewAnimation.FadeOutEffect}, new NSObject[]{NSViewAnimation.TargetKey, NSViewAnimation.EffectKey});
 				NSDictionary fadeIn = NSDictionary.FromObjectsAndKeys( new NSObject[]{newView, NSViewAnimation.FadeInEffect}, new NSObject[]{NSViewAnimation.TargetKey, NSViewAnimation.EffectKey});
 
-				Task.Run(()=> {
-					BeginInvokeOnMainThread(() => {
-						NSViewAnimation animation3 = new NSViewAnimation(new NSDictionary[]{windowResize});
-//						animation3.AnimationBlockingMode = NSAnimationBlockingMode.Blocking;
-						animation3.AnimationCurve = NSAnimationCurve.EaseIn;
-						animation3.Duration = 0.4;
-						animation3.StartAnimation();
-					});
-				});
-
-
-				NSViewAnimation animation = new NSViewAnimation(new NSDictionary[]{fadeOut});
+				NSViewAnimation animation = new NSViewAnimation(new NSDictionary[]{oldViewFadeOut});
 				animation.AnimationBlockingMode = NSAnimationBlockingMode.Blocking;
-				animation.AnimationCurve = NSAnimationCurve.EaseIn;
-				animation.Duration = 0.2;
+				animation.AnimationCurve = NSAnimationCurve.Linear;
+				animation.Duration = 0.1;
 				animation.StartAnimation();
+
+				NSViewAnimation animation2 = new NSViewAnimation(new NSDictionary[]{newViewFadeOut});
+				animation2.AnimationBlockingMode = NSAnimationBlockingMode.Blocking;
+				animation2.Duration = 0.0;
+				animation2.StartAnimation();
 
 				box.ContentView = newView;
 
-				NSViewAnimation animation2 = new NSViewAnimation(new NSDictionary[]{fadeIn});
-				animation2.AnimationBlockingMode = NSAnimationBlockingMode.Blocking;
-				animation2.AnimationCurve = NSAnimationCurve.EaseIn;
-				animation2.Duration = 0.2;
-//				animation.AnimationDidEnd += (object sender, EventArgs e) => {
-//					box.ContentView = newView;
-//					NSDictionary fadeIn = NSDictionary.FromObjectsAndKeys( new NSObject[]{newView, NSViewAnimation.FadeInEffect}, new NSObject[]{NSViewAnimation.TargetKey, NSViewAnimation.EffectKey});
-//					NSDictionary fadeInOld = NSDictionary.FromObjectsAndKeys( new NSObject[]{oldView, NSViewAnimation.FadeInEffect}, new NSObject[]{NSViewAnimation.TargetKey, NSViewAnimation.EffectKey});
-//					animation = new NSViewAnimation(new NSDictionary[]{fadeIn});
-//					animation.AnimationBlockingMode = NSAnimationBlockingMode.Blocking;
-//					animation.AnimationCurve = NSAnimationCurve.EaseIn;
-//					animation.Duration = 0.5;
-//					animation.StartAnimation();
-//				};
-				animation2.StartAnimation();
+				NSViewAnimation animation3 = new NSViewAnimation(new NSDictionary[]{windowResize});
+				animation3.AnimationBlockingMode = NSAnimationBlockingMode.Blocking;
+				animation3.AnimationCurve = NSAnimationCurve.EaseInOut;
+				animation3.Duration = 0.2;
+				animation3.StartAnimation();
+
+
+				NSViewAnimation animation4 = new NSViewAnimation(new NSDictionary[]{fadeIn});
+				animation4.AnimationBlockingMode = NSAnimationBlockingMode.Blocking;
+				animation4.AnimationCurve = NSAnimationCurve.Linear;
+				animation4.Duration = 0.1;
+				animation4.StartAnimation();
 
 //				w.SetFrame(windowframe, true, true);
 			});
