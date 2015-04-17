@@ -6,6 +6,7 @@ using Foundation;
 using AppKit;
 using ObjCRuntime;
 using CoreGraphics;
+using System.Threading.Tasks;
 
 namespace Departments
 {
@@ -13,6 +14,9 @@ namespace Departments
 	{
 		NSMutableArray viewControllers;
 		#region - Member variables and properties
+		NSView oldView;
+		NSView newView;
+
 		// If this returns the name of a NIB file instead of null, a NSDocumentController
 		// is automatically created for you.
 		public override string WindowNibName
@@ -53,29 +57,73 @@ namespace Departments
 
 		private void DisplayViewController(NSViewController vc)
 		{
-			NSWindow w = box.Window;
-			bool ended = w.MakeFirstResponder(w);
-			if (!ended) {
-				AppKitFramework.NSBeep();
-				return;
-			}
-			// Put the view in the box
-			NSView v = vc.View;
+			BeginInvokeOnMainThread(() => {
+				NSWindow w = box.Window;
 
-			// Compute the new window frame
-			CGSize currentSize = ((NSView)box.ContentView).Frame.Size;
-			CGSize newSize = v.Frame.Size;
+				bool ended = w.MakeFirstResponder(w);
+				if (!ended) {
+					AppKitFramework.NSBeep();
+					return;
+				}
+				// get the new View
+				newView = vc.View;
 
-			nfloat deltaWidth = newSize.Width - currentSize.Width;
-			nfloat deltaHeight = newSize.Height - currentSize.Height;
-			CGRect windowframe = w.Frame;
-			windowframe.Size = new CGSize(windowframe.Size.Width, windowframe.Size.Height + deltaHeight);
-			windowframe.Location = new CGPoint(windowframe.Location.X, windowframe.Location.Y - deltaHeight);
-			windowframe.Size = new CGSize(windowframe.Size.Width + deltaWidth, windowframe.Size.Height);
+				// Get the old View
+				oldView = (NSView)box.ContentView;
 
-			box.ContentView = v;
-			w.SetFrame(windowframe, true, true);
+				// Compute the new window frame
+				CGSize currentSize = oldView.Frame.Size;
+				CGSize newSize = newView.Frame.Size;
 
+				nfloat deltaWidth = newSize.Width - currentSize.Width;
+				nfloat deltaHeight = newSize.Height - currentSize.Height;
+				CGRect windowframe = w.Frame;
+				windowframe.Size = new CGSize(windowframe.Size.Width, windowframe.Size.Height + deltaHeight);
+				windowframe.Location = new CGPoint(windowframe.Location.X, windowframe.Location.Y - deltaHeight);
+				windowframe.Size = new CGSize(windowframe.Size.Width + deltaWidth, windowframe.Size.Height);
+
+
+				NSDictionary windowResize = NSDictionary.FromObjectsAndKeys( new NSObject[]{w, NSValue.FromCGRect(windowframe)}, new NSObject[]{NSViewAnimation.TargetKey, NSViewAnimation.EndFrameKey});
+				NSDictionary fadeOut = NSDictionary.FromObjectsAndKeys( new NSObject[]{oldView, NSViewAnimation.FadeOutEffect}, new NSObject[]{NSViewAnimation.TargetKey, NSViewAnimation.EffectKey});
+				NSDictionary fadeIn = NSDictionary.FromObjectsAndKeys( new NSObject[]{newView, NSViewAnimation.FadeInEffect}, new NSObject[]{NSViewAnimation.TargetKey, NSViewAnimation.EffectKey});
+
+				Task.Run(()=> {
+					BeginInvokeOnMainThread(() => {
+						NSViewAnimation animation3 = new NSViewAnimation(new NSDictionary[]{windowResize});
+//						animation3.AnimationBlockingMode = NSAnimationBlockingMode.Blocking;
+						animation3.AnimationCurve = NSAnimationCurve.EaseIn;
+						animation3.Duration = 0.4;
+						animation3.StartAnimation();
+					});
+				});
+
+
+				NSViewAnimation animation = new NSViewAnimation(new NSDictionary[]{fadeOut});
+				animation.AnimationBlockingMode = NSAnimationBlockingMode.Blocking;
+				animation.AnimationCurve = NSAnimationCurve.EaseIn;
+				animation.Duration = 0.2;
+				animation.StartAnimation();
+
+				box.ContentView = newView;
+
+				NSViewAnimation animation2 = new NSViewAnimation(new NSDictionary[]{fadeIn});
+				animation2.AnimationBlockingMode = NSAnimationBlockingMode.Blocking;
+				animation2.AnimationCurve = NSAnimationCurve.EaseIn;
+				animation2.Duration = 0.2;
+//				animation.AnimationDidEnd += (object sender, EventArgs e) => {
+//					box.ContentView = newView;
+//					NSDictionary fadeIn = NSDictionary.FromObjectsAndKeys( new NSObject[]{newView, NSViewAnimation.FadeInEffect}, new NSObject[]{NSViewAnimation.TargetKey, NSViewAnimation.EffectKey});
+//					NSDictionary fadeInOld = NSDictionary.FromObjectsAndKeys( new NSObject[]{oldView, NSViewAnimation.FadeInEffect}, new NSObject[]{NSViewAnimation.TargetKey, NSViewAnimation.EffectKey});
+//					animation = new NSViewAnimation(new NSDictionary[]{fadeIn});
+//					animation.AnimationBlockingMode = NSAnimationBlockingMode.Blocking;
+//					animation.AnimationCurve = NSAnimationCurve.EaseIn;
+//					animation.Duration = 0.5;
+//					animation.StartAnimation();
+//				};
+				animation2.StartAnimation();
+
+//				w.SetFrame(windowframe, true, true);
+			});
 		}
 		#endregion
 
@@ -91,14 +139,20 @@ namespace Departments
 			nuint i, itemCount;
 			itemCount = viewControllers.Count;
 
-			for (i = 0; i < itemCount; i++) {
-				NSViewController vc = viewControllers.GetItem<NSViewController>(i);
-				NSMenuItem mi = new NSMenuItem(vc.Title, new Selector("changeViewController:"), "");
-				mi.Tag = (nint)i;
+//			for (i = 0; i < itemCount; i++) {
+				NSViewController vc = viewControllers.GetItem<NSViewController>(0);
+				NSMenuItem mi = new NSMenuItem(vc.Title, null, "b");
+			mi.KeyEquivalentModifierMask = NSEventModifierMask.CommandKeyMask;
 				menu.AddItem(mi);
-			}
+
+				vc = viewControllers.GetItem<NSViewController>(1);
+				mi = new NSMenuItem(vc.Title, null, "a");
+			mi.KeyEquivalentModifierMask = NSEventModifierMask.CommandKeyMask;
+				menu.AddItem(mi);
+//			}
 			// Initially show the first controller.
-			DisplayViewController(viewControllers.GetItem<NSViewController>(0));
+//			DisplayViewController(viewControllers.GetItem<NSViewController>(0));
+			box.ContentView = viewControllers.GetItem<NSViewController>(0).View;
 			popup.SelectItem(0);
 		}
 
@@ -190,9 +244,11 @@ namespace Departments
 		#region - Actions
 		partial void changeViewController (NSObject sender)
 		{
-			nint i = ((NSMenuItem)sender).Tag;
+			nint i = ((NSPopUpButton)sender).IndexOfSelectedItem;
 			var vc = viewControllers.GetItem<NSViewController>((nuint)i);
-			DisplayViewController(vc);
+			Task.Run(()=> {;
+				DisplayViewController(vc);
+			});
 		}
 		#endregion
 

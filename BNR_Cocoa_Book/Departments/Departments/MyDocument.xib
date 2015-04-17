@@ -49,10 +49,11 @@
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSPopUpButton" id="1021412315">
 							<reference key="NSNextResponder" ref="21739532"/>
-							<int key="NSvFlags">268</int>
+							<int key="NSvFlags">12</int>
 							<string key="NSFrame">{{18, 369}, {228, 26}}</string>
 							<reference key="NSSuperview" ref="21739532"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="236332990"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSPopUpButtonCell" key="NSCell" id="306754881">
@@ -81,11 +82,11 @@
 								<object class="NSMenu" key="NSMenu" id="800110383">
 									<string key="NSTitle"/>
 									<array class="NSMutableArray" key="NSMenuItems"/>
+									<bool key="NSNoAutoenable">YES</bool>
 								</object>
 								<int key="NSSelectedIndex">-1</int>
 								<int key="NSPreferredEdge">1</int>
 								<bool key="NSUsesItemFromMenu">YES</bool>
-								<bool key="NSAltersState">YES</bool>
 								<int key="NSArrowPosition">2</int>
 							</object>
 							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -147,6 +148,7 @@
 					<string key="NSFrameSize">{507, 413}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
+					<reference key="NSNextKeyView" ref="1021412315"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1057}}</string>
 				<string key="NSMinSize">{94, 108}</string>
@@ -186,7 +188,7 @@
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="1021412315"/>
 					</object>
-					<int key="connectionID">16</int>
+					<int key="connectionID">18</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -287,7 +289,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">16</int>
+			<int key="maxID">18</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
