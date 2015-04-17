@@ -163,7 +163,7 @@ namespace CarLot
 			// Should be able to do arrayController.NewObject, but it returns an NSObjectController
 			// not an NSObject and also causes an InvalidCastException
 			// BUG: https://bugzilla.xamarin.com/show_bug.cgi?id=25620
-//			Car c = arrayController.NewObject;
+//			var c = arrayController.NewObject;
 			// Workaround - not available in Unified API... due to protection level.
 //			Car c = (Car)Runtime.GetNSObject(Messaging.IntPtr_objc_msgSend(arrayController.Handle, Selector.GetHandle ("newObject")));
 			// Plus I can't figure out how to get the Car object from NSObjectController. Ah, this is due to above bug.
