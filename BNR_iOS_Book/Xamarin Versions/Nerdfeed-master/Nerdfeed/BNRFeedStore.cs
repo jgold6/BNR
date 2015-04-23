@@ -56,7 +56,7 @@ namespace Nerdfeed
 		static async void FetchRSSAsync(Block completionBlock)
 		{
 			using (var wc = new WebClient()) {
-				string url = "http://forums.bignerdranch.com/smartfeed.php?limit=7_DAY&count_limit=100&sort_by=standard&feed_type=RSS2.0&feed_style=COMPACT"; // count_limit=10&
+				string url = "http://forums.bignerdranch.com/smartfeed.php?limit=7_DAY&count_limit=25&sort_by=standard&feed_type=RSS2.0&feed_style=COMPACT"; // count_limit=10&
 
 				try {
 					string xmlData = await wc.DownloadStringTaskAsync(new Uri(url));
