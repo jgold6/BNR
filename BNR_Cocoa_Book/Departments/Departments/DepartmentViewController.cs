@@ -86,8 +86,9 @@ namespace Departments
 		void AddClicked (NSButton sender) 
 		{
 			Console.WriteLine("DVC Add clicked");
-			Department dep = new Department{Name = "New Department"};
+			Department dep = new Department();
 			DataStore.AddItem<Department>(dep);
+			dep.SetName("New Department");
 			DepartmentsTableView.ReloadData();
 
 			// Start editing new item
@@ -111,7 +112,6 @@ namespace Departments
 			foreach(Employee emp in DataStore.Employees) {
 				if (emp.Department == dep.ID) {
 					emp.DepartmentName = "";
-					DataStore.UpdateDBItem(emp);
 				}					
 			}
 
@@ -175,10 +175,7 @@ namespace Departments
 			Department dep = DataStore.Departments[row];
 
 			// Set the value
-			dep.Name = (theObject as NSString).ToString();
-
-			// Update the database
-			DataStore.UpdateDBItem(dep);
+			dep.SetName((theObject as NSString).ToString());
 		}
 
 		[Export("tableViewSelectionDidChange:")]

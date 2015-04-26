@@ -74,8 +74,10 @@ namespace Departments
 		void AddClicked (NSButton sender) 
 		{
 			Console.WriteLine("EVC Add clicked");
-			Employee emp = new Employee{FirstName = "New", LastName = "Employee"};
+			Employee emp = new Employee();
 			DataStore.AddItem<Employee>(emp);
+			emp.SetFirstName("New");
+			emp.SetLastName("Employee");
 			EmployeesTableView.ReloadData();
 
 			// Start editing new item
@@ -96,7 +98,6 @@ namespace Departments
 			foreach(Department dep in DataStore.Departments) {
 				if (dep.Manager == emp.ID) {
 					dep.ManagerName = "";
-					DataStore.UpdateDBItem(dep);
 				}					
 			}
 
@@ -161,19 +162,16 @@ namespace Departments
 			switch (tableColumn.Identifier)
 			{
 				case "FirstName":
-					emp.FirstName = (theObject as NSString).ToString();
+					emp.SetFirstName((theObject as NSString).ToString());
 					break;
 
 				case "LastName":
-					emp.LastName = (theObject as NSString).ToString();
+					emp.SetLastName((theObject as NSString).ToString());
 					break;
 
 				default:
 					break;
 			}
-
-			// Update the database
-			DataStore.UpdateDBItem(emp);
 		}
 
 		[Export("tableView:willDisplayCell:forTableColumn:row:")]

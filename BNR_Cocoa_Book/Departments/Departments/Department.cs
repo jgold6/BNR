@@ -13,7 +13,15 @@ namespace Departments
 		// Manager's Employee ID
 		public int Manager {get; private set;}
 		// Department name
-		public string Name {get; set;}
+		public string Name {get; private set;}
+
+		public void SetName(string name)
+		{
+			if (Name != name) {
+				Name = name;
+				DataStore.UpdateDBItem(this);
+			}
+		}
 
 		[Ignore]
 		public List<Employee> Employees {

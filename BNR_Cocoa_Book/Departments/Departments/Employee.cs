@@ -10,8 +10,24 @@ namespace Departments
 		[PrimaryKey, AutoIncrement]
 		public int ID {get; private set;}
 		public int Department {get; private set;}
-		public string FirstName {get; set;}
-		public string LastName {get; set;}
+		public string FirstName {get; private set;}
+		public string LastName {get; private set;}
+
+		public void SetFirstName(string name)
+		{
+			if (FirstName != name) {
+				FirstName = name;
+				DataStore.UpdateDBItem(this);
+			}
+		}
+
+		public void SetLastName(string name)
+		{
+			if (LastName != name) {
+				LastName = name;
+				DataStore.UpdateDBItem(this);
+			}
+		}
 
 		[Ignore]
 		public string FullName {
