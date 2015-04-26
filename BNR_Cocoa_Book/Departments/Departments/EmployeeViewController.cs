@@ -9,10 +9,20 @@ namespace Departments
 {
     public partial class EmployeeViewController : AppKit.NSViewController
     {
+		#region- Member variables / Properties
 		bool IsViewReady = false;
 
-        #region Constructors
+		//strongly typed view accessor
+		public new EmployeeView View
+		{
+			get
+			{
+				return (EmployeeView)base.View;
+			}
+		}
+		#endregion
 
+        #region Constructors
         // Called when created from unmanaged code
         public EmployeeViewController(IntPtr handle) : base(handle)
         {
@@ -37,18 +47,9 @@ namespace Departments
         {
 			Title = "Employees";
         }
-
         #endregion
 
-        //strongly typed view accessor
-        public new EmployeeView View
-        {
-            get
-            {
-                return (EmployeeView)base.View;
-            }
-        }
-
+		#region - LifeCycle
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
@@ -69,7 +70,9 @@ namespace Departments
 			base.ViewDidDisappear();
 			IsViewReady = false;
 		}
+		#endregion
 
+		#region - Actions
 		[Action ("add:")]
 		void AddClicked (NSButton sender) 
 		{
@@ -105,6 +108,7 @@ namespace Departments
 			EmployeesTableView.DeselectAll(this);
 			EmployeesTableView.ReloadData();
 		}
+		#endregion
 
 		#region - Weak Delegate and DataSource methods
 		[Export("numberOfRowsInTableView:")]

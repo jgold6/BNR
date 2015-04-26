@@ -155,7 +155,7 @@
 														<string key="NSFrameSize">{375, 570}</string>
 														<reference key="NSSuperview" ref="244519699"/>
 														<reference key="NSWindow"/>
-														<reference key="NSNextKeyView" ref="653403151"/>
+														<reference key="NSNextKeyView" ref="864049878"/>
 														<string key="NSReuseIdentifierKey">_NS:13</string>
 														<bool key="NSEnabled">YES</bool>
 														<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -308,7 +308,6 @@
 												<string key="NSFrame">{{1, 119}, {223, 15}}</string>
 												<reference key="NSSuperview" ref="407159168"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView"/>
 												<string key="NSReuseIdentifierKey">_NS:61</string>
 												<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 												<string key="NSControlAction">_doScroller:</string>
@@ -323,7 +322,7 @@
 										<string key="NSFrame">{{18, 11}, {377, 588}}</string>
 										<reference key="NSSuperview" ref="603697739"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="864049878"/>
+										<reference key="NSNextKeyView" ref="244519699"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<int key="NSsFlags">133682</int>
 										<reference key="NSVScroller" ref="653403151"/>
@@ -353,7 +352,7 @@
 						<object class="NSTextFieldCell" key="NSTitleCell">
 							<int key="NSCellFlags">67108864</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Box</string>
+							<string key="NSContents">Department</string>
 							<reference key="NSSupport" ref="26"/>
 							<object class="NSColor" key="NSBackgroundColor">
 								<int key="NSColorSpace">6</int>
@@ -434,7 +433,7 @@
 										<string key="NSFrameSize">{360, 608}</string>
 										<reference key="NSSuperview" ref="393255786"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="287369220"/>
+										<reference key="NSNextKeyView" ref="357403533"/>
 										<string key="NSReuseIdentifierKey">_NS:13</string>
 										<bool key="NSEnabled">YES</bool>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -563,7 +562,7 @@
 						<string key="NSFrame">{{20, 45}, {362, 626}}</string>
 						<reference key="NSSuperview" ref="159381209"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="357403533"/>
+						<reference key="NSNextKeyView" ref="393255786"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<int key="NSsFlags">133682</int>
 						<reference key="NSVScroller" ref="287369220"/>
@@ -633,6 +632,14 @@
 						<reference key="destination" ref="967857257"/>
 					</object>
 					<int key="connectionID">86</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">Box</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="419893394"/>
+					</object>
+					<int key="connectionID">87</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -884,7 +891,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">86</int>
+			<int key="maxID">87</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -914,11 +921,16 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="Box">NSBox</string>
 						<string key="DepartmentEmployeesTableView">NSTableView</string>
 						<string key="DepartmentsTableView">NSTableView</string>
 						<string key="SelectManagerButton">NSPopUpButton</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="Box">
+							<string key="name">Box</string>
+							<string key="candidateClassName">NSBox</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="DepartmentEmployeesTableView">
 							<string key="name">DepartmentEmployeesTableView</string>
 							<string key="candidateClassName">NSTableView</string>

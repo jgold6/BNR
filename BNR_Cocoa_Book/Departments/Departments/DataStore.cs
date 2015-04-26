@@ -8,20 +8,14 @@ namespace Departments
 {
     public class DataStore : object
     {
+		#region - Properties
 		public static List<Department> Departments {get; private set;}
 		public static List<Employee> Employees  {get; private set;}
+		#endregion
 
-
+		#region - Catabase CRUD
 		public static void LoadItemsFromDatabase()
 		{
-			//			string path = itemArchivePath(); // Archiving method of saving
-			//			var unarchiver = (NSMutableArray)NSKeyedUnarchiver.UnarchiveFile(path); // Archiving method of saving
-			//			if (unarchiver != null) { // Archiving method of saving
-			//				for (int i = 0; i < unarchiver.Count; i++) { // Archiving method of saving
-			//					allItems.Add(unarchiver.GetItem<BNRItem>(i)); // Archiving method of saving
-			//				} // Archiving method of saving
-			//			} // Archiving method of saving
-
 			string dbPath = GetDBPath();
 			SQLiteConnection db;
 			if (!File.Exists(dbPath)) {
@@ -97,7 +91,9 @@ namespace Departments
 
 			db.Close();
 		}
+		#endregion
 
+		#region - Helpers
 		public static string GetDBPath()
 		{
 			string[] documentDirectories = NSSearchPath.GetDirectories(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomain.User, true);
@@ -106,6 +102,7 @@ namespace Departments
 			string documentDirectory = documentDirectories[0];
 			return Path.Combine(documentDirectory, "DepartmentsDatabase/Departments.db");
 		}
+		#endregion
     }
 }
 

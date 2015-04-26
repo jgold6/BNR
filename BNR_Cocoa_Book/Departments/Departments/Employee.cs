@@ -7,12 +7,15 @@ namespace Departments
 	[Table("Employees")]
     public class Employee
     {
+		#region - Database fields
 		[PrimaryKey, AutoIncrement]
 		public int ID {get; private set;}
 		public int Department {get; private set;}
 		public string FirstName {get; private set;}
 		public string LastName {get; private set;}
+		#endregion
 
+		#region - Setters and Getters
 		public void SetFirstName(string name)
 		{
 			if (FirstName != name) {
@@ -60,11 +63,13 @@ namespace Departments
 				DataStore.UpdateDBItem(this);
 			}
 		}
+		#endregion
 
-
+		#region - Constructors
         public Employee()
         {
         }
+		#endregion
     }
 }
 

@@ -8,11 +8,21 @@ namespace Departments
 {
     public partial class DepartmentViewController : AppKit.NSViewController
     {
+		#region- Member variables / Properties
 		Department currentSelectedDepartment;
 		bool IsViewReady = false;
 
-        #region Constructors
+		//strongly typed view accessor
+		public new DepartmentView View
+		{
+			get
+			{
+				return (DepartmentView)base.View;
+			}
+		}
+		#endregion
 
+        #region Constructors
         // Called when created from unmanaged code
         public DepartmentViewController(IntPtr handle) : base(handle)
         {
@@ -37,18 +47,9 @@ namespace Departments
         {
 			Title = "Departments";
         }
-
         #endregion
 
-        //strongly typed view accessor
-        public new DepartmentView View
-        {
-            get
-            {
-                return (DepartmentView)base.View;
-            }
-        }
-
+		#region - LifeCycle
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
@@ -81,7 +82,9 @@ namespace Departments
 			base.ViewDidDisappear();
 			IsViewReady = false;
 		}
+		#endregion
 
+		#region - Actions
 		[Action ("add:")]
 		void AddClicked (NSButton sender) 
 		{
@@ -121,6 +124,7 @@ namespace Departments
 			DepartmentsTableView.ReloadData();
 			DepartmentEmployeesTableView.ReloadData();
 		}
+		#endregion
 
 		#region - Weak Delegate and DataSource methods
 		[Export("numberOfRowsInTableView:")]
@@ -193,10 +197,12 @@ namespace Departments
 							SelectManagerButton.Menu.AddItem(emp.FullName, new ObjCRuntime.Selector("managerSelected:"), "");
 						}
 						SelectManagerButton.SelectItem(currentSelectedDepartment.ManagerName);
+						Box.Title = currentSelectedDepartment.Name;
 					}
 					else {
 						currentSelectedDepartment = null;
 						SelectManagerButton.RemoveAllItems();
+						Box.Title = "Department";
 					}
 					break;
 

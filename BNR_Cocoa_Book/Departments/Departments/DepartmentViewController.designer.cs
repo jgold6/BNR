@@ -13,6 +13,9 @@ namespace Departments
 	partial class DepartmentViewController
 	{
 		[Outlet]
+		AppKit.NSBox Box { get; set; }
+
+		[Outlet]
 		AppKit.NSTableView DepartmentEmployeesTableView { get; set; }
 
 		[Outlet]
@@ -20,7 +23,7 @@ namespace Departments
 
 		[Outlet]
 		AppKit.NSPopUpButton SelectManagerButton { get; set; }
-
+		
 		void ReleaseDesignerOutlets ()
 		{
 			if (DepartmentEmployeesTableView != null) {
@@ -36,6 +39,11 @@ namespace Departments
 			if (SelectManagerButton != null) {
 				SelectManagerButton.Dispose ();
 				SelectManagerButton = null;
+			}
+
+			if (Box != null) {
+				Box.Dispose ();
+				Box = null;
 			}
 		}
 	}

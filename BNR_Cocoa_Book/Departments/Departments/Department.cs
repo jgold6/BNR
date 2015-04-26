@@ -8,13 +8,16 @@ namespace Departments
 	[Table("Departments")]
     public class Department
     {
+		#region - Database fields
 		[PrimaryKey, AutoIncrement]
 		public int ID {get; private set;}
 		// Manager's Employee ID
 		public int Manager {get; private set;}
 		// Department name
 		public string Name {get; private set;}
+		#endregion
 
+		#region - Setters and Getters
 		public void SetName(string name)
 		{
 			if (Name != name) {
@@ -59,10 +62,13 @@ namespace Departments
 				DataStore.UpdateDBItem(this);
 			}
 		}
+		#endregion
 
+		#region - Constructors
         public Department()
         {
         }
+		#endregion
     }
 }
 
