@@ -89,6 +89,11 @@ namespace Departments
 			Department dep = new Department{Name = "New Department"};
 			DataStore.AddItem<Department>(dep);
 			DepartmentsTableView.ReloadData();
+
+			// Start editing new item
+			int row = DataStore.Departments.IndexOf(dep);
+			DepartmentsTableView.SelectRow(row, false);
+			DepartmentsTableView.EditColumn(0, row, null, true);
 		}
 
 		[Action ("remove:")]

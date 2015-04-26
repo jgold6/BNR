@@ -77,6 +77,11 @@ namespace Departments
 			Employee emp = new Employee{FirstName = "New", LastName = "Employee"};
 			DataStore.AddItem<Employee>(emp);
 			EmployeesTableView.ReloadData();
+
+			// Start editing new item
+			int row = DataStore.Employees.IndexOf(emp);
+			EmployeesTableView.SelectRow(row, false);
+			EmployeesTableView.EditColumn(0, row, null, true);
 		}
 
 		[Action ("remove:")]
