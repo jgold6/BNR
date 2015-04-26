@@ -119,17 +119,19 @@ namespace Departments
 		public void RowSelected(NSNotification notification)
 		{
 			NSTableView tv = notification.Object as NSTableView;
-			if (tv.SelectedRow <0)
-				return;
-			
+
 			switch (tv.Identifier)
 			{
 				case "DepartmentsTableView":
-					currentSelectedDepartment = DataStore.Departments[(int)tv.SelectedRow];
+					if (tv.SelectedRow >= 0)
+						currentSelectedDepartment = DataStore.Departments[(int)tv.SelectedRow];
+					else 
+						currentSelectedDepartment = null;
 					break;
 
 				case "DepartmentEmployeesTableView":
-					Console.WriteLine("Employe selected: {0}", currentSelectedDepartment.Employees[(int)tv.SelectedRow].FullName);
+					if (tv.SelectedRow >= 0)
+						Console.WriteLine("Employe selected: {0}", currentSelectedDepartment.Employees[(int)tv.SelectedRow].FullName);
 					break;
 
 				default:
