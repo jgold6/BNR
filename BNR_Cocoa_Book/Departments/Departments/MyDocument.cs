@@ -51,12 +51,21 @@ namespace Departments
 			viewControllers.AddObjects(new NSObject[]{dvc, evc});
 
 			DataStore.LoadItemsFromDatabase();
-			
-			foreach (Employee emp in DataStore.Employees)
-				Console.WriteLine("Employee: {0}", emp.FullName);
-			foreach (Department dep in DataStore.Departments)
-				Console.WriteLine("Department: {0}", dep.Name);
 
+//			var newEmp = new Employee{FirstName = "Albert", LastName = "Einstein"};
+//			DataStore.AddItem<Employee>(newEmp);
+//			DataStore.AddItem<Department>(new Department {Name = "Marketing", ManagerName = "Albert Einstein"});
+//			newEmp.DepartmentName = "Marketing";
+//			DataStore.UpdateDBItem(newEmp);
+//
+//			DataStore.LoadItemsFromDatabase();
+
+			foreach (Employee emp in DataStore.Employees) {
+				Console.WriteLine("Employee: {0}, Department: {1}", emp.FullName, emp.DepartmentName);
+			}
+			foreach (Department dep in DataStore.Departments) {
+				Console.WriteLine("Department: {0}, Manager: {1}", dep.Name, dep.ManagerName);
+			}
 		}
 
 		private void DisplayViewController(NSViewController vc)

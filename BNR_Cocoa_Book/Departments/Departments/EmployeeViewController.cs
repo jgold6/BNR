@@ -80,12 +80,6 @@ namespace Departments
 				case "EmployeesTableView":
 					return DataStore.Employees.Count;
 
-				case "DepartmentsTableView":
-					return DataStore.Departments.Count;
-
-				case "DepartmentEmployeesTableView":
-					return 0;
-
 				default:
 					return 0;
 			}
@@ -94,12 +88,18 @@ namespace Departments
 		[Export("tableView:objectValueForTableColumn:row:")]
 		public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
 		{
-			// What is the identifier for the column?
-			string identifier = tableColumn.Identifier;
-
 			Employee emp = DataStore.Employees[row];
-			return emp.ValueForKey(new NSString(identifier));
-
+			switch (tableColumn.Identifier) 
+			{
+				case "FirstName":
+					return new NSString(emp.FirstName);
+				case "LastName":
+					return new NSString(emp.LastName);
+				case "DepartmentName":
+					return new NSString(emp.DepartmentName);
+				default:
+					return new NSString("");
+			}
 		}
 		#endregion
     }

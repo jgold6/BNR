@@ -5,17 +5,14 @@ using Foundation;
 namespace Departments
 {
 	[Table("Employees")]
-    public class Employee : NSObject
+    public class Employee
     {
 		[PrimaryKey, AutoIncrement]
 		public int ID {get; private set;}
-		int Department {get; set;}
-		[Export("FirstName")]
+		public int Department {get; private set;}
 		public string FirstName {get; set;}
-		[Export("LastName")]
 		public string LastName {get; set;}
 
-		[Export("FullName")]
 		[Ignore]
 		public string FullName {
 			get {
@@ -23,20 +20,19 @@ namespace Departments
 			}
 		}
 
-		[Export("DepartmentName")]
 		[Ignore]
 		public string DepartmentName {
 			get {
 				// Fetch and return Name from Departments table
-				return "Test";
+				return DataStore.Departments.Find(x => x.ID == this.Department).Name;
 			}
 			set {
 				// Fetch Department ID for DepartmentName
-
+				int deptId = DataStore.Departments.Find(x => x.Name == value).ID;
 				// Duplicate DepartmentNames?
 
 				// Set Department property with Department ID of Department
-
+				Department = deptId;
 			}
 		}
 

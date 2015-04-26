@@ -76,13 +76,24 @@ namespace Departments
 			db.Close();
 		}
 
-		public static void UpdateDBItem<T>(T item)
+		public static void UpdateDBItem(Employee emp)
 		{
 			string dbPath = GetDBPath();
 			SQLiteConnection db;
 			db = new SQLiteConnection(dbPath);
 
-			db.Update(item);
+			db.Update(emp, typeof(Employee));
+
+			db.Close();
+		}
+
+		public static void UpdateDBItem(Department dep)
+		{
+			string dbPath = GetDBPath();
+			SQLiteConnection db;
+			db = new SQLiteConnection(dbPath);
+
+			db.Update(dep, typeof(Department));
 
 			db.Close();
 		}

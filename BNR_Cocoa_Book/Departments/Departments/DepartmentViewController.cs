@@ -8,6 +8,8 @@ namespace Departments
 {
     public partial class DepartmentViewController : AppKit.NSViewController
     {
+		Department currentSelectedDepartment;
+
         #region Constructors
 
         // Called when created from unmanaged code
@@ -80,15 +82,14 @@ namespace Departments
 		{
 			switch (tableView.Identifier)
 			{
-				case "EmployeesTableView":
-					return DataStore.Employees.Count;
-
 				case "DepartmentsTableView":
 					return DataStore.Departments.Count;
 
 				case "DepartmentEmployeesTableView":
-					return 1;
-
+					if (currentSelectedDepartment != null) {
+						return currentSelectedDepartment.Employees.Count;
+					}
+					else return 0;
 				default:
 					return 0;
 			}
@@ -104,14 +105,22 @@ namespace Departments
 			{
 				case "DepartmentsTableView":
 					Department dep = DataStore.Departments[row];
-					return dep.ValueForKey(new NSString(identifier));
+					return new NSString(dep.Name);
 
 				case "DepartmentEmployeesTableView":
-					return new NSString("Not implemented yet");
+					return new NSString(currentSelectedDepartment.Employees[row].FullName);
 
 				default:
 					return new NSString("No Table View");
 			}
+		}
+
+		[Export("tableViewSelectionDidChange:")]
+		public void RowSelected(NSNotification notification)
+		{
+			NSTableView tv = notification.Object as NSTableView;
+			currentSelectedDepartment = DataStore.Departments[(int)tv.SelectedRow];
+			DepartmentEmployeesTableView.ReloadData();
 		}
 		#endregion
     }
