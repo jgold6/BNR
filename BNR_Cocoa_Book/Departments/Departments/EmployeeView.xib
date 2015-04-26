@@ -65,7 +65,7 @@
 							<int key="NSButtonFlags">-2038284288</int>
 							<int key="NSButtonFlags2">129</int>
 							<string key="NSAlternateContents"/>
-							<string key="NSKeyEquivalent"/>
+							<string type="base64-UTF8" key="NSKeyEquivalent">CA</string>
 							<int key="NSPeriodicDelay">200</int>
 							<int key="NSPeriodicInterval">25</int>
 						</object>
@@ -607,7 +607,6 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="add:">NSButton</string>
 						<string key="remove:">NSButton</string>
-						<string key="selectDepartment:">NSPopUpButtonCell</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="add:">
@@ -617,10 +616,6 @@
 						<object class="IBActionInfo" key="remove:">
 							<string key="name">remove:</string>
 							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBActionInfo" key="selectDepartment:">
-							<string key="name">selectDepartment:</string>
-							<string key="candidateClassName">NSPopUpButtonCell</string>
 						</object>
 					</dictionary>
 					<object class="NSMutableDictionary" key="outlets">
@@ -644,7 +639,6 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="add:">NSButton</string>
 						<string key="remove:">NSButton</string>
-						<string key="selectDepartment:">NSPopUpButtonCell</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="add:">
@@ -654,10 +648,6 @@
 						<object class="IBActionInfo" key="remove:">
 							<string key="name">remove:</string>
 							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBActionInfo" key="selectDepartment:">
-							<string key="name">selectDepartment:</string>
-							<string key="candidateClassName">NSPopUpButtonCell</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">

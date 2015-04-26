@@ -9,6 +9,8 @@ namespace Departments
 {
     public partial class EmployeeViewController : AppKit.NSViewController
     {
+		bool IsViewReady = false;
+
         #region Constructors
 
         // Called when created from unmanaged code
@@ -55,56 +57,118 @@ namespace Departments
 			EmployeesTableView.WeakDataSource = this;
 		}
 
+		public override void ViewWillAppear()
+		{
+			base.ViewWillAppear();
+			IsViewReady = true;
+			EmployeesTableView.ReloadData();
+		}
+
+		public override void ViewDidDisappear()
+		{
+			base.ViewDidDisappear();
+			IsViewReady = false;
+		}
+
 		[Action ("add:")]
 		void AddClicked (NSButton sender) 
 		{
 			Console.WriteLine("EVC Add clicked");
+			Employee emp = new Employee{FirstName = "New", LastName = "Employee"};
+			DataStore.AddItem<Employee>(emp);
+			EmployeesTableView.ReloadData();
 		}
 
 		[Action ("remove:")]
 		void RemoveClicked (NSButton sender) 
 		{
 			Console.WriteLine("EVC Remove clicked");
+			if (!StopEditing())
+				return;
+
+			Employee emp = DataStore.Employees[(int)EmployeesTableView.SelectedRow];
+
+			foreach(Department dep in DataStore.Departments) {
+				if (dep.Manager == emp.ID) {
+					dep.ManagerName = "";
+					DataStore.UpdateDBItem(dep);
+				}					
+			}
+
+			DataStore.RemoveItem(emp);
+			EmployeesTableView.DeselectAll(this);
+			EmployeesTableView.ReloadData();
 		}
 
 		#region - Weak Delegate and DataSource methods
 		[Export("numberOfRowsInTableView:")]
 		public int GetRowCount(NSTableView tableView)
 		{
-			switch (tableView.Identifier)
-			{
-				case "EmployeesTableView":
-					return DataStore.Employees.Count;
+			if (IsViewReady == true) {
+				switch (tableView.Identifier)
+				{
+					case "EmployeesTableView":
+						return DataStore.Employees.Count;
 
-				default:
-					return 0;
+					default:
+						return 0;
+				}
 			}
+			else 
+				return 0;
 		}
 
 		[Export("tableView:objectValueForTableColumn:row:")]
 		public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, nint row)
 		{
-			Employee emp = DataStore.Employees[(int)row];
-			switch (tableColumn.Identifier) 
-			{
-				case "FirstName":
-					return new NSString(emp.FirstName);
+			if (IsViewReady) {
+				Employee emp = DataStore.Employees[(int)row];
+				switch (tableColumn.Identifier) 
+				{
+					case "FirstName":
+						return new NSString(emp.FirstName);
 
-				case "LastName":
-					return new NSString(emp.LastName);
+					case "LastName":
+						return new NSString(emp.LastName);
 
-				case "DepartmentName":
-					NSPopUpButtonCell button = tableColumn.DataCellForRow(row) as NSPopUpButtonCell;
-					if (button.Menu.Count == 0) {
+					case "DepartmentName":
+						NSPopUpButtonCell button = tableColumn.DataCellForRow(row) as NSPopUpButtonCell;
+						button.RemoveAllItems();
 						foreach(Department dep in DataStore.Departments) {
 							button.Menu.AddItem(dep.Name, new ObjCRuntime.Selector("departmentSelected:"), "");
 						}
-					}
-					return button;
+						return button;
+
+					default:
+						return new NSString("");
+				}
+			}
+			else return new NSString("");
+		}
+
+		[Export("tableView:setObjectValue:forTableColumn:row:")]
+		public void SetObjectValue(NSTableView tableView, NSObject theObject, NSTableColumn tableColumn, int row)
+		{
+			// Get Employee
+			Employee emp = DataStore.Employees[row];
+
+			// Set the value
+			switch (tableColumn.Identifier)
+			{
+				case "FirstName":
+					emp.FirstName = (theObject as NSString).ToString();
+					break;
+
+				case "LastName":
+					emp.LastName = (theObject as NSString).ToString();
+					break;
 
 				default:
-					return new NSString("");
+					break;
 			}
+
+			// Update the database
+			DataStore.UpdateDBItem(emp);
 		}
 
 		[Export("tableView:willDisplayCell:forTableColumn:row:")]
@@ -123,12 +187,28 @@ namespace Departments
 			Console.WriteLine("Department Selected: {0}, Index: {1}, Handle: {2}", sender.Title, sender.Menu.IndexOf(sender), sender.Handle);
 			Employee emp = DataStore.Employees[(int)EmployeesTableView.SelectedRow];
 
-			Department dep = DataStore.Departments.Find(x => x.Name == emp.DepartmentName);
-			if (dep.ManagerName == emp.FullName) {
-				dep.ManagerName = "";
+			// If Employee was manager of the old department, remove them as manager of the old deparment.
+			if (emp.DepartmentName != "")  {
+				Department dep = DataStore.Departments.Find(x => x.Name == emp.DepartmentName);
+				if (dep.ManagerName == emp.FullName) {
+					dep.ManagerName = "";
+				}
 			}
 
 			emp.DepartmentName = sender.Title;
+		}
+		#endregion
+
+		#region - Helpers
+		public bool StopEditing()
+		{
+			NSWindow w = EmployeesTableView.Window;
+			// try to end any editing that is taking place
+			bool editingEnded = w.MakeFirstResponder(w);
+			if (!editingEnded) {
+				Console.WriteLine("Unable to end editing");
+			}
+			return editingEnded;
 		}
 		#endregion
     }

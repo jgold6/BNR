@@ -10,6 +10,7 @@ namespace Departments
     {
 		Department currentSelectedDepartment;
 		bool IsViewReady = false;
+
         #region Constructors
 
         // Called when created from unmanaged code
@@ -65,6 +66,10 @@ namespace Departments
 			base.ViewWillAppear();
 			IsViewReady = true;
 			if (currentSelectedDepartment != null) {
+				SelectManagerButton.RemoveAllItems();
+				foreach(Employee emp in currentSelectedDepartment.Employees) {
+					SelectManagerButton.Menu.AddItem(emp.FullName, new ObjCRuntime.Selector("managerSelected:"), "");
+				}
 				SelectManagerButton.SelectItem(currentSelectedDepartment.ManagerName);
 			}
 			DepartmentsTableView.ReloadData();
@@ -81,12 +86,35 @@ namespace Departments
 		void AddClicked (NSButton sender) 
 		{
 			Console.WriteLine("DVC Add clicked");
+			Department dep = new Department{Name = "New Department"};
+			DataStore.AddItem<Department>(dep);
+			DepartmentsTableView.ReloadData();
 		}
 
 		[Action ("remove:")]
 		void RemoveClicked (NSButton sender) 
 		{
 			Console.WriteLine("DVC Remove clicked");
+			if (!StopEditing())
+				return;
+			
+			Department dep = DataStore.Departments[(int)DepartmentsTableView.SelectedRow];
+
+			if (currentSelectedDepartment.ID == dep.ID)
+				currentSelectedDepartment = null;
+
+			foreach(Employee emp in DataStore.Employees) {
+				if (emp.Department == dep.ID) {
+					emp.DepartmentName = "";
+					DataStore.UpdateDBItem(emp);
+				}					
+			}
+
+			DataStore.RemoveItem(dep);
+			DepartmentsTableView.DeselectAll(this);
+			DepartmentEmployeesTableView.DeselectAll(this);
+			DepartmentsTableView.ReloadData();
+			DepartmentEmployeesTableView.ReloadData();
 		}
 
 		#region - Weak Delegate and DataSource methods
@@ -121,7 +149,7 @@ namespace Departments
 					return new NSString(dep.Name);
 
 				case "DepartmentEmployeesTableView":
-					if (IsViewReady)
+					if (IsViewReady && currentSelectedDepartment != null)
 						return new NSString(currentSelectedDepartment.Employees[row].FullName);
 					else 
 						return new NSString("");
@@ -129,6 +157,23 @@ namespace Departments
 				default:
 					return new NSString("No Table View");
 			}
+		}
+
+		[Export("tableView:setObjectValue:forTableColumn:row:")]
+		public void SetObjectValue(NSTableView tableView, NSObject theObject, NSTableColumn tableColumn, int row)
+		{
+			if (tableView.Identifier == "DepartmentEmployeesTableView") {
+				return;
+			}
+
+			// Using List
+			Department dep = DataStore.Departments[row];
+
+			// Set the value
+			dep.Name = (theObject as NSString).ToString();
+
+			// Update the database
+			DataStore.UpdateDBItem(dep);
 		}
 
 		[Export("tableViewSelectionDidChange:")]
@@ -169,6 +214,19 @@ namespace Departments
 		{
 			Console.WriteLine("Manager Selected: {0}, Index: {1}", sender.Title, sender.Menu.IndexOf(sender));
 			currentSelectedDepartment.ManagerName = sender.Title;
+		}
+		#endregion
+
+		#region - Helpers
+		public bool StopEditing()
+		{
+			NSWindow w = DepartmentsTableView.Window;
+			// try to end any editing that is taking place
+			bool editingEnded = w.MakeFirstResponder(w);
+			if (!editingEnded) {
+				Console.WriteLine("Unable to end editing");
+			}
+			return editingEnded;
 		}
 		#endregion
     }

@@ -115,8 +115,6 @@ namespace Departments
 				animation4.AnimationCurve = NSAnimationCurve.Linear;
 				animation4.Duration = 0.1;
 				animation4.StartAnimation();
-
-//				w.SetFrame(windowframe, true, true);
 			});
 		}
 		#endregion

@@ -235,7 +235,6 @@
 																</object>
 																<int key="NSResizingMask">3</int>
 																<bool key="NSIsResizeable">YES</bool>
-																<bool key="NSIsEditable">YES</bool>
 																<reference key="NSTableView" ref="57201961"/>
 															</object>
 														</array>
@@ -389,7 +388,7 @@
 							<int key="NSButtonFlags">-2038284288</int>
 							<int key="NSButtonFlags2">129</int>
 							<string key="NSAlternateContents"/>
-							<string key="NSKeyEquivalent"/>
+							<string type="base64-UTF8" key="NSKeyEquivalent">CA</string>
 							<int key="NSPeriodicDelay">200</int>
 							<int key="NSPeriodicInterval">25</int>
 						</object>
