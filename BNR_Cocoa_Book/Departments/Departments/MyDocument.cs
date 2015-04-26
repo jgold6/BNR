@@ -12,8 +12,9 @@ namespace Departments
 {
 	public partial class MyDocument : AppKit.NSDocument
 	{
-		NSMutableArray viewControllers;
 		#region - Member variables and properties
+		NSMutableArray viewControllers;
+
 		// If this returns the name of a NIB file instead of null, a NSDocumentController
 		// is automatically created for you.
 		public override string WindowNibName
@@ -51,13 +52,6 @@ namespace Departments
 			viewControllers.AddObjects(new NSObject[]{dvc, evc});
 
 			DataStore.LoadItemsFromDatabase();
-
-			foreach (Employee emp in DataStore.Employees) {
-				Console.WriteLine("Employee: {0}, Department: {1}", emp.FullName, emp.DepartmentName);
-			}
-			foreach (Department dep in DataStore.Departments) {
-				Console.WriteLine("Department: {0}, Manager: {1}", dep.Name, dep.ManagerName);
-			}
 		}
 
 		private void DisplayViewController(NSViewController vc)
@@ -136,20 +130,17 @@ namespace Departments
 
 			// Populate the popup menu
 			NSMenu menu = popup.Menu;
-			nuint i, itemCount;
-			itemCount = viewControllers.Count;
 
-//			for (i = 0; i < itemCount; i++) {
-				NSViewController vc = viewControllers.GetItem<NSViewController>(0);
-				NSMenuItem mi = new NSMenuItem(vc.Title, null, "b");
+			NSViewController vc = viewControllers.GetItem<NSViewController>(0);
+			NSMenuItem mi = new NSMenuItem(vc.Title, null, "b");
 			mi.KeyEquivalentModifierMask = NSEventModifierMask.CommandKeyMask;
-				menu.AddItem(mi);
+			menu.AddItem(mi);
 
-				vc = viewControllers.GetItem<NSViewController>(1);
-				mi = new NSMenuItem(vc.Title, null, "a");
+			vc = viewControllers.GetItem<NSViewController>(1);
+			mi = new NSMenuItem(vc.Title, null, "a");
 			mi.KeyEquivalentModifierMask = NSEventModifierMask.CommandKeyMask;
-				menu.AddItem(mi);
-//			}
+			menu.AddItem(mi);
+
 			// Initially show the first controller.
 			popup.SelectItem(0);
 			DisplayViewController(viewControllers.GetItem<NSViewController>(0));

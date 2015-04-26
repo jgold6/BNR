@@ -129,9 +129,6 @@ namespace Departments
 			}
 
 			emp.DepartmentName = sender.Title;
-			DataStore.UpdateDBItem(emp);
-
-
 		}
 		#endregion
     }

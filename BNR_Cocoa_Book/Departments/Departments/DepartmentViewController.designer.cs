@@ -21,9 +21,6 @@ namespace Departments
 		[Outlet]
 		AppKit.NSPopUpButton SelectManagerButton { get; set; }
 
-		[Action ("selectManager:")]
-		partial void SelectManager (AppKit.NSPopUpButton sender);
-		
 		void ReleaseDesignerOutlets ()
 		{
 			if (DepartmentEmployeesTableView != null) {

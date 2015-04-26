@@ -10,8 +10,10 @@ namespace Departments
     {
 		[PrimaryKey, AutoIncrement]
 		public int ID {get; private set;}
-		public string Name {get; set;} // Department name
-		public int Manager {get; private set;} // Manager's Employee ID
+		// Manager's Employee ID
+		public int Manager {get; private set;}
+		// Department name
+		public string Name {get; set;}
 
 		[Ignore]
 		public List<Employee> Employees {
@@ -32,19 +34,20 @@ namespace Departments
 			set {
 				if (value == "") {
 					Manager = 0;
-					return;
 				}
-				// Fetch Employee ID for ManagerName
-				string[] splitName = value.Split(new char[]{' '});
-				string firstName = splitName[0];
-				string lastName = splitName[1];
-				int empID = DataStore.Employees.Find(x => x.FirstName == firstName && x.LastName == lastName).ID;
-				// Duplicate names?
+				else {
+					// Fetch Employee ID for ManagerName
+					string[] splitName = value.Split(new char[]{' '});
+					string firstName = splitName[0];
+					string lastName = splitName[1];
+					int empID = DataStore.Employees.Find(x => x.FirstName == firstName && x.LastName == lastName).ID;
+					// Duplicate names?
 
-				// Is Manager part of Department?
+					// Is Manager part of Department?
 
-				// Set Manager property with Employee ID of Manager
-				Manager = empID;
+					// Set Manager property with Employee ID of Manager
+					Manager = empID;
+				}
 				DataStore.UpdateDBItem(this);
 			}
 		}

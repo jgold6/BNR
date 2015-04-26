@@ -65,7 +65,6 @@ namespace Departments
 			base.ViewWillAppear();
 			IsViewReady = true;
 			if (currentSelectedDepartment != null) {
-				Console.WriteLine("Current Selected Department: {0}", currentSelectedDepartment.Name);
 				SelectManagerButton.SelectItem(currentSelectedDepartment.ManagerName);
 			}
 			DepartmentsTableView.ReloadData();
@@ -76,11 +75,6 @@ namespace Departments
 		{
 			base.ViewDidDisappear();
 			IsViewReady = false;
-		}
-
-		partial void SelectManager (NSPopUpButton sender)
-		{
-			Console.WriteLine("Select Manager Changed: {0}", sender.IndexOfSelectedItem);
 		}
 
 		[Action ("add:")]

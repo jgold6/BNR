@@ -104,7 +104,6 @@ namespace Departments
 
 			// Get one and only document directory from that list
 			string documentDirectory = documentDirectories[0];
-			Console.WriteLine(Path.Combine(documentDirectory, "DepartmentsDatabase/Departments.db"));
 			return Path.Combine(documentDirectory, "DepartmentsDatabase/Departments.db");
 		}
     }

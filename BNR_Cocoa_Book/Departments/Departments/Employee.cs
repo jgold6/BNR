@@ -24,15 +24,24 @@ namespace Departments
 		public string DepartmentName {
 			get {
 				// Fetch and return Name from Departments table
-				return DataStore.Departments.Find(x => x.ID == this.Department).Name;
+				if (Department == 0)
+					return "";
+				else
+					return DataStore.Departments.Find(x => x.ID == this.Department).Name;
 			}
 			set {
-				// Fetch Department ID for DepartmentName
-				int deptId = DataStore.Departments.Find(x => x.Name == value).ID;
-				// Duplicate DepartmentNames?
+				if (value == "") {
+					Department = 0;
+				}
+				else {
+					// Fetch Department ID for DepartmentName
+					int deptId = DataStore.Departments.Find(x => x.Name == value).ID;
+					// Duplicate DepartmentNames?
 
-				// Set Department property with Department ID of Department
-				Department = deptId;
+					// Set Department property with Department ID of Department
+					Department = deptId;
+				}
+				DataStore.UpdateDBItem(this);
 			}
 		}
 
