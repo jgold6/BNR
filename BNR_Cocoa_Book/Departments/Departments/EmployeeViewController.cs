@@ -45,5 +45,62 @@ namespace Departments
                 return (EmployeeView)base.View;
             }
         }
+
+		public override void ViewDidLoad()
+		{
+			base.ViewDidLoad();
+
+			EmployeesTableView.WeakDelegate = this;
+			EmployeesTableView.WeakDataSource = this;
+		}
+
+		partial void SelectDepartment (NSPopUpButton sender)
+		{
+			Console.WriteLine("Select Department Changed: {0}", sender.IndexOfSelectedItem);
+		}
+
+		[Action ("add:")]
+		void AddClicked (NSButton sender) 
+		{
+			Console.WriteLine("EVC Add clicked");
+		}
+
+		[Action ("remove:")]
+		void RemoveClicked (NSButton sender) 
+		{
+			Console.WriteLine("EVC Remove clicked");
+		}
+
+		#region - Weak Delegate and DataSource methods
+		[Export("numberOfRowsInTableView:")]
+		public int GetRowCount(NSTableView tableView)
+		{
+			switch (tableView.Identifier)
+			{
+				case "EmployeesTableView":
+					return DataStore.Employees.Count;
+
+				case "DepartmentsTableView":
+					return DataStore.Departments.Count;
+
+				case "DepartmentEmployeesTableView":
+					return 0;
+
+				default:
+					return 0;
+			}
+		}
+
+		[Export("tableView:objectValueForTableColumn:row:")]
+		public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
+		{
+			// What is the identifier for the column?
+			string identifier = tableColumn.Identifier;
+
+			Employee emp = DataStore.Employees[row];
+			return emp.ValueForKey(new NSString(identifier));
+
+		}
+		#endregion
     }
 }

@@ -6,6 +6,7 @@
 //
 using Foundation;
 using System.CodeDom.Compiler;
+using AppKit;
 
 namespace Departments
 {
@@ -19,8 +20,8 @@ namespace Departments
 		AppKit.NSPopUpButton popup { get; set; }
 
 		[Action ("changeViewController:")]
-		partial void changeViewController (Foundation.NSObject sender);
-		
+		partial void ChangeViewController (NSPopUpButton sender);
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (popup != null) {

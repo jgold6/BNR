@@ -45,5 +45,74 @@ namespace Departments
                 return (DepartmentView)base.View;
             }
         }
+
+		public override void ViewDidLoad()
+		{
+			base.ViewDidLoad();
+
+			DepartmentEmployeesTableView.WeakDelegate = this;
+			DepartmentEmployeesTableView.WeakDataSource = this;
+
+			DepartmentsTableView.WeakDelegate = this;
+			DepartmentsTableView.WeakDataSource = this;
+		}
+
+		partial void SelectManager (NSPopUpButton sender)
+		{
+			Console.WriteLine("Select Manager Changed: {0}", sender.IndexOfSelectedItem);
+		}
+
+		[Action ("add:")]
+		void AddClicked (NSButton sender) 
+		{
+			Console.WriteLine("DVC Add clicked");
+		}
+
+		[Action ("remove:")]
+		void RemoveClicked (NSButton sender) 
+		{
+			Console.WriteLine("DVC Remove clicked");
+		}
+
+		#region - Weak Delegate and DataSource methods
+		[Export("numberOfRowsInTableView:")]
+		public int GetRowCount(NSTableView tableView)
+		{
+			switch (tableView.Identifier)
+			{
+				case "EmployeesTableView":
+					return DataStore.Employees.Count;
+
+				case "DepartmentsTableView":
+					return DataStore.Departments.Count;
+
+				case "DepartmentEmployeesTableView":
+					return 1;
+
+				default:
+					return 0;
+			}
+		}
+
+		[Export("tableView:objectValueForTableColumn:row:")]
+		public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
+		{
+			// What is the identifier for the column?
+			string identifier = tableColumn.Identifier;
+
+			switch (tableView.Identifier)
+			{
+				case "DepartmentsTableView":
+					Department dep = DataStore.Departments[row];
+					return dep.ValueForKey(new NSString(identifier));
+
+				case "DepartmentEmployeesTableView":
+					return new NSString("Not implemented yet");
+
+				default:
+					return new NSString("No Table View");
+			}
+		}
+		#endregion
     }
 }

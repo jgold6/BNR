@@ -50,6 +50,13 @@ namespace Departments
 			var evc = new EmployeeViewController();
 			viewControllers.AddObjects(new NSObject[]{dvc, evc});
 
+			DataStore.LoadItemsFromDatabase();
+			
+			foreach (Employee emp in DataStore.Employees)
+				Console.WriteLine("Employee: {0}", emp.FullName);
+			foreach (Department dep in DataStore.Departments)
+				Console.WriteLine("Department: {0}", dep.Name);
+
 		}
 
 		private void DisplayViewController(NSViewController vc)
@@ -143,9 +150,8 @@ namespace Departments
 				menu.AddItem(mi);
 //			}
 			// Initially show the first controller.
-//			DisplayViewController(viewControllers.GetItem<NSViewController>(0));
-			box.ContentView = viewControllers.GetItem<NSViewController>(0).View;
 			popup.SelectItem(0);
+			DisplayViewController(viewControllers.GetItem<NSViewController>(0));
 		}
 
 		public override void ShouldCloseWindowController(NSWindowController windowController, NSObject delegateObject, Selector shouldCloseSelector, IntPtr contextInfo)
@@ -234,9 +240,9 @@ namespace Departments
 		#endregion
 
 		#region - Actions
-		partial void changeViewController (NSObject sender)
+		partial void ChangeViewController (NSPopUpButton sender)
 		{
-			nint i = ((NSPopUpButton)sender).IndexOfSelectedItem;
+			nint i = sender.IndexOfSelectedItem;
 			var vc = viewControllers.GetItem<NSViewController>((nuint)i);
 			Task.Run(()=> {;
 				DisplayViewController(vc);
@@ -357,46 +363,6 @@ namespace Departments
 //			NSArray args = NSArray.FromObjects(new object[]{keyPath, obj, oldValue});
 //			undo.RegisterUndoWithTarget(this, new Selector("changeKeyPathofObjecttoValue:"), args);
 //			undo.SetActionname(NSBundle.MainBundle.LocalizedString("EDIT", null));
-//		}
-		#endregion
-
-		#region - Weak Delegate and DataSource methods
-//		[Export("numberOfRowsInTableView:")]
-//		public int GetRowCount(NSTableView tableView)
-//		{
-//			return 1;
-//		}
-//
-//		[Export("tableView:objectValueForTableColumn:row:")]
-//		public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
-//		{
-//			// What is the identifier for the column?
-//			string identifier = tableColumn.Identifier;
-//
-//			// What person?
-//			Person person = _employees[row];
-//
-//			// What is the value of the attribute named identifier?
-//			return person.ValueForKey(new NSString(identifier));
-//		}
-//
-//		[Export("tableView:setObjectValue:forTableColumn:row:")]
-//		public void SetObjectValue(NSTableView tableView, NSObject theObject, NSTableColumn tableColumn, int row)
-//		{
-//			string identifier = tableColumn.Identifier;
-//
-//			// Using List
-//			Person person = _employees[row];
-//
-//			// Set the value for the Attribute named identifier
-//			person.SetValueForKey(theObject, new NSString(identifier));
-//		}
-//
-//		[Export("tableView:sortDescriptorsDidChange:")]
-//		public void SortDescriptorsChanged(NSTableView tableView, NSSortDescriptor[] oldDescriptors)
-//		{
-//			SortData(tableView.SortDescriptors);
-//			tableView.ReloadData();
 //		}
 		#endregion
 
