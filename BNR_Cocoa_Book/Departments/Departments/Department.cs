@@ -13,15 +13,10 @@ namespace Departments
 		public string Name {get; set;} // Department name
 		public int Manager {get; private set;} // Manager's Employee ID
 
-		List<Employee> _employees;
-
 		[Ignore]
 		public List<Employee> Employees {
 			get {
-				if (_employees == null) {
-					_employees = DataStore.Employees.FindAll(e => e.DepartmentName == this.Name);
-				}
-				return _employees;
+				return DataStore.Employees.FindAll(e => e.DepartmentName == this.Name);;
 			}
 		}
 
@@ -29,9 +24,16 @@ namespace Departments
 		public string ManagerName {
 			get {
 				// Fetch and return Manager's name from Employees table using Manager property
-				return DataStore.Employees.Find(x => x.ID == this.Manager).FullName;
+				if (Manager == 0)
+					return "";
+				else
+					return DataStore.Employees.Find(x => x.ID == this.Manager).FullName;
 			}
 			set {
+				if (value == "") {
+					Manager = 0;
+					return;
+				}
 				// Fetch Employee ID for ManagerName
 				string[] splitName = value.Split(new char[]{' '});
 				string firstName = splitName[0];
@@ -43,6 +45,7 @@ namespace Departments
 
 				// Set Manager property with Employee ID of Manager
 				Manager = empID;
+				DataStore.UpdateDBItem(this);
 			}
 		}
 

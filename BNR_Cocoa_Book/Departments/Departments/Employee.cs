@@ -16,7 +16,7 @@ namespace Departments
 		[Ignore]
 		public string FullName {
 			get {
-				return String.Format("{0}, {1}", LastName, FirstName);
+				return String.Format("{0} {1}", FirstName, LastName);
 			}
 		}
 

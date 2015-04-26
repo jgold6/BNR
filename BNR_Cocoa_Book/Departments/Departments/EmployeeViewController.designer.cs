@@ -6,7 +6,6 @@
 //
 using Foundation;
 using System.CodeDom.Compiler;
-using AppKit;
 
 namespace Departments
 {
@@ -16,9 +15,6 @@ namespace Departments
 		[Outlet]
 		public AppKit.NSTableView EmployeesTableView { get; private set; }
 
-		[Action ("selectDepartment:")]
-		partial void SelectDepartment (NSPopUpButton sender);
-		
 		void ReleaseDesignerOutlets ()
 		{
 			if (EmployeesTableView != null) {

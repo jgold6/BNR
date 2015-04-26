@@ -6,7 +6,6 @@
 //
 using Foundation;
 using System.CodeDom.Compiler;
-using AppKit;
 
 namespace Departments
 {
@@ -19,19 +18,27 @@ namespace Departments
 		[Outlet]
 		AppKit.NSTableView DepartmentsTableView { get; set; }
 
-		[Action ("selectManager:")]
-		partial void SelectManager (NSPopUpButton sender);
+		[Outlet]
+		AppKit.NSPopUpButton SelectManagerButton { get; set; }
 
+		[Action ("selectManager:")]
+		partial void SelectManager (AppKit.NSPopUpButton sender);
+		
 		void ReleaseDesignerOutlets ()
 		{
+			if (DepartmentEmployeesTableView != null) {
+				DepartmentEmployeesTableView.Dispose ();
+				DepartmentEmployeesTableView = null;
+			}
+
 			if (DepartmentsTableView != null) {
 				DepartmentsTableView.Dispose ();
 				DepartmentsTableView = null;
 			}
 
-			if (DepartmentEmployeesTableView != null) {
-				DepartmentEmployeesTableView.Dispose ();
-				DepartmentEmployeesTableView = null;
+			if (SelectManagerButton != null) {
+				SelectManagerButton.Dispose ();
+				SelectManagerButton = null;
 			}
 		}
 	}

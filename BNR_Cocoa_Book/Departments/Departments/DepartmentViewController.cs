@@ -9,7 +9,7 @@ namespace Departments
     public partial class DepartmentViewController : AppKit.NSViewController
     {
 		Department currentSelectedDepartment;
-
+		bool IsViewReady = false;
         #region Constructors
 
         // Called when created from unmanaged code
@@ -57,6 +57,25 @@ namespace Departments
 
 			DepartmentsTableView.WeakDelegate = this;
 			DepartmentsTableView.WeakDataSource = this;
+
+		}
+
+		public override void ViewWillAppear()
+		{
+			base.ViewWillAppear();
+			IsViewReady = true;
+			if (currentSelectedDepartment != null) {
+				Console.WriteLine("Current Selected Department: {0}", currentSelectedDepartment.Name);
+				SelectManagerButton.SelectItem(currentSelectedDepartment.ManagerName);
+			}
+			DepartmentsTableView.ReloadData();
+			DepartmentEmployeesTableView.ReloadData();
+		}
+
+		public override void ViewDidDisappear()
+		{
+			base.ViewDidDisappear();
+			IsViewReady = false;
 		}
 
 		partial void SelectManager (NSPopUpButton sender)
@@ -86,7 +105,7 @@ namespace Departments
 					return DataStore.Departments.Count;
 
 				case "DepartmentEmployeesTableView":
-					if (currentSelectedDepartment != null) {
+					if (currentSelectedDepartment != null && IsViewReady) {
 						return currentSelectedDepartment.Employees.Count;
 					}
 					else return 0;
@@ -108,7 +127,10 @@ namespace Departments
 					return new NSString(dep.Name);
 
 				case "DepartmentEmployeesTableView":
-					return new NSString(currentSelectedDepartment.Employees[row].FullName);
+					if (IsViewReady)
+						return new NSString(currentSelectedDepartment.Employees[row].FullName);
+					else 
+						return new NSString("");
 
 				default:
 					return new NSString("No Table View");
@@ -123,10 +145,18 @@ namespace Departments
 			switch (tv.Identifier)
 			{
 				case "DepartmentsTableView":
-					if (tv.SelectedRow >= 0)
+					if (tv.SelectedRow >= 0) {
 						currentSelectedDepartment = DataStore.Departments[(int)tv.SelectedRow];
-					else 
+						SelectManagerButton.RemoveAllItems();
+						foreach(Employee emp in currentSelectedDepartment.Employees) {
+							SelectManagerButton.Menu.AddItem(emp.FullName, new ObjCRuntime.Selector("managerSelected:"), "");
+						}
+						SelectManagerButton.SelectItem(currentSelectedDepartment.ManagerName);
+					}
+					else {
 						currentSelectedDepartment = null;
+						SelectManagerButton.RemoveAllItems();
+					}
 					break;
 
 				case "DepartmentEmployeesTableView":
@@ -138,6 +168,13 @@ namespace Departments
 					break;
 			}
 			DepartmentEmployeesTableView.ReloadData();
+		}
+
+		[Export("managerSelected:")]
+		public void ManagerSelected(NSMenuItem sender)
+		{
+			Console.WriteLine("Manager Selected: {0}, Index: {1}", sender.Title, sender.Menu.IndexOf(sender));
+			currentSelectedDepartment.ManagerName = sender.Title;
 		}
 		#endregion
     }
