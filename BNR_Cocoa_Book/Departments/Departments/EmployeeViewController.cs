@@ -93,8 +93,10 @@ namespace Departments
 		void RemoveClicked (NSButton sender) 
 		{
 			Console.WriteLine("EVC Remove clicked");
-			if (!StopEditing())
+			if (!StopEditing() || EmployeesTableView.SelectedRow <0) {
+				AppKitFramework.NSBeep();
 				return;
+			}
 
 			Employee emp = DataStore.Employees[(int)EmployeesTableView.SelectedRow];
 

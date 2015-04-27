@@ -104,9 +104,10 @@ namespace Departments
 		void RemoveClicked (NSButton sender) 
 		{
 			Console.WriteLine("DVC Remove clicked");
-			if (!StopEditing())
+			if (!StopEditing() || DepartmentsTableView.SelectedRow <0) {
+				AppKitFramework.NSBeep();
 				return;
-			
+			}
 			Department dep = DataStore.Departments[(int)DepartmentsTableView.SelectedRow];
 
 			if (currentSelectedDepartment.ID == dep.ID)
