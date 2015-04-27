@@ -28,7 +28,7 @@ namespace RaiseMan
 			attributes = new NSMutableDictionary();
 			NSFont font = NSFont.FromFontName("Monaco", 12.0f);
 			lineHeight = font.CapHeight * 1.7f;
-			attributes.SetValueForKey(font, NSAttributedString.FontAttributeName);
+			attributes.SetValueForKey(font, NSStringAttributeKey.Font);
 		}
 
 		public override bool KnowsPageRange(ref NSRange range)
