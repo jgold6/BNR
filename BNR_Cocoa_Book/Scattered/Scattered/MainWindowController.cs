@@ -87,8 +87,8 @@ namespace Scattered
 			Console.WriteLine("DP Dir: {0}", desktopPicturesDir);
 
 			// Launch loading of images on background thread
-			Task.Run(() => {
-				AddImagesFromFolderUrl(desktopPicturesDir);
+			Task.Run(async () => {
+				await AddImagesFromFolderUrlAsync(desktopPicturesDir);
 			});
 	
 			repositionButton.Layer.ZPosition = 100;
@@ -122,7 +122,7 @@ namespace Scattered
 			}
 		}
 
-		void AddImagesFromFolderUrl(string folderUrl)
+		async Task AddImagesFromFolderUrlAsync(string folderUrl)
 		{
 			DateTime t0 = DateTime.Now; 
 			IEnumerable<string> dir = Directory.EnumerateFiles(folderUrl);
@@ -132,29 +132,31 @@ namespace Scattered
 					continue;
 				// Need to load image from file into NSData because you need the main thread to set an image for NSImage
 				// No matter how you set the image as far as I can tell. 
-				NSData data = LoadImageDataFromFile(file);
+				NSData data = await LoadImageDataFromFileAsync(file);
 				if (data == null)
 					continue;
+				
+				Console.WriteLine("Loaded Image: {0}", file);
 
 				// BeginOInvokeOnMainThread is blocking, InvokeOnMainThread is not.
-				InvokeOnMainThread(() => {
+				InvokeOnMainThread(async () => {
+					// As noted above, needs to run on Main Thread.
 					NSImage image = new NSImage(data);
 					if (image == null)
 						return;
 
-					NSImage thumbImage = ThumbImageFromImage(image);
+					// Time consuming task
+					NSImage thumbImage = await ThumbImageFromImageAsync(image);
 
-					InvokeOnMainThread(() => {
-						PresentImage(thumbImage, file.Substring(file.LastIndexOf("/")+1));
-						SetText(String.Format("{0}", DateTime.Now - t0), textLayer);
-					});
+					PresentImage(thumbImage, file.Substring(file.LastIndexOf("/")+1));
+					SetText(String.Format("{0}", DateTime.Now - t0), textLayer);
 
 				});
 			}
 		}
 
 		//- (NSImage *)thumbImageFromImage:(NSImage *)image;
-		NSImage ThumbImageFromImage(NSImage image)
+		async Task<NSImage> ThumbImageFromImageAsync(NSImage image)
 		{
 			nfloat targetHeight = 200.0f;
 			CGSize imageSize = image.Size;
@@ -235,7 +237,7 @@ namespace Scattered
 			tl.String = text;
 		}
 
-		NSData LoadImageDataFromFile(string filepath)
+		async Task<NSData> LoadImageDataFromFileAsync(string filepath)
 		{
 			NSData imageData = NSData.FromFile(filepath);
 			return imageData;
