@@ -85,8 +85,12 @@ namespace Scattered
 			string libDir = dirs[0];
 			string desktopPicturesDir = Path.Combine(libDir, "Desktop Pictures");
 			Console.WriteLine("DP Dir: {0}", desktopPicturesDir);
-			AddImagesFromFolderUrl(desktopPicturesDir);
 
+			// Launch loading of images on background thread
+			Task.Run(() => {
+				AddImagesFromFolderUrl(desktopPicturesDir);
+			});
+	
 			repositionButton.Layer.ZPosition = 100;
 			durationTextField.Layer.ZPosition = 100;
         }
@@ -118,30 +122,34 @@ namespace Scattered
 			}
 		}
 
-		//- (void)addImagesFromFolderURL:(NSURL *)url;
 		void AddImagesFromFolderUrl(string folderUrl)
 		{
-			// need to change... this should not take a parameter. Should return a time interval (TimeSpan or NSTimeInterval (not bound)) since reference date.
 			DateTime t0 = DateTime.Now; 
 			IEnumerable<string> dir = Directory.EnumerateFiles(folderUrl);
 
-			nint allowedFiles = 10;
 			foreach (string file in dir) {
 				if (!file.EndsWith(".jpg", StringComparison.InvariantCultureIgnoreCase))
 					continue;
-				NSImage image = new NSImage(file);
-				if (image == null)
+				// Need to load image from file into NSData because you need the main thread to set an image for NSImage
+				// No matter how you set the image as far as I can tell. 
+				NSData data = LoadImageDataFromFile(file);
+				if (data == null)
 					continue;
 
-				allowedFiles--;
-				if (allowedFiles <0)
-					break;
-				Console.WriteLine("File: {0}", file);
+				// BeginOInvokeOnMainThread is blocking, InvokeOnMainThread is not.
+				InvokeOnMainThread(() => {
+					NSImage image = new NSImage(data);
+					if (image == null)
+						return;
 
-				NSImage thumbImage = ThumbImageFromImage(image);
+					NSImage thumbImage = ThumbImageFromImage(image);
 
-				PresentImage(thumbImage, file.Substring(file.LastIndexOf("/")+1));
-				SetText(String.Format("{0}", DateTime.Now - t0), textLayer);
+					InvokeOnMainThread(() => {
+						PresentImage(thumbImage, file.Substring(file.LastIndexOf("/")+1));
+						SetText(String.Format("{0}", DateTime.Now - t0), textLayer);
+					});
+
+				});
 			}
 		}
 
@@ -226,6 +234,12 @@ namespace Scattered
 
 			tl.String = text;
 		}
-		#endregion
-    }
+
+		NSData LoadImageDataFromFile(string filepath)
+		{
+			NSData imageData = NSData.FromFile(filepath);
+			return imageData;
+		}
+		#endregion    
+	}
 }
