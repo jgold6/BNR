@@ -142,8 +142,6 @@ namespace Scattered
 				InvokeOnMainThread(async () => {
 					// As noted above, needs to run on Main Thread.
 					NSImage image = new NSImage(data);
-					if (image == null)
-						return;
 
 					// Time consuming task
 					NSImage thumbImage = await ThumbImageFromImageAsync(image);
