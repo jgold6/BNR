@@ -90,38 +90,50 @@ namespace Scattered
 			Task.Run(async () => {
 				await AddImagesFromFolderUrlAsync(desktopPicturesDir);
 			});
-	
+
 			repositionButton.Layer.ZPosition = 100;
 			durationTextField.Layer.ZPosition = 100;
+
+			Window.DidResize += (sender, e) => {
+				repositionImages(repositionButton);
+			};
         }
+			
 		#endregion
 
-		#region - Methods
+		#region - Actions
 		partial void repositionImages (NSObject sender)
 		{
 			foreach (CALayer layer in View.Layer.Sublayers) {
 				if (layer == textContainer || layer == repositionButton.Layer || layer == durationTextField.Layer)
 					continue;
 				CGRect imageBounds = layer.Bounds;
-				nfloat MaxX = (nfloat)random.Next((int)Math.Floor(imageBounds.Width/2), (int)Math.Floor(layer.SuperLayer.Bounds.GetMaxX() - imageBounds.Width/2));
-				nfloat MaxY = (nfloat)random.Next((int)Math.Floor(imageBounds.Height/2), (int)Math.Floor(layer.SuperLayer.Bounds.GetMaxY() - imageBounds.Height/2));
-				CGPoint randomPoint = new CGPoint(MaxX, MaxY);
+				nfloat X = (nfloat)random.Next((int)Math.Floor(imageBounds.Width/2), (int)Math.Floor(layer.SuperLayer.Bounds.GetMaxX() - imageBounds.Width/2));
+				nfloat Y = (nfloat)random.Next((int)Math.Floor(imageBounds.Height/2), (int)Math.Floor(layer.SuperLayer.Bounds.GetMaxY() - imageBounds.Height/2));
+				CGPoint randomPoint = new CGPoint(X, Y);
 
 				CAMediaTimingFunction tf = CAMediaTimingFunction.FromName(CAMediaTimingFunction.EaseInEaseOut);
-				nfloat duration = durationTextField.FloatValue;
 				CABasicAnimation posAnim = CABasicAnimation.FromKeyPath("position");
 				posAnim.From = NSValue.FromCGPoint(layer.Position);
-				posAnim.Duration = duration;
+				posAnim.Duration = durationTextField.FloatValue;
 				posAnim.TimingFunction = tf;
 
-				layer.Actions = NSDictionary.FromObjectsAndKeys(new NSObject[]{posAnim}, new NSObject[]{new NSString("position")});
+				CABasicAnimation zPosAnim = CABasicAnimation.FromKeyPath("zPosition");
+				zPosAnim.From = NSNumber.FromDouble(layer.ZPosition);
+				zPosAnim.Duration = durationTextField.FloatValue;
+				zPosAnim.TimingFunction = tf;
+
+				layer.Actions = NSDictionary.FromObjectsAndKeys(new NSObject[]{posAnim, zPosAnim}, new NSObject[]{new NSString("position"), new NSString("zPosition")});
 
 				CATransaction.Begin();
+				layer.ZPosition = random.Next(-100, 99);
 				layer.Position = randomPoint;
 				CATransaction.Commit();
 			}
 		}
+		#endregion
 
+		#region - Methods
 		async Task AddImagesFromFolderUrlAsync(string folderUrl)
 		{
 			DateTime t0 = DateTime.Now; 
@@ -172,37 +184,50 @@ namespace Scattered
 		//- (void)presentImage:(NSImage *)image;
 		void PresentImage(NSImage image, string filename)
 		{
+			int animationSpeed = 3;
+
 			CGRect superLayerBounds = View.Layer.Bounds;
 			CGPoint center = new CGPoint(superLayerBounds.GetMidX(), superLayerBounds.GetMidY());
 
 			CGRect imageBounds = new CGRect(0, 0, image.Size.Width, image.Size.Height);
 
-			nfloat MaxX = (nfloat)random.Next((int)Math.Floor(imageBounds.Width/2), (int)Math.Floor(superLayerBounds.GetMaxX() - imageBounds.Width/2));//(superLayerBounds.GetMaxX() - imageBounds.Width/2) * random.NextDouble();
-			nfloat MaxY = (nfloat)random.Next((int)Math.Floor(imageBounds.Height/2), (int)Math.Floor(superLayerBounds.GetMaxY() - imageBounds.Height/2)); //(superLayerBounds.GetMaxY() - imageBounds.Height/2) * random.NextDouble();
-			CGPoint randomPoint = new CGPoint(MaxX, MaxY);
+			nfloat X = (nfloat)random.Next((int)Math.Floor(imageBounds.Width/2), (int)Math.Floor(superLayerBounds.GetMaxX() - imageBounds.Width/2));//(superLayerBounds.GetMaxX() - imageBounds.Width/2) * random.NextDouble();
+			nfloat Y = (nfloat)random.Next((int)Math.Floor(imageBounds.Height/2), (int)Math.Floor(superLayerBounds.GetMaxY() - imageBounds.Height/2)); //(superLayerBounds.GetMaxY() - imageBounds.Height/2) * random.NextDouble();
+			CGPoint randomPoint = new CGPoint(X, Y);
 
 			CAMediaTimingFunction tf = CAMediaTimingFunction.FromName(CAMediaTimingFunction.EaseInEaseOut);
 
+			// Animations for image layer
 			CABasicAnimation posAnim = CABasicAnimation.FromKeyPath("position");
 			posAnim.From = NSValue.FromCGPoint(center);
-			posAnim.Duration = 2;
+			posAnim.Duration = animationSpeed;
 			posAnim.TimingFunction = tf;
 
 			CABasicAnimation bdsAnim = CABasicAnimation.FromKeyPath("bounds");
 			bdsAnim.From = NSValue.FromCGRect(CGRect.Empty);
-			bdsAnim.Duration = 2;
+			bdsAnim.Duration = animationSpeed;
 			bdsAnim.TimingFunction = tf;
 
+			// Image layer
 			CALayer layer = new CALayer();
 			layer.Contents = image.CGImage;
 			layer.Position = center;
+			layer.ZPosition = random.Next(-100, 99);
 			layer.Actions = NSDictionary.FromObjectsAndKeys(new NSObject[]{posAnim, bdsAnim}, new NSObject[]{new NSString("position"), new NSString("bounds")});
 
+			// Animation for text layer
+			CATransform3D scale = CATransform3D.MakeScale(0.0f, 0.0f, 0.0f);
+			CABasicAnimation tScaleAnim = CABasicAnimation.FromKeyPath("transform");
+			tScaleAnim.From = NSValue.FromCATransform3D(scale);
+			tScaleAnim.Duration = animationSpeed;
+			tScaleAnim.TimingFunction = tf;
+
+			// text layer
 			CATextLayer fileNameLayer = new CATextLayer();
 			fileNameLayer.FontSize = 24;
 			fileNameLayer.ForegroundColor = NSColor.White.CGColor;
-			layer.AddSublayer(fileNameLayer);
 			SetText(" " + filename + " ", fileNameLayer);
+			fileNameLayer.Transform = scale;
 			fileNameLayer.Position = CGPoint.Empty;
 			fileNameLayer.AnchorPoint = CGPoint.Empty;
 			fileNameLayer.ShadowColor = NSColor.Black.CGColor;
@@ -211,11 +236,15 @@ namespace Scattered
 			fileNameLayer.ShadowRadius = 0.0f;
 			fileNameLayer.BorderColor = NSColor.White.CGColor;
 			fileNameLayer.BorderWidth = 1.0f;
+			fileNameLayer.Actions = NSDictionary.FromObjectsAndKeys(new NSObject[]{tScaleAnim}, new NSObject[]{new NSString("transform")});
+
+			layer.AddSublayer(fileNameLayer);
+			View.Layer.AddSublayer(layer);
 
 			CATransaction.Begin();
-			View.Layer.AddSublayer(layer);
 			layer.Position = randomPoint;
 			layer.Bounds = imageBounds;
+			fileNameLayer.Transform = CATransform3D.Identity;
 			CATransaction.Commit();
 		}
 
@@ -225,12 +254,14 @@ namespace Scattered
 			NSFont font = NSFont.SystemFontOfSize(tl.FontSize);
 			NSDictionary attrs = NSDictionary.FromObjectsAndKeys(new NSObject[]{font}, new NSObject[]{NSStringAttributeKey.Font});
 			CGSize size = text.StringSize(attrs);
-			// Ensure that the sixze is in whole numbers:
+			// Ensure that the size is in whole numbers:
 			size.Width = (nfloat)Math.Ceiling(size.Width);
 			size.Height = (nfloat)Math.Ceiling(size.Height);
-			tl.Bounds = new CGRect(0, 0, size.Width, size.Height);
-			if (tl.SuperLayer !=null)
+			CGRect bounds = new CGRect(0, 0, size.Width, size.Height);
+			tl.Bounds = bounds;
+			if (tl.SuperLayer == textContainer ) {
 				tl.SuperLayer.Bounds = new CGRect(0, 0, size.Width + 16, size.Height + 20);
+			}
 
 			tl.String = text;
 		}
