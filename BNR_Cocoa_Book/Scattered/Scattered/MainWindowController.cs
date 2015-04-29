@@ -16,7 +16,9 @@ namespace Scattered
 		CALayer textContainer;
 		CATextLayer textLayer;
 		Random random;
-		
+		CGSize lastWindowSize;
+		bool windowIsResizing;
+
 		public new MainWindow Window
 		{
 			get { return (MainWindow)base.Window; }
@@ -93,9 +95,18 @@ namespace Scattered
 
 			repositionButton.Layer.ZPosition = 100;
 			durationTextField.Layer.ZPosition = 100;
+			lastWindowSize = Window.Frame.Size;
 
 			Window.DidResize += (sender, e) => {
-				repositionImages(repositionButton);
+				windowIsResizing = true;
+				if (Math.Abs(lastWindowSize.Width - Window.Frame.Width) > 25 || Math.Abs(lastWindowSize.Height - Window.Frame.Height) > 25) {
+					repositionImages(repositionButton);
+					lastWindowSize = Window.Frame.Size;
+				}
+			};
+
+			Window.DidEndLiveResize += (sender, e) => {
+				windowIsResizing = false;
 			};
         }
 			
@@ -115,7 +126,7 @@ namespace Scattered
 				CAMediaTimingFunction tf = CAMediaTimingFunction.FromName(CAMediaTimingFunction.EaseInEaseOut);
 				CABasicAnimation posAnim = CABasicAnimation.FromKeyPath("position");
 				posAnim.From = NSValue.FromCGPoint(layer.Position);
-				posAnim.Duration = durationTextField.FloatValue;
+				posAnim.Duration = windowIsResizing ? 0 : durationTextField.FloatValue;
 				posAnim.TimingFunction = tf;
 
 				CABasicAnimation zPosAnim = CABasicAnimation.FromKeyPath("zPosition");
