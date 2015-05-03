@@ -1,0 +1,17 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gliss", "Gliss\Gliss.csproj", "{4E966632-B0F7-4CC6-AA61-EFEEAC8915AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4E966632-B0F7-4CC6-AA61-EFEEAC8915AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E966632-B0F7-4CC6-AA61-EFEEAC8915AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E966632-B0F7-4CC6-AA61-EFEEAC8915AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E966632-B0F7-4CC6-AA61-EFEEAC8915AA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
