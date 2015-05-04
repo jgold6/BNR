@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment version="2048" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DetailViewController">
@@ -10,7 +10,7 @@
                 <outlet property="assetTypeBtn" destination="Exi-dW-V6s" id="ocC-7s-U3V"/>
                 <outlet property="dateField" destination="FXh-Rz-89u" id="WLg-cx-UBf"/>
                 <outlet property="imageView" destination="CTs-m4-gu9" id="kss-lv-VdJ"/>
-                <outlet property="nameField" destination="Z7F-BW-M1a" id="ha7-LG-K4e"/>
+                <outlet property="nameField" destination="Z7F-BW-M1a" id="baR-fZ-y8J"/>
                 <outlet property="serialNumberField" destination="NwC-G8-Y8U" id="qg3-LZ-8F6"/>
                 <outlet property="takePicture" destination="uoT-1M-X0n" id="hYo-7A-bw2"/>
                 <outlet property="valueField" destination="nky-Ji-RCK" id="VbN-0G-pQ2"/>
@@ -69,7 +69,7 @@
                         <rect key="frame" x="76" y="24" width="364" height="30"/>
                     </variation>
                     <connections>
-                        <outlet property="delegate" destination="-1" id="fQd-aE-lna"/>
+                        <outlet property="delegate" destination="-1" id="PLI-os-p7d"/>
                     </connections>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NwC-G8-Y8U">
@@ -86,7 +86,7 @@
                         <rect key="frame" x="73" y="64" width="367" height="30"/>
                     </variation>
                     <connections>
-                        <outlet property="delegate" destination="-1" id="i5Q-fw-dOT"/>
+                        <outlet property="delegate" destination="-1" id="nPN-UI-zzg"/>
                     </connections>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nky-Ji-RCK">
@@ -103,7 +103,7 @@
                         <rect key="frame" x="72" y="104" width="368" height="30"/>
                     </variation>
                     <connections>
-                        <outlet property="delegate" destination="-1" id="GbA-zO-HYP"/>
+                        <outlet property="delegate" destination="-1" id="vbV-wF-p2Q"/>
                     </connections>
                 </textField>
                 <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eRY-AX-hd8">

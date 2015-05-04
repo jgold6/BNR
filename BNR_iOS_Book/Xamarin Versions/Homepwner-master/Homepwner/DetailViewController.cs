@@ -189,20 +189,13 @@ namespace Homepwner
 
 			};
 
-			nameField.ShouldReturn += ((textField) => {
-				textField.ResignFirstResponder();
-				return true;
-			});
+		}
 
-			serialNumberField.ShouldReturn += ((textField) => {
-				textField.ResignFirstResponder();
-				return true;
-			});
-
-			valueField.ShouldReturn += ((textField) => {
-				textField.ResignFirstResponder();
-				return true;
-			});
+		[Export("textFieldShouldReturn:")]
+		public bool ShouldReturn(UIKit.UITextField textField)
+		{
+			textField.ResignFirstResponder();
+			return true;
 		}
 
 		public override void ViewWillAppear(bool animated)
@@ -275,6 +268,11 @@ namespace Homepwner
 			item.serialNumber = serialNumberField.Text;
 			item.valueInDollars = Convert.ToInt32(valueField.Text);
 			BNRItemStore.updateDBItem(item);
+			if (this.PresentingViewController != null) {
+				var vcs = this.PresentingViewController.ChildViewControllers;
+				var ivc = vcs[0] as ItemsViewController;
+				ivc.TableView.ReloadData();
+			}
 		}
 
 
