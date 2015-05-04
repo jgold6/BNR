@@ -16,6 +16,13 @@ namespace Gliss
 		const string GlutLib = "/System/Library/Frameworks/GLUT.framework/Versions/Current/GLUT";
 
 		[DllImport(GluLib)]
+		static extern void gluPerspective( 
+			double fovy,
+			double aspect,
+			double zNear,
+			double zFar );
+
+		[DllImport(GluLib)]
 		static extern void gluLookAt ( 
 			double eyeX,
 			double eyeY,
@@ -90,7 +97,7 @@ namespace Gliss
 
 			// Was gluPerspective(60.0, baseRect.Size.Width/baseRect.Size.Height, 0.2, 7)
 			//GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);?
-			Perspective (60.0, baseRect.Size.Width/baseRect.Size.Height, 0.2, 7);
+			gluPerspective (60.0, baseRect.Size.Width/baseRect.Size.Height, 0.2, 7);
 		}
 
 		public override void DrawRect(CGRect dirtyRect)
@@ -166,22 +173,22 @@ namespace Gliss
 			GL.Material(MaterialFace.Front, MaterialParameter.Diffuse, mat);
 		}
 
-		public static void Perspective (double fovY, double aspectRatio, double front, double back)
-		{
-			const double DEG2RAD = Math.PI / 180 ; 
-
-			// tangent of half fovY
-			double tangent = Math.Tan (fovY / 2 * DEG2RAD);
-
-			// half height of near plane
-			double height = front * tangent;
-
-			// half width of near plane
-			double width = height * aspectRatio;
-
-			// params: left, right, bottom, top, near, far
-			GL.Frustum (-width, width, -height, height, front, back);
-		}
+//		public static void Perspective (double fovY, double aspectRatio, double front, double back)
+//		{
+//			const double DEG2RAD = Math.PI / 180 ; 
+//
+//			// tangent of half fovY
+//			double tangent = Math.Tan (fovY / 2 * DEG2RAD);
+//
+//			// half height of near plane
+//			double height = front * tangent;
+//
+//			// half width of near plane
+//			double width = height * aspectRatio;
+//
+//			// params: left, right, bottom, top, near, far
+//			GL.Frustum (-width, width, -height, height, front, back);
+//		}
 
 		#region - Actions
 		[Action ("changeParameter:")]
