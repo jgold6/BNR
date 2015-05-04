@@ -104,12 +104,14 @@ namespace ZIPspector
 
 		public override nfloat GetRowHeight(NSTableView tableView, nint row)
 		{
-			return 30.0f;
+			return 18.0f;
 		}
 
 		public override NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, nint row)
 		{
 			NSTextField textField = new NSTextField(new CGRect(0, 0, tableColumn.Width, 30));
+			textField.Bordered = false;
+			textField.BackgroundColor = NSColor.Clear;
 			textField.StringValue = MyDocument.filenames[(int)row];
 			return textField;
 		}
