@@ -3,17 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using Foundation;
 using AppKit;
-using OpenGL;
-using OpenTK;
-using GLKit;
 using OpenTK.Graphics.OpenGL;
 using CoreGraphics;
+using System.Runtime.InteropServices;
 
 namespace Gliss
 {
 	[Foundation.Register("GlissView")]
 	public class GlissView : AppKit.NSOpenGLView
     {
+		const string GluLib = "/System/Library/Frameworks/OpenGL.framework/Versions/Current/OpenGL";
+		const string GlutLib = "/System/Library/Frameworks/GLUT.framework/Versions/Current/GLUT";
+
+		[DllImport(GluLib)]
+		static extern void gluLookAt ( 
+			double eyeX,
+			double eyeY,
+			double eyeZ,
+			double centerX,
+			double centerY,
+			double centerZ,
+			double upX,
+			double upY,
+			double upZ );
+
+		[DllImport(GlutLib)]
+		static extern void glutSolidTorus (
+			double innerRadius,
+			double outerRadius,
+			int nsides, 
+			int rings);
+
+		[DllImport(GlutLib)]
+		static extern void glutSolidCone (
+			double bottom, 
+			double height,
+			int slices, 
+			int stacks);
+
 		[Outlet]
 		AppKit.NSMatrix sliderMatrix { get; set; }
 		float lightX, theta, radius;
@@ -78,6 +105,7 @@ namespace Gliss
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadIdentity();
 			// find gluLookAt(radius * Math.Sin(theta), 0, radius * cos(theta), 0, 0, 0, 0, 1, 0);
+			gluLookAt(radius * Math.Sin(theta), 0, radius * Math.Cos(theta), 0, 0, 0, 0, 1, 0);
 
 			// Put the light in place
 			float[] lightPosition = {lightX, 1.0f, 3.0f, 0.0f};
@@ -89,7 +117,12 @@ namespace Gliss
 
 				// Draw the stuff
 				GL.Translate(0, 0, 0);
-				// Find the shapes, SolidTorus and SolidCone 
+				glutSolidTorus(0.3, 0.9, 35, 31);
+				GL.Translate(0, 0, -1.2);
+				glutSolidCone(1, 1, 17, 17);
+				GL.Translate(0, 0, 0.6);
+				glutSolidTorus(0.3, 1.8, 35, 31);
+
 
 				GL.EndList();
 			}
@@ -99,6 +132,7 @@ namespace Gliss
 
 			// Flush to screen
 			GL.Finish();
+		
 		}
 		#endregion
 
