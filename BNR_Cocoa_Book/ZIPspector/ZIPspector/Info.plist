@@ -33,8 +33,40 @@
 			<string>MyDocument</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>com.pkware.zip-archive</string>
+				<string>public.zip-archive</string>
 			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string></string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>TAR Archive</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.tar-archive</string>
+			</array>
+			<key>NSDocumentClass</key>
+			<string>MyDocument</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string></string>
+			</array>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>org.gnu.gnu-zip-tar-archive</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>TGZ Archive</string>
+			<key>NSDocumentClass</key>
+			<string>MyDocument</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
 		</dict>
 	</array>
 	<key>UTImportedTypeDeclarations</key>

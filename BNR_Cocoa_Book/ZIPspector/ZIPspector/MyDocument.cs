@@ -43,10 +43,34 @@ namespace ZIPspector
 			// Which files are we getting the zipinfo for?
 			string filename = url.Path;
 
+
+			string lPath = "";
+			string flags = "";
+			Console.WriteLine("Type Name: {0}", typeName);
+			switch (typeName) 
+			{
+				case "public.zip-archive":
+					lPath = "/usr/bin/zipinfo";
+					flags = "-1";
+					break;
+				case "public.tar-archive":
+					lPath = "/usr/bin/tar";
+					flags = "tf";
+					break;
+				case "org.gnu.gnu-zip-tar-archive":
+					lPath = "/usr/bin/tar";
+					flags = "tzf";
+					break;
+				default:
+					NSDictionary eDict = NSDictionary.FromObjectAndKey(new NSString("Archive type not supported"), NSError.LocalizedFailureReasonErrorKey);
+					outError = NSError.FromDomain(NSError.OsStatusErrorDomain,0, eDict);
+					break;
+			}
+
 			// Prepare a task object
 			NSTask task = new NSTask();
-			task.LaunchPath = "/usr/bin/zipinfo";
-			string[] args = {"-1", filename};
+			task.LaunchPath = lPath;
+			string[] args = {flags, filename};
 			task.Arguments = args;
 
 			// Create a pipe to read from
