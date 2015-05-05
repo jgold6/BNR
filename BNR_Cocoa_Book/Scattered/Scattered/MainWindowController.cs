@@ -17,7 +17,7 @@ namespace Scattered
 		CATextLayer textLayer;
 		Random random;
 		CGSize lastWindowSize;
-		bool windowIsResizing;
+		bool windowIsResizing = false;
 
 		public new MainWindow Window
 		{
@@ -98,15 +98,12 @@ namespace Scattered
 			lastWindowSize = Window.Frame.Size;
 
 			Window.DidResize += (sender, e) => {
-				windowIsResizing = true;
 				if (Math.Abs(lastWindowSize.Width - Window.Frame.Width) > 25 || Math.Abs(lastWindowSize.Height - Window.Frame.Height) > 25) {
+					windowIsResizing = true;
 					repositionImages(repositionButton);
 					lastWindowSize = Window.Frame.Size;
+					windowIsResizing = false;
 				}
-			};
-
-			Window.DidEndLiveResize += (sender, e) => {
-				windowIsResizing = false;
 			};
         }
 			
@@ -118,16 +115,26 @@ namespace Scattered
 			foreach (CALayer layer in View.Layer.Sublayers) {
 				if (layer == textContainer || layer == repositionButton.Layer || layer == durationTextField.Layer)
 					continue;
-				CGRect imageBounds = layer.Bounds;
-				nfloat X = (nfloat)random.Next((int)Math.Floor(imageBounds.Width/2), (int)Math.Floor(layer.SuperLayer.Bounds.GetMaxX() - imageBounds.Width/2));
-				nfloat Y = (nfloat)random.Next((int)Math.Floor(imageBounds.Height/2), (int)Math.Floor(layer.SuperLayer.Bounds.GetMaxY() - imageBounds.Height/2));
-				CGPoint randomPoint = new CGPoint(X, Y);
 
+				CGRect imageBounds = layer.Bounds;
+
+				nfloat X, Y = 0;
+				if (windowIsResizing) {
+					X = layer.Position.X + ((layer.Position.X - imageBounds.Size.Width/2)/(lastWindowSize.Width - imageBounds.Size.Width) *  (Window.Frame.Width - lastWindowSize.Width));
+					Y = layer.Position.Y + ((layer.Position.Y - imageBounds.Size.Height/2)/(lastWindowSize.Height - imageBounds.Size.Height) *  (Window.Frame.Height - lastWindowSize.Height));
+				}
+				else {
+					X = (nfloat)random.Next((int)Math.Floor(imageBounds.Width/2), (int)Math.Floor(layer.SuperLayer.Bounds.GetMaxX() - imageBounds.Width/2));
+					Y = (nfloat)random.Next((int)Math.Floor(imageBounds.Height/2), (int)Math.Floor(layer.SuperLayer.Bounds.GetMaxY() - imageBounds.Height/2));
+				}
+				CGPoint newPoint = new CGPoint(X, Y);
+
+				CAMediaTimingFunction tr = CAMediaTimingFunction.FromName(CAMediaTimingFunction.Linear);
 				CAMediaTimingFunction tf = CAMediaTimingFunction.FromName(CAMediaTimingFunction.EaseInEaseOut);
 				CABasicAnimation posAnim = CABasicAnimation.FromKeyPath("position");
 				posAnim.From = NSValue.FromCGPoint(layer.Position);
 				posAnim.Duration = windowIsResizing ? 0 : durationTextField.FloatValue;
-				posAnim.TimingFunction = tf;
+				posAnim.TimingFunction = windowIsResizing ? tr : tf;
 
 				CABasicAnimation zPosAnim = CABasicAnimation.FromKeyPath("zPosition");
 				zPosAnim.From = NSNumber.FromDouble(layer.ZPosition);
@@ -137,8 +144,9 @@ namespace Scattered
 				layer.Actions = NSDictionary.FromObjectsAndKeys(new NSObject[]{posAnim, zPosAnim}, new NSObject[]{new NSString("position"), new NSString("zPosition")});
 
 				CATransaction.Begin();
-				layer.ZPosition = random.Next(-100, 99);
-				layer.Position = randomPoint;
+				layer.Position = newPoint;
+				if (!windowIsResizing)
+					layer.ZPosition = random.Next(-100, 99);
 				CATransaction.Commit();
 			}
 		}
