@@ -418,6 +418,12 @@ namespace RaiseMan
 		[Export("tableView:objectValueForTableColumn:row:")]
 		public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
 		{
+			tableColumn.HeaderCell.AttributedStringValue = new NSAttributedString(
+				tableColumn.HeaderCell.StringValue,
+				NSFont.BoldSystemFontOfSize(9)
+			);
+
+
 			// What is the identifier for the column?
 			string identifier = tableColumn.Identifier;
 
