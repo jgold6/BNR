@@ -13,7 +13,6 @@
     <string name="gps_disabled">GPS Disabled</string>
     <string name="cell_text">Run at %1$s</string>
     <string name="new_run">New run</string>
-    <string name="current_run">Current run</string>
     <string name="start_date">Start Date</string>
     <string name="start_time">Start Time</string>
     <string name="duration">Duration</string>
@@ -23,6 +22,7 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="current_run">Current Run</string>
+    <string name="empty_run_message">No data for this run.\nLong press run on list screen to delete.</string>
 
     <string name="run_start">Run Start</string>
     <string name="run_started_at_format">Run started at %s</string>

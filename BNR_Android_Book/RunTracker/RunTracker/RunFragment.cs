@@ -126,19 +126,30 @@ namespace RunTracker
 		{
 			if (CurrentRun != null && !CurrentRun.Active) {
 				mRunLocations = mRunManager.GetLocationsForRun(CurrentRun.Id);
-				mStartedTextView.Text = CurrentRun.StartDate.ToLocalTime().ToString();
 
-				mLatitudeTextView.Text = mRunLocations[0].Latitude.ToString();
-				mLongitudeTextView.Text = mRunLocations[0].Longitude.ToString();
-				mAltitudeTextView.Text = mRunLocations[0].Altitude.ToString();
+				if (mRunLocations.Count >0) {
+					mStartedTextView.Text = CurrentRun.StartDate.ToLocalTime().ToString();
 
-				int durationSeconds = (int)Math.Ceiling((mRunLocations[mRunLocations.Count -1].Time - CurrentRun.StartDate).TotalSeconds);
-				mDurationTextView.Text = Run.FormatDuration(durationSeconds);
+					mLatitudeTextView.Text = mRunLocations[0].Latitude.ToString();
+					mLongitudeTextView.Text = mRunLocations[0].Longitude.ToString();
+					mAltitudeTextView.Text = mRunLocations[0].Altitude.ToString();
 
-//				var location = new LatLng(mRunLocations[mRunLocations.Count -1].Latitude, mRunLocations[mRunLocations.Count -1].Longitude);
-//				var cu = CameraUpdateFactory.NewLatLngZoom (location, 20);
-//				mGoogleMap.MoveCamera (cu);
-				DrawRunTrack(false);
+					int durationSeconds = (int)Math.Ceiling((mRunLocations[mRunLocations.Count -1].Time - CurrentRun.StartDate).TotalSeconds);
+					mDurationTextView.Text = Run.FormatDuration(durationSeconds);
+
+//					var location = new LatLng(mRunLocations[mRunLocations.Count -1].Latitude, mRunLocations[mRunLocations.Count -1].Longitude);
+//					var cu = CameraUpdateFactory.NewLatLngZoom (location, 20);
+//					mGoogleMap.MoveCamera (cu);
+					DrawRunTrack(false);
+				}
+				else {
+					var toast = Toast.MakeText(Activity, Resource.String.empty_run_message, ToastLength.Long);
+					Display display = Activity.WindowManager.DefaultDisplay;
+					var size = new Android.Graphics.Point();
+					display.GetSize(size);
+					toast.SetGravity(GravityFlags.Top, 0, size.Y/6);
+					toast.Show();
+				}
 
 				if (mRunManager.IsTrackingRun()) {
 					mStartButton.Enabled = false;
