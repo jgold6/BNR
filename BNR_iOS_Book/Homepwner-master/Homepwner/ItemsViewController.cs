@@ -48,6 +48,8 @@ namespace Homepwner
 			UINib nib = UINib.FromName("HomepwnerItemCell", null);
 			// Register this NIB which contains the cell
 			TableView.RegisterNibForCellReuse(nib, "HomepwnerItemCell");
+
+			//TableView.SeparatorInset = new UIEdgeInsets(0, 0, 0, 0);
 		}
 
 		[Export("clearImageCache:")]
