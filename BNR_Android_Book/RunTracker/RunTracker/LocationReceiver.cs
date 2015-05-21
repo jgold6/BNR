@@ -62,7 +62,8 @@ namespace RunTracker
 				if ((DateTime.UtcNow - run.StartDate).Minutes % 5 == 0 && (DateTime.UtcNow - run.StartDate).Seconds % 60 == 0) { 
 
 					// Open activity on click notification. (Need to handle properly so off for now) 
-					Intent intent = new Intent(context, typeof(RunListActivity));
+					Intent intent = new Intent(context, typeof(RunActivity));
+					intent.AddFlags(ActivityFlags.SingleTop);
 					const int pendingIntentId = 0;
 					PendingIntent pendingIntent = PendingIntent.GetActivity(context, pendingIntentId, intent, PendingIntentFlags.OneShot);
 
