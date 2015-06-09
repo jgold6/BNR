@@ -105,6 +105,7 @@ namespace Scattered
 					windowIsResizing = false;
 				}
 			};
+
         }
 			
 		#endregion
