@@ -1,9 +1,9 @@
 using System;
-using System.Drawing;
-using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.CoreAnimation;
+using CoreGraphics;
+using UIKit;
+using CoreGraphics;
+using Foundation;
+using CoreAnimation;
 
 namespace HypnoTime
 {
@@ -18,12 +18,12 @@ namespace HypnoTime
 			set {circleColor = value; SetNeedsDisplay();}
 		}
 
-		public HypnosisView() : this(new RectangleF(UIScreen.MainScreen.Bounds.Location.X,UIScreen.MainScreen.Bounds.Location.Y, UIScreen.MainScreen.Bounds.Size.Width, UIScreen.MainScreen.Bounds.Height))
+		public HypnosisView() : this(new CGRect(UIScreen.MainScreen.Bounds.Location.X,UIScreen.MainScreen.Bounds.Location.Y, UIScreen.MainScreen.Bounds.Size.Width, UIScreen.MainScreen.Bounds.Height))
 		{
 
 		}
 
-		public HypnosisView(RectangleF frame)
+		public HypnosisView(CGRect frame)
 		{
 			Frame = frame;
 			BackgroundColor = UIColor.Clear;
@@ -33,10 +33,10 @@ namespace HypnoTime
 			boxLayer = new CALayer();
 
 			// Give it a size
-			boxLayer.Bounds = new RectangleF(0.0f, 0.0f, 85.0f, 85.0f);
+			boxLayer.Bounds = new CGRect(0.0f, 0.0f, 85.0f, 85.0f);
 
 			// Give it a location
-			boxLayer.Position = new PointF(160.0f, 100.0f);
+			boxLayer.Position = new CGPoint(160.0f, 100.0f);
 
 			// Round the corners
 			boxLayer.CornerRadius = 20.0f;
@@ -44,7 +44,7 @@ namespace HypnoTime
 			// Set a shadow
 			UIColor shadowColor = UIColor.Blue;
 			boxLayer.ShadowColor = shadowColor.CGColor;
-			boxLayer.ShadowOffset = new SizeF(5.0f, 5.0f);
+			boxLayer.ShadowOffset = new CGSize(5.0f, 5.0f);
 			boxLayer.ShadowOpacity = 1.0f;
 
 			// Make half transparent red the background color for the layer
@@ -65,7 +65,7 @@ namespace HypnoTime
 			boxLayer.Contents = image;
 
 			// Inset the image a but on each side
-			boxLayer.ContentsRect = new RectangleF(-0.1f, -0.1f, 1.2f, 1.2f);
+			boxLayer.ContentsRect = new CGRect(-0.1f, -0.1f, 1.2f, 1.2f);
 
 			// Let the image resize (without changing aspect ratio
 			// to fill the contentRct
@@ -77,10 +77,10 @@ namespace HypnoTime
 			CALayer boxSublayer = new CALayer();
 
 			// Give it a size
-			boxSublayer.Bounds = new RectangleF(0.0f, 0.0f, boxLayer.Bounds.Size.Width/2, boxLayer.Bounds.Size.Height/2);
+			boxSublayer.Bounds = new CGRect(0.0f, 0.0f, boxLayer.Bounds.Size.Width/2, boxLayer.Bounds.Size.Height/2);
 
 			// Give it a location
-			boxSublayer.Position = new PointF(boxLayer.Bounds.Size.Width/2, boxLayer.Bounds.Size.Height/2);
+			boxSublayer.Position = new CGPoint(boxLayer.Bounds.Size.Width/2, boxLayer.Bounds.Size.Height/2);
 
 			// Round the corners
 			boxSublayer.CornerRadius = 10.0f;
@@ -115,7 +115,7 @@ namespace HypnoTime
 		public override void TouchesBegan(NSSet touches, UIEvent evt)
 		{
 			UITouch t = touches.AnyObject as UITouch;
-			PointF p = t.LocationInView(this);
+			CGPoint p = t.LocationInView(this);
 			boxLayer.Position = p;
 
 		}
@@ -123,7 +123,7 @@ namespace HypnoTime
 		public override void TouchesMoved(NSSet touches, UIEvent evt)
 		{
 			UITouch t = touches.AnyObject as UITouch;
-			PointF p = t.LocationInView(this);
+			CGPoint p = t.LocationInView(this);
 			CATransaction.Begin();
 			CATransaction.DisableActions = true;
 			boxLayer.Position = p;
@@ -131,17 +131,17 @@ namespace HypnoTime
 		}
 
 
-		public override void Draw(RectangleF rect)
+		public override void Draw(CGRect rect)
 		{
 			base.Draw(rect);
 	
 			// Get current drawing context
 			CGContext ctx = UIGraphics.GetCurrentContext(); 
 			// Get bounds of view
-			RectangleF bounds = this.Bounds;
+			CGRect bounds = this.Bounds;
 
 			// Figure out the center of the bounds rectangle
-			PointF center = new Point();
+			CGPoint center = new CGPoint();
 			center.X = (float)(bounds.Location.X + bounds.Size.Width / 2.0);
 			center.Y = (float)(bounds.Location.Y + bounds.Size.Height / 2.0);
 
@@ -175,7 +175,7 @@ namespace HypnoTime
 			// Get a font to draw it in
 			UIFont font = UIFont.BoldSystemFontOfSize(28);
 
-			RectangleF textRect = new RectangleF();
+			CGRect textRect = new CGRect();
 
 			// How big is the string when drawn in this font?
 			textRect.Size = text.StringSize(font);
@@ -190,10 +190,10 @@ namespace HypnoTime
 			UIColor.Black.SetFill();
 
 			// Shadow
-			SizeF offset = new SizeF(4, 3);
+			CGSize offset = new CGSize(4, 3);
 			CGColor color = new CGColor(0.2f, 0.2f, 0.2f, 1f);
 
-			ctx.SetShadowWithColor(offset, 2.0f, color);
+			ctx.SetShadow(offset, 2.0f, color);
 
 			// Draw the string
 			text.DrawString(textRect, font); 

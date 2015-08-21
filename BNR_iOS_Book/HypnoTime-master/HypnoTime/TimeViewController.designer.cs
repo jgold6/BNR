@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace HypnoTime
@@ -13,10 +13,10 @@ namespace HypnoTime
 	partial class TimeViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnShowTime { get; set; }
+		UIKit.UIButton btnShowTime { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTime { get; set; }
+		UIKit.UILabel lblTime { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{

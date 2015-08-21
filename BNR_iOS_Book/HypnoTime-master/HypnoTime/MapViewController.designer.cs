@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace HypnoTime
@@ -13,16 +13,16 @@ namespace HypnoTime
 	partial class MapViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIActivityIndicatorView actIndicator { get; set; }
+		UIKit.UIActivityIndicatorView actIndicator { get; set; }
 
 		[Outlet]
-		MonoTouch.MapKit.MKMapView mapView { get; set; }
+		MapKit.MKMapView mapView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UISegmentedControl segControl { get; set; }
+		UIKit.UISegmentedControl segControl { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextField textField { get; set; }
+		UIKit.UITextField textField { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{

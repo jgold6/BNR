@@ -1,11 +1,11 @@
 using System;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.CoreLocation;
-using Xamarin.Geolocation;
+using CoreGraphics;
+using Foundation;
+using UIKit;
+using CoreLocation;
 using System.Threading.Tasks;
-using MonoTouch.MapKit;
+using MapKit;
+using Xamarin.Geolocation;
 
 namespace HypnoTime
 {

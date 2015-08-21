@@ -1,14 +1,14 @@
 using System;
-using System.Drawing;
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
+using CoreGraphics;
+using UIKit;
+using Foundation;
 
 namespace HypnoTime
 {
 	public class HypnosisViewController : UIViewController
 	{
 		UISegmentedControl segControl;
-		int lastSelectedSegmentIndex;
+		nint lastSelectedSegmentIndex;
 		UIColor lastSelectedColor;
 
 		public HypnosisViewController() : base("HypnosisViewController", null)
@@ -23,7 +23,7 @@ namespace HypnoTime
 		public override void LoadView()
 		{
 			// Create a view
-			RectangleF frame = UIScreen.MainScreen.Bounds;
+			CGRect frame = UIScreen.MainScreen.Bounds;
 			frame.Y += 23;
 			frame.Height -= 23;
 			HypnosisView v = new HypnosisView(frame);
@@ -33,7 +33,7 @@ namespace HypnoTime
 
 			// Create a segmented control
 			segControl = new UISegmentedControl(new string[4]{"Grey","Red", "Green", "Blue"});
-			segControl.Frame = new RectangleF(0, 25, View.Bounds.Size.Width, 25);
+			segControl.Frame = new CGRect(0, 25, View.Bounds.Size.Width, 25);
 			segControl.BackgroundColor = UIColor.White;
 			segControl.AutoresizingMask = (UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleBottomMargin);
 

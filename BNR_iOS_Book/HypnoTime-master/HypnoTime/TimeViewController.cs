@@ -1,8 +1,8 @@
 using System;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.CoreAnimation;
+using CoreGraphics;
+using Foundation;
+using UIKit;
+using CoreAnimation;
 using System.Diagnostics;
 
 namespace HypnoTime
@@ -54,7 +54,7 @@ namespace HypnoTime
 
 		public void setCurrentTime()
 		{
-			NSDate now = DateTime.Now;
+			NSDate now = (NSDate)DateTime.Now;
 			NSDateFormatter dateFormat = new NSDateFormatter();
 			dateFormat.TimeStyle = NSDateFormatterStyle.Medium;
 
@@ -130,7 +130,7 @@ namespace HypnoTime
 		{
 			CABasicAnimation slide = CABasicAnimation.FromKeyPath("position");
 
-			slide.From = NSValue.FromCGPoint(new PointF(-100.0f, btnShowTime.Layer.Position.Y));
+			slide.From = NSValue.FromCGPoint(new CGPoint(-100.0f, btnShowTime.Layer.Position.Y));
 			slide.To = NSValue.FromCGPoint(btnShowTime.Layer.Position);
 			slide.Duration = 1.0f;
 

@@ -1,11 +1,10 @@
 using System;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.CoreLocation;
-using Xamarin.Geolocation;
+using CoreGraphics;
+using Foundation;
+using UIKit;
+using CoreLocation;
 using System.Threading.Tasks;
-using MonoTouch.MapKit;
+using MapKit;
 
 namespace HypnoTime
 {
@@ -13,12 +12,22 @@ namespace HypnoTime
 	{
 		string _title;
 		string _subtitle;
+		CLLocationCoordinate2D coord;
+
+		#region implemented abstract members of MKAnnotation
+
+		public override CLLocationCoordinate2D Coordinate {
+			get {
+				return coord;
+			}
+		}
+
+		#endregion
 
 		public BNRMapPoint(string title, CLLocationCoordinate2D coord)
 		{
 			_title = title;
-			Coordinate = coord;
-
+			this.coord = coord;
 			NSDateFormatter dateFormatter = new NSDateFormatter();
 			dateFormatter.DateStyle = NSDateFormatterStyle.Medium;
 			dateFormatter.TimeStyle = NSDateFormatterStyle.Short;
@@ -37,7 +46,8 @@ namespace HypnoTime
 			}
 		}
 
-		public override CLLocationCoordinate2D Coordinate { get; set;}
+
+
 	}
 }
 

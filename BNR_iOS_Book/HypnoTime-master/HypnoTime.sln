@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HypnoTime", "HypnoTime\HypnoTime.csproj", "{E13F13E9-9B4F-47B8-A04A-CCCA5B73E7E4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HypnoTime.UITest", "HypnoTime.UITest\HypnoTime.UITest.csproj", "{EFADE3EE-B67C-4C66-9C6E-F7C8B95835EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|iPhoneSimulator = Debug|iPhoneSimulator
@@ -25,8 +27,17 @@ Global
 		{E13F13E9-9B4F-47B8-A04A-CCCA5B73E7E4}.Release|iPhone.Build.0 = Release|iPhone
 		{E13F13E9-9B4F-47B8-A04A-CCCA5B73E7E4}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{E13F13E9-9B4F-47B8-A04A-CCCA5B73E7E4}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = HypnoTime\HypnoTime.csproj
+		{EFADE3EE-B67C-4C66-9C6E-F7C8B95835EC}.Ad-Hoc|iPhone.ActiveCfg = Release|Any CPU
+		{EFADE3EE-B67C-4C66-9C6E-F7C8B95835EC}.Ad-Hoc|iPhone.Build.0 = Release|Any CPU
+		{EFADE3EE-B67C-4C66-9C6E-F7C8B95835EC}.AppStore|iPhone.ActiveCfg = Release|Any CPU
+		{EFADE3EE-B67C-4C66-9C6E-F7C8B95835EC}.AppStore|iPhone.Build.0 = Release|Any CPU
+		{EFADE3EE-B67C-4C66-9C6E-F7C8B95835EC}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{EFADE3EE-B67C-4C66-9C6E-F7C8B95835EC}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{EFADE3EE-B67C-4C66-9C6E-F7C8B95835EC}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{EFADE3EE-B67C-4C66-9C6E-F7C8B95835EC}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{EFADE3EE-B67C-4C66-9C6E-F7C8B95835EC}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{EFADE3EE-B67C-4C66-9C6E-F7C8B95835EC}.Release|iPhone.Build.0 = Release|Any CPU
+		{EFADE3EE-B67C-4C66-9C6E-F7C8B95835EC}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{EFADE3EE-B67C-4C66-9C6E-F7C8B95835EC}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
