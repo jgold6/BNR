@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Drawing;
-using MonoTouch.Foundation;
+using CoreGraphics;
+using Foundation;
 using SQLite;
-using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
+using UIKit;
+using CoreGraphics;
 
 
 namespace TouchTracker
@@ -50,24 +50,24 @@ namespace TouchTracker
 		}
 
 		[Ignore]
-		public PointF begin {
+		public CGPoint begin {
 			get {
-				return new PointF(beginx, beginy);
+				return new CGPoint(beginx, beginy);
 			}
 			set {
-				beginx = value.X;
-				beginy = value.Y;
+				beginx = (float)value.X;
+				beginy = (float)value.Y;
 			}
 		}
 
 		[Ignore]
-		public PointF end {
+		public CGPoint end {
 			get {
-				return new PointF(endx, endy);
+				return new CGPoint(endx, endy);
 			}
 			set {
-				endx = value.X;
-				endy = value.Y;
+				endx = (float)value.X;
+				endy = (float)value.Y;
 			}
 		} 
 

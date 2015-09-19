@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using MonoTouch.UIKit;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.CoreGraphics;
+using UIKit;
+using CoreGraphics;
+using Foundation;
+using CoreGraphics;
 
 namespace TouchTracker
 {
@@ -12,7 +12,7 @@ namespace TouchTracker
 		Dictionary<string, Line> linesInProcess;
 		Dictionary<string, Circle> circlesInProcess;
 
-		public TouchDrawView(RectangleF rect) : base(rect)
+		public TouchDrawView(CGRect rect) : base(rect)
 		{
 			linesInProcess = new Dictionary<string, Line>();
 			circlesInProcess = new Dictionary<string, Circle>();
@@ -34,7 +34,7 @@ namespace TouchTracker
 					}
 
 					// Create a circle for the value
-					PointF loc = t.LocationInView(this);
+					CGPoint loc = t.LocationInView(this);
 
 					if (firstTouch) {
 						// Use the touch object (packed in an string, as the key)
@@ -58,7 +58,7 @@ namespace TouchTracker
 					string key = NSValue.ValueFromNonretainedObject(t).ToString();
 
 					// Create a line for the value
-					PointF loc = t.LocationInView(this);
+					CGPoint loc = t.LocationInView(this);
 					Line newLine = new Line();
 					newLine.begin = loc;
 					newLine.end = loc;
@@ -78,7 +78,7 @@ namespace TouchTracker
 				Circle circle = null;
 				string key;
 				foreach (UITouch t in touches) {
-					PointF loc = t.LocationInView(this);
+					CGPoint loc = t.LocationInView(this);
 					if (firstTouch) {
 						key = NSValue.ValueFromNonretainedObject(t).ToString();
 						// Find the circle for this touch
@@ -104,7 +104,7 @@ namespace TouchTracker
 					bool gotLine = linesInProcess.TryGetValue(key, out line);
 
 					// Update the line
-					PointF loc = t.LocationInView(this);
+					CGPoint loc = t.LocationInView(this);
 					if (gotLine) {
 						line.end = loc;
 						line.setColor();
@@ -166,7 +166,7 @@ namespace TouchTracker
 			this.SetNeedsDisplay();
 		}
 
-		public override void Draw(RectangleF rect)
+		public override void Draw(CGRect rect)
 		{
 			CGContext context = UIGraphics.GetCurrentContext();
 			context.SetLineWidth(10.0f);
