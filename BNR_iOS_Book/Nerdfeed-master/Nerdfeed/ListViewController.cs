@@ -1,6 +1,6 @@
 ﻿using System;
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
+using UIKit;
+using Foundation;
 using System.Net;
 using System.IO;
 using System.Xml;
@@ -9,8 +9,8 @@ using System.Xml.Linq;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using MonoTouch.ObjCRuntime;
-using System.Drawing;
+using ObjCRuntime;
+using CoreGraphics;
 
 namespace Nerdfeed
 {
@@ -81,7 +81,7 @@ namespace Nerdfeed
 			if (UIDevice.CurrentDevice.CheckSystemVersion(7,0) || UIDevice.CurrentDevice.CheckSystemVersion(7,1))
 				rssTypeControl.TintAdjustmentMode = UIViewTintAdjustmentMode.Normal;
 			rssTypeControl.ValueChanged += (object sender, EventArgs e) => {
-				rssType = (ListViewControllerRSSType)rssTypeControl.SelectedSegment;
+				rssType = (ListViewControllerRSSType)(int)rssTypeControl.SelectedSegment;
 				if (rssType == ListViewControllerRSSType.Apple) {
 
 					BNRFeedStore.items.Clear();
@@ -191,7 +191,7 @@ namespace Nerdfeed
 //				this.NavigationController.View.TintColor = UIColor.Green;
 		}
 
-		public override int RowsInSection(UITableView tableView, int section)
+		public override nint RowsInSection(UITableView tableView, nint section)
 		{
 			return BNRFeedStore.items.Count;
 		}
@@ -231,7 +231,7 @@ namespace Nerdfeed
 			if (rssType == ListViewControllerRSSType.BNRFeed) {
 				UIButton favButton = new UIButton(UIButtonType.RoundedRect);
 
-				favButton.Frame = new System.Drawing.RectangleF(cell.Frame.Size.Width-17, 0, 17, 44);
+				favButton.Frame = new CGRect(cell.Frame.Size.Width-17, 0, 17, 44);
 				favButton.AddTarget(this, new Selector("favButtonPressed:"), UIControlEvent.TouchUpInside);
 				favButton.SetTitle("F", UIControlState.Normal);
 				favButton.SetTitleColor(UIColor.White, UIControlState.Normal);
@@ -322,7 +322,7 @@ namespace Nerdfeed
 		public void favButtonPressed(UIButton favBtn)
 		{
 			Console.WriteLine("Favorite Button Pressed: {0}", favBtn);
-			RSSItem item = BNRFeedStore.items[favBtn.Tag];
+			RSSItem item = BNRFeedStore.items[(int)favBtn.Tag];
 			BNRFeedStore.markItemAsFavorite(item);
 			this.TableView.ReloadData();
 		}

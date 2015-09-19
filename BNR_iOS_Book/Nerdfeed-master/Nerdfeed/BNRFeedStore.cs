@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using MonoTouch.UIKit;
+using UIKit;
 using System.Net;
 using System.Xml.Linq;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text;
-using MonoTouch.Foundation;
+using Foundation;
 using System.IO;
 using SQLite;
 using System.Threading.Tasks;

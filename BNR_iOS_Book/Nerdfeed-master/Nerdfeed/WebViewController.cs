@@ -1,7 +1,7 @@
-﻿using System;
-using MonoTouch.UIKit;
-using System.Drawing;
-using MonoTouch.Foundation;
+using System;
+using UIKit;
+using CoreGraphics;
+using Foundation;
 
 namespace Nerdfeed
 {
@@ -17,7 +17,7 @@ namespace Nerdfeed
 		public override void LoadView()
 		{
 			// Create an instance of UIWebview as large as the screen
-			RectangleF screenFrame = UIScreen.MainScreen.ApplicationFrame;
+			CGRect screenFrame = UIScreen.MainScreen.ApplicationFrame;
 			UIWebView wv = new UIWebView(screenFrame);
 			wv.ScalesPageToFit = true;
 

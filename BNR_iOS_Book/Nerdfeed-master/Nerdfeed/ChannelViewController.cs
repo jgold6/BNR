@@ -1,7 +1,7 @@
-﻿using System;
-using MonoTouch.UIKit;
-using System.Drawing;
-using MonoTouch.Foundation;
+using System;
+using UIKit;
+using CoreGraphics;
+using Foundation;
 
 namespace Nerdfeed
 {
@@ -34,7 +34,7 @@ namespace Nerdfeed
 			}
 		}
 
-		public override int RowsInSection(UITableView tableView, int section)
+		public override nint RowsInSection(UITableView tableView, nint section)
 		{
 			return 2;
 		}
