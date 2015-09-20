@@ -1,8 +1,8 @@
 using System;
-using System.Drawing;
-using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
+using CoreGraphics;
+using UIKit;
+using CoreGraphics;
+using Foundation;
 
 namespace Hynosister
 {
@@ -17,29 +17,29 @@ namespace Hynosister
 			set {circleColor = value; SetNeedsDisplay();}
 		}
 
-		public HypnosisView() : this(new RectangleF(UIScreen.MainScreen.Bounds.Location.X,UIScreen.MainScreen.Bounds.Location.Y, UIScreen.MainScreen.Bounds.Size.Width, UIScreen.MainScreen.Bounds.Height))
+		public HypnosisView() : this(new CGRect(UIScreen.MainScreen.Bounds.Location.X,UIScreen.MainScreen.Bounds.Location.Y, UIScreen.MainScreen.Bounds.Size.Width, UIScreen.MainScreen.Bounds.Height))
 		{
 
 		}
 
-		public HypnosisView(RectangleF frame)
+		public HypnosisView(CGRect frame)
 		{
 			Frame = frame;
 			BackgroundColor = UIColor.Clear;
 			circleColor = UIColor.LightGray;
 		}
 
-		public override void Draw(RectangleF rect)
+		public override void Draw(CGRect rect)
 		{
 			base.Draw(rect);
 	
 			// Get current drawing context
 			CGContext ctx = UIGraphics.GetCurrentContext(); 
 			// Get bounds of view
-			RectangleF bounds = this.Bounds;
+			CGRect bounds = this.Bounds;
 
 			// Figure out the center of the bounds rectangle
-			PointF center = new Point();
+			CGPoint center = new CGPoint();
 			center.X = (float)(bounds.Location.X + bounds.Size.Width / 2.0);
 			center.Y = (float)(bounds.Location.Y + bounds.Size.Height / 2.0);
 
@@ -87,7 +87,7 @@ namespace Hynosister
 			// Get a font to draw it in
 			UIFont font = UIFont.BoldSystemFontOfSize(28);
 
-			RectangleF textRect = new RectangleF();
+			CGRect textRect = new CGRect();
 
 			// How big is the string when drawn in this font?
 			//textRect.Size = text.StringSize(font);
@@ -102,22 +102,22 @@ namespace Hynosister
 			UIColor.Black.SetFill();
 
 			// Shadow
-			SizeF offset = new SizeF(4, 3);
+			CGSize offset = new CGSize(4, 3);
 			CGColor color = new CGColor(0.2f, 0.2f, 0.2f, 1f);
 
-			ctx.SetShadowWithColor(offset, 2.0f, color);
+			ctx.SetShadow(offset, 2.0f, color);
 
 			// Draw the string
 			text.DrawString(textRect, font); 
 
 			// Crosshair
 			ctx.SaveState();
-			SizeF offset2 = new SizeF(0, 0);
+			CGSize offset2 = new CGSize(0, 0);
 			CGColor color2 = new CGColor(UIColor.Clear.CGColor.Handle);
 			crossHairColor = UIColor.Green;
 			crossHairColor.SetStroke();
 
-			ctx.SetShadowWithColor(offset2, 0, color2);
+			ctx.SetShadow(offset2, 0, color2);
 			ctx.SetLineWidth(7);
 			ctx.MoveTo(center.X -20, center.Y);
 			ctx.AddLineToPoint(center.X + 20, center.Y);

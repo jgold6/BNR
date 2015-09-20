@@ -1,9 +1,9 @@
 using System;
-using System.Drawing;
+using CoreGraphics;
 using System.Collections.Generic;
 using System.Linq;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 
 namespace Hynosister
 {
@@ -31,7 +31,7 @@ namespace Hynosister
 			window.BackgroundColor = UIColor.White;
 
 			// Create and add subviews
-			RectangleF screenRect = new RectangleF(window.Bounds.Location.X, window.Bounds.Location.Y,window.Bounds.Size.Width,window.Bounds.Size.Height);
+			CGRect screenRect = new CGRect(window.Bounds.Location.X, window.Bounds.Location.Y,window.Bounds.Size.Width,window.Bounds.Size.Height);
 			UIScrollView scrollView = new UIScrollView(screenRect);
 
 			view = new HypnosisView(scrollView.Bounds);
@@ -40,10 +40,10 @@ namespace Hynosister
 			//view.Frame = new RectangleF(window.Frame.Location, window.Frame.Size);
 			scrollView.Add(view);
 
-			BNRLogo logoView = new BNRLogo(new RectangleF(0, 0, 100, 100));
+			BNRLogo logoView = new BNRLogo(new CGRect(0, 0, 100, 100));
 			view.Add(logoView);
 
-			SizeF svSize = scrollView.Bounds.Size;
+			CGSize svSize = scrollView.Bounds.Size;
 			scrollView.ContentSize = svSize;
 			scrollView.MinimumZoomScale = 1;
 			scrollView.MaximumZoomScale = 5;

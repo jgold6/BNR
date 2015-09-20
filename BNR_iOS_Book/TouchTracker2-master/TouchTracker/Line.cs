@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Drawing;
-using MonoTouch.Foundation;
+using CoreGraphics;
+using Foundation;
 using SQLite;
-using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
+using UIKit;
+using CoreGraphics;
 
 
 namespace TouchTracker
@@ -55,36 +55,36 @@ namespace TouchTracker
 
 		public void setColor(UIColor clr)
 		{
-			float red;
-			float green;
-			float blue;
-			float alpha;
+			nfloat red;
+			nfloat green;
+			nfloat blue;
+			nfloat alpha;
 			clr.GetRGBA(out red, out green, out blue, out alpha);
-			this.red = red;
-			this.green = green;
-			this.blue = blue;
-			this.alpha = alpha;
+			this.red = (float)red;
+			this.green = (float)green;
+			this.blue = (float)blue;
+			this.alpha = (float)alpha;
 		}
 
 		[Ignore]
-		public PointF begin {
+		public CGPoint begin {
 			get {
-				return new PointF(beginx, beginy);
+				return new CGPoint(beginx, beginy);
 			}
 			set {
-				beginx = value.X;
-				beginy = value.Y;
+				beginx = (float)value.X;
+				beginy = (float)value.Y;
 			}
 		}
 
 		[Ignore]
-		public PointF end {
+		public CGPoint end {
 			get {
-				return new PointF(endx, endy);
+				return new CGPoint(endx, endy);
 			}
 			set {
-				endx = value.X;
-				endy = value.Y;
+				endx = (float)value.X;
+				endy = (float)value.Y;
 			}
 		} 
 

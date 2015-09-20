@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using MonoTouch.UIKit;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.CoreGraphics;
-using MonoTouch.ObjCRuntime;
+using UIKit;
+using CoreGraphics;
+using Foundation;
+using CoreGraphics;
+using ObjCRuntime;
 
 namespace TouchTracker
 {
@@ -17,7 +17,7 @@ namespace TouchTracker
 
 		public override bool CanBecomeFirstResponder { get { return true;}}
 
-		public TouchDrawView(RectangleF rect) : base(rect)
+		public TouchDrawView(CGRect rect) : base(rect)
 		{
 			linesInProcess = new Dictionary<string, Line>();
 			this.BackgroundColor = UIColor.White;
@@ -56,7 +56,7 @@ namespace TouchTracker
 
 		void tap(UITapGestureRecognizer gr)
 		{
-			PointF point = gr.LocationInView(this);
+			CGPoint point = gr.LocationInView(this);
 			this.selectedLine = lineAtPoint(point);
 
 			// If we just tapped, remove all lines in process
@@ -74,7 +74,7 @@ namespace TouchTracker
 				menu.MenuItems = new UIMenuItem[] {deleteItem};
 
 				// Tell the menu item where it should come from and show it
-				menu.SetTargetRect(new RectangleF(point.X, point.Y, 2, 2), this);
+				menu.SetTargetRect(new CGRect(point.X, point.Y, 2, 2), this);
 				menu.SetMenuVisible(true, true);
 
 				UIGestureRecognizer[] grs = this.GestureRecognizers;
@@ -108,7 +108,7 @@ namespace TouchTracker
 		void longPress(UILongPressGestureRecognizer gr)
 		{
 			if (gr.State == UIGestureRecognizerState.Began) {
-				PointF point = gr.LocationInView(this);
+				CGPoint point = gr.LocationInView(this);
 				selectedLine = lineAtPoint(point);
 
 				if (selectedLine != null) {
@@ -129,11 +129,11 @@ namespace TouchTracker
 			// When the pan gesture recognizer changes its position...
 			if (gr.State == UIGestureRecognizerState.Changed) {
 				// How far has the pan moved?
-				PointF translation = gr.TranslationInView(this);
+				CGPoint translation = gr.TranslationInView(this);
 
 				// Add the translation to the current begin and end points of the line
-				PointF begin = selectedLine.begin;
-				PointF end = selectedLine.end;
+				CGPoint begin = selectedLine.begin;
+				CGPoint end = selectedLine.end;
 				begin.X += translation.X;
 				begin.Y += translation.Y;
 				end.X += translation.X;
@@ -147,7 +147,7 @@ namespace TouchTracker
 
 				this.SetNeedsDisplay();
 
-				gr.SetTranslation(new PointF(0,0),this);
+				gr.SetTranslation(new CGPoint(0,0),this);
 			} else if (gr.State == UIGestureRecognizerState.Ended) {
 				selectedLine = null;
 			}
@@ -168,7 +168,7 @@ namespace TouchTracker
 			menu.MenuItems = new UIMenuItem[]{red, green, blue};
 
 			// Tell the menu where it should come from and show it
-			menu.SetTargetRect(new RectangleF(0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height), this);
+			menu.SetTargetRect(new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height), this);
 			menu.SetMenuVisible(true, true);
 		}
 
@@ -190,17 +190,17 @@ namespace TouchTracker
 			selectedColor = UIColor.Blue;
 		}
 
-		public Line lineAtPoint(PointF p)
+		public Line lineAtPoint(CGPoint p)
 		{
 			// Find line close to p
 			foreach (Line l in LineStore.completeLines) {
-				PointF start = l.begin;
-				PointF end = l.end;
+				CGPoint start = l.begin;
+				CGPoint end = l.end;
 
 				// Check a few points on the line
 				for (float t = 0.0f; t <= 1.0f; t += 0.05f) {
-					float x = start.X + t * (end.X - start.X);
-					float y = start.Y + t * (end.Y - start.Y);
+					nfloat x = start.X + t * (end.X - start.X);
+					nfloat y = start.Y + t * (end.Y - start.Y);
 
 					// If the tapped point is within 20 points, let's return this line
 					if (Math.Sqrt(Math.Pow(x - p.X, 2) + Math.Pow(y - p.Y, 2)) < 20.0f) {
@@ -224,7 +224,7 @@ namespace TouchTracker
 				string key = NSValue.ValueFromNonretainedObject(t).ToString();
 
 				// Create a line for the value
-				PointF loc = t.LocationInView(this);
+				CGPoint loc = t.LocationInView(this);
 				Line newLine = new Line();
 				newLine.begin = loc;
 				newLine.end = loc;
@@ -249,7 +249,7 @@ namespace TouchTracker
 				bool gotLine = linesInProcess.TryGetValue(key, out line);
 
 				// Update the line
-				PointF loc = t.LocationInView(this);
+				CGPoint loc = t.LocationInView(this);
 				if (gotLine) {
 					// but before we do, see how much distance has changed since last update
 					// and use to set the line width
@@ -313,7 +313,7 @@ namespace TouchTracker
 			this.SetNeedsDisplay();
 		}
 
-		public override void Draw(RectangleF rect)
+		public override void Draw(CGRect rect)
 		{
 			CGContext context = UIGraphics.GetCurrentContext();
 			context.SetLineWidth(10.0f);

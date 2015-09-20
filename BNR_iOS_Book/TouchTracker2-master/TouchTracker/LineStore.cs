@@ -1,5 +1,5 @@
-﻿using System;
-using MonoTouch.Foundation;
+using System;
+using Foundation;
 using System.Collections.Generic;
 using System.IO;
 using SQLite;
