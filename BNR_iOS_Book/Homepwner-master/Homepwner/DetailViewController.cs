@@ -84,6 +84,11 @@ namespace Homepwner
 //			View.Add(iv);
 //			View.SendSubviewToBack(iv);
 //
+
+			nameField.ClearButtonMode = UITextFieldViewMode.WhileEditing;
+			serialNumberField.ClearButtonMode = UITextFieldViewMode.WhileEditing;
+			valueField.ClearButtonMode = UITextFieldViewMode.WhileEditing;
+
 			UIColor clr = null;
 			if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad) {
 				clr = UIColor.FromRGBA(0.875f, 0.88f, 9.1f, 1f);
