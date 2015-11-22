@@ -48,7 +48,6 @@ namespace Homepwner
 			UINib nib = UINib.FromName("HomepwnerItemCell", null);
 			// Register this NIB which contains the cell
 			TableView.RegisterNibForCellReuse(nib, "HomepwnerItemCell");
-
 			//TableView.SeparatorInset = new UIEdgeInsets(0, 0, 0, 0);
 		}
 
@@ -131,21 +130,44 @@ namespace Homepwner
 			return cell;
 		}
 
-		public override nfloat GetHeightForHeader(UITableView tableView, nint section)
+//		public override string TitleForHeader (UITableView tableView, nint section)
+//		{
+//			return  NSBundle.MainBundle.LocalizedString("Items", "Items");
+//		}
+
+//		public override nfloat GetHeightForHeader(UITableView tableView, nint section)
+//		{
+//			if (headerCell == null)
+//			{
+//				headerCell = new HeaderCell();
+//				var views = NSBundle.MainBundle.LoadNib("HeaderCell", headerCell, null);
+//				headerCell = Runtime.GetNSObject(views.ValueAt(0)) as HeaderCell;
+//			}
+//			return headerCell.Bounds.Size.Height;
+//		}
+//
+//		public override UIView GetViewForHeader (UITableView tableView, nint section)
+//		{
+//			if (headerCell == null)
+//			{
+//				headerCell = new HeaderCell();
+//				var views = NSBundle.MainBundle.LoadNib("HeaderCell", headerCell, null);
+//				headerCell = Runtime.GetNSObject(views.ValueAt(0)) as HeaderCell;
+//			}
+//			return headerCell;
+//		}
+
+		public override nfloat GetHeightForHeader (UITableView tableView, nint section)
 		{
-			if (headerCell == null)
-			{
-				headerCell = new HeaderCell();
-				var views = NSBundle.MainBundle.LoadNib("HeaderCell", headerCell, null);
-				headerCell = Runtime.GetNSObject(views.ValueAt(0)) as HeaderCell;
-				headerCell.BackgroundColor = UIColor.Clear;
-			}
-			return headerCell.Bounds.Size.Height;
+			return 30;
 		}
 
 		public override UIView GetViewForHeader (UITableView tableView, nint section)
 		{
-			return headerCell;
+			var headerView = new UILabel(new CGRect(0, 0, tableView.Frame.Width, tableView.EstimatedSectionHeaderHeight)){Text = NSBundle.MainBundle.LocalizedString("Items", "Items")};
+			headerView.TextAlignment = UITextAlignment.Center;
+			headerView.Font = UIFont.BoldSystemFontOfSize (20);
+			return headerView;
 		}
 
 		public override void WillBeginEditing(UITableView tableView, NSIndexPath indexPath)

@@ -43,3 +43,6 @@
 "Modifying the date of an acquired item can result in charges of insurance fraud." = "Изменение даты приобретенного пункт может привести к обвинению страхового мошенничества.";
 /* Correct Error */
  "This is correcting an error." = "Это исправления ошибки.";
+
+/* Items */
+ "Items" = "Элементы";

@@ -67,6 +67,7 @@
     <MtouchArch>ARMv7</MtouchArch>
     <MtouchSdkVersion>8.3</MtouchSdkVersion>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchProfiling>true</MtouchProfiling>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>
@@ -126,9 +127,6 @@
     <BundleResource Include="Resources\es.lproj\DetailViewController.strings" />
     <BundleResource Include="Resources\en.lproj\DetailViewController.strings" />
     <BundleResource Include="Resources\ru.lproj\DetailViewController.strings" />
-    <BundleResource Include="Resources\en.lproj\HeaderCell.strings" />
-    <BundleResource Include="Resources\es.lproj\HeaderCell.strings" />
-    <BundleResource Include="Resources\ru.lproj\HeaderCell.strings" />
     <BundleResource Include="Resources\en.lproj\Localizable.strings" />
     <BundleResource Include="Resources\es.lproj\Localizable.strings" />
     <BundleResource Include="Resources\ru.lproj\Localizable.strings" />
@@ -166,7 +164,6 @@
   <ItemGroup>
     <InterfaceDefinition Include="HomepwnerItemCell.xib" />
     <InterfaceDefinition Include="ImageViewController.xib" />
-    <InterfaceDefinition Include="Resources\Base.lproj\HeaderCell.xib" />
     <InterfaceDefinition Include="Resources\Base.lproj\DetailViewController.xib" />
   </ItemGroup>
   <ItemGroup>

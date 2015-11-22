@@ -43,3 +43,6 @@
 "Modifying the date of an acquired item can result in charges of insurance fraud." = "La modificación de la fecha de un artículo adquirido puede causar gastos del fraude de seguros.";
 /* Correct Error */
  "This is correcting an error." = "Esto corrige un error.";
+
+/* Items */
+ "Items" = "Artículos";
