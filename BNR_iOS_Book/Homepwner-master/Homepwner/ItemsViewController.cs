@@ -130,33 +130,6 @@ namespace Homepwner
 			return cell;
 		}
 
-//		public override string TitleForHeader (UITableView tableView, nint section)
-//		{
-//			return  NSBundle.MainBundle.LocalizedString("Items", "Items");
-//		}
-
-//		public override nfloat GetHeightForHeader(UITableView tableView, nint section)
-//		{
-//			if (headerCell == null)
-//			{
-//				headerCell = new HeaderCell();
-//				var views = NSBundle.MainBundle.LoadNib("HeaderCell", headerCell, null);
-//				headerCell = Runtime.GetNSObject(views.ValueAt(0)) as HeaderCell;
-//			}
-//			return headerCell.Bounds.Size.Height;
-//		}
-//
-//		public override UIView GetViewForHeader (UITableView tableView, nint section)
-//		{
-//			if (headerCell == null)
-//			{
-//				headerCell = new HeaderCell();
-//				var views = NSBundle.MainBundle.LoadNib("HeaderCell", headerCell, null);
-//				headerCell = Runtime.GetNSObject(views.ValueAt(0)) as HeaderCell;
-//			}
-//			return headerCell;
-//		}
-
 		public override nfloat GetHeightForHeader (UITableView tableView, nint section)
 		{
 			return 30;
