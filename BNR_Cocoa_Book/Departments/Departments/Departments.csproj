@@ -9,8 +9,7 @@
     <RootNamespace>Departments</RootNamespace>
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
     <AssemblyName>Departments</AssemblyName>
-    <TargetFrameworkIdentifier>Xamarin.Mac</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <UseXamMacFullFramework>true</UseXamMacFullFramework>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,6 +28,7 @@
     <EnableCodeSigning>false</EnableCodeSigning>
     <CreatePackage>false</CreatePackage>
     <XamMacArch>x86_64</XamMacArch>
+    <Profiling>false</Profiling>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -36,7 +36,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <LinkMode>SdkOnly</LinkMode>
     <UseRefCounting>false</UseRefCounting>
     <UseSGen>false</UseSGen>
     <IncludeMonoRuntime>true</IncludeMonoRuntime>
@@ -46,6 +45,7 @@
     <EnablePackageSigning>false</EnablePackageSigning>
     <PackageSigningKey>Developer ID Installer</PackageSigningKey>
     <XamMacArch>x86_64</XamMacArch>
+    <Profiling>false</Profiling>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -54,7 +54,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <LinkMode>SdkOnly</LinkMode>
     <UseRefCounting>false</UseRefCounting>
     <UseSGen>false</UseSGen>
     <IncludeMonoRuntime>true</IncludeMonoRuntime>
@@ -63,6 +62,7 @@
     <CodeSigningKey>3rd Party Mac Developer Application</CodeSigningKey>
     <EnableCodeSigning>true</EnableCodeSigning>
     <EnablePackageSigning>true</EnablePackageSigning>
+    <Profiling>false</Profiling>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -100,11 +100,11 @@
     <Compile Include="EmployeeViewController.designer.cs">
       <DependentUpon>EmployeeViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="SQLite.cs" />
-    <Compile Include="SQLiteAsync.cs" />
     <Compile Include="Employee.cs" />
     <Compile Include="Department.cs" />
     <Compile Include="DataStore.cs" />
+    <Compile Include="SQLite.cs" />
+    <Compile Include="SQLiteAsync.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MyDocument.xib" />
