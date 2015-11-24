@@ -12,7 +12,6 @@ namespace Homepwner
 		public BNRItem item {get; set;}
 		public UIPopoverController popoverController {get; set;}
 		public DetailViewController controller {get; set;}
-		public HeaderCell headerCell {get; set;}
 
 		public AssetTypePicker() : base(UITableViewStyle.Plain)
 		{
@@ -80,45 +79,24 @@ namespace Homepwner
 			return rows;
 		}
 
-		//		public override string TitleForHeader(UITableView tableView, int section)
-		//		{
-		//			if (section == 0)
-		//				return "Asset Types";
-		//			else
-		//				return String.Format("{0} items", item.assetType);
-		//		}
-
 		public override nfloat GetHeightForHeader(UITableView tableView, nint section)
 		{
-			return 28.0f;
+			return 30;
 		}
 
 		public override UIView GetViewForHeader(UITableView tableView, nint section)
 		{
-			headerCell = new HeaderCell();
-			var views = NSBundle.MainBundle.LoadNib("HeaderCell", headerCell, null);
-			headerCell = Runtime.GetNSObject(views.ValueAt(0)) as HeaderCell;
+			var headerView = new UILabel(new CGRect(0, 0, tableView.Frame.Width, tableView.EstimatedSectionHeaderHeight));
+			headerView.TextAlignment = UITextAlignment.Center;
+			headerView.Font = UIFont.BoldSystemFontOfSize (20);
 
-			// Bronze asset type picker popover for iPad
-//			if (section == 0 && UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad) {
-//				UIButton btnAdd = new UIButton(new RectangleF(0.0f, 0.0f, 60.0f, 40.0f));
-//				btnAdd.SetTitle("Add", UIControlState.Normal);
-//				btnAdd.SetTitleColor(UIColor.Blue, UIControlState.Normal);
-//				btnAdd.TouchUpInside += (object sender, EventArgs e) => {
-//					addNewItem(sender, e);
-//				};
-//
-//				headerCell.ContentView.Add(btnAdd);
-//			}
-
-			headerCell.BackgroundColor = UIColor.Clear;
 			if (section == 0)
-				headerCell.headerLabel.Text = String.Format(NSBundle.MainBundle.LocalizedString("Asset type for ", "Asset Type for") + item.itemName);
+				headerView.Text = String.Format(NSBundle.MainBundle.LocalizedString("Asset type for ", "Asset Type for") + item.itemName);
 			else
-				headerCell.headerLabel.Text = String.Format(NSBundle.MainBundle.LocalizedString("All ", "All") + 
+				headerView.Text = String.Format(NSBundle.MainBundle.LocalizedString("All ", "All") + 
 					NSBundle.MainBundle.LocalizedString(((item.assetType == "" || item.assetType == null) ? "Unassigned" : item.assetType), "Asset Type") + 
 					NSBundle.MainBundle.LocalizedString(" items", "Items"));
-			return headerCell;
+			return headerView;
 		}
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)

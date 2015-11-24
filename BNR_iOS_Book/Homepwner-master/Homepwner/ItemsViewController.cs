@@ -8,7 +8,6 @@ namespace Homepwner
 {
 	public partial class ItemsViewController : UITableViewController, IUITableViewDataSource, IUITableViewDelegate, IUIPopoverControllerDelegate
 	{
-		public HeaderCell headerCell {get; set;}
 		UIPopoverController imagePopover {get; set;}
 
 		public ItemsViewController() : base(UITableViewStyle.Plain)

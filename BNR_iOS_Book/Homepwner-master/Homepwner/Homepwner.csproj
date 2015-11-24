@@ -140,10 +140,6 @@
     <Compile Include="BNRItem.cs" />
     <Compile Include="BNRItemStore.cs" />
     <Compile Include="ItemsViewController.cs" />
-    <Compile Include="HeaderCell.cs" />
-    <Compile Include="HeaderCell.designer.cs">
-      <DependentUpon>HeaderCell.cs</DependentUpon>
-    </Compile>
     <Compile Include="DetailViewController.cs" />
     <Compile Include="DetailViewController.designer.cs">
       <DependentUpon>DetailViewController.cs</DependentUpon>
