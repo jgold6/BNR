@@ -16,7 +16,7 @@ namespace Nerdfeed
 {
 	public enum ListViewControllerRSSType {BNRFeed, Apple};
 
-	public class ListViewController : UITableViewController
+	public sealed class ListViewController : UITableViewController
 	{
 
 		public WebViewController webViewController {get; set;}
