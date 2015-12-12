@@ -12,6 +12,7 @@ using Foundation;
 using System.IO;
 using SQLite;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Nerdfeed
 {
@@ -55,55 +56,133 @@ namespace Nerdfeed
 
 		static async void FetchRSSAsync(Block completionBlock)
 		{
-			using (var wc = new WebClient()) {
-				string url = "http://forums.bignerdranch.com/smartfeed.php?limit=7_DAY&count_limit=25&sort_by=standard&feed_type=RSS2.0&feed_style=COMPACT"; // count_limit=10&
+			string url = "http://forums.bignerdranch.com/smartfeed.php?limit=7_DAY&count_limit=25&sort_by=standard&feed_type=RSS2.0&feed_style=COMPACT"; // count_limit=10&
+			string xmlData = null;
+			XDocument doc = null;
+
+			using (var wc = new WebClient ()) {
 
 				try {
-					string xmlData = await wc.DownloadStringTaskAsync(new Uri(url));
-
-					XDocument doc = XDocument.Parse(xmlData);
-
-					channel.parseXML(doc);
-
-					var allItems = doc.Descendants("item");
-
-					string dbPath = GetDBPath();
-					SQLiteConnection db;
-					db = new SQLiteConnection(dbPath);
-					db.BeginTransaction();
-					foreach (XElement current in allItems) {
-						RSSItem item = new RSSItem();
-
-						item.parseXML(current);
-						item.type = "post";
-
-						bool inItems = false;
-						foreach(RSSItem i in items) {
-							if (i.link == item.link)
-								inItems = true;
-						}
-
-						int index = 0;
-						if (!inItems) {
-							items.Insert(index++, item);
-							db.Insert(item);
-							if (db.Table<RSSItem>().Count() > 100) {
-								db.Query<RSSItem>("DELETE FROM RSSItems WHERE rowid IN (SELECT rowid FROM RSSItems ORDER BY rowid ASC LIMIT 1)");
-							}
-							Console.WriteLine("Items in table: {0} ItemID: {1}", db.Table<RSSItem>().Count(), item.ID);
-						}
-					}
-					db.Commit();
-					db.Close();
-					db = null;
-
-					completionBlock("success");
-				}
-				catch (WebException ex) {
-					Console.WriteLine("Exception: {0}", ex.Message);
-					completionBlock(ex.Message);
+					xmlData = await wc.DownloadStringTaskAsync (new Uri (url));
+				} catch (WebException ex) {
+					Console.WriteLine ("Exception: {0}", ex.Message);
+					completionBlock (ex.Message);
 				}
 			}
+
+			try {
+				xmlData = XmlConvert.VerifyXmlChars (xmlData);
+			} 
+			catch (XmlException ex)
+			{
+				Console.WriteLine("Exception: {0}", ex.Message);
+				//completionBlock ("Invalid XML received from RSS feed.");
+				List<char> invalidChars = new List<char> () {
+					(char)0x00,
+					(char)0x01,
+					(char)0x02,
+					(char)0x03,
+					(char)0x04,
+					(char)0x05,
+					(char)0x06,
+					(char)0x07,
+					(char)0x08,
+					(char)0x0B,
+					(char)0x0C,
+					(char)0x0E,
+					(char)0x0F,
+					(char)0x10,
+					(char)0x11,
+					(char)0x12,
+					(char)0x13,
+					(char)0x14,
+					(char)0x15,
+					(char)0x16,
+					(char)0x17,
+					(char)0x18,
+					(char)0x19,
+					(char)0x1A,
+					(char)0x1B,
+					(char)0x1C,
+					(char)0x1D,
+					(char)0x1E,
+					(char)0X1F,
+					(char)0x7F,
+					(char)0x80,
+					(char)0x81,
+					(char)0x82,
+					(char)0x83,
+					(char)0x84,
+					(char)0x86,
+					(char)0x87,
+					(char)0x88,
+					(char)0x88,
+					(char)0x89,
+					(char)0x8A,
+					(char)0x8B,
+					(char)0x8C,
+					(char)0x8D,
+					(char)0x8E,
+					(char)0x8F,
+					(char)0x90,
+					(char)0x91,
+					(char)0x92,
+					(char)0x93,
+					(char)0x94,
+					(char)0x95,
+					(char)0x96,
+					(char)0x97,
+					(char)0x98,
+					(char)0x99,
+					(char)0x9A,
+					(char)0x9B,
+					(char)0x9C,
+					(char)0x9D,
+					(char)0x9E,
+					(char)0x9F
+				};
+
+				foreach(char c in invalidChars)
+					xmlData = xmlData.Replace (c, ' ');
+			}
+
+			doc = XDocument.Parse (xmlData);
+
+			channel.parseXML(doc);
+
+			var allItems = doc.Descendants("item");
+
+			string dbPath = GetDBPath();
+			SQLiteConnection db;
+			db = new SQLiteConnection(dbPath);
+			db.BeginTransaction();
+			foreach (XElement current in allItems) {
+				RSSItem item = new RSSItem();
+
+				item.parseXML(current);
+				item.type = "post";
+
+				bool inItems = false;
+				foreach(RSSItem i in items) {
+					if (i.link == item.link)
+						inItems = true;
+				}
+
+				int index = 0;
+				if (!inItems) {
+					items.Insert(index++, item);
+					db.Insert(item);
+					if (db.Table<RSSItem>().Count() > 100) {
+						db.Query<RSSItem>("DELETE FROM RSSItems WHERE rowid IN (SELECT rowid FROM RSSItems ORDER BY rowid ASC LIMIT 1)");
+					}
+					Console.WriteLine("Items in table: {0} ItemID: {1}", db.Table<RSSItem>().Count(), item.ID);
+				}
+			}
+			db.Commit();
+			db.Close();
+			db = null;
+
+			completionBlock("success");
 		}
 
 		// Get Apple JSON rss feed
