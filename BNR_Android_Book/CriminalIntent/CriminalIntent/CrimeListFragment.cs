@@ -7,6 +7,8 @@ using Android.Views;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
+using Android.Text;
+using Android.Text.Style;
 
 namespace CriminalIntent
 {
@@ -156,11 +158,17 @@ namespace CriminalIntent
 						Activity.ActionBar.SetSubtitle(Resource.String.subtitle);
 						mSubtitleVisible = true;
 						item.SetTitle(Resource.String.hide_subtitle);
+						ISpannable text = new SpannableString (Activity.ActionBar.Title);
+						text.SetSpan (new ForegroundColorSpan (Color.Red), 0, text.Length (), SpanTypes.InclusiveInclusive);
+						Activity.ActionBar.TitleFormatted = text;
 					}
 					else {
 						Activity.ActionBar.Subtitle = null;
 						mSubtitleVisible = false;
 						item.SetTitle(Resource.String.show_subtitle);
+						ISpannable text = new SpannableString (Activity.ActionBar.Title);
+						text.SetSpan (new ForegroundColorSpan (Color.Red), 0, text.Length (), SpanTypes.InclusiveInclusive);
+						Activity.ActionBar.TitleFormatted = text;
 					}
 					return true;
 				default:
