@@ -12,6 +12,7 @@ namespace CriminalIntent
 {
     public class CrimeListFragment : Android.Support.V4.App.ListFragment, AbsListView.IMultiChoiceModeListener
     {
+		IMenuItem showSubtitle;
 		public static List<int> activatedItems;
 
 		private static readonly string TAG = "CrimeListFragment";
@@ -139,7 +140,7 @@ namespace CriminalIntent
 			// Inflate the menu; this adds items to the action bar if it is present.
 			base.OnCreateOptionsMenu(menu, inflater);
 			inflater.Inflate(Resource.Menu.fragment_crime_list, menu);
-			IMenuItem showSubtitle = menu.FindItem(Resource.Id.menu_item_show_subtitle);
+			showSubtitle = menu.FindItem(Resource.Id.menu_item_show_subtitle);
 			if (mSubtitleVisible && showSubtitle != null) {
 				showSubtitle.SetTitle(Resource.String.hide_subtitle);
 			}
