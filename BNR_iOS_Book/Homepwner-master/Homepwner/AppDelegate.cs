@@ -25,6 +25,10 @@ namespace Homepwner
 		//
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
+			#if DEBUG
+			Xamarin.Calabash.Start();
+			#endif
+
 			// create a new window instance based on the screen size
 			window = new UIWindow(UIScreen.MainScreen.Bounds);
 
