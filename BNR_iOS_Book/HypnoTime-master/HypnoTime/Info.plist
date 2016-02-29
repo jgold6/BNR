@@ -32,7 +32,7 @@
 	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
 	<key>XSLaunchImageAssets</key>
 	<string>Resources/Images.xcassets/LaunchImage.launchimage</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>I will track you like a dog</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>While app is in use, location used to show your position on the map page.</string>
 </dict>
 </plist>
