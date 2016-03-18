@@ -73,8 +73,12 @@ namespace Homepwner
 			return BNRItemStore.allItems.Count;
 		}
 
+		public NSIndexPath CloneForLambdaBinding(NSIndexPath indexPath) => NSIndexPath.FromRowSection(indexPath.Row, indexPath.Section);
+
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
+			Console.WriteLine ("********* {0}", indexPath.ToString ());
+
 			// Check for a reusable cell first, use that if it exists - before using nib
 //			UITableViewCell cell = tableView.DequeueReusableCell("UITableViewCell");
 //
@@ -125,6 +129,11 @@ namespace Homepwner
 			cell.thumbnailView.Image = img;
 
 //			cell.thumbnailView.Image = p.Thumbnail(); // Archiving method of saving
+
+			cell.testIndexPathCallback = (ip) => {
+				Console.WriteLine ("Callback: {0}", ip.ToString ());
+			};
+			cell.DoCallback (indexPath);
 
 			return cell;
 		}
