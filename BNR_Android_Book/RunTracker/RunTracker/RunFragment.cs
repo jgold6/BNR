@@ -7,10 +7,12 @@ using Android.Locations;
 using System.Collections.Generic;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
+using Android.Gms.Auth;
+using Android.Graphics;
 
 namespace RunTracker
 {
-	public class RunFragment : Fragment, ViewTreeObserver.IOnGlobalLayoutListener
+	public class RunFragment : Fragment, ViewTreeObserver.IOnGlobalLayoutListener 
 	{
 		public static readonly string TAG = "RunFragment";
 
@@ -27,6 +29,8 @@ namespace RunTracker
 		Button mStartButton, mStopButton;
 		TextView mStartedTextView, mLatitudeTextView, mLongitudeTextView, mAltitudeTextView, mDurationTextView;
 		GoogleMap mGoogleMap;
+		Polyline mPolyline;
+		float mPolyLineOriginalWidth;
 		LinearLayout mMapLayout;
 		int mMapWidth;
 		int mMapHeight;
@@ -70,6 +74,16 @@ namespace RunTracker
 			mGoogleMap = ((MapFragment)FragmentManager.FindFragmentById(Resource.Id.mapFrag)).Map;
 			mGoogleMap.MyLocationEnabled = true;
 			mGoogleMap.MapType = GoogleMap.MapTypeHybrid;
+			mGoogleMap.PolylineClick += (object sender, GoogleMap.PolylineClickEventArgs e) => {
+				Console.WriteLine ("***** Polyline Clicked");
+				mPolyline.Width = 20;
+				mPolyline.Color = Color.Red;
+			};
+			mGoogleMap.MapClick += (object sender, GoogleMap.MapClickEventArgs e) => {
+				Console.WriteLine ("***** Map Clicked");
+				mPolyline.Width = mPolyLineOriginalWidth;
+				mPolyline.Color = Color.Black;
+			};
 
 			mMapLayout = view.FindViewById<LinearLayout>(Resource.Id.mapLayout);
 			ViewTreeObserver vto  = mMapLayout.ViewTreeObserver;
@@ -207,7 +221,9 @@ namespace RunTracker
 				latLngBuilder.Include(latLng);
 			}
 			// Add the polyline to the map
-			mGoogleMap.AddPolyline(line);
+			mPolyline = mGoogleMap.AddPolyline(line);
+			mPolyline.Clickable = true;
+			mPolyLineOriginalWidth = mPolyline.Width;
 
 			// Add markers
 			LatLng startLatLng = new LatLng(mRunLocations[0].Latitude, mRunLocations[0].Longitude);
