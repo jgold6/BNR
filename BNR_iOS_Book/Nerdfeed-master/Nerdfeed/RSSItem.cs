@@ -25,22 +25,11 @@ namespace Nerdfeed
 
 		public void parseXML(XElement current)
 		{
-			Regex regex = new Regex("(.*) :: (?:Re: )?(.*) :: .*");
-			var matches = regex.Split(current.Element("title").Value);
-			if (matches.Length == 4) {
-				this.title = matches[2];
-				this.subForum = matches[1];
-			} 
-			else {
-				regex = new Regex("(.*) :: R?e?:? ?(.*)");
-				matches = regex.Split(current.Element("title").Value);
-				this.title = matches[2];
-				this.subForum = matches[1];
-			}
+			this.title = current.Element ("title").Value;
 			this.link = current.Element("link").Value;
 			this.description = current.Element("description").Value;
-			this.author = current.Element("author").Value;
-			this.category = current.Element("category").Value;
+			//this.author = current.Element("author").Value;
+			//this.category = current.Element("category").Value;
 			this.comments = current.Element("comments").Value;
 			this.pubDate = current.Element("pubDate").Value;
 		}

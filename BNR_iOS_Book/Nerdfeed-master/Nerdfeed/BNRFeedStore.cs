@@ -56,7 +56,7 @@ namespace Nerdfeed
 
 		static async void FetchRSSAsync(Block completionBlock)
 		{
-			string url = "http://forums.bignerdranch.com/smartfeed.php?limit=7_DAY&count_limit=25&sort_by=standard&feed_type=RSS2.0&feed_style=COMPACT"; // count_limit=10&
+			string url = "http://blog.onobytes.com/feed/"; // count_limit=10&
 			string xmlData = null;
 			XDocument doc = null;
 

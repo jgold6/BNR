@@ -51,7 +51,7 @@ namespace Nerdfeed
 			if (indexPath.Row == 0) {
 				// Put the title of the channel in row 0
 				cell.TextLabel.Text = "Title";
-				cell.DetailTextLabel.Text = channel.title;
+				cell.DetailTextLabel.Text = channel.title == "" ? channel.link : channel.title;
 			} else {
 				// Put the description of the channel in row 1
 				cell.TextLabel.Text = "Info";

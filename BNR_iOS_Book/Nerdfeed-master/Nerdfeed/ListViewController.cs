@@ -75,7 +75,7 @@ namespace Nerdfeed
 			};
 
 			rssType = ListViewControllerRSSType.BNRFeed;
-			rssTypeControl = new UISegmentedControl(new string[]{"BNR", "Apple"});
+			rssTypeControl = new UISegmentedControl(new string[]{"Onobytes", "Apple"});
 			rssTypeControl.SelectedSegment = 0;
 
 			if (UIDevice.CurrentDevice.CheckSystemVersion(7,0) || UIDevice.CurrentDevice.CheckSystemVersion(7,1))
