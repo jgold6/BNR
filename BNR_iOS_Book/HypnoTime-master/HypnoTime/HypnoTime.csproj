@@ -54,10 +54,11 @@
     <ConsolePause>false</ConsolePause>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Jon Goldberger (NSCQB55JJ4)</CodesignKey>
     <IpaPackageName>
     </IpaPackageName>
     <MtouchArch>ARMv7</MtouchArch>
+    <CodesignProvision>f65f122a-5d9c-4c57-906a-0616416f9c58</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>
@@ -70,7 +71,7 @@
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer: Jon Goldberger (NSCQB55JJ4)</CodesignKey>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
-    <CodesignProvision>72a5fca1-6cf4-433d-8d97-bc1629a87bd7</CodesignProvision>
+    <CodesignProvision>f65f122a-5d9c-4c57-906a-0616416f9c58</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>full</DebugType>
@@ -82,7 +83,6 @@
     <ConsolePause>false</ConsolePause>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <BuildIpa>true</BuildIpa>
-    <CodesignProvision>Automatic:AdHoc</CodesignProvision>
     <CodesignKey>iPhone Distribution</CodesignKey>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
   </PropertyGroup>
@@ -95,7 +95,6 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignProvision>Automatic:AppStore</CodesignProvision>
     <CodesignKey>iPhone Distribution</CodesignKey>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
   </PropertyGroup>
