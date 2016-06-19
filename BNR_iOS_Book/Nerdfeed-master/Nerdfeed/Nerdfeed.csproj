@@ -36,7 +36,8 @@
     <MtouchLink>None</MtouchLink>
     <ConsolePause>false</ConsolePause>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Jon Goldberger (NSCQB55JJ4)</CodesignKey>
+    <CodesignProvision>36eb25d6-f482-4e4c-b21b-c6210fa7065c</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -70,6 +71,7 @@
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer: Jon Goldberger (NSCQB55JJ4)</CodesignKey>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <CodesignProvision>36eb25d6-f482-4e4c-b21b-c6210fa7065c</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>full</DebugType>
@@ -106,7 +108,7 @@
       <HintPath>..\Components\sqlite-net-1.0.8.3\lib\ios-unified\SQLite.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

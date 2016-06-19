@@ -224,10 +224,19 @@ namespace Nerdfeed
 					foreach (var entry in entries) {
 						RSSItem item = new RSSItem();
 
-						item.parseJSON(entry);
-						item.type = "song";
-
-						items.Add(item);
+						try 
+						{
+							item.parseJSON (entry);
+							item.type = "song";
+							items.Add (item);
+						} 
+						catch (Exception ex) {
+							Console.WriteLine ("Exception: {0}", ex);
+							if (ex.Message == "Accessed JObject values with invalid key value: 1. Object property name expected.")
+							{
+								Console.WriteLine ("iTunes song does not have preview link. Not showing it in list.");
+							}
+						}
 					}
 
 					completionBlock("success");
