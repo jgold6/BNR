@@ -34,5 +34,7 @@
 	<string>Resources/Images.xcassets/LaunchImage.launchimage</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>While app is in use, location used to show your position on the map page.</string>
+	<key>CFBundleName</key>
+	<string>HypnoTime</string>
 </dict>
 </plist>

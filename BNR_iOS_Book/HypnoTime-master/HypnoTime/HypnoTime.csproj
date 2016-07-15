@@ -71,7 +71,7 @@
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer: Jon Goldberger (NSCQB55JJ4)</CodesignKey>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
-    <CodesignProvision>f65f122a-5d9c-4c57-906a-0616416f9c58</CodesignProvision>
+    <CodesignProvision>36eb25d6-f482-4e4c-b21b-c6210fa7065c</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>full</DebugType>
@@ -107,7 +107,7 @@
       <HintPath>..\Components\xamarin.mobile-0.7.6\lib\ios-unified\Xamarin.Mobile.dll</HintPath>
     </Reference>
     <Reference Include="Calabash">
-      <HintPath>..\packages\Xamarin.TestCloud.Agent.0.14.1\lib\Xamarin.iOS10\Calabash.dll</HintPath>
+      <HintPath>..\packages\Xamarin.TestCloud.Agent.0.19.1\lib\Xamarin.iOS10\Calabash.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
